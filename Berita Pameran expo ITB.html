@@ -28,38 +28,18 @@ img<!DOCTYPE html>
   <link href="assets/css/style.css" rel="stylesheet">
 
 
-<script>
-  window.addEventListener("DOMContentLoaded", function() {
-    var selectedCategory = sessionStorage.getItem("selectedCategory");
-    if (selectedCategory) {
-      filterCategory(selectedCategory);
-      sessionStorage.removeItem("selectedCategory");
-    }
-  });
-</script>
-
-
-
-
-
 </head>
 
 <body>
 	
 <script>
   function filterCategory(category) {
-    var posts = document.getElementsByClassName("col-xl-4 col-lg-6");
-    for (var i = 0; i < posts.length; i++) {
-      var post = posts[i];
-      var postCategory = post.getAttribute("data-category");
-      if (category === "all" || category === postCategory) {
-        post.style.display = "block";
-      } else {
-        post.style.display = "none";
-      }
-    }
+    sessionStorage.setItem("selectedCategory", category);
+    window.location.href = "index.html#blog";
   }
 </script>
+
+
 
 
   <!-- ======= Header ======= -->
@@ -68,7 +48,7 @@ img<!DOCTYPE html>
 
       <!-- <h1><a href="index.html">text</a></h1> -->
       <!-- Uncomment below if you prefer to use an image logo -->
-      <a href="https://parametrik.id/" class="container"><img src="assets/img/logo.png" alt="" width="250" class="img-fluid"></a>
+      <a href="https://parametrik.id/" class="container"><img src="assets/img/logo.png" alt="uji coba" width="250" class="img-fluid"></a>
 
       <h2><span>Riset & Pengembangan Teknologi</span></h2>
 
@@ -79,7 +59,7 @@ img<!DOCTYPE html>
           <!-- <li><a class="nav-link" href="#services">Artikel</a></li> -->
           <li><a class="nav-link" href="#portfolio">Proyek</a></li>
 			
-			<li><a class="nav-link" href="#Blog">Berita Terbaru</a></li>
+			<li><a class="nav-link" href="index.html#blog">Berita Terbaru</a></li>
           <li><a class="nav-link" href="#contact">Kontak</a></li>
         </ul>
         <i class="bi bi-list mobile-nav-toggle"></i>
@@ -898,393 +878,177 @@ img<!DOCTYPE html>
     </div>
   </section><!-- End portfolio Section -->
 
-<!- == Berita Terbaru == -!>
-    <section id="blog" class="blog">
-    <div class="container">
+<!- == Laman Berita == -!>
+    <section id="blog-details" class="blog-details">
+   <div class="container">
 
-      <div class="section-title">
+     <div class="section-title">
         <h2>Berita</h2>
-        <p>Berita Terbaru</p>
+        <p class="judulberita">Pameran Business Expo ITB 2023: Parametrik perkenalkan <i>eco-lable product </i>yang Inovatif dan ramah linkungan</p>
+</div>
+
+        <div class="row g-5">
+
+          <div class="col-lg-8">
+
+            <article class="article">
+
+              <div class="post-img">
+                <img src="Foto/2.jpg" alt="" class="img-fluid">
+              </div>
+
+              <h2 class="title">Pameran Business Expo ITB 2023: Parametrik Perkenalkan Produk Energi Terbarukan Ramah Lingkungan yang Inovatif</h2>
+
+              <div class="meta-top">
+                <ul>
+                  <li class="d-flex align-items-center"><i class="bi bi-person"></i> <a href="blog-details.html">Risma</a></li>
+                  <li class="d-flex align-items-center"><i class="bi bi-clock"></i> <a href="blog-details.html"><time datetime="2020-01-01">Sabtu, 10 Juni 2023</time></a></li>
+                </ul>
+              </div><!-- End meta top -->
+
+              <div class="content">
+                <p>
+Pameran Business Expo yang diselenggarakan pada Sabtu, 10 Juni 2023 di Basement Campus Center Timus, Institut Teknologi Bandung (ITB) menampilkan beragam produk yang unik, inovatif, dan tentunya ramah lingkungan. Kegiatan pameran ini tak hanya sebagai wadah pengenalan produk setiap perusahaan, namun juga menjadi media informasi terkait teknologi terbarukan pada khalayak umum. Pameran yang didukung oleh Ikatan Alumni Mahasiswa (IAM) ITB menjadi wadah kreativitas bagi para peengunjung, terutama mahasiswa tingkat. 
+
+                <p>
+Kegiatan pameran dimulai pukul 11.00 WIB yang diawali dengan prosesi sambutan dari panitia untuk semua yang telah hadir untuk memeriahkan acara. Dilanjutkan dengan pembukaan kegiatan, dimana setiap perushaan yang hadir dapat memaparkan produknya. Beragam produk mulai dipaparkan satu per satu, dimulai dari produk alat bantu jalan untuk difabel dan disabilitas, paving berpori untuk mempercepat daya resap air hujan ke tanah, hingga tatakan gelas serta kursi yang terbuat dari limbah plastik. Hal tersebut meningkatkan
+                </p>
+                <p>
+                  Pada kegiatan tersebut, PT Parametrik yang bekerja sama dengan PT LAPI ITB turu hadir dan menyuguhkan produk yang tak kalah menarik dengan perusahaan lain. Produk yang dibawakan kali ini adalah 3 produk terbarukan yang ramah lingkungan, yaitu Parapump (Pompa Air Tanpa Listrik), Paratap (Mesin Sadap Pinus), dan Emergency Ventilator yang menggunakan baterai. Produk yang dibawakan merupakan hasil riset dan pengembangan produk yang telah ada. Dibalut dengan mekanisme dan teknologi yang lebih modern, PT Parametrik turut serta berkontribusi untuk masyarakat dan lingkungan melalui produknya. 
+                </p>
+
+                <h3>Parapump.</h3>
+				 <img src="Foto/Parapump.jpg" class="img-fluid" alt="">
+                <p>
+Parapum merupakan pompa air yang tidak menggunakan listrik. Tujuan dari parapum sendiri yaitu mengalirkan air yang berasal dari dataran rendah menuju dataran tinggi dengan pemanfaatan aliran air sungai. Parapum berhasil diimplementasikan di Desa Kemuning, Jawa Tengah
+                </p>
+
+                <h3>Paratap-40</h3>
+				  				 <img src="Foto/Paratap.JPG" class="img-fluid" alt="">
+                <p>
+Produk selanjutnya adalah Paratap, mesin sadap pinus menggunakan baterai. Paratap merupakan hasil kerjasama antara PT Parametrik dan Perum Perhutani guna permintaan getah pinus yang tinggi. Hasil getah yang dihasilkan jauh lebih banyak, dengan hasil getah yang lebih bersih disbanding penyadapan manual
+                </p>
+				  
+				  <h3>Emergency Ventilator</h3>
+				  <img src="Foto/emergency Vent.png" class="img-fluid" alt="">
+                <p>
+Emergency Ventilator mampu membantu pihak medis dalam memompa denyut jantung dan memberikan pernafasan buatan dalam kondisi darurat. Keunggulan alat terletak pada baterai yang mampu bertahan selama 2 jam dan dilengkapi dengan emergency button
+                </p>
+				  <p> Pameran berakhir pada pukul 17.30 WIB, dengan prosesi akhir yaitu penutupan acara yang dilakukan oleh panitia penyelenggara. Pameran Business Expo ITB 2023 menarik minat pengunjung untuk turut berkontribusi dan bekerjasama untuk menciptakan produk yang lebih inovatif dan kreatif guna keberlangsungan manusia dan lingkungan. </p>
+
+              </div><!-- End post content -->
+
+              <div class="meta-bottom">
+                <i class="bi bi-geo-alt-fill"></i>
+                <ul class="cats">
+                  <li><a href="#">ITB</a></li>
+                </ul>
+
+                <i class="bi bi-tags"></i>
+                <ul class="tags">
+                  <li><a href="#">Pameran</a></li>
+                  <li><a href="#">Inovatif</a></li>
+                  <li><a href="#">Parametrik</a></li>
+                </ul>
+              </div><!-- End meta bottom -->
+
+            </article><!-- End post article -->
+<!-- tombol cari disamping dkk -->
+			  
+          </div>
+
+          <div class="col-lg-4">
+
+            <div class="sidebar">
+
+              <div class="sidebar-item search-form">
+				  <h3 class="sidebar-title">Cari</h3>
+				  <form action="" class="mt-3">
+              <input type="text" id="searchInput" placeholder="Cari">
+                  <button type="submit"><i class="bi bi-search"></i></button>
+                </form>
+</div><!-- End sidebar search formn-->
+
+              <div class="sidebar-item categories">
+                <h3 class="sidebar-title">Kategori</h3>
+                <ul class="mt-3">
+                  <li><a href="javascript:void(0)" onclick="filterCategory('event')">Event</a></li>
+                  <li><a href="javascript:void(0)" onclick="filterCategory('riset')">Riset</a></li>
+                  <li><a href="javascript:void(0)" onclick="filterCategory('sosial')">Sosial</a></li>
+                  <li><a href="javascript:void(0)" onclick="filterCategory('parametrik')">Parametrik</a></li>
+              </div><!-- End sidebar categories-->
+
+              <div class="sidebar-item recent-posts">
+                <a class="sidebar-title" href="index.html#blog">Berita Terbaru</a>
+
+                <div class="post-item">
+                  <img src="Foto/Mesin Pengering.jpg" alt="" class="flex-shrink-0">
+                  <div>
+                    <h4><a href="blog-details.html">Hadapi Krisis Iklim, Parametrik...</a></h4>
+                    <time datetime="2023-01-01">Senin, 5 Juni 2023</time>
+                  </div>
+                </div><!-- End recent post item-->
+
+                <div class="post-item">
+                  <img src="Foto/1.jpg" alt="" class="flex-shrink-0">
+                  <div>
+                    <h4><a href="blog-details.html">Gelar Teknologi: Inovasi Terkini  Parametrik...</a></h4>
+                    <time datetime="2023-03-23">Kamis, 23 Maret 2023</time>
+                  </div>
+                </div><!-- End recent post item-->
+
+                <div class="post-item">
+                  <img src="Foto/Paratap.JPG" alt="" class="flex-shrink-0">
+                  <div>
+                    <h4><a href="blog-details.html">Penyadap Getah Pinus Berdaya Baterai...</a></h4>
+                    <time datetime="2022-12-22">Kamis, 22 Desember 2022</time>
+                  </div>
+                </div><!-- End recent post item-->
+
+                <div class="post-item">
+                  <img src="Foto/Wisata MKHD.png" alt="" class="flex-shrink-0">
+                  <div>
+                    <h4><a href="blog-details.html">UNS dan Parametrik Rilis Desa Wisata Ber...</a></h4>
+                    <time datetime="2022-12-17">Sabtu, 17 Desember 2022</time>
+                  </div>
+                </div><!-- End recent post item-->
+
+                <div class="post-item">
+                  <img src="Foto/Apresiasi Parapump.jpeg" alt="" class="flex-shrink-0">
+                  <div>
+                    <h4><a href="blog-details.html">Tokoh Masyarakat Karanganyar...</a></h4>
+                    <time datetime="2022-06-11">Sabtu, 11 Juni 2022</time>
+                  </div>
+                </div><!-- End recent post item-->
+
+              </div><!-- End sidebar recent posts-->
+
+              <div class="sidebar-item tags">
+                <h3 class="sidebar-title">Tags</h3>
+                <ul class="mt-3">
+                  <li><a href="#">Teknologi</a></li>
+                  <li><a href="#">Pameran ITB</a></li>
+                  <li><a href="#">Eco-Lable Product</a></li>
+                  <li><a href="#">Ramah Lingkungan</a></li>
+                  <li><a href="#">Lingkungan</a></li>
+                  <li><a href="#">Energi Terbarukan</a></li>
+                  <li><a href="#">Pertanian</a></li>
+                  <li><a href="#">Inovatif</a></li>
+                  <li><a href="#">ITB</a></li>
+                  <li><a href="#">Expo ITB</a></li>
+                  <li><a href="#">LAPI ITB</a></li>
+                </ul>
+              </div><!-- End sidebar tags-->
+
+            </div><!-- End Sidebar -->
+
+          </div>
+
+        </div>
+
       </div>
 
-      <div class="container" data-aos="fade-up" data-aos-delay="100">
-
-        <div class="row gy-4 posts-list">
-												
-		<div class="col-xl-4 col-lg-6" data-category="event">
-            <article>
-
-              <div class="post-img">
-                <img src="Foto/2.jpg" alt="" class="fotojudulberita">
-              </div>
-
-              <p class="post-category">Event</p>
-
-              <h2 class="portfolio-info">
-                <a class="judulberita" href="Berita Pameran expo ITB.html#blog-details">Pameran Bisnis Expo ITB 2023: Parametrik perkenalkan <i>eco-lable product </i>yang<i class="selengkapnya">...Selengkapnya</i></a>
-              </h2>
-
-              <div class="d-flex align-items-center">
-                <img src="assets/img/Profil/Tanpa.png" alt="" class="img-fluid post-author-img flex-shrink-0">
-                <div class="post-meta">
-                  <p class="post-author">Risma</p>
-                  <p class="post-date">
-                    <time datetime="2023-06-10">Sabtu, 10 Juni 2023</time>
-                  </p>
-                </div>
-              </div>
-
-            </article>
-          </div><!-- End post list item -->
-
-          <div class="col-xl-4 col-lg-6" data-category="riset">
-            <article>
-
-              <div class="post-img">
-                <img src="Foto/Mesin Pengering.jpg" alt="" class="fotojudulberita">
-              </div>
-
-              <p class="post-category">Riset</p>
-
-              <h2 class="portfolio-info"> <a class="judulberita" href="blog-details.html">Hadapi Krisis Iklim, Parametrik Kembangkan Mesin Pengering Bertenaga<i class="selengkapnya">...Selengkapnya</i></a> </h2>
-<div class="d-flex align-items-center">
-          <img src="assets/img/Profil/Tanpa.png" alt="" class="img-fluid post-author-img flex-shrink-0">
-          <div class="post-meta">
-            <p class="post-author">Aksitaru</p>
-            <p class="post-date">
-              <time datetime="2023-06-05">Senin, 5 Juni 2023</time>
-            </p>
-          </div>
-          </div>
-
-            </article>
-          </div><!-- End post list item -->
-
-          <div class="col-xl-4 col-lg-6" data-category="event">
-            <article>
-
-              <div class="post-img">
-                <img src="Foto/1.jpg" alt="" class="fotojudulberita">
-              </div>
-
-              <p class="post-category">Event</p>
-
-              <h2 class="portfolio-info">
-                <a class="judulberita" href="blog-details.html">Gelar Teknologi: Inovasi Terkini  Parametrik dalam Bidang Pertanian: Pompa Air Tanpa<i class="selengkapnya">...Selengkapnya</i></a>
-              </h2>
-
-              <div class="d-flex align-items-center">
-                <img src="assets/img/Profil/Tanpa.png" alt="" class="img-fluid post-author-img flex-shrink-0">
-                <div class="post-meta">
-                  <p class="post-author">Prisca Amanda</p>
-                  <p class="post-date">
-                    <time datetime="2022-03-23">Kamis, 23 Maret 2023</time>
-                  </p>
-                </div>
-              </div>
-
-            </article>
-          </div><!-- End post list item -->
-
-          <div class="col-xl-4 col-lg-6" data-category="riset">
-            <article>
-
-              <div class="post-img">
-                <img src="Foto/Paratap.JPG" alt="" class="fotojudulberita">
-              </div>
-
-              <p class="post-category">Riset</p>
-
-              <h2 class="portfolio-info">
-                <a class="judulberita" href="blog-details.html">Penyadap Getah Pinus Berdaya Baterai Pertama di Indonesia Parametrik telah<i class="selengkapnya">...Selengkapnya</i></a>
-              </h2>
-
-              <div class="d-flex align-items-center">
-                <img src="assets/img/Profil/Tanpa.png" alt="" class="img-fluid post-author-img flex-shrink-0">
-                <div class="post-meta">
-                  <p class="post-author">Aksitaru</p>
-                  <p class="post-date">
-                    <time datetime="2022-12-22">Kamis, 22 Desember 2022</time>
-                  </p>
-                </div>
-              </div>
-
-            </article>
-          </div><!-- End post list item -->
-
-          <div class="col-xl-4 col-lg-6" data-category="sosial">
-            <article>
-
-              <div class="post-img">
-                <img src="Foto/Wisata MKHD.png" alt="" class="fotojudulberita">
-              </div>
-
-              <p class="post-category">Sosial</p>
-
-              <h2 class="portfolio-info">
-                <a class="judulberita" href="blog-details.html">UNS dan Parametrik Rilis Desa Wisata Berbasis Mikrohidro yaitu Sebuah Alat<i class="selengkapnya">...Selengkapnya</i></a>
-              </h2>
-
-              <div class="d-flex align-items-center">
-                <img src="assets/img/Profil/Tanpa.png" alt="" class="img-fluid post-author-img flex-shrink-0">
-                <div class="post-meta">
-                  <p class="post-author">Aksitaru</p>
-                  <p class="post-date">
-                    <time datetime="2022-12-17">Sabtu, 17 Desember 2022</time>
-                  </p>
-                </div>
-              </div>
-
-            </article>
-          </div><!-- End post list item -->
-
-          <div class="col-xl-4 col-lg-6" data-category="sosial">
-            <article>
-
-              <div class="post-img">
-                <img src="Foto/Apresiasi Parapump.jpeg" alt="" class="fotojudulberita">
-              </div>
-
-              <p class="post-category">Sosial</p>
-
-              <h2 class="portfolio-info">
-                <a class="judulberita" href="blog-details.html">Tokoh Masyarakat Karanganyar, Apresiasi Instalasi Parapump yang telah<i class="selengkapnya">...Selengkapnya</i></a>
-              </h2>
-
-              <div class="d-flex align-items-center">
-                <img src="assets/img/Profil/Tanpa.png" alt="" class="img-fluid post-author-img flex-shrink-0">
-                <div class="post-meta">
-                  <p class="post-author">Aksitaru</p>
-                  <p class="post-date">
-                    <time datetime="2022-06-11">Sabtu, 11 Juni 2022</time>
-                  </p>
-                </div>
-              </div>
-
-            </article>
-          </div><!-- End post list item -->
-
-			<div class="col-xl-4 col-lg-6">
-            <article>
-
-              <div class="post-img">
-                <img src="Foto/Paratap.JPG" alt="" class="fotojudulberita">
-              </div>
-
-              <p class="post-category">Riset</p>
-
-              <h2 class="portfolio-info">
-                <a class="judulberita" href="blog-details.html">Penyadap Getah Pinus Berdaya Baterai Pertama di Indonesia Parametrik telah<i class="selengkapnya">...Selengkapnya</i></a>
-              </h2>
-
-              <div class="d-flex align-items-center">
-                <img src="assets/img/Profil/Tanpa.png" alt="" class="img-fluid post-author-img flex-shrink-0">
-                <div class="post-meta">
-                  <p class="post-author">Aksitaru</p>
-                  <p class="post-date">
-                    <time datetime="2022-12-22">Kamis, 22 Desember 2022</time>
-                  </p>
-                </div>
-              </div>
-
-            </article>
-          </div><!-- End post list item -->
-
-          <div class="col-xl-4 col-lg-6">
-            <article>
-
-              <div class="post-img">
-                <img src="Foto/Wisata MKHD.png" alt="" class="fotojudulberita">
-              </div>
-
-              <p class="post-category">Sosial</p>
-
-              <h2 class="portfolio-info">
-                <a class="judulberita" href="blog-details.html">UNS dan Parametrik Rilis Desa Wisata Berbasis Mikrohidro yaitu Sebuah Alat<i class="selengkapnya">...Selengkapnya</i></a>
-              </h2>
-
-              <div class="d-flex align-items-center">
-                <img src="assets/img/Profil/Tanpa.png" alt="" class="img-fluid post-author-img flex-shrink-0">
-                <div class="post-meta">
-                  <p class="post-author">Aksitaru</p>
-                  <p class="post-date">
-                    <time datetime="2022-12-17">Sabtu, 17 Desember 2022</time>
-                  </p>
-                </div>
-              </div>
-
-            </article>
-          </div><!-- End post list item -->
-
-          <div class="col-xl-4 col-lg-6">
-            <article>
-
-              <div class="post-img">
-                <img src="Foto/Apresiasi Parapump.jpeg" alt="" class="fotojudulberita">
-              </div>
-
-              <p class="post-category">Sosial</p>
-
-              <h2 class="portfolio-info">
-                <a class="judulberita" href="blog-details.html">Tokoh Masyarakat Karanganyar, Apresiasi Instalasi Parapump yang telah<i class="selengkapnya">...Selengkapnya</i></a>
-              </h2>
-
-              <div class="d-flex align-items-center">
-                <img src="assets/img/Profil/Tanpa.png" alt="" class="img-fluid post-author-img flex-shrink-0">
-                <div class="post-meta">
-                  <p class="post-author">Aksitaru</p>
-                  <p class="post-date">
-                    <time datetime="2022-06-11">Sabtu, 11 Juni 2022</time>
-                  </p>
-                </div>
-              </div>
-
-            </article>
-          </div><!-- End post list item -->
-
-
-        </div><!-- End blog posts list -->
-
-
-
-
-<!-- Script Nomor Halaman
-
-(Maaf eh, script JS buat nomor halaman aku taruh html, 
-soalnya kalo di main.js kejauhan buat nge-link element sectornya (mager buat bolak-balik file)
-jadi aku overline disini, hehe
-Vn: Putra)
-
---> 
-		  
-<div class="pagination d-flex justify-content-center" id="pagination">
-			
-<script>
-  document.addEventListener("DOMContentLoaded", function() {
-    var postsList = document.querySelector(".posts-list");
-    var posts = postsList.getElementsByClassName("col-xl-4 col-lg-6");
-    var postsPerPage = 6;
-    var totalPages = Math.ceil(posts.length / postsPerPage);
-    var currentPage = 1;
-
-function showPage(pageNumber) {
-  var startIndex = (pageNumber - 1) * postsPerPage;
-  var endIndex = Math.min(startIndex + postsPerPage, posts.length);
-
-  for (var i = 0; i < posts.length; i++) {
-    if (i >= startIndex && i < endIndex) {
-      posts[i].classList.remove("fade-out");
-    } else {
-      posts[i].classList.add("fade-out");
-    }
-  }
-}
-
-
-    function createPagination() {
-      var pagination = document.getElementById("pagination");
-
-      // Tombol Sebelumnya
-      var prevButton = document.createElement("li");
-      prevButton.innerHTML = `<a href="#" class="pagination-button previous">&lt;</a>`;
-      prevButton.addEventListener("click", function(e) {
-        e.preventDefault();
-        if (currentPage > 1) {
-          currentPage--;
-          showPage(currentPage);
-          updatePagination();
-        }
-      });
-
-      // Tombol Selanjutnya
-      var nextButton = document.createElement("li");
-      nextButton.innerHTML = `<a href="#" class="pagination-button next">&gt;</a>`;
-      nextButton.addEventListener("click", function(e) {
-        e.preventDefault();
-        if (currentPage < totalPages) {
-          currentPage++;
-          showPage(currentPage);
-          updatePagination();
-        }
-      });
-
-      var paginationContainer = document.createElement("ul");
-
-      pagination.appendChild(paginationContainer);
-      paginationContainer.appendChild(prevButton);
-
-      // Nomor Halaman
-      function createPageLink(pageNumber) {
-        var li = document.createElement("li");
-        var link = document.createElement("a");
-        link.href = "#";
-        link.textContent = pageNumber;
-
-        link.addEventListener("click", function(e) {
-          e.preventDefault();
-          currentPage = parseInt(this.textContent);
-          showPage(currentPage);
-          updatePagination();
-        });
-
-        if (pageNumber === currentPage) {
-          link.classList.add("active");
-        }
-
-        li.appendChild(link);
-        paginationContainer.appendChild(li);
-      }
-
-      function updatePagination() {
-        paginationContainer.innerHTML = "";
-        paginationContainer.appendChild(prevButton);
-
-        var startPage, endPage;
-
-        if (totalPages <= 3) {
-          startPage = 1;
-          endPage = totalPages;
-        } else if (currentPage <= 2) {
-          startPage = 1;
-          endPage = 3;
-        } else if (currentPage >= totalPages - 1) {
-          startPage = totalPages - 2;
-          endPage = totalPages;
-        } else {
-          startPage = currentPage - 1;
-          endPage = currentPage + 1;
-        }
-
-        for (var i = startPage; i <= endPage; i++) {
-          createPageLink(i);
-        }
-
-        paginationContainer.appendChild(nextButton);
-      }
-
-      function updateActivePage() {
-        var links = paginationContainer.getElementsByTagName("a");
-
-        for (var i = 0; i < links.length; i++) {
-          links[i].classList.remove("active");
-        }
-
-        links[currentPage - 1].classList.add("active");
-      }
-
-      showPage(currentPage);
-      updatePagination();
-    }
-
-    createPagination();
-  });
-</script>
-
-
-
-      </div>
-		  
-    </section><!-- End Blog Section -->
+    </section><!-- End Blog-details Section -->
 
 
   <!-- ======= Contact Section ======= -->
