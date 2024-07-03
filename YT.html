@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Viewer Youtube Gratis</title>
+		<style>
+			.container {
+				max-width: 800px;
+				margin: 20px auto;
+				text-align: center;
+			}
+			iframe {
+				width: 128px;
+				height: 72px; /* Adjust the height as per your preference */
+				border-radius: 12px;
+			}
+			.kotakURL{
+    padding: 15px 0px 15px 15px;
+    width: 60%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+				
+			}
+			.kotakURL .URLbox{
+    width: 100%;
+    background: lightsteelblue;
+    border: none;
+    border-radius: 5px 0px 0px 5px;
+    padding-left: 5px;				
+			}
+			.kotakviews .ViewBox{
+    width: 100%;
+    background: gainsboro;
+    border: none;
+    border-radius: 0px 5px 5px 0px;
+    padding-left: 5px;
+			}
+			.kotakPutar{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+			}
+			.kotakviews{
+    padding: 15px 15px 15px 0px;
+    width: 40%;
+			}
+			.TombolProses{
+    background: darkgreen;
+    border: none;
+    border-radius: 5px;
+    width: 200px;
+    color: white;
+			}
+			.TombolPutar{
+    background: darkred;
+    border: none;
+    border-radius: 13px;
+    padding: 12px;
+    color: white;
+			}
+			.kotakBox{
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: center;
+			}
+			#videosContainer{
+	display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+			}	
+			
+		</style>
+		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+	</head>
+	<body>
+		<div class="container">
+			<h2>Viewer Youtube Gratis</h2>
+				<i>Web By:<strong> HYP</strong></i>
+			<div class="kotakBox">
+				<div class="kotakURL">
+					<p>Masukkan URL video:</p>
+					<input class="URLbox" type="text" id="videoUrl" placeholder="https://www.youtube.com/watch?v=?????">
+				<i>Recomendasi: <strong>Max 10 Views/1jam</strong></i>
+				</div>
+				
+			  <div class="kotakviews">
+					<p>Jumlah views:</p>
+					<input class="ViewBox" type="number" id="numVideos" min="1" placeholder="Masukkan jumlah view">
+				</div>
+				<button class="TombolProses" onclick="addVideos()">Mulai Proses</button>
+			</div>
+			
+			<div class="kotakPutar">
+			<button class="TombolPutar" id="PutarSemua" onclick="playAllVideos()" style="display: none;"><i class="fas fa-play"></i><br>Putar Semua 
+</button>
+			</div>
+			<div id="videosContainer"></div>
+			
+		</div>
+		
+		<!-- Import YouTube IFrame API -->
+		<script src="https://www.youtube.com/iframe_api"></script>
+		
+ <script>
+        var players = []; // Array untuk menyimpan instance player YouTube
+
+        function addVideos() {
+            var url = document.getElementById('videoUrl').value;
+            var PutarSemua = document.getElementById('PutarSemua');
+            var numVideos = parseInt(document.getElementById('numVideos').value);
+            
+            if (url.trim() !== '' && numVideos && numVideos > 0) {
+                var video_id = extractVideoID(url);
+                
+                if (video_id) {
+                    var videosContainer = document.getElementById('videosContainer');
+                    videosContainer.innerHTML = ''; // Clear videos container before adding new ones
+                    players = []; // Reset players array
+
+                    for (var i = 0; i < numVideos; i++) {
+                        var divId = 'player' + i;
+                        var iframeId = 'iframe' + i;
+                        var embed_code = '<div class="video-container"><div id="' + iframeId + '"></div></div>';
+                        
+                        var playerDiv = document.createElement('div');
+                        playerDiv.setAttribute('id', divId);
+                        playerDiv.classList.add('video-container');
+                        playerDiv.innerHTML = embed_code;
+                        videosContainer.appendChild(playerDiv);
+                        
+                        // Inisialisasi player YouTube menggunakan API
+                        players[i] = new YT.Player(iframeId, {
+                            height: '315',
+                            width: '560',
+                            videoId: video_id,
+                            events: {
+                                'onReady': onPlayerReady
+                            }
+                        });
+                    }
+
+                    alert('SEBELUM MENEKAN TOMBOL "PUTAR SEMUA", TUNGGU HINGGA SEMUA VIDEO BERHASIL MENAMPILKAN LOGO YOUTUBE');
+                    PutarSemua.style.display = 'block';
+                } else {
+                    alert('URL video YouTube tidak benar!');
+                }
+            } else {
+                alert('Masukkan URL video dan jumlah video yang valid (minimal 1)');
+            }
+        }
+        
+        function extractVideoID(url) {
+            var regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+            var match = url.match(regExp);
+            if (match && match[2].length === 11) {
+                return match[2];
+            } else {
+                return false;
+            }
+        }
+
+        function onPlayerReady(event) {
+            event.target.setPlaybackQuality('small'); // 'small' corresponds to 144p
+        }
+        
+        function playAllVideos() {
+            for (var i = 0; i < players.length; i++) {
+                players[i].playVideo();
+            }
+        }
+    </script>
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+	</body>
+</html>
