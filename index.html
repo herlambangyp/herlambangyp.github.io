@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <title>Herlambang YP</title>
+  <meta content="Website portofolio simple tentang Herlambang Yuana Putra" name="description">
+
+  <!-- Favicons -->
+  <link href="assets/img/2.png" rel="icon">
+  <link href="assets/img/2.png" rel="apple-touch-icon">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Tilt+Neon&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&family=Tilt+Neon&display=swap" rel="stylesheet">
+
+  <!-- File CSS Vendor -->
+  <link href="assets/vendor/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+
+  <!-- File CSS buatan sendiri -->
+  <link href="assets/css/utama.css" rel="stylesheet">
+
+</head>
+
+<body class="min-vh-100" id="backgroundWeb">
+
+  
+  <div id="paket"
+
+  data-terima="data"
+
+  style="
+    display: none;
+    z-index: 0;
+    position: absolute;
+    height: 0px;
+    width: 0px;
+    background:  #010101ff;"
+  >
+  </div>
+
+  <!-- Kepala atau header custom -->
+  <div class="col-lg-12 kepala d-flex sticky-top justify-content-between" id="kepala">
+    <div class="header-sisi-kiri col-lg-6">
+      <!-- Default dropend button -->
+      <div class="btn-group dropend">
+        <a type="button" class="tombol-header dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+          Language
+        </a>
+        <ul class="dropdown-menu">
+          <li><a class="dropdown-item" href="#">English</a></li>
+          <li><a class="dropdown-item" href="#">Indonesia</a></li>
+          <li><a class="dropdown-item" href="#">日本語</a></li>  
+        </ul>
+      </div>
+    </div>
+
+    <div class="header-sisi-kanan col-lg-6 d-flex justify-content-end">
+      <a class="tombol-header" href="#">Tentang</a>
+
+      <div class="dropdown">
+        <button type="button" class="tombol-header dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="outside">
+          Hubungi
+        </button>
+        <form class="dropdown-menu p-4">
+          <div class="mb-3">
+            <label for="exampleDropdownFormEmail2" class="form-label">Email address</label>
+            <input type="email" class="form-control" id="exampleDropdownFormEmail2" placeholder="email@example.com">
+          </div>
+          <div class="mb-3">
+            <label for="exampleDropdownFormPassword2" class="form-label">Password</label>
+            <input type="password" class="form-control" id="exampleDropdownFormPassword2" placeholder="Password">
+          </div>
+          <div class="mb-3">
+            <div class="form-check">
+              <input type="checkbox" class="form-check-input" id="dropdownCheck2">
+              <label class="form-check-label" for="dropdownCheck2">
+                Remember me
+              </label>
+            </div>
+          </div>
+          <button type="submit" class="btn btn-primary">Sign in</button>
+        </form>
+      </div>   
+
+      <div class="dropdown">
+        <button class="tombol-header dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+          Tema
+        </button>
+        <ul class="dropdown-menu">
+          <li><a class="dropdown-item" onclick="tema(this)" data-tema="default">
+            Spiderman
+          </a>
+        </li>
+          <li><a class="dropdown-item" onclick="tema(this)" data-tema="cyber">
+            Terong
+          </a>
+        </li>
+          <li><a class="dropdown-item" onclick="tema(this)" data-tema="hacker">
+            Hacker
+          </a>
+        </li>
+          <li><a class="dropdown-item" onclick="tema(this)" data-tema="sunset">
+            Karamel
+          </a>
+        </li>
+          <li><a class="dropdown-item" onclick="tema(this)" data-tema="ocean">
+            Birunya Malam
+          </a>
+        </li>
+          <li><a class="dropdown-item" onclick="tema(this)" data-tema="steel">
+            Hitam Putih
+          </a>
+        </li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+  <!-- Badan atau bagian Main -->
+  <div class="kotak-utama" id="badan">
+    <div class="kontener-glass">
+
+      <div class="baris col-lg-12 d-flex flex-wrap justify-content-between p-2" id="baris-1">
+        <div class ="glass">
+          <div class="col-lg-12 d-flex kotak-profil" style="margin-bottom: 1rem;">
+            <div class="">            
+              <img src="assets\img\profile-img.jpg" class="foto-profil">
+            </div>
+            <div class=''>            
+              <h1 class="text-judul">Herlambang YP <nganggur class="text-success siap-kerja">• Siap Kerja</nganggur></h1>
+              <deskripsi-kecil class="info-cilik">Multitalenta • Kediri, Jawa timur</deskripsi-kecil class="ft-19">
+              </div>
+            </div>
+            <p class="info-bawah-judul">
+              Saya seorang Diploma Manajemen Pemasaran, seorang Full stack Developer, sekaligus seorang konsultan instalasi listrik</p>
+              <div class="d-flex gap-2 flex-wrap">
+                <a class="btn btn-dark"><i class="bi bi-envelope-open-fill"></i> Email</a>
+                <a class="btn btn-success"><i class="bi bi-whatsapp"></i> Whatsapp</a>
+                <a class="btn btn-danger"><i class="bi bi-instagram"></i> Instagram</a>
+                <a class="btn btn-secondary"><i class="bi bi-telephone-outbound"></i> No Telp</a>
+              </div>
+            </div>
+                </div>
+
+      <div class="baris col-lg-12 p-2" id="baris-2">
+        <div class="gap-15 col-lg-12 d-flex flex-wrap justify-content-between">
+
+            <div class ="glass kartu" id="kartu-1" style="min-height: 386px;">
+              <div class="col-lg-12 d-flex kotak-profil" style="flex-direction: column; align-items: flex-start;">
+                <div class='kotak-judul-kartu'>            
+                  <h1 class="text-judul"><i class="bi bi-bar-chart-line-fill"></i> • Statistik</h1>
+                </div class="fade-in">
+                <canvas id="radarChart" style="max-height: 400px;" data-chart='[77,57,74,60,80,57]' data-labels ='["Manajemen","Marketing","Design $ Editor","Backend","Frontend","Kelistrikan"]'></canvas>
+              </div>
+            </div>
+
+            <div class ="glass kartu" id="kartu-2">
+              <div class="col-lg-12 d-flex kotak-profil" style="flex-direction: column; align-items: flex-start;">
+                <div class='kotak-judul-kartu'>            
+                  <h1 class="text-judul"><i class="bi bi-award-fill"></i> • Skill</h1>
+                  <deskripsi-kecil class="info-cilik">Ringkasan terkait skill yang lebih spesifik</deskripsi-kecil class="ft-19">
+                  </div>
+                </div>
+                <div class="col-lg-12">
+                  <span class="badge text-bg-warning">Pemasaran</span>
+                  <span class="badge text-bg-dark">Full stack Developer</span>
+                  <span class="badge text-bg-danger">Instalasi Listrik</span>
+                  <span class="badge text-bg-primary">Photoshop</span>
+                  <span class="badge text-bg-danger">Laravel</span>
+                  <span class="badge text-bg-secondary">Corel Draw</span> 
+                  <span class="badge text-bg-success">Node.js</span> 
+                  <span class="badge text-bg-light">Bootstrap 5</span> 
+                </div>
+              </div>
+
+              <div class ="glass kartu" id="kartu-3">
+                <div class="col-lg-12 d-flex kotak-profil">
+                  <div class='kotak-judul-kartu'>            
+                    <h1 class="text-judul"><i class="bi bi-person-rolodex"></i> • Biografi</h1>
+                    <deskripsi-kecil class="info-cilik">Bigrafi singkat diri saya</deskripsi-kecil class="ft-19">
+                    </div>
+                  </div>
+                  <div class="kotak-isi-biografi id-flex">
+                    <div class="biografi-singkat col-lg-4">
+                      <p class="ikon-biografi"><i class="bi bi-calendar2-date"></i></p>
+                      <p class="jawaban-biografi">Juni 2001</p>
+                    </div>
+                    <div class="biografi-singkat col-lg-4">
+                      <p class="ikon-biografi"><i class="bi bi-house-check"></i></i></p>
+                      <p class="jawaban-biografi">Kediri</p>
+                    </div>
+                    <div class="biografi-singkat col-lg-4">
+                      <p class="ikon-biografi"><i class="bi bi-person-vcard"></i></i></p>
+                      <p class="jawaban-biografi" id="umur">24 Tahun</p>
+                    </div>
+    
+                  </div>
+                </div>
+
+              </div>      </div>
+
+      <div class="baris col-lg-12 p-2" id="baris-3">
+        <div class="gap-15 col-lg-12 d-flex flex-wrap justify-content-between">
+
+                <div class="col-lg-12">
+                  <h2 class="judul-glass">Kemampuan Saya</h2>
+                </div>
+
+                <div id="carouselExampleDark" style="width: 100%;" class="carousel slide" data-bs-ride="carousel">
+                  <div class="carousel-inner">
+                    
+                    <div class="carousel-item active flex-wrap justify-content-between">
+
+                      <div class ="glass kartu">
+                        <div class="col-lg-12 d-flex kotak-profil garis-bawah" style="flex-direction: column; align-items: flex-start;">
+                          <div class='kotak-judul-kartu'>            
+                            <div class="col-lg-12 d-flex kotak-profil">
+                              <div class='kotak-judul-kartu'>            
+                                <h1 class="text-judul"><i class="bi bi-journal-album"></i> | Manajemen</h1>
+                              </div>
+                            </div>
+                          </div>
+                        </div>                
+                        <div class="skill-info"><span class="skill-name">Big Data</span><span class="skill-percentage">66%</span></div>
+                        <div class="progress">                          
+                          <div class="progress-bar" role="progressbar" style="width: 66%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+
+                        <div class="skill-info"><span class="skill-name">Bussines Plan</span><span class="skill-percentage">78%</span></div>
+                        <div class="progress">
+                          <div class="progress-bar" role="progressbar" style="width: 78%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div></div>
+         
+                          <div class="skill-info"><span class="skill-name">Incernment Structing</span><span class="skill-percentage">41%</span></div>
+                          <div class="progress"><div class="progress-bar" role="progressbar" style="width: 41%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div></div>
+                        </div>
+                                
+                        <div class ="glass kartu">
+                          <div class="col-lg-12 d-flex kotak-profil garis-bawah" style="flex-direction: column; align-items: flex-start;">                    <div class='kotak-judul-kartu'>            
+                            <div class="col-lg-12 d-flex kotak-profil">
+                              <div class='kotak-judul-kartu'>            
+                                <h1 class="text-judul"><i class="bi bi-people-fill"></i> | Marketing</h1>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="skill-info"><span class="skill-name">CRM</span><span class="skill-percentage">81%</span></div>
+                        <div class="progress"><div class="progress-bar" role="progressbar" style="width: 81%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div></div>
+
+                        <div class="skill-info"><span class="skill-name">SEO</span><span class="skill-percentage">57%</span></div>
+                        <div class="progress"><div class="progress-bar" role="progressbar" style="width: 57%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div></div>
+                                
+                        <div class="skill-info"><span class="skill-name">Digital Marketing</span><span class="skill-percentage">64%</span></div>
+                        <div class="progress"><div class="progress-bar" role="progressbar" style="width: 64%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div></div>
+                      </div>
+                                                
+                      <div class ="glass kartu">
+                        <div class="col-lg-12 d-flex kotak-profil garis-bawah" style="flex-direction: column; align-items: flex-start;">
+                          <div class='kotak-judul-kartu'>            
+                            <div class="col-lg-12 d-flex kotak-profil">
+                              <div class='kotak-judul-kartu'>            
+                                <h1 class="text-judul"><i class="bi bi-lightning-fill"></i> | Kelistrikan</h1>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="skill-info"><span class="skill-name">Pemetaan Routing</span><span class="skill-percentage">62%</span></div>
+                        <div class="progress"><div class="progress-bar" role="progressbar" style="width: 62%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div></div>
+
+                        <div class="skill-info"><span class="skill-name">Instalasi Standar PUIL</span><span class="skill-percentage">89%</span></div>
+                        <div class="progress"><div class="progress-bar" role="progressbar" style="width: 89%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div></div>
+                                                
+                        <div class="skill-info"><span class="skill-name">ELCB & Grounding</span><span class="skill-percentage">73%</span></div>
+                        <div class="progress"><div class="progress-bar" role="progressbar" style="width: 73%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div></div>
+                      </div>
+                    </div>
+
+                    <div class="carousel-item flex-wrap justify-content-between">
+                      <div class ="glass kartu">
+                        <div class="col-lg-12 d-flex kotak-profil garis-bawah" style="flex-direction: column; align-items: flex-start;">
+                          <div class='kotak-judul-kartu'>            
+                            <div class="col-lg-12 d-flex kotak-profil">
+                              <div class='kotak-judul-kartu'>            
+                                <h1 class="text-judul"><i class="bi bi-code-slash"></i> | Front-end</h1>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="skill-info"><span class="skill-name">HTML/CSS</span><span class="skill-percentage">93%</span></div>
+                        <div class="progress"><div class="progress-bar" role="progressbar" style="width: 93%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div></div>
+                
+                        <div class="skill-info"><span class="skill-name">Javascript</span><span class="skill-percentage">77%</span></div>
+                        <div class="progress"><div class="progress-bar" role="progressbar" style="width: 77%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div></div>
+                                
+                        <div class="skill-info"><span class="skill-name">Vue.js</span><span class="skill-percentage">34%</span></div>
+                        <div class="progress"><div class="progress-bar" role="progressbar" style="width: 34%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div></div>
+                      </div>
+                                                
+                      <div class ="glass kartu">
+                        <div class="col-lg-12 d-flex kotak-profil garis-bawah" style="flex-direction: column; align-items: flex-start;">
+                          <div class='kotak-judul-kartu'>            
+                            <div class="col-lg-12 d-flex kotak-profil">
+                              <div class='kotak-judul-kartu'>            
+                                <h1 class="text-judul"><i class="bi bi-database-fill-gear"></i> | Back-End</h1>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="skill-info"><span class="skill-name">Native PHP</span><span class="skill-percentage">68%</span></div>
+                        <div class="progress"><div class="progress-bar" role="progressbar" style="width: 68%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div></div>
+                
+                        <div class="skill-info"><span class="skill-name">Laravel Framework</span><span class="skill-percentage">79%</span></div>
+                        <div class="progress"><div class="progress-bar" role="progressbar" style="width: 79%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div></div>
+                                
+
+                        <div class="skill-info"><span class="skill-name">Node.js</span><span class="skill-percentage">31%</span></div>
+                        <div class="progress"><div class="progress-bar" role="progressbar" style="width: 31%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div></div>
+                      </div>
+                                                
+                      <div class ="glass kartu">
+                        <div class="col-lg-12 d-flex kotak-profil garis-bawah" style="flex-direction: column; align-items: flex-start;">
+                          <div class='kotak-judul-kartu'>            
+                            <div class="col-lg-12 d-flex kotak-profil">
+                              <div class='kotak-judul-kartu'>            
+                                <h1 class="text-judul"><i class="bi bi-translate"></i> | Bahasa</h1>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="skill-info"><span class="skill-name">Jawa, Indonesia, Malay</span><span class="skill-percentage">100%</span></div>
+                        <div class="progress"><div class="progress-bar" role="progressbar" style="width: 100%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div></div>
+                
+                        <div class="skill-info"><span class="skill-name">English</span><span class="skill-percentage">93%</span></div>
+                        <div class="progress"><div class="progress-bar" role="progressbar" style="width: 93%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div></div>
+                                
+                        <div class="skill-info"><span class="skill-name">日本語</span><span class="skill-percentage">33%</span></div>
+                        <div class="progress"><div class="progress-bar" role="progressbar" style="width: 33%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div></div>
+                      </div>
+                
+                    </div>
+
+                  </div>
+                  <div class="page-carousel carousel-indicators">
+                    <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                    <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                  </div>
+                </div>
+                </div>
+              </div>
+            </div>
+              <div class="footer">
+    <p>Dibangun dengan <strong>Laravel</strong>. Didesain dengan <strong>Bootstrap</strong>.<br>Dibuat oleh <strong>Herlambang YP</strong></p>
+  </div>
+                  </div>
+
+    </div>
+    
+  </div>
+
+
+  <!--  File JS Vendor  -->
+  <script src="assets/vendor/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="assets/vendor/vanta.net/three.r134.min.js"></script>
+  <script src="assets/vendor/vanta.net/vanta.net.min.js"></script>
+  <script src="assets/vendor/chartjs/chart.umd.min.js"></script>  
+
+  <!-- File Js buatan sendiri -->
+  <script src="assets/js/utama.js"></script>
+
+</body>
+
+</html>
