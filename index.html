@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="id">
-
 <head>
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
@@ -9,8 +8,8 @@
   <meta content="Website portofolio simple tentang Herlambang Yuana Putra" name="description">
 
   <!-- Favicons -->
-  <link href="assets/img/2.png" rel="icon">
-  <link href="assets/img/2.png" rel="apple-touch-icon">
+  <link href="" rel="icon">
+  <link href="" rel="apple-touch-icon">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -19,10 +18,10 @@
 
   <!-- File CSS Vendor -->
   <link href="assets/vendor/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+  <link href="assets/vendor/bootstrap-icons/font/bootstrap-icons.min.css" rel="stylesheet">
 
   <!-- File CSS buatan sendiri -->
-  <link href="assets/css/utama.css" rel="stylesheet">
+  <link href="assets/css/compiled.css" rel="stylesheet">
 
 </head>
 
@@ -60,7 +59,7 @@
     </div>
 
     <div class="header-sisi-kanan col-lg-6 d-flex justify-content-end">
-      <a class="tombol-header" href="#">Tentang</a>
+      <a class="tombol-header" onclick="menujuKe('tentang')">Tentang</a>
 
       <div class="dropdown">
         <button type="button" class="tombol-header dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="outside">
@@ -97,7 +96,7 @@
           </a>
         </li>
           <li><a class="dropdown-item" onclick="tema(this)" data-tema="cyber">
-            Terong
+            Terang
           </a>
         </li>
           <li><a class="dropdown-item" onclick="tema(this)" data-tema="hacker">
@@ -126,12 +125,12 @@
     <div class="kontener-glass">
 
       <div class="baris col-lg-12 d-flex flex-wrap justify-content-between p-2" id="baris-1">
-        <div class ="glass">
+        <div class ="glass" id="tentang">
           <div class="col-lg-12 d-flex kotak-profil" style="margin-bottom: 1rem;">
-            <div class="">            
+            <div>            
               <img src="assets\img\profile-img.jpg" class="foto-profil">
             </div>
-            <div class=''>            
+            <div>            
               <h1 class="text-judul">Herlambang YP <nganggur class="text-success siap-kerja">• Siap Kerja</nganggur></h1>
               <deskripsi-kecil class="info-cilik">Multitalenta • Kediri, Jawa timur</deskripsi-kecil class="ft-19">
               </div>
@@ -154,9 +153,9 @@
               <div class="col-lg-12 d-flex kotak-profil" style="flex-direction: column; align-items: flex-start;">
                 <div class='kotak-judul-kartu'>            
                   <h1 class="text-judul"><i class="bi bi-bar-chart-line-fill"></i> • Statistik</h1>
-                </div class="fade-in">
-                <canvas id="radarChart" style="max-height: 400px;" data-chart='[77,57,74,60,80,57]' data-labels ='["Manajemen","Marketing","Design $ Editor","Backend","Frontend","Kelistrikan"]'></canvas>
+                <canvas id="radarChart" style="max-height: 400px;" data-radar='[77,57,74,60,80,57]' data-labels ='["Manajemen","Marketing","Design $ Editor","Backend","Frontend","Kelistrikan"]'></canvas>
               </div>
+            </div>
             </div>
 
             <div class ="glass kartu" id="kartu-2">
@@ -202,7 +201,8 @@
                   </div>
                 </div>
 
-              </div>      </div>
+              </div>
+      </div>
 
       <div class="baris col-lg-12 p-2" id="baris-3">
         <div class="gap-15 col-lg-12 d-flex flex-wrap justify-content-between">
@@ -353,27 +353,53 @@
                     <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="1" aria-label="Slide 2"></button>
                   </div>
                 </div>
+                </div>      </div>
+
+      <!-- <div class="baris col-lg-12 p-2" id="baris-4">
+        <div class="gap-15 col-lg-12 d-flex flex-wrap justify-content-between">
+                <div class="col-lg-12">
+                  <h2 class="judul-glass">Pencapaian</h2>
                 </div>
-              </div>
+            <div class ="glass kartu-setengah" id="kartu-4" style="min-height: 386px;">
+              <div class="col-lg-12 d-flex kotak-profil" style="flex-direction: column; align-items: flex-start;">
+
             </div>
-              <div class="footer">
+            </div>
+
+            <div class ="glass kartu-setengah" id="kartu-5" style="min-height: 386px;">
+
+              </div>
+
+              </div>
+      </div>
+
+      <div class="baris col-lg-12 p-2" id="baris-5">
+        <div class="gap-15 col-lg-12 d-flex flex-wrap justify-content-between">
+                <div class="col-lg-12">
+                  <h2 class="judul-glass">Pencapaian</h2>
+                </div>
+            <div class ="glass kartu-full" id="kartu-6" style="min-height: 386px;">
+              <div class="col-lg-12 d-flex kotak-profil" style="flex-direction: column; align-items: flex-start;">
+
+            </div>
+            </div>
+
+              </div>
+      </div> -->
+
+        <!--Kaki atau footer -->
+        <div class="footer">
     <p>Dibangun dengan <strong>Laravel</strong>. Didesain dengan <strong>Bootstrap</strong>.<br>Dibuat oleh <strong>Herlambang YP</strong></p>
+</div>    </div>
   </div>
-                  </div>
-
-    </div>
-    
-  </div>
-
-
   <!--  File JS Vendor  -->
   <script src="assets/vendor/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
   <script src="assets/vendor/vanta.net/three.r134.min.js"></script>
   <script src="assets/vendor/vanta.net/vanta.net.min.js"></script>
+  <script src="assets/vendor/vanta.net/vanta.clouds.min.js"></script>
   <script src="assets/vendor/chartjs/chart.umd.min.js"></script>  
-
   <!-- File Js buatan sendiri -->
-  <script src="assets/js/utama.js"></script>
+  <script src="assets/js/compiled.js"></script>
 
 </body>
 
