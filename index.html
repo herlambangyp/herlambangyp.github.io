@@ -4,106 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Redirecting to Secure Page</title>
-    <style>
-        :root {
-            --bg-color: #0a0a0c;
-            --accent-color: #00f2ff;
-            --text-color: #e0e0e0;
-            --glow-shadow: 0 0 15px rgba(0, 242, 255, 0.6);
-        }
-
-        body {
-            font-family: 'Courier New', Courier, monospace;
-            background-color: var(--bg-color);
-            background-image: 
-                radial-gradient(circle at 2px 2px, #1a1a1a 1px, transparent 0);
-            background-size: 40px 40px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            color: var(--text-color);
-            overflow: hidden;
-        }
-
-        .container {
-            text-align: center;
-            background: rgba(10, 10, 12, 0.9);
-            padding: 2.5rem;
-            border: 1px solid var(--accent-color);
-            border-radius: 4px;
-            box-shadow: var(--glow-shadow), inset 0 0 10px rgba(0, 242, 255, 0.2);
-            max-width: 450px;
-            position: relative;
-            margin: 3rem;
-        }
-
-        /* Scanline effect */
-        .container::before {
-            content: " ";
-            position: absolute;
-            top: 0; left: 0; bottom: 0; right: 0;
-            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), 
-                        linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
-            background-size: 100% 2px, 3px 100%;
-            pointer-events: none;
-        }
-
-        .loader {
-            width: 60px;
-            height: 2px;
-            background-color: var(--accent-color);
-            margin: 20px auto;
-            box-shadow: var(--glow-shadow);
-            animation: pulse 1.5s infinite ease-in-out;
-        }
-
-        @keyframes pulse {
-            0% { transform: scaleX(0.1); opacity: 0.2; }
-            50% { transform: scaleX(1); opacity: 1; }
-            100% { transform: scaleX(0.1); opacity: 0.2; }
-        }
-
-        h1 {
-            font-size: 1.2rem;
-            text-transform: uppercase;
-            letter-spacing: 4px;
-            color: var(--accent-color);
-            text-shadow: var(--glow-shadow);
-            margin-bottom: 20px;
-        }
-
-        .status-text {
-            font-size: 0.9rem;
-            margin-bottom: 10px;
-            opacity: 0.8;
-        }
-
-        #countdown {
-            font-weight: bold;
-            color: #fff;
-            font-size: 1.1rem;
-        }
-
-        .link-manual {
-            margin-top: 25px;
-            font-size: 0.8rem;
-        }
-
-        a {
-            color: var(--accent-color);
-            text-decoration: none;
-            border: 1px solid var(--accent-color);
-            padding: 5px 10px;
-            transition: all 0.3s;
-        }
-
-        a:hover {
-            background: var(--accent-color);
-            color: var(--bg-color);
-            box-shadow: var(--glow-shadow);
-        }
+    <style> :root { --bg-color: #0a0a0c; --accent-color: #00f2ff; --text-color: #e0e0e0; --glow-shadow: 0 0 15px rgba(0, 242, 255, 0.6); } body { font-family: 'Courier New', Courier, monospace; background-color: var(--bg-color); background-image: radial-gradient(circle at 2px 2px, #1a1a1a 1px, transparent 0); background-size: 40px 40px; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; color: var(--text-color); overflow: hidden; } .container { text-align: center; background: rgba(10, 10, 12, 0.9); padding: 2.5rem; border: 1px solid var(--accent-color); border-radius: 4px; box-shadow: var(--glow-shadow), inset 0 0 10px rgba(0, 242, 255, 0.2); max-width: 450px; position: relative; margin: 3rem; } /* Scanline effect */ .container::before { content: " "; position: absolute; top: 0; left: 0; bottom: 0; right: 0; background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06)); background-size: 100% 2px, 3px 100%; pointer-events: none; } .loader { width: 60px; height: 2px; background-color: var(--accent-color); margin: 20px auto; box-shadow: var(--glow-shadow); animation: pulse 1.5s infinite ease-in-out; } @keyframes pulse { 0% { transform: scaleX(0.1); opacity: 0.2; } 50% { transform: scaleX(1); opacity: 1; } 100% { transform: scaleX(0.1); opacity: 0.2; } } h1 { font-size: 1.2rem; text-transform: uppercase; letter-spacing: 4px; color: var(--accent-color); text-shadow: var(--glow-shadow); margin-bottom: 20px; } .status-text { font-size: 0.9rem; margin-bottom: 10px; opacity: 0.8; } #countdown { font-weight: bold; color: #fff; font-size: 1.1rem; } .link-manual { margin-top: 25px; font-size: 0.8rem; } a { color: var(--accent-color); text-decoration: none; border: 1px solid var(--accent-color); padding: 5px 10px; transition: all 0.3s; } a:hover { background: var(--accent-color); color: var(--bg-color); box-shadow: var(--glow-shadow); }
     </style>
 </head>
 <body>
@@ -112,7 +13,7 @@
     <h1>System Redirect</h1>
     <div class="loader"></div>
     <p class="status-text">ESTABLISHING CONNECTION TO:</p>
-    <p style="color: var(--accent-color);">[ herlambangyp.ct.ws ]</p>
+    <p style="color: var(--accent-color); font-size: smaller;">[ herlambangyp.ct.ws ]</p>
     <p class="status-text" id="waktu">JAVASCRIPT FAILUR. CANNOT ESTABLISH CONNECTION</p>
     <script>document.querySelector('#waktu').innerHTML = `REDIRECTING IN <span id="countdown">5</span>s...`;</script>
     <div class="link-manual">
@@ -123,23 +24,7 @@
 
 </div>
 
-<script>
-    const targetURL = "https://herlambangyp.ct.ws";
-    let timeLeft = 5;
-    
-    const countdownElement = document.getElementById('countdown');
-    const timer = setInterval(() => {
-        timeLeft--;
-        countdownElement.textContent = timeLeft;
-        
-        if (timeLeft <= 0) {
-            clearInterval(timer);
-            setTimeout(() => {
-            document.querySelector('#waktu').textContent = "You should be redirected now.";
-                window.location.href = targetURL;
-            }, 300);
-        }
-    }, 1000);
+<script>const targetURL = "https://herlambangyp.ct.ws"; let timeLeft = 5; const countdownElement = document.getElementById('countdown'); const timer = setInterval(() => { timeLeft--; countdownElement.textContent = timeLeft; if (timeLeft <= 0) { clearInterval(timer); setTimeout(() => { document.querySelector('#waktu').textContent = "You should be redirected now."; window.location.href = targetURL; }, 300); } }, 1000);
 </script>
 
 </body>
