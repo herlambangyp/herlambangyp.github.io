@@ -1,0 +1,3200 @@
+
+<!DOCTYPE html>
+<!-- 
+Aku buat web-app ini ga dibayar, silakan kamu pakai semaumu. 
+ Tapi mohon, 
+ - Jangan asal edit salin dan ngaku-ngaku ini karyamu
+ - Kalo nimpa dipikir mas
+ - Jangan diubah menjadi app berbayar
+ - Atau kamu jual untuk keuntunganmu sendiri. 
+ 
+ Silakan kembangkan jika diperlukan. Tapi pertahankan open-source 
+ (Belum ada dokumentasi source-code lengkap. Tapi perhatikan comment-line untuk penjelasan)
+
+ Cheers Herlambang YP 
+ -->   
+ 
+ <html lang="id">
+<head>
+    <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quiz Mourop Apalan</title>
+<style>
+body {
+        margin: 0px;
+    height: 100%;
+    background: linear-gradient(-45deg, #888888, #193941, #000000, #331818, #ffa700);
+    background-size: 400% 400%;
+    animation: gradientBG 25s ease infinite;
+    color: white;
+    display: flex;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    flex-direction: column;
+    padding: 20px;
+    justify-content: flex-start;
+    align-items: center;
+}
+.pewaktu{
+    display: none;
+    position: fixed;
+    background: #ff8c00;
+    color: black;
+    border: solid 2px #000000;
+    padding: 5px;
+    width: max-content;
+    top: 10px;
+    right: 18px;
+    font-family: monospace;
+    font-weight: 500;
+    font-size: 16px;
+    align-items: center;
+  }
+#nextOverlay {
+  position: fixed;
+  inset: 0;           
+  background: rgba(0,0,0,0.0); 
+  display: none;      
+  cursor: pointer;    
+  z-index: 9999;     
+}
+    
+    @keyframes gradientBG {
+        0% {
+        background-position: 0% 50%;
+    }
+      50% {
+        background-position: 100% 50%;
+    }
+      100% {
+        background-position: 0% 50%;
+    }
+    }
+    benar {
+    color: #22c55e;
+    font-weight: 600;
+    font-size: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    border: solid;
+    border-radius: 10px;
+    margin-top: 5px;
+    padding: 5px;
+    width: -webkit-fill-available;
+  }
+
+salah {
+    color: #f87171;
+    font-weight: 600;
+    font-size: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    border: solid;
+    border-radius: 10px;
+    margin-top: 5px;
+    padding: 5px;
+    width: -webkit-fill-available;
+  }
+
+h1 {
+    color: #f8fafc;
+    margin-bottom: 0px;
+    padding: 10px;
+    background-color: teal;
+    width: -webkit-fill-available;
+}
+
+#modeSelect {
+    font-size: 18px;
+    border: 0px solid #334155;
+    background-color: #1e293b;
+    color: #f1f5f9;
+    width: 100%;
+    height: 40px;
+    padding: 9px;
+}
+#stopQuizWrapper{
+    text-align: center;
+    width: 100%;
+}
+#stopQuizBtn{
+    background: darkorange;
+    color: black;
+    font-weight: bold;
+    border-radius: 0px;
+    min-height: 0px;
+    align-items: center;
+    justify-content: center;
+    
+}
+#vocabTableContainer {
+    margin-top: 20px;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+.judultabel{
+    font-family: system-ui;
+    margin: 0px;
+    margin-top: 25px;
+    color: #4f7474;
+}
+#catatankanji{
+    text-align: justify;
+}
+#tableSearch{
+    margin: 5px;
+    width: -webkit-fill-available;
+    background: unset;
+    color: white;
+    border-top: solid 3px teal;
+    border-right: solid 2px #00808000;
+    border-left: solid 2px #00808000;
+    border-bottom: solid 3px #00808000;
+}
+#vocabTable thead{
+    background: darkslategrey;
+    }
+#vocabTable {
+    border-collapse: collapse;
+  width: -webkit-fill-available;
+}
+
+#vocabTable th, 
+#vocabTable td {
+    border: none;             /* hilangkan semua border */
+  border-bottom: 1px solid darkslategrey; /* kasih garis tipis horizontal */
+  padding: 6px 10px;
+  text-align: left;
+}
+
+#vocabTable tr:last-child td {
+    border-bottom: none; /* hapus garis di baris terakhir */
+}
+.text-uppercase{
+    text-transform: uppercase;
+    min-width: 50px;
+  }
+.text-capitalize{
+    text-transform: capitalize;
+}
+#vocabTable{
+    white-space: normal;
+    word-wrap: break-word;
+    word-break: break-word;
+    max-width: 100%;  
+}
+#kana {
+    font-size: 37px;
+    color: #f1f5f9;
+    margin: 10px;
+    width: 100%;
+    text-align: center;
+}
+
+.choices {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    margin: 15px 0px 10px 0px;
+}
+
+.correct {
+    background-color: #16a34a!important;
+  color: white;
+}
+
+.incorrect {
+    background-color: firebrick!important;
+  color: white;
+}
+.selected{
+    background: #da0000 !important;
+    border: solid 2px white !important;
+  }
+.bordered{
+    border: solid 2px white!important;
+     
+    }
+#soal {
+    text-align: center;
+}
+
+.benar {
+    display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 15px;
+  margin: 20px 0;
+  font-size: 22px;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 10px;
+  background-color: #2563eb;
+  color: white;
+}
+
+button {
+    font-size: 22px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 10px;
+    background-color: #2563eb;
+    color: white;
+    cursor: pointer;
+    min-width: 120px;
+    width: -webkit-fill-available;
+    min-height: 55px;
+    transition: background-color 0.2s ease;
+}
+
+button:hover {
+    background-color: #1d4ed8;
+}
+
+#result {
+    font-size: 22px;
+    color: #10f866;
+    text-align: center;
+    padding: 0px 7px 0px 7px;
+}
+
+#score {
+    font-size: 20px;
+  color: #f1f5f9;
+  margin-top: 5px;
+}
+
+#sambutan .note{
+    font-size: 10px;
+    margin-top: 30px;
+    color: teal;
+}
+.text-kecil {
+    font-size: 10px;
+    color: #94a3b8;
+    text-align: center;
+    width: 100%;
+}
+.text-update{
+    border-radius: 10px;
+    font-size: 10px;
+    color: #cbd0d6;
+}
+.hak {
+    font-size: 13px;
+  color: #94a3b8;
+  text-align: center;
+}
+
+#restart {
+    display: none;
+  margin-top: 20px;
+}
+#sambutan {
+    display: none;
+    text-align: center;
+    font-weight: bolder;
+    border: solid 3px teal;
+    border-radius: 10px;
+    padding: 25px;
+    min-height: 125px;
+    min-width: -webkit-fill-available;
+    flex-direction: column;
+    font-size: 15px;
+    margin-top: 40px;
+    justify-content: space-between;
+}
+#badan-quiz {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 600px;
+    margin-top: 20px;
+}
+.kotak-reset{
+    display: none;
+      flex-wrap: nowrap;
+    flex-direction: row;
+    align-items: center;
+    width: -webkit-fill-available;
+    justify-content: flex-start;
+}
+#reverseBtn{
+    width: 20px;
+    min-width: 0px;
+    text-align: center;
+    font-size: 10px;
+    height: 11px;
+    min-height: 20px;
+    padding: 0px;
+    color: black;
+    border-radius: 50%;
+    margin-right: 0px;
+    background-color: oldlace;
+}
+
+.inforeset{
+    font-size: 9px;
+    color: darkgrey;
+      }
+.panah-kiri{
+   font-size: 15px;
+    margin-right: 4px;
+    margin-left: 4px;
+    color: darkgrey;
+}
+.hiragana-jawaban{
+    font-size:medium;
+}
+.bagan-pilihan{
+    width: -webkit-fill-available;
+    flex-wrap: wrap;
+    margin-bottom: 25px;
+    flex-direction: row;
+    padding: 12px;
+    justify-content: space-between;
+    border-right: solid 1px;
+    border-left: solid 1px;
+    border-bottom: solid 1px;
+    display: none;
+}
+
+
+#pilihan-kotoba .plex{
+    display: flex;
+    gap: 19px;
+    flex-direction: column;
+    font-size: larger;
+    width: 33%;
+  }
+.bagan-judul{
+    display: block;
+    text-align: center;
+    margin-top: 12px;
+    padding: 12px;
+    border: solid 1px;
+    background: #5e2828;  
+}
+
+gedi{
+    font-size: 25px;
+    font-weight: 700;
+}
+catatan-mode{
+  font-size: 12px;
+}
+.tombol-start-quiz{
+    display: none;
+    max-width: 410px;
+  }
+.feedback{
+    font-size: 18px;
+    text-align: center;
+    font-weight: 100;
+    position: relative;
+    top: -10px;
+}
+#kotak-reverse{
+    display: flex;
+    position: relative;
+    justify-content: center;
+    top: -5px;
+    width: fit-content;
+    }
+    .asal-kotoba{
+    position: relative;
+    top: -10px;
+    }
+
+
+    .nomorSoalMM{
+display: block;
+    width: 100%;
+    border-bottom: solid 1px;
+    margin-bottom: 5px;
+    font-size: 13px;
+      }
+    jawabanMM{
+      display: none;
+    }
+    #soalMM{    
+    width: 100%;
+    flex-direction: row;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;}
+    
+    .soalMM{
+    font-size: 25px;
+    font-family: monospace;
+    width: 100%;
+      }
+/* Default (misalnya mobile first) */
+.kont-soal {
+  width: 100%;
+}
+
+/* Desktop KECIL — layar hingga 1439px */
+@media (min-width: 769px) and (max-width: 1439px) {
+  .kont-soal {
+    width: 50%;
+  }
+}
+
+/* Desktop BESAR — layar 1440px ke atas */
+@media (min-width: 1440px) {
+  .kont-soal {
+    width: 25%;
+  }
+}
+.bagan-judulMM{
+    text-align: left;
+    display: flex;
+    background: rgb(72, 58, 31);
+    flex-direction: column;
+    justify-content: space-between;
+    margin-top: 12px;
+    padding: 12px;
+    border: solid 1px;
+    align-items: center;
+}
+.bagan-pilihanMM{
+    width: -webkit-fill-available;
+    margin-bottom: 25px;
+    padding: 12px;
+    border-right: solid 1px;
+    border-left: solid 1px;
+    border-bottom: solid 1px; 
+    display: flex;
+    flex-flow: column wrap;
+}
+.inputJWBMM{
+    background-color: #ffffff00;
+    color: #ffffff;
+    font-size: 14px;
+    font-family: system-ui;
+    border-right: none;
+    border-left: none;
+    border-bottom: none;
+    border-top: none;
+    font-weight: 700;
+  }
+      .garis { stroke:white; stroke-width:1.5; }
+      text {
+    fill: #ffffff;
+    font-family: monospace;
+    font-size: 16px;
+          }
+
+#nilaiMM{
+    display: none;
+    position: fixed;
+    background: #1e293b;
+    border-top: solid 2px #000000;
+    padding: 5px;
+    width: 100%;
+    font-family: monospace;
+    font-weight: 500;
+    font-size: 14px;
+    color: #ffbe6f;
+    bottom: 0px;
+    justify-content: space-evenly;
+    flex-direction: row;
+    align-items: center;
+            }
+            .kunciJwbMM{
+              width: 100%;
+            }
+
+</style>
+</head>
+<body>
+<div id="nextOverlay"></div>    
+    <h1>Quiz Mourop Apalan <z id="versi-file">V2.4</z></h1>
+  <select id="modeSelect">
+
+    <option value="0kosong" selected hidden>Klik Disini Untuk Pilih Mode Quiz</option>
+    <option value="baca-pilihan" hidden>Quiz Membaca Kotoba (Kanji Only)</option>
+    <option value="semua-kotoba-kanji" hidden>Quiz Mengartikan Kotoba</option>
+    <option value="kotoba-pilihan" hidden>Quiz Mengartikan Kotoba (Non-Kanji)</option>
+
+    <optgroup label="Hiragana & Katakana">
+      <option value="hiragana">Hiragana</option>
+      <option value="katakana">Katakana</option>
+      <option value="bothkana">Hiragana & Katakana</option>
+    </optgroup>
+    
+    <optgroup label="Matematika">
+      <option value="quizMM">Quiz Matematika IM</option>
+    </optgroup>
+    
+    <optgroup label="Kotoba Buku IM ">
+      <option value="pilih-kotoba-nokanji">Quiz Mengartikan Kotoba (Non-kanji)</option>
+      <option value="pilih-kotoba-kanji">Quiz Mengartikan Kotoba</option>
+      <option value="pilih-baca-kanji">Quiz Membaca Kotoba (Kanji Only)</option>
+    </optgroup>
+    
+    <optgroup label="Non-Quiz">
+      <option value="tabel-buku-im">Tebal Kotoba Buku IM</option>
+    </optgroup> 
+
+</select>
+
+<div id="sambutan">
+    Selamat datang di QUIZ MOUROP APALAN<br>
+  Quiz ini Dibuat ben ra mbeledos lek ngapalne buku IM<br>
+  <Z class="note">Data acuan quiz ini adalah kesimpulan pribadi atas buku IM JAPAN yang diterbitkan <br>
+    LPK Yagai Gakkou Kediri Jawa Timur</Z>
+    
+    <div class="text-kecil">Pilih mode kuis di atas untuk memulai atau</div>
+    <a class="text-update" href="#"  id="update-halaman">Klik utk download file terbaru<br>
+</a>
+
+</div>
+<!-- Tombol Stop Quiz -->
+<div id="stopQuizWrapper">
+<button id="stopQuizBtn" class="hidden">#EROR01 JS Syntax Failure</button>
+</div>
+<p id="debugMode" class="mengecek-JS-mode-saat-ini" style="display: none;"></p>
+<div style="max-width: 410px;">
+    <div id="judul-pilihan-kotoba" class="bagan-judul">
+      <gedi>Javascript(JS) Mati. Gunakan Browser lain</gedi><br>
+      <catatan-mode>Sebaiknya gunakan Chrome untuk mengfungsikan web-app ini. Atau jika kamu mencoba debugging code. Kemungkinan eror ini disebabkan karena typo di code JS. Cek console-log untuk detail typo</catatan-mode>
+    </div>
+<div id="pilihan-kotoba" class="bagan-pilihan">
+<div class="plex" style="align-items: flex-start;">
+<label><input type="checkbox" value="bab1" class="bab-choice">BAB 1</label>
+<label><input type="checkbox" value="bab2" class="bab-choice">BAB 2</label>
+<label><input type="checkbox" value="bab3" class="bab-choice">BAB 3</label>
+<label><input type="checkbox" value="bab4" class="bab-choice">BAB 4</label>
+<label><input type="checkbox" value="bab5" class="bab-choice">BAB 5</label>
+<label><input type="checkbox" value="bab6" class="bab-choice">BAB 6</label>
+<label><input type="checkbox" value="bab7" class="bab-choice">BAB 7</label>
+<label><input type="checkbox" value="bab8" class="bab-choice">BAB 8</label>
+<label><input type="checkbox" value="bab9" class="bab-choice">BAB 9</label>
+</div>
+<div class="plex" style="align-items: center;">
+<label><input type="checkbox" value="bab10" class="bab-choice">BAB 10</label>
+<label><input type="checkbox" value="bab11" class="bab-choice">BAB 11</label>
+<label><input type="checkbox" value="bab12" class="bab-choice">BAB 12</label>
+<label><input type="checkbox" value="bab13" class="bab-choice">BAB 13</label>
+<label><input type="checkbox" value="bab14" class="bab-choice">BAB 14</label>
+<label><input type="checkbox" value="bab15" class="bab-choice">BAB 15</label>
+<label><input type="checkbox" value="bab16" class="bab-choice">BAB 16</label>
+<label><input type="checkbox" value="bab17" class="bab-choice">BAB 17</label>
+</div>
+<div class="plex" style="align-items: flex-end;">
+<label><input type="checkbox" value="bab18" class="bab-choice">BAB 18</label>
+<label><input type="checkbox" value="bab19" class="bab-choice">BAB 19</label>
+<label><input type="checkbox" value="bab20" class="bab-choice">BAB 20</label>
+<label><input type="checkbox" value="bab21" class="bab-choice">BAB 21</label>
+<label><input type="checkbox" value="bab22" class="bab-choice">BAB 22</label>
+<label><input type="checkbox" value="bab23" class="bab-choice">BAB 23</label>
+<label><input type="checkbox" value="bab24" class="bab-choice">BAB 24</label>
+<label><input type="checkbox" value="bab25" class="bab-choice">BAB 25</label>
+<label><input type="checkbox" id="pilih-semua" class="pilihsemua">SEMUA</label>
+</div>
+</div>
+</div>
+
+
+    <button class="tombol-start-quiz" id="mulai-quiz-baca" class="hidden">Mulai Quiz Baca Kotoba (Kanji Only)</button>
+    <button class="tombol-start-quiz" id="mulai-quiz-artikan" class="hidden">Mulai Quiz Artikan Kotoba</button>
+    <button class="tombol-start-quiz" id="kotoba-Nokanji" class="hidden">Mulai Quiz Kotoba (Non-kanji)</button>
+
+
+<!-- Container Tabel -->
+<div id="vocabTableContainer" class="hidden">
+    <h2 class="judultabel">Tabel Kotoba Buku IM</h2>  
+      <input id="tableSearch" type="text" placeholder="Klik untuk cari kotoba/kanji...">
+  <table id="vocabTable" border="1">
+    <thead>
+        <tr>
+        <th>BAB</th>
+        <th>Kanji</th>
+        <th>Baca</th>
+        <th>Arti</th>
+    </tr>
+    </thead>
+    <tbody><td>-</td><td>-</td><td>-</td><td>-</td></tbody>
+</table>
+  <div id="catatankanji" class="text-kecil">
+    <p>Footnote terkait kolom "Baca" (kesimpulan pribadi ---!!! LITERATUR LANJUTAN DIPERLUKAN !!!---):</p>
+<ul>
+    <li>
+    Jika kanji berdiri sendiri atau bersama hiragana/katakana bacaan 
+    <strong>Kunyomi</strong>  
+    → 「行きます : いきます | 本 : ほん」
+</li>
+  <li>
+    Jika ada 2 kanji atau lebih berpasangan tanpa Hira/kata (dalam 1 kotoba), bacaan 
+    <strong>Onyomi</strong>  
+    → 「銀行 : ギンコウ | 火気厳禁 : カキゲンキン」
+</li>
+  <li>
+    Kanji nama seseorang semua dibaca <strong>Kunyomi</strong>.  
+    Contoh: 「葉矢辺 : Hayabe (HYP) | 三葉 : Mitsuha | 山本 : Yamamoto」.  
+    (Kurang tahu jika nama makhluk lain, benda mati seperti nama kapal/pesawat dibaca apa)
+</li>
+  <li>
+    Beberapa memiliki bacaan ghawendheng seperti  
+    「今日 : きょう (kyou)」  
+    (tidak ditemukan literatur jelas terkait aturan bacaan ghawendheng ini).
+</li>
+</ul>
+</div>
+
+</div>
+
+<div id="badan-quiz">
+    <div id="kana" class="text-capitalize">?</div>
+  <Z id="soal"></Z>
+  <div class="tombol-jawaban">
+  <div id="result"></div>
+  <div class="choices" id="choices"></div>
+  </div>
+    <div id="kotak-reverse"class="kotak-reset">
+    <button id="reverseBtn">⇆</button>
+    <div class="panah-kiri">← </div>
+    <p class="inforeset">Tekan untuk menukar jawaban jadi soal, dan sebaliknya<br><info class="inforeset2">(Akan mereset quiz saat ini)</info></p>
+  </div>
+  <div id="score"></div>
+  <button id="restart" onclick="mulaiQuizPilihanGanda();Timer.start()">Mulai Ulang</button>
+</div>
+
+<div id="soalMM"></div>
+
+<score id="nilaiMM"> </score>
+<timer class="pewaktu"><sw id="iconStopwatch" style="display: flex;"></sw><waktu id="dataTimer"></waktu></timer>
+   <button style="display: none;" id="btnPeriksaMM">Akhiri & Periksa Jawaban</button>
+   <button style="display: none;" id="btnBuatMM">Mulai Lagi</button>
+<br><Z class="hak"><strong>Buatan Herlambang YP</strong></Z>
+  
+  
+  <div class="text-kecil">*Web diload sepenuhnya tanpa data internet</div>
+  
+<script>
+// ================= Coding guide ================= \\
+
+// English:
+// Sorry mate, not a chance im gonna use english as a comment-line guide. So... make yerr own luck.
+// But cheer yerr self up, JS variabel and function is in english :)... (well mostly). Ask Ai for guiding, if it pleased
+
+// Untuk indo:
+  
+
+const kanaList = [
+  // Template penulisan dataset ['karakter', 'baca/arti', 'mode/kelompok', 'keterangan lain1', 'keterangan lain2', dst], 
+  // Pembacaan dimulai dari 0 dari kiri, jadi "karakter" adalah indeks 0, "baca/arti" adalah indeks 1, "mode/kelompok" adalah indeks 2
+  // Jika ingin menambahkan dataset baru pastikan "mode/kelompok" atau "indeks[2]" wajib sama antar dataset yang sejenis. Sebagai penyeragam
+
+  // Dataset Hiragana
+  ['あ','a','hiragana'], ['い','i','hiragana'], ['う','u','hiragana'], ['え','e','hiragana'], ['お','o','hiragana'],
+  ['か','ka','hiragana'], ['き','ki','hiragana'], ['く','ku','hiragana'], ['け','ke','hiragana'], ['こ','ko','hiragana'],
+  ['さ','sa','hiragana'], ['し','shi','hiragana'], ['す','su','hiragana'], ['せ','se','hiragana'], ['そ','so','hiragana'],
+  ['た','ta','hiragana'], ['ち','chi','hiragana'], ['つ','tsu','hiragana'], ['て','te','hiragana'], ['と','to','hiragana'],
+  ['な','na','hiragana'], ['に','ni','hiragana'], ['ぬ','nu','hiragana'], ['ね','ne','hiragana'], ['の','no','hiragana'],
+  ['は','ha','hiragana'], ['ひ','hi','hiragana'], ['ふ','fu','hiragana'], ['へ','he','hiragana'], ['ほ','ho','hiragana'],
+  ['ま','ma','hiragana'], ['み','mi','hiragana'], ['む','mu','hiragana'], ['め','me','hiragana'], ['も','mo','hiragana'],
+  ['や','ya','hiragana'], ['ゆ','yu','hiragana'], ['よ','yo','hiragana'],
+  ['ら','ra','hiragana'], ['り','ri','hiragana'], ['る','ru','hiragana'], ['れ','re','hiragana'], ['ろ','ro','hiragana'],
+  ['わ','wa','hiragana'], ['を','wo','hiragana'], ['ん','n','hiragana'],
+  
+  // Dataset Katakana
+  ['ア','a','katakana'], ['イ','i','katakana'], ['ウ','u','katakana'], ['エ','e','katakana'], ['オ','o','katakana'],
+  ['カ','ka','katakana'], ['キ','ki','katakana'], ['ク','ku','katakana'], ['ケ','ke','katakana'], ['コ','ko','katakana'],
+  ['サ','sa','katakana'], ['シ','shi','katakana'], ['ス','su','katakana'], ['セ','se','katakana'], ['ソ','so','katakana'],
+  ['タ','ta','katakana'], ['チ','chi','katakana'], ['ツ','tsu','katakana'], ['テ','te','katakana'], ['ト','to','katakana'],
+  ['ナ','na','katakana'], ['ニ','ni','katakana'], ['ヌ','nu','katakana'], ['ネ','ne','katakana'], ['ノ','no','katakana'],
+  ['ハ','ha','katakana'], ['ヒ','hi','katakana'], ['フ','fu','katakana'], ['ヘ','he','katakana'], ['ホ','ho','katakana'],
+  ['マ','ma','katakana'], ['ミ','mi','katakana'], ['ム','mu','katakana'], ['メ','me','katakana'], ['モ','mo','katakana'],
+  ['ヤ','ya','katakana'], ['ユ','yu','katakana'], ['ヨ','yo','katakana'],
+  ['ラ','ra','katakana'], ['リ','ri','katakana'], ['ル','ru','katakana'], ['レ','re','katakana'], ['ロ','ro','katakana'],
+  ['ワ','wa','katakana'], ['ヲ','wo','katakana'], ['ン','n','katakana'],
+  
+  // Dataset Kotoba BAB 1
+['あのひと', 'orang itu', 'bab1', 'kotoba', 'あの人', 'anohito'],
+['アメリカ', 'Amerika', 'bab1', 'kotoba', '', 'amerika'],
+['インドじん', 'orang India', 'bab1', 'kotoba', 'インド人', 'indojin'],
+['インドネシア', 'Indonesia', 'bab1', 'kotoba', '', 'indoneshia'],
+['インドネシアじん', 'orang Indonesia', 'bab1', 'kotoba', 'インドネシア人', 'indoneshiajin'],
+['おいくつ', 'umur berapa (sopan)', 'bab1', 'kotoba', '', 'oikutsu'],
+['かいしゃいん', 'pegawai perusahaan', 'bab1', 'kotoba', '会社員', 'kaishain'],
+['がくせい', 'pelajar', 'bab1', 'kotoba', '学生', 'gakusei'],
+['かんこく', 'Korea', 'bab1', 'kotoba', '韓国', 'kankoku'],
+['がんばります', 'semangat', 'bab1', 'kotoba', '頑張ります', 'ganbarimasu'],
+['カンボジアじん', 'orang Kamboja', 'bab1', 'kotoba', 'カンボジア人', 'kanbojiajin'],
+['きかい', 'mesin', 'bab1', 'kotoba', '機械', 'kikai'],
+['くに', 'negara', 'bab1', 'kotoba', '国', 'kuni'],
+['けんしゅうせい', 'peserta pelatihan', 'bab1', 'kotoba', '研修生', 'kenshuusei'],
+['ゴム', 'karet', 'bab1', 'kotoba', '', 'gomu'],
+['〜さい', 'umur', 'bab1', 'kotoba', '〜歳', 'sai'],
+['じこしょうかい', 'perkenalan', 'bab1', 'kotoba', '自己紹介', 'jikoshoukai'],
+['ジャカルタ', 'Jakarta', 'bab1', 'kotoba', '', 'jakaruta'],
+['せんせい', 'guru', 'bab1', 'kotoba', '先生', 'sensei'],
+['だいがく', 'universitas', 'bab1', 'kotoba', '大学', 'daigaku'],
+['だれ', 'siapa', 'bab1', 'kotoba', '', 'dare'],
+['ちゅうごく', 'China', 'bab1', 'kotoba', '中国', 'chuugoku'],
+['どちら', 'yang mana', 'bab1', 'kotoba', '', 'dochira'],
+['どなた', 'siapa (sopan)', 'bab1', 'kotoba', '', 'donata'],
+['なまえ', 'nama', 'bab1', 'kotoba', '名前', 'namae'],
+['なんさい', 'berapa umur', 'bab1', 'kotoba', '何歳', 'nansai'],
+['にほん', 'Jepang', 'bab1', 'kotoba', '日本', 'nihon'],
+['にほんじん', 'orang Jepang', 'bab1', 'kotoba', '日本人', 'nihonjin'],
+['はたち', 'umur 20 tahun', 'bab1', 'kotoba', '二十歳', 'hatachi'],
+['ひと', 'orang', 'bab1', 'kotoba', '人', 'hito'],
+['フィリピンじん', 'orang Filipina', 'bab1', 'kotoba', 'フィリピン人', 'firipinjin'],
+['ベトナムじん', 'orang Vietnam', 'bab1', 'kotoba', 'ベトナム人', 'betonamujin'],
+['マレーシアじん', 'orang Malaysia', 'bab1', 'kotoba', 'マレーシア人', 'mareeshiajin'],
+['わたし', 'saya', 'bab1', 'kotoba', '私', 'watashi'],
+
+
+// Dataset Kotoba BAB 2
+['あれ', 'itu (jauh)', 'bab2', 'kotoba', '', 'are'],
+['いす', 'kursi', 'bab2', 'kotoba', '椅子', 'isu'],
+['えんぴつ', 'pensil', 'bab2', 'kotoba', '', 'enpitsu'],
+['かぎ', 'kunci', 'bab2', 'kotoba', '', 'kagi'],
+['かばん', 'tas', 'bab2', 'kotoba', '', 'kaban'],
+['かみ', 'kertas', 'bab2', 'kotoba', '紙', 'kami'],
+['カメラ', 'kamera', 'bab2', 'kotoba', '', 'kamera'],
+['くるま', 'mobil', 'bab2', 'kotoba', '車', 'kuruma'],
+['けいたいでんわ', 'telepon genggam', 'bab2', 'kotoba', '携帯電話', 'keitai denwa'],
+['ゴミばこ', 'tempat sampah', 'bab2', 'kotoba', '', 'gomibako'],
+['コトベックス', 'Meteran Gulung', 'bab2', 'kotoba', '', 'kotobekkusu'], // *nama alat, romaji sesuai tulisan*
+['じしょ', 'kamus', 'bab2', 'kotoba', '辞書', 'jisho'],
+['シャープペンシル', 'pensil mekanik', 'bab2', 'kotoba', '', 'shaapupenshiru'],
+['しゃちょう', 'direktur', 'bab2', 'kotoba', '社長', 'shachou'],
+['しんぶん', 'koran', 'bab2', 'kotoba', '新聞', 'shinbun'],
+['そうです', 'betul', 'bab2', 'kotoba', '', 'soudesu'],
+['それ', 'itu (dekat)', 'bab2', 'kotoba', '', 'sore'],
+['たばこ', 'rokok', 'bab2', 'kotoba', '', 'tabako'],
+['ちがいます', 'salah', 'bab2', 'kotoba', '違います', 'chigaimasu'],
+['つくえ', 'meja', 'bab2', 'kotoba', '机', 'tsukue'],
+['てがみ', 'surat', 'bab2', 'kotoba', '手紙', 'tegami'],
+['テレビ', 'televisi', 'bab2', 'kotoba', '', 'terebi'],
+['でんたく', 'kalkulator', 'bab2', 'kotoba', '電卓', 'dentaku'],
+['でんわ', 'telepon', 'bab2', 'kotoba', '電話', 'denwa'],
+['とけい', 'jam', 'bab2', 'kotoba', '時計', 'tokei'],
+['なに', 'apa', 'bab2', 'kotoba', '何', 'nani'],
+['ノート', 'buku catatan', 'bab2', 'kotoba', '', 'nooto'],
+['はいざら', 'asbak', 'bab2', 'kotoba', '灰皿', 'haizara'],
+['はさみ', 'gunting', 'bab2', 'kotoba', '', 'hasami'],
+['パソコン', 'PC', 'bab2', 'kotoba', '', 'pasokon'],
+['ハンマー', 'palu', 'bab2', 'kotoba', '', 'hanmaa'],
+['ベッド', 'tempat tidur', 'bab2', 'kotoba', '', 'beddo'],
+['ボールペン', 'pulpen', 'bab2', 'kotoba', '', 'boorupen'],
+['ほん', 'buku', 'bab2', 'kotoba', '本', 'hon'],
+['めがね', 'kacamata', 'bab2', 'kotoba', '', 'megane'],
+['メモちょう', 'buku catatan kecil', 'bab2', 'kotoba', 'メモ帳', 'memochou'],
+['ライター', 'pemantik', 'bab2', 'kotoba', '', 'raitaa'],
+['ラジオ', 'radio', 'bab2', 'kotoba', '', 'rajio'],
+['ラジオかせ', 'radio kaset', 'bab2', 'kotoba', '', 'rajio kase'],
+
+
+// Dataset Kotoba BAB 3
+['あそこ (あちら)', 'di sana (bentuk sopan)', 'bab3', 'kotoba', '', 'asoko (achira)'],
+['いくら', 'berapa (harga)', 'bab3', 'kotoba', '', 'ikura'],
+['イタリア', 'Italia', 'bab3', 'kotoba', '', 'itaria'],
+['おてあらい', 'wastafel', 'bab3', 'kotoba', 'お手洗い', 'otearai'],
+['、、、かい', 'lantai ke-... /1x 2x', 'bab3', 'kotoba', '', '...kai'],
+['かいしゃ', 'perusahaan', 'bab3', 'kotoba', '会社', 'kaisha'],
+['きょうしつ', 'ruang kelas', 'bab3', 'kotoba', '教室', 'kyoushitsu'],
+['こうじょう', 'pabrik', 'bab3', 'kotoba', '工場', 'koujou'],
+['ここ (こちら)', 'di sini (bentuk sopan)', 'bab3', 'kotoba', '', 'koko (kochira)'],
+['じむしょ', 'kantor administrasi', 'bab3', 'kotoba', '事務所', 'jimusho'],
+['しょくどう', 'kantin / ruang makan', 'bab3', 'kotoba', '食堂', 'shokudou'],
+['そうこ', 'gudang', 'bab3', 'kotoba', '倉庫', 'souko'],
+['そこ (そちら)', 'di situ (bentuk sopan)', 'bab3', 'kotoba', '', 'soko (sochira)'],
+['だいどころ', 'dapur', 'bab3', 'kotoba', '台所', 'daidokoro'],
+['ちゅうぞう', 'pengecoran (logam)', 'bab3', 'kotoba', '鋳造', 'chuuzou'],
+['でんき', 'listrik', 'bab3', 'kotoba', '電気', 'denki'],
+['ドイツ', 'Jerman', 'bab3', 'kotoba', '', 'doitsu'],
+['トイレ', 'toilet', 'bab3', 'kotoba', '', 'toire'],
+['どこ (どちら)', 'di mana (bentuk sopan)', 'bab3', 'kotoba', '', 'doko (dochira)'],
+['とそう', 'pengecatan', 'bab3', 'kotoba', '', 'tosou'],
+['ふろば', 'kamar mandi (tempat berendam)', 'bab3', 'kotoba', '風呂場', 'furoba'],
+['りょう', 'asrama', 'bab3', 'kotoba', '寮', 'ryou'],
+
+// Dataset Kotoba BAB 4
+['あさ', 'pagi', 'bab4', 'kotoba', '朝', 'asa'],
+['あさごはん', 'sarapan', 'bab4', 'kotoba', '朝ごはん', 'asagohan'],
+['あさって', 'lusa', 'bab4', 'kotoba', '明後日', 'asatte'],
+['あした', 'besok', 'bab4', 'kotoba', '明日', 'ashita'],
+['いま', 'sekarang', 'bab4', 'kotoba', '今', 'ima'],
+['おきます', 'bangun tidur', 'bab4', 'kotoba', '起きます', 'okimasu'],
+['おととい', 'kemarin lusa', 'bab4', 'kotoba', '', 'ototoi'],
+['おわります', 'selesai', 'bab4', 'kotoba', '終わります', 'owarimasu'],
+['かようび', 'hari Selasa', 'bab4', 'kotoba', '火曜日', 'kayoubi'],
+['、、、から', 'dari ... (waktu)', 'bab4', 'kotoba', '', '... kara'],
+['きのう', 'kemarin', 'bab4', 'kotoba', '', 'kinou'],
+['きょう', 'hari ini', 'bab4', 'kotoba', '今日', 'kyou'],
+['ぎんこう', 'bank', 'bab4', 'kotoba', '銀行', 'ginkou'],
+['きんようび', 'hari Jumat', 'bab4', 'kotoba', '金曜日', 'kinyoubi'],
+['けさ', 'tadi pagi', 'bab4', 'kotoba', '今朝', 'kesa'],
+['げつようび', 'hari Senin', 'bab4', 'kotoba', '月曜日', 'getsuyoubi'],
+['げんば', 'lokasi kerja / lapangan', 'bab4', 'kotoba', '現場', 'genba'],
+['こんばん', 'malam ini', 'bab4', 'kotoba', '今晩', 'konban'],
+['しごと', 'pekerjaan', 'bab4', 'kotoba', '仕事', 'shigoto'],
+['じゅぎょう', 'pelajaran', 'bab4', 'kotoba', '授業', 'jugyou'],
+['すいようび', 'hari Rabu', 'bab4', 'kotoba', '水曜日', 'suiyoubi'],
+['スーパー', 'supermarket', 'bab4', 'kotoba', '', 'suupaa'],
+['たいしかん', 'kedutaan', 'bab4', 'kotoba', '大使館', 'taishikan'],
+['デパート', 'departemen store', 'bab4', 'kotoba', '', 'depaato'],
+['としょかん', 'perpustakaan', 'bab4', 'kotoba', '図書館', 'toshokan'],
+['どようび', 'hari Sabtu', 'bab4', 'kotoba', '土曜日', 'doyoubi'],
+['なんじ', 'jam berapa', 'bab4', 'kotoba', '何時', 'nanji'],
+['なんようび', 'hari apa', 'bab4', 'kotoba', '何曜日', 'nanyoubi'],
+['にちようび', 'hari Minggu', 'bab4', 'kotoba', '日曜日', 'nichiyoubi'],
+['ねます', 'tidur', 'bab4', 'kotoba', '寝ます', 'nemasu'],
+['はたらきます', 'bekerja', 'bab4', 'kotoba', '働きます', 'hatarakimasu'],
+['ばん', 'malam', 'bab4', 'kotoba', '晩', 'ban'],
+['びょういん', 'rumah sakit', 'bab4', 'kotoba', '病院', 'byouin'],
+['ひるやすみ', 'istirahat siang', 'bab4', 'kotoba', '昼休み', 'hiruyasumi'],
+['べんきょうします', 'belajar', 'bab4', 'kotoba', '勉強します', 'benkyou shimasu'],
+['まいあさ', 'setiap pagi', 'bab4', 'kotoba', '毎朝', 'maiasa'],
+['まいにち', 'setiap hari', 'bab4', 'kotoba', '毎日', 'mainichi'],
+['まいばん', 'setiap malam', 'bab4', 'kotoba', '毎晩', 'maiban'],
+['・・・まで', 'sampai ... (waktu)', 'bab4', 'kotoba', '', '... made'],
+['もくようび', 'hari Kamis', 'bab4', 'kotoba', '木曜日', 'mokuyoubi'],
+['やすみます', 'libur', 'bab4', 'kotoba', '休みます', 'yasumimasu'],
+['ゆうびんきょく', 'kantor pos', 'bab4', 'kotoba', '郵便局', 'yuubinkyoku'],
+['よる', 'malam', 'bab4', 'kotoba', '夜', 'yoru'],
+['レストラン', 'restoran', 'bab4', 'kotoba', '', 'resutoran'],
+
+// Dataset kotoba BAB 5
+['いきます', 'pergi', 'bab5', 'kotoba', '行きます', 'ikimasu'],
+['いつ', 'kapan', 'bab5', 'kotoba', '', 'itsu'],
+['うち', 'rumah', 'bab5', 'kotoba', '', 'uchi'],
+['えいがかん', 'bioskop', 'bab5', 'kotoba', '映画館', 'eigakan'],
+['えき', 'stasiun', 'bab5', 'kotoba', '駅', 'eki'],
+['オートバイ', 'sepeda motor', 'bab5', 'kotoba', '', 'ootobai'],
+['おととし', 'dua tahun lalu', 'bab5', 'kotoba', '一昨年', 'ototoshi'],
+['かえります', 'pulang', 'bab5', 'kotoba', '帰ります', 'kaerimasu'],
+['かぞく', 'keluarga', 'bab5', 'kotoba', '家族', 'kazoku'],
+['がっこう', 'sekolah', 'bab5', 'kotoba', '学校', 'gakkou'],
+['きます', 'datang', 'bab5', 'kotoba', '来ます', 'kimasu'],
+['きょねん', 'tahun lalu', 'bab5', 'kotoba', '去年', 'kyonen'],
+['こいびと', 'pacar', 'bab5', 'kotoba', '恋人', 'koibito'],
+['こうえん', 'taman', 'bab5', 'kotoba', '公園', 'kouen'],
+['こうはい', 'junior', 'bab5', 'kotoba', '後輩', 'kouhai'],
+['ことし', 'tahun ini', 'bab5', 'kotoba', '今年', 'kotoshi'],
+['せんぱい', 'senior', 'bab5', 'kotoba', '先輩', 'senpai'],
+['じてんしゃ', 'sepeda', 'bab5', 'kotoba', '自転車', 'jitensha'],
+['せんげつ', 'bulan lalu', 'bab5', 'kotoba', '先月', 'sengetsu'],
+['せんしゅう', 'minggu lalu', 'bab5', 'kotoba', '先週', 'senshuu'],
+['タクシー', 'taksi', 'bab5', 'kotoba', '', 'takushii'],
+['たんじょうび', 'ulang tahun', 'bab5', 'kotoba', '誕生日', 'tanjoubi'],
+['ちかてつ', 'kereta bawah tanah', 'bab5', 'kotoba', '地下鉄', 'chikatetsu'],
+['テスト', 'ujian / tes', 'bab5', 'kotoba', '', 'tesuto'],
+['でんしゃ', 'kereta listrik', 'bab5', 'kotoba', '電車', 'densha'],
+['とこや', 'tukang cukur', 'bab5', 'kotoba', '床屋', 'tokoya'],
+['ともだち', 'teman', 'bab5', 'kotoba', '友達', 'tomodachi'],
+['なんがつ', 'bulan apa', 'bab5', 'kotoba', '何月', 'nangatsu'],
+['なんにち', 'tanggal berapa', 'bab5', 'kotoba', '何日', 'nannichi'],
+['バリ', 'Bali', 'bab5', 'kotoba', '', 'bari'],
+['パンや', 'toko roti', 'bab5', 'kotoba', 'パン屋', 'panya'],
+['ひこうき', 'pesawat terbang', 'bab5', 'kotoba', '飛行機', 'hikouki'],
+['ほんや', 'toko buku', 'bab5', 'kotoba', '本屋', 'honya'],
+['らいげつ', 'bulan depan', 'bab5', 'kotoba', '来月', 'raigetsu'],
+['らいしゅう', 'minggu depan', 'bab5', 'kotoba', '来週', 'raishuu'],
+['らいねん', 'tahun depan', 'bab5', 'kotoba', '来年', 'rainen'],
+
+// Dataset BAB 6
+['あいます', 'bertemu', 'bab6', 'kotoba', '会います', 'aimasu'],
+['アイスクリーム', 'es krim', 'bab6', 'kotoba', '', 'aisukuriimu'],
+['いっしょに', 'bersama-sama', 'bab6', 'kotoba', '一緒に', 'issho ni'],
+['えいが', 'film', 'bab6', 'kotoba', '映画', 'eiga'],
+['おさけ', 'sake', 'bab6', 'kotoba', 'お酒', 'osake'],
+['おちゃ', 'teh (hijau)', 'bab6', 'kotoba', 'お茶', 'ocha'],
+['かいます', 'membeli', 'bab6', 'kotoba', '買います', 'kaimasu'],
+['かきます', 'menulis', 'bab6', 'kotoba', '書きます', 'kakimasu'],
+['ききます', 'mendengar', 'bab6', 'kotoba', '聞きます', 'kikimasu'],
+['きつえんしつ', 'ruang merokok', 'bab6', 'kotoba', '喫煙室', 'kitsuen-shitsu'],
+['ぎゅうにゅう', 'susu sapi', 'bab6', 'kotoba', '牛乳', 'gyuunyuu'],
+['くだもの', 'buah-buahan', 'bab6', 'kotoba', '果物', 'kudamono'],
+['くつ', 'sepatu', 'bab6', 'kotoba', '靴', 'kutsu'],
+['こうちゃ', 'teh hitam', 'bab6', 'kotoba', '紅茶', 'koucha'],
+['コーヒー', 'kopi', 'bab6', 'kotoba', '', 'koohii'],
+['ごご', 'sore (PM)', 'bab6', 'kotoba', '午後', 'gogo'],
+['さかな', 'ikan', 'bab6', 'kotoba', '魚', 'sakana'],
+['サッカー', 'sepak bola', 'bab6', 'kotoba', '', 'sakkaa'],
+['します', 'melakukan', 'bab6', 'kotoba', '', 'shimasu'],
+['しゃしん', 'foto', 'bab6', 'kotoba', '写真', 'shashin'],
+['シャツ', 'kemeja', 'bab6', 'kotoba', '', 'shatsu'],
+['ジュース', 'jus', 'bab6', 'kotoba', '', 'juusu'],
+['しゅくだい', 'PR', 'bab6', 'kotoba', '宿題', 'shukudai'],
+['すいます', 'menghisap / merokok', 'bab6', 'kotoba', '吸います', 'suimasu'],
+['それから', 'kemudian / lalu', 'bab6', 'kotoba', '', 'sorekara'],
+['たべます', 'makan', 'bab6', 'kotoba', '食べます', 'tabemasu'],
+['たまご', 'telur', 'bab6', 'kotoba', '卵', 'tamago'],
+['チョコレート', 'cokelat', 'bab6', 'kotoba', '', 'chokooreeto'],
+['テニス', 'tenis', 'bab6', 'kotoba', '', 'tenisu'],
+['とります', 'memotret', 'bab6', 'kotoba', '撮ります', 'torimasu'],
+['にく', 'daging', 'bab6', 'kotoba', '肉', 'niku'],
+['にわ', 'halaman / kebun', 'bab6', 'kotoba', '庭', 'niwa'],
+['のみます', 'minum', 'bab6', 'kotoba', '飲みます', 'nomimasu'],
+['パーティー', 'pesta', 'bab6', 'kotoba', '', 'paatii'],
+['バドミントン', 'bulu tangkis', 'bab6', 'kotoba', '', 'badominton'],
+['ビール', 'bir', 'bab6', 'kotoba', '', 'biiru'],
+['みます', 'melihat', 'bab6', 'kotoba', '見ます', 'mimasu'],
+['みず', 'air', 'bab6', 'kotoba', '水', 'mizu'],
+['やさい', 'sayuran', 'bab6', 'kotoba', '野菜', 'yasai'],
+['よみます', 'membaca', 'bab6', 'kotoba', '読みます', 'yomimasu'],
+['りょうり', 'masakan', 'bab6', 'kotoba', '料理', 'ryouri'],
+['ロビー', 'lobi', 'bab6', 'kotoba', '', 'robii'],
+
+// Dataset Bab 7
+['あげます', 'memberi', 'bab7', 'kotoba', '上げます', 'agemasu'],
+['あに', 'kakak laki-laki (sendiri)', 'bab7', 'kotoba', '兄', 'ani'],
+['いたい', 'sakit', 'bab7', 'kotoba', '痛い', 'itai'],
+['いもうと', 'adik perempuan (sendiri)', 'bab7', 'kotoba', '妹', 'imouto'],
+['うでどけい', 'jam tangan', 'bab7', 'kotoba', '腕時計', 'udedokei'],
+['おかあさん', 'ibu (orang lain)', 'bab7', 'kotoba', 'お母さん', 'okaasan'],
+['おかね', 'uang', 'bab7', 'kotoba', 'お金', 'okane'],
+['おしえます', 'mengajar / memberi tahu', 'bab7', 'kotoba', '教えます', 'oshiemasu'],
+['おだいじに', 'semoga lekas sembuh', 'bab7', 'kotoba', 'お大事に', 'odaijini'],
+['おとうさん', 'ayah (orang lain)', 'bab7', 'kotoba', 'お父さん', 'otoosan'],
+['おとうと', 'adik laki-laki (sendiri)', 'bab7', 'kotoba', '弟', 'otouto'],
+['おなか', 'perut', 'bab7', 'kotoba', 'お腹', 'onaka'],
+['おにいさん', 'kakak laki-laki (orang lain)', 'bab7', 'kotoba', 'お兄さん', 'oniisan'],
+['おみやげ', 'oleh-oleh', 'bab7', 'kotoba', 'お土産', 'omiyage'],
+['おめでとう', 'selamat', 'bab7', 'kotoba', '', 'omedetou'],
+['おもしろい', 'menarik / lucu', 'bab7', 'kotoba', '面白い', 'omoshiroi'],
+['おんがく', 'musik', 'bab7', 'kotoba', '音楽', 'ongaku'],
+['かします', 'meminjamkan', 'bab7', 'kotoba', '貸します', 'kashimasu'],
+['からだ', 'badan / tubuh', 'bab7', 'kotoba', '体', 'karada'],
+['かります', 'meminjam', 'bab7', 'kotoba', '借ります', 'karimasu'],
+['きょうかしょ', 'buku pelajaran', 'bab7', 'kotoba', '教科書', 'kyoukasho'],
+['きります', 'memotong', 'bab7', 'kotoba', '切ります', 'kirimasu'],
+['きをつけます', 'hati-hati', 'bab7', 'kotoba', '気をつけます', 'ki o tsukemasu'],
+['けしゴム', 'penghapus', 'bab7', 'kotoba', '消しゴム', 'keshigomu'],
+['げんき', 'sehat / semangat', 'bab7', 'kotoba', '元気', 'genki'],
+['さくぶん', 'karangan / esai', 'bab7', 'kotoba', '作文', 'sakubun'],
+['さようなら', 'selamat tinggal', 'bab7', 'kotoba', '', 'sayounara'],
+['しゅうりします', 'memperbaiki (mesin)', 'bab7', 'kotoba', '修理します', 'shuuri shimasu'],
+['スカート', 'rok', 'bab7', 'kotoba', '', 'sukaato'],
+['すき', 'suka', 'bab7', 'kotoba', '好き', 'suki'],
+['すぐ', 'segera / langsung', 'bab7', 'kotoba', '', 'sugu'],
+['スパナ', 'kunci inggris', 'bab7', 'kotoba', '', 'supana'],
+['ズボン', 'celana panjang', 'bab7', 'kotoba', '', 'zubon'],
+['ぜんぶ', 'semua', 'bab7', 'kotoba', '全部', 'zenbu'],
+['だいじょうぶ', 'tidak apa-apa', 'bab7', 'kotoba', '大丈夫', 'daijoubu'],
+['たいへん', 'sulit / berat', 'bab7', 'kotoba', '大変', 'taihen'],
+['ちち', 'ayah (sendiri)', 'bab7', 'kotoba', '父', 'chichi'],
+['て', 'tangan', 'bab7', 'kotoba', '手', 'te'],
+['テープ', 'pita / kaset', 'bab7', 'kotoba', '', 'teepu'],
+['でも', 'tetapi', 'bab7', 'kotoba', '', 'demo'],
+['どうしましたか', 'kenapa? / ada apa?', 'bab7', 'kotoba', '', 'dou shimashita ka'],
+['どうぞ', 'silakan', 'bab7', 'kotoba', '', 'douzo'],
+['ドライバー', 'obeng', 'bab7', 'kotoba', '', 'doraibaa'],
+['ナイフ', 'pisau', 'bab7', 'kotoba', '', 'naifu'],
+['ならいます', 'belajar (dari orang)', 'bab7', 'kotoba', '習います', 'naraimasu'],
+['ネクタイ', 'dasi', 'bab7', 'kotoba', '', 'nekutai'],
+['はし', 'sumpit', 'bab7', 'kotoba', '箸', 'hashi'],
+['はな', 'bunga', 'bab7', 'kotoba', '花', 'hana'],
+['はは', 'ibu (sendiri)', 'bab7', 'kotoba', '母', 'haha'],
+['フォーク', 'garpu', 'bab7', 'kotoba', '', 'fooku'],
+['プレゼント', 'hadiah', 'bab7', 'kotoba', '', 'purezento'],
+['ペンチ', 'tang', 'bab7', 'kotoba', '', 'penchi'],
+['また', 'lagi / sampai jumpa', 'bab7', 'kotoba', '', 'mata'],
+['まだ', 'masih / belum', 'bab7', 'kotoba', '', 'mada'],
+['もう', 'sudah', 'bab7', 'kotoba', '', 'mou'],
+['もらいます', 'menerima', 'bab7', 'kotoba', '', 'moraimasu'],
+['りんご', 'apel', 'bab7', 'kotoba', '林檎', 'ringo'],
+['レポート', 'laporan', 'bab7', 'kotoba', '', 'repooto'],
+
+// Dataset BAB 8
+['あおい', 'biru', 'bab8', 'kotoba', '青い', 'aoi'],
+['あかい', 'merah', 'bab8', 'kotoba', '赤い', 'akai'],
+['あたらしい', 'baru', 'bab8', 'kotoba', '新しい', 'atarashii'],
+['あつい', 'panas / tebal', 'bab8', 'kotoba', '暑い / 厚い', 'atsui'],
+['いい・よい', 'baik / bagus', 'bab8', 'kotoba', '良い', 'ii / yoi'],
+['いそがしい', 'sibuk', 'bab8', 'kotoba', '忙しい', 'isogashii'],
+['おいしい', 'enak', 'bab8', 'kotoba', '美味しい', 'oishii'],
+['おおい', 'banyak', 'bab8', 'kotoba', '多い', 'ooi'],
+['おおきい', 'besar', 'bab8', 'kotoba', '大きい', 'ookii'],
+['おてら', 'kuil Buddha', 'bab8', 'kotoba', '寺', 'otera'],
+['かさ', 'payung', 'bab8', 'kotoba', '傘', 'kasa'],
+['かしゅ', 'penyanyi', 'bab8', 'kotoba', '歌手', 'kashu'],
+['かべ', 'dinding', 'bab8', 'kotoba', '壁', 'kabe'],
+['かわいい', 'imut / lucu', 'bab8', 'kotoba', '可愛い', 'kawaii'],
+['きもちがいい', 'nyaman / enak rasanya', 'bab8', 'kotoba', '気持ちがいい', 'kimochigaii'],
+['きびしい', 'ketat', 'bab8', 'kotoba', '厳しい', 'kibishii'],
+['きれい', 'cantik / bersih', 'bab8', 'kotoba', '綺麗', 'kirei'],
+['くうき', 'udara', 'bab8', 'kotoba', '空気', 'kuuki'],
+['くろい', 'hitam', 'bab8', 'kotoba', '黒い', 'kuroi'],
+['けんせつ', 'konstruksi', 'bab8', 'kotoba', '建設', 'kensetsu'],
+['さびしい', 'sepi / kesepian', 'bab8', 'kotoba', '寂しい', 'sabishii'],
+['さむい', 'dingin (cuaca)', 'bab8', 'kotoba', '寒い', 'samui'],
+['しずか', 'tenang', 'bab8', 'kotoba', '静か', 'shizuka'],
+['じゅうたい', 'macet', 'bab8', 'kotoba', '渋滞', 'juutai'],
+['しろい', 'putih', 'bab8', 'kotoba', '白い', 'shiroi'],
+['しんせつ', 'ramah / baik hati', 'bab8', 'kotoba', '親切', 'shinsetsu'],
+['すずしい', 'sejuk (cuaca)', 'bab8', 'kotoba', '涼しい', 'suzushii'],
+['せなか', 'punggung', 'bab8', 'kotoba', '背中', 'senaka'],
+['せいかつ', 'kehidupan sehari-hari', 'bab8', 'kotoba', '生活', 'seikatsu'],
+['たべもの', 'makanan', 'bab8', 'kotoba', '食べ物', 'tabemono'],
+['たかい', 'mahal / tinggi', 'bab8', 'kotoba', '高い', 'takai'],
+['たのしい', 'menyenangkan', 'bab8', 'kotoba', '楽しい', 'tanoshii'],
+['ちいさい', 'kecil', 'bab8', 'kotoba', '小さい', 'chiisai'],
+['つめたい', 'dingin (benda)', 'bab8', 'kotoba', '冷たい', 'tsumetai'],
+['つゆ', 'musim hujan', 'bab8', 'kotoba', '梅雨', 'tsuyu'],
+['どう', 'bagaimana', 'bab8', 'kotoba', '', 'dou'],
+['ときどき', 'kadang-kadang', 'bab8', 'kotoba', '時々', 'tokidoki'],
+['ところ', 'tempat', 'bab8', 'kotoba', '所', 'tokoro'],
+['とても', 'sangat', 'bab8', 'kotoba', '', 'totemo'],
+['どんな', 'seperti apa', 'bab8', 'kotoba', '', 'donna'],
+['にぎやか', 'ramai / meriah', 'bab8', 'kotoba', '賑やか', 'nigiyaka'],
+['ぬります', 'mengecat / melapisi', 'bab8', 'kotoba', '塗ります', 'nurimasu'],
+['ハンサム', 'tampan', 'bab8', 'kotoba', '', 'hansamu'],
+['ひま', 'senggang', 'bab8', 'kotoba', '暇', 'hima'],
+['ふゆ', 'musim dingin', 'bab8', 'kotoba', '冬', 'fuyu'],
+['ふるい', 'lama / kuno', 'bab8', 'kotoba', '古い', 'furui'],
+['ふるさと', 'kampung halaman', 'bab8', 'kotoba', '故郷', 'furusato'],
+['ペンキ', 'cat (bahan)', 'bab8', 'kotoba', '', 'penki'],
+['ホームシック', 'rindu rumah', 'bab8', 'kotoba', '', 'hoomu shikku'],
+['まち', 'kota / kota kecil', 'bab8', 'kotoba', '町', 'machi'],
+['みどり', 'hijau / pepohonan', 'bab8', 'kotoba', '緑', 'midori'],
+['むずかしい', 'sulit', 'bab8', 'kotoba', '難しい', 'muzukashii'],
+['やさしい', 'mudah / baik hati', 'bab8', 'kotoba', '優しい / 易しい', 'yasashii'],
+['やすい', 'murah', 'bab8', 'kotoba', '安い', 'yasui'],
+['やま', 'gunung', 'bab8', 'kotoba', '山', 'yama'],
+['ゆうめい', 'terkenal', 'bab8', 'kotoba', '有名', 'yuumei'],
+['わるい', 'buruk / jelek', 'bab8', 'kotoba', '悪い', 'warui'],
+
+// Dataset BAB 9
+['あし', 'kaki', 'bab9', 'kotoba', '足', 'ashi'],
+['アニメ', 'anime', 'bab9', 'kotoba', '', 'anime'],
+['あまい', 'manis', 'bab9', 'kotoba', '甘い', 'amai'],
+['あまり', 'tidak begitu...(-)', 'bab9', 'kotoba', '余り', 'amari'],
+['あります', 'ada (benda mati)', 'bab9', 'kotoba', '有ります', 'arimasu'],
+['いちご', 'stroberi', 'bab9', 'kotoba', '苺', 'ichigo'],
+['うた', 'lagu', 'bab9', 'kotoba', '歌', 'uta'],
+['からい', 'pedas', 'bab9', 'kotoba', '辛い', 'karai'],
+['カラオケ', 'karaoke', 'bab9', 'kotoba', '', 'karaoke'],
+['きらい', 'tidak suka / benci', 'bab9', 'kotoba', '嫌い', 'kirai'],
+['くすり', 'obat', 'bab9', 'kotoba', '薬', 'kusuri'],
+['けが', 'luka / cedera', 'bab9', 'kotoba', '怪我', 'kega'],
+['こうみんかん', 'aula warga', 'bab9', 'kotoba', '公民館', 'kouminkan'],
+['サンダル', 'sandal', 'bab9', 'kotoba', '', 'sandaru'],
+['じ', 'huruf kanji / tulisan', 'bab9', 'kotoba', '字', 'ji'],
+['じょうず', 'pandai / mahir', 'bab9', 'kotoba', '上手', 'jouzu'],
+['すいえい', 'berenang (olahraga)', 'bab9', 'kotoba', '水泳', 'suiei'],
+['すこし', 'sedikit', 'bab9', 'kotoba', '少し', 'sukoshi'],
+['スポーツ', 'olahraga', 'bab9', 'kotoba', '', 'supootsu'],
+['ぜんぜん', 'sama sekali', 'bab9', 'kotoba', '全然', 'zenzen'],
+['だいたい', 'kira-kira / umumnya', 'bab9', 'kotoba', '大体', 'daitai'],
+['たくさん', 'banyak', 'bab9', 'kotoba', '沢山', 'takusan'],
+['つかいます', 'menggunakan', 'bab9', 'kotoba', '使います', 'tsukaimasu'],
+['とうがらし', 'cabai', 'bab9', 'kotoba', '唐辛子', 'tougarashi'],
+['どうして', 'kenapa / mengapa', 'bab9', 'kotoba', 'どうして', 'doushite'],
+['ドリアン', 'durian', 'bab9', 'kotoba', '', 'dorian'],
+['とりにく', 'daging ayam', 'bab9', 'kotoba', '鶏肉', 'toriniku'],
+['ねつ', 'demam', 'bab9', 'kotoba', '熱', 'netsu'],
+['のみもの', 'minuman', 'bab9', 'kotoba', '飲み物', 'nomimono'],
+['は', 'gigi', 'bab9', 'kotoba', '歯', 'ha'],
+['はきけ', 'mual', 'bab9', 'kotoba', '吐き気', 'hakike'],
+['バレーボール', 'bola voli', 'bab9', 'kotoba', '', 'bareebo-ru'],
+['ピアノ', 'piano', 'bab9', 'kotoba', '', 'piano'],
+['ぶたにく', 'daging babi', 'bab9', 'kotoba', '豚肉', 'butaniku'],
+['へた', 'tidak pandai', 'bab9', 'kotoba', '下手', 'heta'],
+['ホラー', 'horor', 'bab9', 'kotoba', '', 'horaa'],
+['みせ', 'toko / warung', 'bab9', 'kotoba', '店', 'mise'],
+['メロン', 'melon', 'bab9', 'kotoba', '', 'meron'],
+['もの', 'benda', 'bab9', 'kotoba', '物', 'mono'],
+['よく', 'sering / dengan baik', 'bab9', 'kotoba', '良く', 'yoku'],
+['ローマジ', 'romaji', 'bab9', 'kotoba', '', 'roomaji'],
+['ロック', 'musik rock', 'bab9', 'kotoba', '', 'rokku'],
+
+// Dataset BAB 10
+['あいだ', 'antara', 'bab10', 'kotoba', '間', 'aida'],
+['あんぜんたい', 'sabuk pengaman', 'bab10', 'kotoba', '安全帯', 'anzentai'],
+['いた', 'papan / lempengan', 'bab10', 'kotoba', '板', 'ita'],
+['います', 'ada (makhluk hidup)', 'bab10', 'kotoba', '居ます', 'imasu'],
+['うえ', 'atas', 'bab10', 'kotoba', '上', 'ue'],
+['うけいれきぎょう', 'penerima magang (perusahaan)', 'bab10', 'kotoba', '受入企業', 'ukeirekigyou'],
+['うしろ', 'belakang', 'bab10', 'kotoba', '後ろ', 'ushiro'],
+['がいこくじん', 'orang asing', 'bab10', 'kotoba', '外国人', 'gaikokujin'],
+['くやくしょ', 'kantor kecamatan / balai kota', 'bab10', 'kotoba', '区役所', 'kuyakusho'],
+['こうぐばこ', 'kotak peralatan', 'bab10', 'kotoba', '工具箱', 'kougubako'],
+['コピーき', 'mesin fotokopi', 'bab10', 'kotoba', 'コピー機', 'kopīki'],
+['こみます', 'macet / penuh sesak', 'bab10', 'kotoba', '混みます', 'komimasu'],
+['こわれます', 'rusak', 'bab10', 'kotoba', '壊れます', 'kowaremasu'],
+['コンビニ', 'minimarket', 'bab10', 'kotoba', '', 'konbini'],
+['した', 'bawah', 'bab10', 'kotoba', '下', 'shita'],
+['じゅうぎょういん', 'pegawai', 'bab10', 'kotoba', '従業員', 'juugyouin'],
+['しゅうまつ', 'akhir pekan', 'bab10', 'kotoba', '週末', 'shuumatsu'],
+['じょうぎ', 'penggaris', 'bab10', 'kotoba', '定規', 'jougi'],
+['ショッピングセンター', 'pusat perbelanjaan', 'bab10', 'kotoba', '', 'shoppingu sentā'],
+['そと', 'luar', 'bab10', 'kotoba', '外', 'soto'],
+['たな', 'rak', 'bab10', 'kotoba', '棚', 'tana'],
+['ちか', 'bawah tanah / basement', 'bab10', 'kotoba', '地下', 'chika'],
+['ちゅうしゃじょう', 'tempat parkir', 'bab10', 'kotoba', '駐車場', 'chuushajou'],
+['とおい', 'jauh', 'bab10', 'kotoba', '遠い', 'tooi'],
+['となり', 'sebelah / tetangga', 'bab10', 'kotoba', '隣', 'tonari'],
+['なか', 'dalam', 'bab10', 'kotoba', '中', 'naka'],
+['ねこ', 'kucing', 'bab10', 'kotoba', '猫', 'neko'],
+['はこ', 'kotak', 'bab10', 'kotoba', '箱', 'hako'],
+['ひだり', 'kiri', 'bab10', 'kotoba', '左', 'hidari'],
+['プラスドライバー', 'obeng plus', 'bab10', 'kotoba', '', 'purasu doraibā'],
+['マイナスドライバー', 'obeng minus', 'bab10', 'kotoba', '', 'mainasu doraibā'],
+['まえ', 'depan', 'bab10', 'kotoba', '前', 'mae'],
+['まど', 'jendela', 'bab10', 'kotoba', '窓', 'mado'],
+['みぎ', 'kanan', 'bab10', 'kotoba', '右', 'migi'],
+['よこ', 'samping / sisi', 'bab10', 'kotoba', '横', 'yoko'],
+['れいぞうこ', 'kulkas', 'bab10', 'kotoba', '冷蔵庫', 'reizōko'],
+
+// Dataset BAB 11
+['いくつ', 'berapa (banyak)', 'bab11', 'kotoba', '', 'ikutsu'],
+['いつも', 'selalu', 'bab11', 'kotoba', '', 'itsumo'],
+['いぬ', 'anjing', 'bab11', 'kotoba', '犬', 'inu'],
+['おくります', 'mengirim', 'bab11', 'kotoba', '送ります', 'okurimasu'],
+['おねえさん', 'kakak perempuan (orang lain)', 'bab11', 'kotoba', 'お姉さん', 'oneesan'],
+['きゅうけいします', 'beristirahat', 'bab11', 'kotoba', '休憩します', 'kyuukeishimasu'],
+['きょうだい', 'saudara kandung', 'bab11', 'kotoba', '兄弟', 'kyoudai'],
+['くつした', 'kaos kaki', 'bab11', 'kotoba', '靴下', 'kutsushita'],
+['けんがくします', 'kunjungan belajar / observasi', 'bab11', 'kotoba', '見学します', 'kengakushimasu'],
+['こくさいでんわ', 'telepon internasional', 'bab11', 'kotoba', '国際電話', 'kokusaidenwa'],
+['コンサート', 'konser', 'bab11', 'kotoba', '', 'konsaato'],
+['じしゅうします', 'belajar mandiri', 'bab11', 'kotoba', '自習します', 'jishuushimasu'],
+['じっしゅうせい', 'siswa magang / trainee', 'bab11', 'kotoba', '実習生', 'jisshuusei'],
+['しょくじします', 'makan (dengan sopan)', 'bab11', 'kotoba', '食事します', 'shokujishimasu'],
+['だから', 'oleh karena itu', 'bab11', 'kotoba', '', 'dakara'],
+['だんじきします', 'puasa', 'bab11', 'kotoba', '断食します', 'danjikishimasu'],
+['Ｔシャツ', 'kaos (T-shirt)', 'bab11', 'kotoba', '', 'tiishatsu'],
+['ドーナツ', 'donat', 'bab11', 'kotoba', '', 'doonatsu'],
+['どのくらい', 'berapa lama / seberapa banyak', 'bab11', 'kotoba', '', 'donokurai'],
+['トレーニングセンター', 'pusat pelatihan', 'bab11', 'kotoba', '', 'toreeningu sentaa'],
+['バナナ', 'pisang', 'bab11', 'kotoba', '', 'banana'],
+['はんとし', 'setengah tahun', 'bab11', 'kotoba', '半年', 'hantoshi'],
+['ハンバーガー', 'hamburger', 'bab11', 'kotoba', '', 'hanbaagaa'],
+['ふうとう', 'amplop', 'bab11', 'kotoba', '封筒', 'fuutou'],
+['みかん', 'jeruk mandarin', 'bab11', 'kotoba', '蜜柑', 'mikan'],
+['ミルク', 'susu', 'bab11', 'kotoba', '', 'miruku'],
+['もうすぐ', 'segera / tidak lama lagi', 'bab11', 'kotoba', '', 'mousugu'],
+['りょうしん', 'orang tua (ayah & ibu)', 'bab11', 'kotoba', '両親', 'ryoushin'],
+
+// Dataset BAB 12
+['あめ', 'hujan', 'bab12', 'kotoba', '雨', 'ame'],
+['おまつり', 'festival', 'bab12', 'kotoba', 'お祭り', 'omatsuri'],
+['かき', 'buah kesemek', 'bab12', 'kotoba', '柿', 'kaki'],
+['きせつ', 'musim', 'bab12', 'kotoba', '季節', 'kisetsu'],
+['きっぷ', 'karcis / tiket', 'bab12', 'kotoba', '切符', 'kippu'],
+['くもり', 'berawan', 'bab12', 'kotoba', '曇り', 'kumori'],
+['けしき', 'pemandangan', 'bab12', 'kotoba', '景色', 'keshiki'],
+['けっこんしき', 'upacara pernikahan', 'bab12', 'kotoba', '結婚式', 'kekkonshiki'],
+['ずっと', 'terus-menerus / sepanjang waktu', 'bab12', 'kotoba', '', 'zutto'],
+['ちゅうみりょう', 'bumbu masakan (saus cair)', 'bab12', 'kotoba', '調味料', 'chuumiryoo'],
+['どちら', 'yang mana / arah mana', 'bab12', 'kotoba', '', 'dochira'],
+['なし', 'buah pir Jepang', 'bab12', 'kotoba', '梨', 'nashi'],
+['はなび', 'kembang api', 'bab12', 'kotoba', '花火', 'hanabi'],
+['はなみ', 'melihat bunga sakura', 'bab12', 'kotoba', '花見', 'hanami'],
+['はやい', 'cepat / awal', 'bab12', 'kotoba', '早い / 速い', 'hayai'],
+['べんり', 'praktis / berguna', 'bab12', 'kotoba', '便利', 'benri'],
+['ホテル', 'hotel', 'bab12', 'kotoba', '', 'hoteru'],
+['もみじ', 'daun maple musim gugur', 'bab12', 'kotoba', '紅葉', 'momiji'],
+['やきゅう', 'bisbol', 'bab12', 'kotoba', '野球', 'yakyuu'],
+['ラブストーリー', 'kisah cinta / film romantis', 'bab12', 'kotoba', '', 'rabusutoorii'],
+['ワイン', 'anggur (wine)', 'bab12', 'kotoba', '', 'wain'],
+['わかい', 'muda', 'bab12', 'kotoba', '若い', 'wakai'],
+
+// Dataset BAB 13
+['うさぎ', 'kelinci', 'bab13', 'kotoba', '兎', 'usagi'],
+['うんどうします', 'berolahraga', 'bab13', 'kotoba', '運動します', 'undoushimasu'],
+['かえします', 'mengembalikan', 'bab13', 'kotoba', '返します', 'kaeshimasu'],
+['きゅうりょう', 'gaji', 'bab13', 'kotoba', '給料', 'kyuuryou'],
+['ごうかくします', 'lulus (ujian)', 'bab13', 'kotoba', '合格します', 'goukakushimasu'],
+['スニーカー', 'sepatu kets', 'bab13', 'kotoba', '', 'suniikaa'],
+['スポーツクラブ', 'klub olahraga', 'bab13', 'kotoba', '', 'supootsu kurabu'],
+['タイプ', 'tipe / jenis / mengetik', 'bab13', 'kotoba', '', 'taipu'],
+['ちょきんします', 'menabung', 'bab13', 'kotoba', '貯金します', 'chokinshimasu'],
+['つかれます', 'lelah / capek', 'bab13', 'kotoba', '疲れます', 'tsukaremasu'],
+['とうろくします', 'mendaftar', 'bab13', 'kotoba', '登録します', 'touroku shimasu'],
+['どこか', 'suatu tempat', 'bab13', 'kotoba', '何処か', 'dokoka'],
+['なにか', 'sesuatu', 'bab13', 'kotoba', '何か', 'nanika'],
+['ほしい', 'ingin (benda)', 'bab13', 'kotoba', '欲しい', 'hoshii'],
+['むかえます', 'menjemput', 'bab13', 'kotoba', '迎えます', 'mukaemasu'],
+['ようせつ', 'pengelasan (welding)', 'bab13', 'kotoba', '溶接', 'yousetsu'],
+
+// Dataset BAB 14
+['いいます', 'mengatakan', 'bab14', 'kotoba', '言います', 'iimasu'],
+['いっしょうけんめい', 'dengan sekuat tenaga / sungguh-sungguh', 'bab14', 'kotoba', '一生懸命', 'isshoukenmei'],
+['いむしつ', 'ruang medis / ruang perawatan', 'bab14', 'kotoba', '医務室', 'imushitsu'],
+['エアコン', 'AC (pendingin udara)', 'bab14', 'kotoba', '', 'eakon'],
+['おくさん', 'istri (orang lain)', 'bab14', 'kotoba', '奥さん', 'okusan'],
+['おぼえます', 'mengingat / menghafal', 'bab14', 'kotoba', '覚えます', 'oboemasu'],
+['かど', 'sudut / pojok', 'bab14', 'kotoba', '角', 'kado'],
+['きっさてん', 'kedai kopi / kafe', 'bab14', 'kotoba', '喫茶店', 'kissaten'],
+['きゅうきゅうしゃ', 'ambulans', 'bab14', 'kotoba', '救急車', 'kyuukyuusha'],
+['くうこう', 'bandara', 'bab14', 'kotoba', '空港', 'kuukou'],
+['けっこうです', 'sudah cukup / tidak perlu', 'bab14', 'kotoba', '結構です', 'kekkou desu'],
+['さぎょうふく', 'pakaian kerja', 'bab14', 'kotoba', '作業服', 'sagyoufuku'],
+['しお', 'garam', 'bab14', 'kotoba', '塩', 'shio'],
+['しょうらい', 'masa depan', 'bab14', 'kotoba', '将来', 'shourai'],
+['スキーします', 'bermain ski', 'bab14', 'kotoba', '', 'sukii shimasu'],
+['スケートします', 'bermain skate', 'bab14', 'kotoba', '', 'sukeeto shimasu'],
+['せつめいします', 'menjelaskan', 'bab14', 'kotoba', '説明します', 'setsumei shimasu'],
+['ちず', 'peta', 'bab14', 'kotoba', '地図', 'chizu'],
+['ちゅうりんじょう', 'tempat parkir sepeda', 'bab14', 'kotoba', '駐輪場', 'chuurinjou'],
+['ちゅうれい', 'apel pagi / briefing', 'bab14', 'kotoba', '朝礼', 'chuurei'],
+['つかいかた', 'cara penggunaan', 'bab14', 'kotoba', '使い方', 'tsukaikata'],
+['つま', 'istri (sendiri)', 'bab14', 'kotoba', '妻', 'tsuma'],
+['てつだいます', 'membantu', 'bab14', 'kotoba', '手伝います', 'tetsudaimasu'],
+['とび', 'pekerja konstruksi (tukang besi / perancah)', 'bab14', 'kotoba', '鳶', 'tobi'],
+['のうき', 'tenggat waktu / deadline', 'bab14', 'kotoba', '納期', 'nouki'],
+['パスポート', 'paspor', 'bab14', 'kotoba', '', 'pasupooto'],
+['はなします', 'berbicara', 'bab14', 'kotoba', '話します', 'hanashimasu'],
+['プール', 'kolam renang', 'bab14', 'kotoba', '', 'puuru'],
+['ふります', 'turun (hujan / salju)', 'bab14', 'kotoba', '降ります', 'furimasu'],
+['まがります', 'berbelok', 'bab14', 'kotoba', '曲がります', 'magarimasu'],
+['まちます', 'menunggu', 'bab14', 'kotoba', '待ちます', 'machimasu'],
+['むすこ', 'anak laki-laki (sendiri)', 'bab14', 'kotoba', '息子', 'musuko'],
+['もちます', 'membawa / memiliki', 'bab14', 'kotoba', '持ちます', 'mochimasu'],
+['ゆっくり', 'pelan-pelan / santai', 'bab14', 'kotoba', '', 'yukkuri'],
+['よびます', 'memanggil', 'bab14', 'kotoba', '呼びます', 'yobimasu'],
+['ロッカールーム', 'ruang loker', 'bab14', 'kotoba', '', 'rokkaa ruumu'],
+
+// Dataset Bab 15
+['あけます', 'membuka', 'bab15', 'kotoba', '開けます', 'akemasu'],
+['あつまります', 'berkumpul', 'bab15', 'kotoba', '集まります', 'atsumarimasu'],
+['あとで', 'nanti/setelah itu', 'bab15', 'kotoba', '後で', 'atode'],
+['アパート', 'apartemen', 'bab15', 'kotoba', '', 'apaato'],
+['いりぐち', 'pintu masuk', 'bab15', 'kotoba', '入口', 'iriguchi'],
+['いしゃ', 'dokter', 'bab15', 'kotoba', '医者', 'isha'],
+['いろいろな', 'macam-macam', 'bab15', 'kotoba', '色々な', 'iroirona'],
+['うたいます', 'menyanyi', 'bab15', 'kotoba', '歌います', 'utaimasu'],
+['うります', 'menjual', 'bab15', 'kotoba', '売ります', 'urimasu'],
+['え', 'gambar/lukisan', 'bab15', 'kotoba', '絵', 'e'],
+['エンジニア', 'teknisi/ahli mesin', 'bab15', 'kotoba', '', 'enjinia'],
+['おおぜい', 'banyak orang', 'bab15', 'kotoba', '大勢', 'oozei'],
+['おかし', 'kue/camilan', 'bab15', 'kotoba', 'お菓子', 'okashi'],
+['おきます', 'bangun/menaruh', 'bab15', 'kotoba', '起きます', 'okimasu'],
+['がいこく', 'luar negeri', 'bab15', 'kotoba', '外国', 'gaikoku'],
+['かまいません', 'tidak apa-apa', 'bab15', 'kotoba', '構いません', 'kamaimasen'],
+['きそく', 'peraturan', 'bab15', 'kotoba', '規則', 'kisoku'],
+['きます', 'datang/memakai', 'bab15', 'kotoba', '来ます', 'kimasu'],
+['けっこんします', 'menikah', 'bab15', 'kotoba', '結婚します', 'kekkon shimasu'],
+['こうこうせい', 'siswa SMA', 'bab15', 'kotoba', '高校生', 'koukousei'],
+['こえ', 'suara', 'bab15', 'kotoba', '声', 'koe'],
+['コップ', 'cangkir/gelas', 'bab15', 'kotoba', '', 'koppu'],
+['コンピューター', 'komputer', 'bab15', 'kotoba', '', 'konpyuutaa'],
+['さき', 'duluan/lebih dulu', 'bab15', 'kotoba', '先', 'saki'],
+['さわります', 'menyentuh', 'bab15', 'kotoba', '触ります', 'sawarimasu'],
+['じかん', 'waktu', 'bab15', 'kotoba', '時間', 'jikan'],
+['しつもんします', 'bertanya', 'bab15', 'kotoba', '質問します', 'shitsumon shimasu'],
+['しめます', 'menutup', 'bab15', 'kotoba', '閉めます', 'shimemasu'],
+['じゅうしょ', 'alamat', 'bab15', 'kotoba', '住所', 'juusho'],
+['しょうがっこう', 'SD', 'bab15', 'kotoba', '小学校', 'shougakkou'],
+['しります', 'tahu/kenal', 'bab15', 'kotoba', '知ります', 'shirimasu'],
+['すみます', 'tinggal', 'bab15', 'kotoba', '住みます', 'sumimasu'],
+['せつめいしょ', 'buku petunjuk', 'bab15', 'kotoba', '説明書', 'setsumeisho'],
+['たいへん', 'sulit/berat', 'bab15', 'kotoba', '大変', 'taihen'],
+['たとえば', 'contohnya/misalnya', 'bab15', 'kotoba', '例えば', 'tatoeba'],
+['ちゅうがっこう', 'SMP', 'bab15', 'kotoba', '中学校', 'chuugakkou'],
+['つとめます', 'bekerja', 'bab15', 'kotoba', '勤めます', 'tsutomemasu'],
+['てぶくろ', 'sarung tangan', 'bab15', 'kotoba', '手袋', 'tebukuro'],
+['でます', 'keluar', 'bab15', 'kotoba', '出ます', 'demasu'],
+['でぐち', 'pintu keluar', 'bab15', 'kotoba', '出口', 'deguchi'],
+['ドア', 'pintu', 'bab15', 'kotoba', '', 'doa'],
+['とおります', 'melewati/lewat', 'bab15', 'kotoba', '通ります', 'toorimasu'],
+['ながい', 'panjang', 'bab15', 'kotoba', '長い', 'nagai'],
+['にもつ', 'barang/bawaan', 'bab15', 'kotoba', '荷物', 'nimotsu'],
+['はいります', 'masuk', 'bab15', 'kotoba', '入ります', 'hairimasu'],
+['はきます', 'memakai (bawah)', 'bab15', 'kotoba', '履きます', 'hakimasu'],
+['はんちょう', 'ketua kelompok', 'bab15', 'kotoba', '班長', 'hanchou'],
+['びじゅつかん', 'museum seni', 'bab15', 'kotoba', '美術館', 'bijutsukan'],
+['ひだりがわ', 'sebelah kiri', 'bab15', 'kotoba', '左側', 'hidarigawa'],
+['ふとい', 'tebal/gemuk', 'bab15', 'kotoba', '太い', 'futoi'],
+['ほそい', 'kurus/ramping', 'bab15', 'kotoba', '細い', 'hosoi'],
+['みぎがわ', 'sebelah kanan', 'bab15', 'kotoba', '右側', 'migigawa'],
+['ワイヤー', 'kawat', 'bab15', 'kotoba', '', 'waiyaa'],
+
+
+// Dataset Bab 16
+['あげます', 'mengangkat/memberi', 'bab16', 'kotoba', '上げます', 'agemasu'],
+['あたまがいいです', 'pintar/pandai', 'bab16', 'kotoba', '頭がいいです', 'atama ga ii desu'],
+['あとかたづけ', 'membereskan kembali', 'bab16', 'kotoba', '後片付け', 'atokatazuke'],
+['あびます', 'mandi', 'bab16', 'kotoba', '浴びます', 'abimasu'],
+['あらいます', 'mencuci', 'bab16', 'kotoba', '洗います', 'araimasu'],
+['いろ', 'warna', 'bab16', 'kotoba', '色', 'iro'],
+['おふろ', 'pemandian/kamar mandi', 'bab16', 'kotoba', 'お風呂', 'ofuro'],
+['おります', 'turun', 'bab16', 'kotoba', '降ります', 'orimasu'],
+['かいものします', 'berbelanja', 'bab16', 'kotoba', '買い物します', 'kaimono shimasu'],
+['カーテン', 'gorden/tirai', 'bab16', 'kotoba', '', 'kaaten'],
+['かお', 'wajah', 'bab16', 'kotoba', '顔', 'kao'],
+['かがみ', 'cermin', 'bab16', 'kotoba', '鏡', 'kagami'],
+['かぎをかけます', 'mengunci', 'bab16', 'kotoba', '鍵をかけます', 'kagi o kakemasu'],
+['かくにんします', 'memastikan/konfirmasi', 'bab16', 'kotoba', '確認します', 'kakunin shimasu'],
+['かみ', 'rambut/kertas', 'bab16', 'kotoba', '髪/紙', 'kami'],
+['カレーライス', 'kari nasi', 'bab16', 'kotoba', '', 'karee raisu'],
+['きけん', 'bahaya', 'bab16', 'kotoba', '危険', 'kiken'],
+['ケーキ', 'kue', 'bab16', 'kotoba', '', 'keeki'],
+['こども', 'anak', 'bab16', 'kotoba', '子供', 'kodomo'],
+['さんぽします', 'berjalan-jalan', 'bab16', 'kotoba', '散歩します', 'sanpo shimasu'],
+['じっしゅうします', 'melakukan praktik', 'bab16', 'kotoba', '実習します', 'jisshuu shimasu'],
+['シャワー', 'shower', 'bab16', 'kotoba', '', 'shawaa'],
+['じゅんびします', 'mempersiapkan', 'bab16', 'kotoba', '準備します', 'junbi shimasu'],
+['じょうぶ', 'kuat/awet', 'bab16', 'kotoba', '丈夫', 'joubu'],
+['せまい', 'sempit', 'bab16', 'kotoba', '狭い', 'semai'],
+['そります', 'mencukur (jenggot dll)', 'bab16', 'kotoba', '剃ります', 'sorimasu'],
+['ダンス', 'menari/dansa', 'bab16', 'kotoba', '', 'dansu'],
+['でんわをかけます', 'menelepon', 'bab16', 'kotoba', '電話をかけます', 'denwa o kakemasu'],
+['どうぐ', 'alat/perkakas', 'bab16', 'kotoba', '道具', 'dougu'],
+['なおします', 'memperbaiki', 'bab16', 'kotoba', '直します', 'naoshimasu'],
+['にんぎょう', 'boneka', 'bab16', 'kotoba', '人形', 'ningyou'],
+['のりかえます', 'pindah kendaraan', 'bab16', 'kotoba', '乗り換えます', 'norikaemasu'],
+['のります', 'naik kendaraan', 'bab16', 'kotoba', '乗ります', 'norimasu'],
+['バスてい', 'halte bus', 'bab16', 'kotoba', 'バス停', 'basutei'],
+['はな', 'hidung/bunga', 'bab16', 'kotoba', '鼻/花', 'hana'],
+['ひげ', 'jenggot/kumis', 'bab16', 'kotoba', '髭', 'hige'],
+['びょうき', 'penyakit', 'bab16', 'kotoba', '病気', 'byouki'],
+['ひらきます', 'membuka (acara/toko/buku)', 'bab16', 'kotoba', '開きます', 'hirakimasu'],
+['ふべん', 'tidak praktis', 'bab16', 'kotoba', '不便', 'fuben'],
+['べんとう', 'bekal', 'bab16', 'kotoba', '弁当', 'bentou'],
+['ほうこくします', 'melaporkan', 'bab16', 'kotoba', '報告します', 'houkoku shimasu'],
+['マイク', 'mikrofon', 'bab16', 'kotoba', '', 'maiku'],
+['みがきます', 'menggosok (gigi/sepatu)', 'bab16', 'kotoba', '磨きます', 'migakimasu'],
+['みち', 'jalan', 'bab16', 'kotoba', '道', 'michi'],
+['め', 'mata', 'bab16', 'kotoba', '目', 'me'],
+['めがねをかけます', 'memakai kacamata', 'bab16', 'kotoba', '眼鏡をかけます', 'megane o kakemasu'],
+['わたります', 'menyeberang', 'bab16', 'kotoba', '渡ります', 'watarimasu'],
+
+// Dataset Bab 17
+['あぶない', 'berbahaya', 'bab17', 'kotoba', '危ない', 'abunai'],
+['カード', 'kartu', 'bab17', 'kotoba', '', 'kaado'],
+['かいとうようし', 'lembar jawaban', 'bab17', 'kotoba', '解答用紙', 'kaitou youshi'],
+['かきげんきん', 'dilarang api', 'bab17', 'kotoba', '火気厳禁', 'kakigenkin'],
+['かぶります', 'memakai di kepala', 'bab17', 'kotoba', '被ります', 'kaburimasu'],
+['きって', 'perangko', 'bab17', 'kotoba', '切手', 'kitte'],
+['きんえん', 'dilarang merokok', 'bab17', 'kotoba', '禁煙', 'kinen'],
+['きんし', 'larangan', 'bab17', 'kotoba', '禁止', 'kinshi'],
+['こと', 'hal/perkara', 'bab17', 'kotoba', '事', 'koto'],
+['さとう', 'gula', 'bab17', 'kotoba', '砂糖', 'satou'],
+['ざんぎょうします', 'lembur', 'bab17', 'kotoba', '残業します', 'zangyou shimasu'],
+['じぶん', 'diri sendiri', 'bab17', 'kotoba', '自分', 'jibun'],
+['しまいます', 'menyimpan', 'bab17', 'kotoba', '仕舞います', 'shimaimasu'],
+['しんごう', 'lampu lalu lintas', 'bab17', 'kotoba', '信号', 'shingou'],
+['しんぱいします', 'khawatir', 'bab17', 'kotoba', '心配します', 'shinpai shimasu'],
+['スイッチ', 'saklar', 'bab17', 'kotoba', '', 'suicchi'],
+['たいせつ', 'penting/berharga', 'bab17', 'kotoba', '大切', 'taisetsu'],
+['たいそうします', 'senam', 'bab17', 'kotoba', '体操します', 'taisou shimasu'],
+['たちいりきんし', 'dilarang masuk', 'bab17', 'kotoba', '立入禁止', 'tachiiri kinshi'],
+['たちます', 'berdiri', 'bab17', 'kotoba', '立ちます', 'tachimasu'],
+['つくります', 'membuat', 'bab17', 'kotoba', '作ります', 'tsukurimasu'],
+['でんわばんごう', 'nomor telepon', 'bab17', 'kotoba', '電話番号', 'denwa bangou'],
+['とまります', 'berhenti/menginap', 'bab17', 'kotoba', '止まります', 'tomarimasu'],
+['なります', 'menjadi', 'bab17', 'kotoba', '成ります', 'narimasu'],
+['なんでも', 'apa saja', 'bab17', 'kotoba', '何でも', 'nandemo'],
+['にっき', 'diari/catatan harian', 'bab17', 'kotoba', '日記', 'nikki'],
+['ぬぎます', 'melepas (pakaian/sepatu)', 'bab17', 'kotoba', '脱ぎます', 'nugimasu'],
+['はしります', 'berlari', 'bab17', 'kotoba', '走ります', 'hashirimasu'],
+['はらいます', 'membayar', 'bab17', 'kotoba', '払います', 'haraimasu'],
+['ばんごうじゅん', 'urutan nomor', 'bab17', 'kotoba', '番号順', 'bangoujun'],
+['ひ', 'api', 'bab17', 'kotoba', '火', 'hi'],
+['ベルトコンベヤー', 'belt conveyor', 'bab17', 'kotoba', '', 'beruto konbeyaa'],
+['ヘルメット', 'helm', 'bab17', 'kotoba', '', 'herumetto'],
+['ペンケース', 'tempat pensil', 'bab17', 'kotoba', '', 'penkeesu'],
+['ほかの', 'lainnya', 'bab17', 'kotoba', '他の', 'hokano'],
+['ほごぼう', 'helm pengaman', 'bab17', 'kotoba', '保護帽', 'hogobou'],
+['ボタン', 'tombol/kancing', 'bab17', 'kotoba', '', 'botan'],
+['まもります', 'melindungi/menaati', 'bab17', 'kotoba', '守ります', 'mamorimasu'],
+['みせます', 'memperlihatkan', 'bab17', 'kotoba', '見せます', 'misemasu'],
+['みぶんしょうめいしょ', 'kartu identitas', 'bab17', 'kotoba', '身分証明書', 'mibun shoumeisho'],
+['よごします', 'mengotori', 'bab17', 'kotoba', '汚します', 'yogoshimasu'],
+['れんらくします', 'menghubungi', 'bab17', 'kotoba', '連絡します', 'renraku shimasu'],
+['わすれます', 'melupakan', 'bab17', 'kotoba', '忘れます', 'wasuremasu'],
+['わたします', 'menyerahkan', 'bab17', 'kotoba', '渡します', 'watashimasu'],
+
+// Dataset Bab 18
+['あいさつします', 'memberi salam/bertegur sapa', 'bab18', 'kotoba', '挨拶します', 'aisatsu shimasu'],
+['うけます', 'menerima/mengikuti', 'bab18', 'kotoba', '受けます', 'ukemasu'],
+['うんどうかい', 'acara olahraga', 'bab18', 'kotoba', '運動会', 'undoukai'],
+['およぎます', 'berenang', 'bab18', 'kotoba', '泳ぎます', 'oyogimasu'],
+['ガス', 'gas', 'bab18', 'kotoba', '', 'gasu'],
+['かならず', 'pasti/selalu', 'bab18', 'kotoba', '必ず', 'kanarazu'],
+['かんがえます', 'berpikir/merenung', 'bab18', 'kotoba', '考えます', 'kangaemasu'],
+['きこく', 'pulang ke negara asal', 'bab18', 'kotoba', '帰国', 'kikoku'],
+['ギター', 'gitar', 'bab18', 'kotoba', '', 'gitaa'],
+['しゅっぱつ', 'keberangkatan', 'bab18', 'kotoba', '出発', 'shuppatsu'],
+['しゅみ', 'hobi', 'bab18', 'kotoba', '趣味', 'shumi'],
+['せいせき', 'nilai/hasil prestasi', 'bab18', 'kotoba', '成績', 'seiseki'],
+['たいかい', 'turnamen/kompetisi', 'bab18', 'kotoba', '大会', 'taikai'],
+['ちゃんと', 'dengan benar/rapi', 'bab18', 'kotoba', '', 'chanto'],
+['つり', 'memancing', 'bab18', 'kotoba', '釣り', 'tsuri'],
+['てじゅん', 'tata cara/prosedur', 'bab18', 'kotoba', '手順', 'tejun'],
+['できます', 'bisa/dapat', 'bab18', 'kotoba', '出来ます', 'dekimasu'],
+['てんけんします', 'memeriksa (inspeksi)', 'bab18', 'kotoba', '点検します', 'tenken shimasu'],
+['ノックします', 'mengetuk (pintu)', 'bab18', 'kotoba', '', 'nokku shimasu'],
+['ひきます', 'memainkan (alat musik gesek/petik)', 'bab18', 'kotoba', '弾きます', 'hikimasu'],
+['ピンポン', 'tenis meja/bel pintu', 'bab18', 'kotoba', '', 'pinpon'],
+['ぶんかいします', 'membongkar', 'bab18', 'kotoba', '分解します', 'bunkai shimasu'],
+['ボーリング', 'boling', 'bab18', 'kotoba', '', 'booringu'],
+['もえないゴミ', 'sampah non-organik/tidak bisa dibakar', 'bab18', 'kotoba', '燃えないゴミ', 'moenai gomi'],
+['もえるゴミ', 'sampah organik/bisa dibakar', 'bab18', 'kotoba', '燃えるゴミ', 'moeru gomi'],
+['もとせん', 'sumber aliran listrik', 'bab18', 'kotoba', '元栓', 'motosen'],
+
+// Dataset bab 19
+['うみ', 'laut', 'bab19', 'kotoba', '海', 'umi'],
+['おとします', 'menjatuhkan', 'bab19', 'kotoba', '落とします', 'otoshimasu'],
+['おなかがいっぱいです', 'kenyang', 'bab19', 'kotoba', '', 'onaka ga ippai desu'],
+['おばあさん', 'nenek', 'bab19', 'kotoba', '', 'obaasan'],
+['かじ', 'kebakaran/pekerjaan rumah tangga', 'bab19', 'kotoba', '火事', 'kaji'],
+['かぜ', 'angin/masuk angin', 'bab19', 'kotoba', '風', 'kaze'],
+['き', 'pohon/kayu', 'bab19', 'kotoba', '木', 'ki'],
+['きもの', 'kimono (pakaian tradisional Jepang)', 'bab19', 'kotoba', '着物', 'kimono'],
+['じしん', 'gempa bumi', 'bab19', 'kotoba', '地震', 'jishin'],
+['しにます', 'meninggal/mati', 'bab19', 'kotoba', '死にます', 'shinimasu'],
+['ストーブ', 'kompor/pemanas ruangan', 'bab19', 'kotoba', '', 'sutoobu'],
+['たいいんします', 'keluar dari rumah sakit', 'bab19', 'kotoba', '退院します', 'taiin shimasu'],
+['たいふう', 'topan/taifun', 'bab19', 'kotoba', '台風', 'taifuu'],
+['だんだん', 'lama-lama/berangsur-angsur', 'bab19', 'kotoba', '', 'dandan'],
+['ディズニーランド', 'Disneyland', 'bab19', 'kotoba', '', 'dizuniirando'],
+['テーブル', 'meja', 'bab19', 'kotoba', '', 'teeburu'],
+['てんき', 'cuaca', 'bab19', 'kotoba', '天気', 'tenki'],
+['とびます', 'terbang/meloncat', 'bab19', 'kotoba', '飛びます', 'tobimasu'],
+['なつやすみ', 'liburan musim panas', 'bab19', 'kotoba', '夏休み', 'natsuyasumi'],
+['にゅういんします', 'masuk rumah sakit (rawat inap)', 'bab19', 'kotoba', '入院します', 'nyuuin shimasu'],
+['のど', 'tenggorokan', 'bab19', 'kotoba', '喉', 'nodo'],
+['のどがかわきます', 'haus', 'bab19', 'kotoba', '喉が渇きます', 'nodo ga kawakimasu'],
+['のぼります', 'mendaki', 'bab19', 'kotoba', '登ります', 'noborimasu'],
+['ふね', 'kapal/perahu', 'bab19', 'kotoba', '船', 'fune'],
+['やけます', 'terbakar/terpanggang', 'bab19', 'kotoba', '焼けます', 'yakemasu'],
+['ゆうべ', 'tadi malam', 'bab19', 'kotoba', '昨夜', 'yuube'],
+['ゆき', 'salju', 'bab19', 'kotoba', '雪', 'yuki'],
+['じこ', 'kecelakaan', 'bab19', 'kotoba', '事故', 'jiko'],
+
+// Dataset bab 20
+['あしもとちゅうい', 'hati-hati dengan pijakan/kaki', 'bab20', 'kotoba', '足元注意', 'ashimoto chuui'],
+['あな', 'lubang', 'bab20', 'kotoba', '穴', 'ana'],
+['あやまります', 'meminta maaf', 'bab20', 'kotoba', '謝ります', 'ayamarimasu'],
+['あんぜん', 'aman', 'bab20', 'kotoba', '安全', 'anzen'],
+['くつ', 'sepatu', 'bab20', 'kotoba', '靴', 'kutsu'],
+['オイル', 'minyak', 'bab20', 'kotoba', '', 'oiru'],
+['おきば', 'tempat penyimpanan', 'bab20', 'kotoba', '置き場', 'okiba'],
+['おこります', 'marah', 'bab20', 'kotoba', '怒ります', 'okorimasu'],
+['かいしょうします', 'mengatasi/menyelesaikan', 'bab20', 'kotoba', '解消します', 'kaishou shimasu'],
+['かんかく', 'indera/perasaan', 'bab20', 'kotoba', '感覚', 'kankaku'],
+['ざいりょう', 'bahan/material', 'bab20', 'kotoba', '材料', 'zairyou'],
+['さげます', 'menurunkan', 'bab20', 'kotoba', '下げます', 'sagemasu'],
+['さわぎます', 'ribut/berisik', 'bab20', 'kotoba', '騒ぎます', 'sawagimasu'],
+['じゅんばん', 'giliran/urutan', 'bab20', 'kotoba', '順番', 'junban'],
+['ずじょうちゅうい', 'awas di atas kepala', 'bab20', 'kotoba', '頭上注意', 'zujou chuui'],
+['ストレス', 'stres', 'bab20', 'kotoba', '', 'sutoresu'],
+['ぜいきん', 'pajak', 'bab20', 'kotoba', '税金', 'zeikin'],
+['せいりせいとん', 'rapi dan teratur', 'bab20', 'kotoba', '整理整頓', 'seiri seiton'],
+['おおごえ', 'suara keras', 'bab20', 'kotoba', '大声', 'oogoe'],
+['ちゅうりんきんし', 'dilarang parkir sepeda', 'bab20', 'kotoba', '駐輪禁止', 'chuurin kinshi'],
+['ちょっと', 'sebentar/sedikit', 'bab20', 'kotoba', '', 'chotto'],
+['てつくず', 'rongsokan besi', 'bab20', 'kotoba', '鉄くず', 'tetsukuzu'],
+['てっぱん', 'plat besi', 'bab20', 'kotoba', '鉄板', 'teppan'],
+['どけます', 'menyingkirkan', 'bab20', 'kotoba', '退けます', 'dokemasu'],
+['とめます', 'menghentikan/berhenti', 'bab20', 'kotoba', '止めます', 'tomemasu'],
+['とりかえます', 'mengganti/menukar', 'bab20', 'kotoba', '取り替えます', 'torikaemasu'],
+['ドリル', 'bor/drill', 'bab20', 'kotoba', '', 'doriru'],
+['なきます', 'menangis', 'bab20', 'kotoba', '泣きます', 'nakimasu'],
+['はなをかみます', 'meniup ingus', 'bab20', 'kotoba', '鼻をかみます', 'hana o kamimasu'],
+['ふまん', 'ketidakpuasan', 'bab20', 'kotoba', '不満', 'fuman'],
+['ふりょうひん', 'barang cacat/rusak', 'bab20', 'kotoba', '不良品', 'furyouhin'],
+['ぼうじんマスク', 'masker anti debu', 'bab20', 'kotoba', '防塵マスク', 'boujin masuku'],
+['ゆびさしこしょうれいこう', 'Tanda K3', 'bab20', 'kotoba', '指差呼称励行', 'yubi sashi koshou reikou'],
+['レバー', 'tuas/handle', 'bab20', 'kotoba', '', 'rebaa'],
+['わらいます', 'tertawa', 'bab20', 'kotoba', '笑います', 'waraimasu'],
+
+// Datset Bab 21
+['こうばん', 'pos polisi kecil', 'bab21', 'kotoba', '交番', 'kouban'],
+['こまかい', 'kecil/halus/detail', 'bab21', 'kotoba', '細かい', 'komakai'],
+['こまります', 'kesulitan/sulit', 'bab21', 'kotoba', '困ります', 'komarimasu'],
+['さがします', 'mencari', 'bab21', 'kotoba', '探します', 'sagashimasu'],
+['うごかします', 'menggerakkan', 'bab21', 'kotoba', '動かします', 'ugokashimasu'],
+['おつり', 'uang kembalian', 'bab21', 'kotoba', 'お釣り', 'otsuri'],
+['おと', 'suara/bunyi', 'bab21', 'kotoba', '音', 'oto'],
+['きちんと', 'rapi/teratur', 'bab21', 'kotoba', '', 'kichinto'],
+['くすりや', 'apotek/toko obat', 'bab21', 'kotoba', '薬屋', 'kusuriya'],
+['けんこうしんだん', 'pemeriksaan kesehatan', 'bab21', 'kotoba', '健康診断', 'kenkou shindan'],
+['けんぶつします', 'berwisata/melihat-lihat', 'bab21', 'kotoba', '見物します', 'kenbutsu shimasu'],
+['さきます', 'mekar (bunga)', 'bab21', 'kotoba', '咲きます', 'sakimasu'],
+['さくら', 'bunga sakura', 'bab21', 'kotoba', '桜', 'sakura'],
+['さら', 'piring', 'bab21', 'kotoba', '皿', 'sara'],
+['しじ', 'instruksi/perintah', 'bab21', 'kotoba', '指示', 'shiji'],
+['セーター', 'sweater', 'bab21', 'kotoba', '', 'seetaa'],
+['そうさします', 'mengoperasikan', 'bab21', 'kotoba', '操作します', 'sousa shimasu'],
+['たいてい', 'biasanya/kebanyakan', 'bab21', 'kotoba', '大抵', 'taitei'],
+['ちょうちん', 'lentera kertas Jepang', 'bab21', 'kotoba', '提灯', 'chouchin'],
+['ちります', 'berserakan/gugur (bunga, daun)', 'bab21', 'kotoba', '散ります', 'chirimasu'],
+['でかけます', 'pergi keluar', 'bab21', 'kotoba', '出かけます', 'dekakemasu'],
+['なくします', 'kehilangan', 'bab21', 'kotoba', '', 'nakushimasu'],
+['はし', 'jembatan', 'bab21', 'kotoba', '橋', 'hashi'],
+['ばしょ', 'tempat/lokasi', 'bab21', 'kotoba', '場所', 'basho'],
+['ぶひん', 'suku cadang/komponen', 'bab21', 'kotoba', '部品', 'buhin'],
+['マニュアル', 'manual/panduan', 'bab21', 'kotoba', '', 'manyuaru'],
+['まわします', 'memutar', 'bab21', 'kotoba', '回します', 'mawashimasu'],
+['ミーティング', 'rapat/meeting', 'bab21', 'kotoba', '', 'miitingu'],
+['やります', 'melakukan/memberikan', 'bab21', 'kotoba', '', 'yarimasu'],
+['れんしゅうします', 'berlatih', 'bab21', 'kotoba', '練習します', 'renshuu shimasu'],
+
+// Datset bab 22
+['おゆ', 'air panas', 'bab22', 'kotoba', 'お湯', 'oyu'],
+['かぐ', 'perabot/furnitur', 'bab22', 'kotoba', '家具', 'kagu'],
+['かびん', 'vas bunga', 'bab22', 'kotoba', '花瓶', 'kabin'],
+['きいろい', 'kuning', 'bab22', 'kotoba', '黄色い', 'kiiroi'],
+['くみたてます', 'merakit/menyusun', 'bab22', 'kotoba', '組み立てます', 'kumitatemasu'],
+['こしょうします', 'rusak/mogok', 'bab22', 'kotoba', '故障します', 'koshou shimasu'],
+['このへん', 'daerah sekitar sini', 'bab22', 'kotoba', 'この辺', 'kono hen'],
+['こんど', 'kali ini/lain kali', 'bab22', 'kotoba', '今度', 'kondo'],
+['さいふ', 'dompet', 'bab22', 'kotoba', '財布', 'saifu'],
+['さそいます', 'mengajak', 'bab22', 'kotoba', '誘います', 'sasoimasu'],
+['ざんねん', 'sayang sekali/menyesal', 'bab22', 'kotoba', '残念', 'zannen'],
+['すいはんき', 'penanak nasi/rice cooker', 'bab22', 'kotoba', '炊飯器', 'suihanki'],
+['スープ', 'sup', 'bab22', 'kotoba', '', 'suupu'],
+['たきます', 'menanak/menyalakan api (memasak)', 'bab22', 'kotoba', '炊きます', 'takimasu'],
+['なべ', 'panci', 'bab22', 'kotoba', '鍋', 'nabe'],
+['ならびます', 'berbaris/berjejer', 'bab22', 'kotoba', '並びます', 'narabimasu'],
+['ならべます', 'menyusun/menjejerkan', 'bab22', 'kotoba', '並べます', 'narabemasu'],
+['にます', 'merebus/memasak dengan kuah', 'bab22', 'kotoba', '煮ます', 'nimasu'],
+['のせます', 'meletakkan di atas/memuatkan', 'bab22', 'kotoba', '載せます', 'nosemasu'],
+['ビル', 'gedung', 'bab22', 'kotoba', '', 'biru'],
+['フライパン', 'penggorengan/wajan', 'bab22', 'kotoba', '', 'furaipan'],
+['ほうちょう', 'pisau dapur', 'bab22', 'kotoba', '包丁', 'houchou'],
+['やかん', 'teko/ketel air', 'bab22', 'kotoba', '薬缶', 'yakan'],
+['やきます', 'membakar/memanggang', 'bab22', 'kotoba', '焼きます', 'yakimasu'],
+['やくそく', 'janji', 'bab22', 'kotoba', '約束', 'yakusoku'],
+['わかします', 'merebus/mendidihkan', 'bab22', 'kotoba', '沸かします', 'wakashimasu'],
+
+// Dataset Bab 23
+['いなか', 'kampung/pedesaan', 'bab23', 'kotoba', '田舎', 'inaka'],
+['おかしい', 'aneh/lucu', 'bab23', 'kotoba', '可笑しい', 'okashii'],
+['おぼんやすみ', 'libur Obon', 'bab23', 'kotoba', 'お盆休み', 'obon yasumi'],
+['おもさ', 'berat (noun)', 'bab23', 'kotoba', '重さ', 'omosa'],
+['かぞえます', 'menghitung', 'bab23', 'kotoba', '数えます', 'kazoemasu'],
+['きめます', 'memutuskan/menentukan', 'bab23', 'kotoba', '決めます', 'kimemasu'],
+['さがります', 'turun/berkurang', 'bab23', 'kotoba', '下がります', 'sagarimasu'],
+['しゅっせきします', 'hadir', 'bab23', 'kotoba', '出席します', 'shusseki shimasu'],
+['そうだんします', 'berdiskusi/berkonsultasi', 'bab23', 'kotoba', '相談します', 'soudan shimasu'],
+['たのみます', 'meminta', 'bab23', 'kotoba', '頼みます', 'tanomimasu'],
+['たります', 'cukup', 'bab23', 'kotoba', '足ります', 'tarimasu'],
+['とじます', 'menutup (buku/mata/dll)', 'bab23', 'kotoba', '閉じます', 'tojimasu'],
+['ながさ', 'panjang (noun)', 'bab23', 'kotoba', '長さ', 'nagasa'],
+['はかります', 'mengukur', 'bab23', 'kotoba', '測ります', 'hakarimasu'],
+['ひろば', 'lapangan/alun-alun', 'bab23', 'kotoba', '広場', 'hiroba'],
+['フィルム', 'film (kamera)', 'bab23', 'kotoba', '', 'firumu'],
+['ふく', 'pakaian/baju', 'bab23', 'kotoba', '服', 'fuku'],
+['まにあいます', 'sempat/tepat waktu', 'bab23', 'kotoba', '間に合います', 'maniaimasu'],
+['もどります', 'kembali', 'bab23', 'kotoba', '戻ります', 'modorimasu'],
+['やめます', 'berhenti/menghentikan', 'bab23', 'kotoba', '辞めます', 'yamemasu'],
+['ランプ', 'lampu', 'bab23', 'kotoba', '', 'ranpu'],
+
+//Datset bab 24
+['あきます', 'terbuka', 'bab24', 'kotoba', '開きます', 'akimasu'],
+['あつめます', 'mengumpulkan', 'bab24', 'kotoba', '集めます', 'atsumemasu'],
+['あんぜんひょうしき', 'tanda keselamatan', 'bab24', 'kotoba', '安全標識', 'anzen hyoushiki'],
+['いれます', 'memasukkan', 'bab24', 'kotoba', '入れます', 'iremasu'],
+['うごきます', 'bergerak', 'bab24', 'kotoba', '動きます', 'ugokimasu'],
+['えきいん', 'petugas stasiun', 'bab24', 'kotoba', '駅員', 'ekiin'],
+['おします', 'menekan/mendorong', 'bab24', 'kotoba', '押します', 'oshimasu'],
+['かかります', 'membutuhkan (waktu/biaya)', 'bab24', 'kotoba', '掛かります', 'kakarimasu'],
+['かけます', 'menggantung/menelepon/memakai', 'bab24', 'kotoba', '掛けます', 'kakemasu'],
+['かぜをひきます', 'masuk angin/flu', 'bab24', 'kotoba', '風邪を引きます', 'kaze wo hikimasu'],
+['カレンダー', 'kalender', 'bab24', 'kotoba', '', 'karendaa'],
+['きゅうに', 'tiba-tiba', 'bab24', 'kotoba', '急に', 'kyuu ni'],
+['ころびます', 'jatuh terguling', 'bab24', 'kotoba', '転びます', 'korobimasu'],
+['こわします', 'merusakkan', 'bab24', 'kotoba', '壊します', 'kowashimasu'],
+['さします', 'menusuk/menunjuk (payung, jari, dll)', 'bab24', 'kotoba', '指します/差します', 'sashimasu'],
+['しばらく', 'sebentar/lama tidak', 'bab24', 'kotoba', '暫く', 'shibaraku'],
+['しまります', 'tertutup', 'bab24', 'kotoba', '閉まります', 'shimarimasu'],
+['せんぷうき', 'kipas angin', 'bab24', 'kotoba', '扇風機', 'senpuuki'],
+['そうじき', 'vacuum cleaner', 'bab24', 'kotoba', '掃除機', 'soujiki'],
+['たんす', 'lemari pakaian', 'bab24', 'kotoba', '箪笥', 'tansu'],
+['つきます', 'menyala/menempel', 'bab24', 'kotoba', '付きます', 'tsukimasu'],
+['つけます', 'menyalakan/memasang', 'bab24', 'kotoba', '付けます', 'tsukemasu'],
+['ていでん', 'mati lampu/pemadaman listrik', 'bab24', 'kotoba', '停電', 'teiden'],
+['トラック', 'truk', 'bab24', 'kotoba', '', 'torakku'],
+['はります', 'menempelkan', 'bab24', 'kotoba', '貼ります', 'harimasu'],
+['ひきだし', 'laci', 'bab24', 'kotoba', '引き出し', 'hikidashi'],
+['ひょうし', 'sampul/cover', 'bab24', 'kotoba', '表紙', 'hyoushi'],
+['へんじ', 'jawaban/balasan', 'bab24', 'kotoba', '返事', 'henji'],
+['ホーム', 'peron stasiun', 'bab24', 'kotoba', '', 'hoomu'],
+['ホワイトボード', 'papan tulis putih', 'bab24', 'kotoba', '', 'howaitoboodo'],
+['ほんだな', 'rak buku', 'bab24', 'kotoba', '本棚', 'hondana'],
+['まちがえます', 'salah/keliru', 'bab24', 'kotoba', '間違えます', 'machigaemasu'],
+['まわります', 'berputar/mengelilingi', 'bab24', 'kotoba', '回ります', 'mawarimasu'],
+['もんだいしゅう', 'kumpulan soal', 'bab24', 'kotoba', '問題集', 'mondai shuu'],
+
+// Dataset bab 25
+['じゃがいも', 'kentang', 'bab25', 'kotoba', '', 'jagaimo'],
+['しゅうちゅうします', 'konsentrasi', 'bab25', 'kotoba', '集中します', 'shuuchuu shimasu'],
+['しょうがつ', 'tahun baru (bulan 1)', 'bab25', 'kotoba', '正月', 'shougatsu'],
+['たおれます', 'roboh/tumbang', 'bab25', 'kotoba', '倒れます', 'taoremasu'],
+['ちょうせつします', 'mengatur/menyesuaikan', 'bab25', 'kotoba', '調節します', 'chousetsu shimasu'],
+['つづけます', 'melanjutkan', 'bab25', 'kotoba', '続けます', 'tsuzukemasu'],
+['つよい', 'kuat', 'bab25', 'kotoba', '強い', 'tsuyoi'],
+['とうもろこし', 'jagung', 'bab25', 'kotoba', '', 'toumorokoshi'],
+['ねだん', 'harga', 'bab25', 'kotoba', '値段', 'nedan'],
+['はれます', 'cerah', 'bab25', 'kotoba', '晴れます', 'haremasu'],
+['ひので', 'matahari terbit', 'bab25', 'kotoba', '日の出', 'hinode'],
+['ふきます', 'mengelap/mengusap/meniup', 'bab25', 'kotoba', '吹きます', 'fukimasu'],
+['ボート', 'perahu/kapal kecil', 'bab25', 'kotoba', '', 'booto'],
+['ボーナス', 'bonus', 'bab25', 'kotoba', '', 'boonasu'],
+['ゆうがた', 'sore/senja', 'bab25', 'kotoba', '夕方', 'yuugata'],
+['よてい', 'jadwal/rencana', 'bab25', 'kotoba', '予定', 'yotei'],
+['リーダー', 'pemimpin/leader', 'bab25', 'kotoba', '', 'riidaa'],
+
+];
+
+// --- VARIABEL GLOBAL --- \\
+let currentKana = {};
+let sessionList = [];
+let soalMM = [];
+let mode = '0kosong';
+let correctCount = 0;
+let totalCount = 0;
+let isClickable = true;
+let totalSoal = 0;
+
+// --- ELEMENT GLOBAL --- \\
+const reverseBtn = document.getElementById('kotak-reverse');
+const pilihSemua = document.getElementById('pilih-semua');
+const pilihanBab = document.querySelectorAll('.bab-choice');
+const periksaMM = document.getElementById('btnPeriksaMM');
+const ulangMM = document.getElementById('btnBuatMM');
+const kotakNilaiMM = document.getElementById(`nilaiMM`);
+const badanQuiz = document.getElementById('badan-quiz');
+const welcomeMsg = document.getElementById('sambutan');
+const catatankanji = document.getElementById('infokanjiquiz');
+const pilihan = document.getElementById('pilihan-kotoba');
+const judulpilihan = document.getElementById('judul-pilihan-kotoba');
+const stopBtn = document.getElementById('stopQuizBtn');
+const tableContainer = document.getElementById('vocabTableContainer');
+const tombolBacaPilihanKanji = document.getElementById('mulai-quiz-baca');
+const tombolkotobaNokanji = document.getElementById('kotoba-Nokanji');
+const tombolartikanPilihanKanji = document.getElementById('mulai-quiz-artikan');
+const quizMM = document.getElementById('soalMM');
+const btnCekMM = document.getElementById("btnPeriksaMM");
+const pewaktu = document.querySelector(".pewaktu");
+const dataTimer = document.querySelector("#dataTimer");
+
+
+// --- START EVENT HANDLER --- \\
+// --- Semua fungsi yang memerlukan interaksi user dsimipan dibawah ini --- \\
+
+// Fungsi search dalam tabel
+document.getElementById('tableSearch').addEventListener('input', (e)=>{
+    buildVocabTable(e.target.value);
+});
+
+// Fungsi yang mendeteksi apakah user mencentang pilihan semua atau tidak
+  pilihSemua.addEventListener('change', function () {
+    pilihanBab.forEach(cb => cb.checked = this.checked);
+  });
+
+  // Fungsi centang semua saat memilih bab kotoba
+  pilihanBab.forEach(cb => {
+    cb.addEventListener('change', function () {
+      // kalau ada yang tidak terpilih, otomatis uncheck "Pilih Semua"
+      if (![...pilihanBab].every(c => c.checked)) {
+        pilihSemua.checked = false;
+      }
+      // kalau semua terpilih, otomatis check "Pilih Semua"
+      else {
+        pilihSemua.checked = true;
+      }
+    });
+  });
+
+// FUngsi untuk menentukan mode berdasarkan pilihan user saat ini. Ditriger dari elemen option
+document.getElementById('modeSelect').addEventListener('change', (e) => {
+    mode = e.target.value;
+  bangunUI();
+});
+
+// Fungsi untuk Tombol resetBtn yang menukar indeks dataset "jawaban" menjadi "soal" dan sebaliknya. Dengan menambahkan -rev
+// Lihat fungsi isReverseMode dan kapan fungsi itu dipanggil, untuk lebih detailnya
+document.getElementById('reverseBtn').addEventListener('click', () => {
+    if (mode.endsWith('-rev')) {
+    mode = mode.replace('-rev', '');
+} else {
+    mode = mode + '-rev';
+}
+  bangunUI();
+});
+
+// Fungsi untuk Tombol keluar... saat dipencet, mengubah mode ke 0kosong. 
+// Lihat fungsi getKanaList untuk mencari tau apa yang terjadi saat mode 0kosng
+document.getElementById('stopQuizBtn').addEventListener('click', ()=>{
+    mode = '0kosong';
+  document.getElementById('modeSelect').value = '0kosong'; 
+  bangunUI();
+});
+
+// Fungsi untuk Tombol memulai quiz membaca kanji
+document.getElementById('mulai-quiz-baca').addEventListener('click', ()=>{
+    mode = 'semua-kanji-baca';
+  document.getElementById('modeSelect').value = 'baca-pilihan'; 
+    const selected = Array.from(document.querySelectorAll('.bab-choice:checked')).map(cb => cb.value);
+      if (selected.length === 0) { // Jika multiple choice (input) ga ada yang dipilih. Kasi pesan ini:
+                                                                  alert("⚠️ Minimal pilih 1 kek >:(");
+  }else{
+  bangunUI();
+  }
+})
+
+// Fungsi untuk Tombol memulai quiz mengartikan kotoba
+;document.getElementById('mulai-quiz-artikan').addEventListener('click', ()=>{
+    mode = 'semua-kanji';
+  document.getElementById('modeSelect').value = 'semua-kotoba-kanji'; 
+    const selected = Array.from(document.querySelectorAll('.bab-choice:checked')).map(cb => cb.value);
+      if (selected.length === 0) {
+    alert("⚠️ Minimal pilih 1 kek >:(");
+  }else{
+  bangunUI();
+  }
+});
+
+// Fungsi untuk Tombol memulai quiz mengartikan kotoba (non-kanji)
+document.getElementById('kotoba-Nokanji').addEventListener('click', ()=>{
+    mode = 'semua-kotoba';
+  document.getElementById('modeSelect').value = 'kotoba-pilihan'; 
+    const selected = Array.from(document.querySelectorAll('.bab-choice:checked')).map(cb => cb.value);
+      if (selected.length === 0) {
+    alert("⚠️ Minimal pilih 1 kek >:(");
+  }else{
+  bangunUI();
+  }
+});
+
+// --- END EVENT HANDLER --- \\
+
+
+// --- NON-QUIZ FUNCTION --- \\
+// Semua fungsi yang tidak memiliki pengaruh dengan logika quiz, ditempatkan disini
+
+// icon stopwatch
+function iconsw(id) {
+  const lokasi = document.getElementById(id);
+  lokasi.innerHTML = `
+    <svg width="24" height="25"
+         viewBox="0 0 24 24"
+         fill="none"
+         stroke="currentColor"
+         stroke-width="2"
+         stroke-linecap="round"
+         stroke-linejoin="round">
+
+      <circle cx="12" cy="12" r="7"/>
+      <line x1="10" y1="3" x2="14" y2="3" />
+      <line x1="12" y1="12" x2="12" y2="7" />
+    </svg>
+  `;
+}
+
+// Tiner. Gunakan Timer.start() untuk mulai timer | Dan Timer.stop() untuk menghentikan Timer. Di fungsi manapun
+const Timer = {
+    start() {
+        this.mulaiSW = Date.now();
+        this.id = setInterval(() => {
+            this.waktu = Math.floor((Date.now() - this.mulaiSW) / 1000);
+            this.updateCetak();
+        }, 1000);
+       iconsw("iconStopwatch");
+    },
+
+    stop() {
+        clearInterval(this.id);
+    },
+
+    updateCetak() {
+      const jam = Math.floor(this.waktu / 3600);
+      const menit = Math.floor((this.waktu % 3600) / 60);
+      const detik = this.waktu % 60;
+
+      let hasil = [];
+      if (jam > 0) hasil.push(`${jam}j`);
+      if (menit > 0) hasil.push(`${menit}m`);
+      if (detik > 0) hasil.push(`${detik}d`);
+      if (hasil.length === 0) hasil = ["0d"];
+
+      cetakTime = hasil.join(" ");
+        dataTimer.innerHTML = `${cetakTime}`;
+        pewaktu.style.display = 'flex';
+    }
+};
+
+// Fungsi untuk mengisi table dengan dataset terstruktur
+function buildVocabTable(filter='') {
+    const tbody = document.querySelector('#vocabTable tbody');
+  tbody.innerHTML = '';
+  const q = (filter||'').toLowerCase();
+  
+  kanaList.forEach(entry => {
+    const [baca, arti, bab, tipe, kanji, latin] = entry;
+    if (tipe !== 'kotoba') return;
+    
+    const kanjiDisplay = (kanji && kanji !== '') ? kanji : '-';
+    const bacaDisplay = baca || '-';
+    const artiDisplay = arti || '-';
+    
+    const rowText = `${bab} ${kanjiDisplay} ${bacaDisplay} ${artiDisplay} ${latin}`.toLowerCase();
+    if (q && !rowText.includes(q)) return; // filter pencarian
+    
+    const tr = document.createElement('tr');
+    tr.innerHTML = `<td class='text-uppercase'>${bab}</td><td>${kanjiDisplay}</td><td>${bacaDisplay}</td><td class='text-capitalize'>${artiDisplay}</td>`;
+    tbody.appendChild(tr);
+});
+}
+// --- END NON QUIZ FUNCTION --- \\
+
+
+// --- START CORE FUNCTION --- \\
+// --- Semua fungsi krusial seperti pengkalkulasi logika, algoritma soal, dan lain sebagainya. Dimuat disini --- \\\
+
+//fungsi untuk mendeteksi apakah mode reverse atau normal, sesimpel mendeteksi apakah mode berakhiran '-rev' di class html
+function isReverseMode() { return mode.endsWith('-rev');}
+
+// Fungsi untuk membuat soal dan memilih jawaban atas soal tersebut
+function pickKana() {
+
+  // Local Variabel fungsi pickKana
+  currentKana = sessionList.pop();
+  const choicesContainer = document.getElementById('choices');
+  choicesContainer.innerHTML = '';
+  document.getElementById('result').textContent = '';
+  let options;
+  let nomorsoal = nomor();
+  const angkaBab = currentKana[2].replace(/\D/g, "");
+
+  function nomor() { return totalCount < 1 ? 1 : totalCount + 1;};
+
+// Menampilkan/print text saat ini dalam mode apa di halaman web
+document.getElementById("debugMode").textContent = "Mode aktif: " + mode; // Terdapat element <p> HTML dg id debugMode untuk mengecek status mode saat ini.
+        // Ganti style display dengan Inspektion Web untuk menampilkan debugging ini
+
+
+// Mengecek apakah shuflfle sessionList telah kosong. Jika kosong berarti semua dataset telah di tampilkan di quiz. Artinya Quiz selesai
+  if (sessionList.length === 0) { // cek fungsi startSession untuk mengetahui asal var sessionList
+    Timer.stop();
+    document.getElementById('kana').textContent = 'Selesai!';
+    document.getElementById('result').innerHTML = `<h4>Kuis selesai!. Dalam waktu ${cetakTime}, dari ${totalSoal} soal kamu menjawab ${correctCount} dengan benar</h4>`;
+    document.getElementById('choices').innerHTML = '';
+    document.getElementById('soal').innerHTML = '';
+    document.getElementById('restart').style.display = 'inline-block';
+    document.getElementById('score').style.display = 'block';
+    reverseBtn.style.display = 'none';
+    return;
+}
+
+  if (isReverseMode()) {
+// Mode reverse
+
+    // Mode Baca Kanji (semua-kanji-baca-rev)
+    if (mode.includes('-kanji-baca')) {
+      // Aku akan menempatkan comment-line di mode ini sebagai contoh. Intinya sama di berbagai mode lain
+        document.getElementById('kana').textContent = currentKana[0]; // mengisi dan menampilkan indeks dataset yang jadi soal 
+      document.getElementById('soal').innerHTML = `<Z class='asal-kotoba'> ${angkaBab ? 'Kotoba BAB ' + angkaBab + '<br>' : ''}</Z><strong>Soal ke ${nomorsoal} dari ${totalSoal} soal</strong><br>Tulisan kanji dari huruf di atas adalah...?`;// bentuk soal mode saat ini
+      options = shuffle([currentKana[4], ...generateFakeAnswers(currentKana[4])]);
+    } 
+    
+    // Mode Baca Kanji (semua-kanji-rev)
+    else if (mode.includes('-kanji')) {
+        document.getElementById('kana').textContent = currentKana[1] || currentKana[0];
+      document.getElementById('soal').innerHTML = `<Z class='asal-kotoba'> ${angkaBab ? 'Kotoba BAB ' + angkaBab + '<br>' : ''}</Z><strong>Soal ke ${nomorsoal} dari ${totalSoal} soal</strong><br>Bagaimana cara menulis kosakata diatas?`;
+      options = shuffle([currentKana[4] || currentKana[0], ...generateFakeAnswers(currentKana[4] || currentKana[0])]);
+    }
+    
+    // Mode lain yang belum didefinisikan dalam versi -rev
+    else {
+        document.getElementById('kana').textContent = currentKana[1];
+      document.getElementById('soal').innerHTML = `<Z class='asal-kotoba'> ${angkaBab ? 'Kotoba BAB ' + angkaBab + '<br>' : ''}</Z><strong>Soal ke ${nomorsoal} dari ${totalSoal} soal</strong><br>Cara menulis jepang huruf diatas adalah...`;
+      options = shuffle([currentKana[0], ...generateFakeAnswers(currentKana[0])]);
+    }   
+} else {
+// Mode Normal
+
+    // Mode Baca Kanji (semua-kanji-baca)
+    if (mode.includes('-kanji-baca')) {
+        document.getElementById('kana').textContent = currentKana[4];
+      document.getElementById('soal').innerHTML = `<Z class='asal-kotoba'> ${angkaBab ? 'Kotoba BAB ' + angkaBab + '<br>' : ''}</Z><strong>Soal ke ${nomorsoal} dari ${totalSoal} soal</strong><br>Furigana huruf diatas adalah...`;
+      options = shuffle([currentKana[0], ...generateFakeAnswers(currentKana[0])]);
+    }
+    
+    // Mode Baca Kanji (semua-kanji)
+    else if (mode.includes('-kanji')) {
+        document.getElementById('kana').textContent = currentKana[4] || currentKana[0];
+      document.getElementById('soal').innerHTML = `<Z class='asal-kotoba'> ${angkaBab ? 'Kotoba BAB ' + angkaBab + '<br>' : ''}</Z><strong>Soal ke ${nomorsoal} dari ${totalSoal} soal</strong><br>Apa arti tulisan di atas?`;
+      options = shuffle([currentKana[1], ...generateFakeAnswers(currentKana[1])]);
+    }
+    
+    // Mode lain yang belum didefinisikan
+    else {
+        document.getElementById('kana').textContent = currentKana[0];
+      document.getElementById('soal').innerHTML = `<Z class='asal-kotoba'> ${angkaBab ? 'Kotoba BAB ' + angkaBab + '<br>' : ''}</Z><strong>Soal ke ${nomorsoal} dari ${totalSoal} soal</strong><br>Romaji Huruf diatas adalah...`;
+      options = shuffle([currentKana[1], ...generateFakeAnswers(currentKana[1])]);
+    }  
+}
+      options.forEach(choice => {
+        const btn = document.createElement('button');
+        btn.textContent = choice;
+        btn.classList.add('text-capitalize');
+        btn.onclick = () => {          
+            if (!isClickable) return;
+          checkAnswer(choice);
+        };
+        choicesContainer.appendChild(btn);
+    });  
+
+}
+
+// fungsi memverifikasi jawaban soal Pilihan Ganda (katakana, hiragana, kotoba, kanji, dll)
+  function checkAnswer(answer) { 
+  totalCount++;
+  const result = document.getElementById('result');
+  const buttons = document.querySelectorAll('#choices button');
+  const overlay = document.getElementById('nextOverlay');  
+  let correctAnswer;
+
+  if (isReverseMode()) {
+  // Tentukan jawaban benar sesuai mode reverse
+  if (mode.includes('-kanji-baca')) {
+    correctAnswer = currentKana[4]; 
+} else if (mode.includes('-kanji')) {
+    correctAnswer = currentKana[4] || currentKana[0];
+} else {
+    correctAnswer = currentKana[0];
+}
+  }else{
+  // Tentukan jawaban benar sesuai mode
+  if (mode.includes('-kanji-baca')) {
+    correctAnswer = currentKana[0];   // baca kanji → hiragana
+} else if (mode.includes('-kanji')) {
+    correctAnswer = currentKana[1];   // arti kanji → hiragana (atau sesuaikan datasetmu)
+} else {
+    correctAnswer = currentKana[1];   // default → romaji
+}
+  }
+  
+  // Warnai semua tombol
+  buttons.forEach(btn => {
+    if (btn.textContent === correctAnswer) {
+    btn.classList.add('correct');
+      if (btn.textContent === answer) {
+        btn.classList.add('bordered');
+    }
+} else if (btn.textContent === answer) {
+        btn.classList.add('selected');
+    }else {
+        btn.classList.add('incorrect');
+    }
+    btn.disabled = true;
+});
+  
+  
+  // Cek jawaban user
+  if (answer === correctAnswer) {
+    result.innerHTML = '<benar>Benar!<Z class="feedback"><strong>Klik dimana saja untuk lanjut</strong></Z></benar>';
+    correctCount++;
+} else {
+    result.innerHTML = `<salah>Salah :(<Z class="feedback"><strong>Klik dimana saja untuk lanjut</strong></Z></salah>`;
+}
+  
+  // Bagian umum
+  revealAllAnswers();
+  updateScore();
+overlay.style.display = 'block'; // tampilkan overlay
+overlay.addEventListener('click', function next() {
+  overlay.style.display = 'none'; // sembunyikan overlay
+  pickKana(); // lanjut ke soal berikutnya
+  overlay.removeEventListener('click', next);
+}, { once: true });
+
+}
+
+// Fungsi untuk membuat jawaban palsu  
+function generateFakeAnswers(correct) {
+
+  if (isReverseMode()) {
+// Membuat jawaban palsu saat mode reverse    
+    if (mode.includes("-kanji-baca")) {
+    pool = getKanaList()
+    .filter(k => k[4] && k[4] !== "" && k[4] !== correct && k[2] === currentKana[2])
+      .map(k => k[4]);
+    }
+    // Mode Mengartikan Kanji
+     else if (mode.includes("-kanji")) {
+    pool = getKanaList()
+    .filter(k => { const value = k[4] && k[4] !== "" ? k[4] : k[0]; return value !== correct && k[2] === currentKana[2];})
+  .map(k => k[4] && k[4] !== "" ? k[4] : k[0]);
+    }
+    // Mode default (hiragana katakana atu mode yang belum didefinisikan)
+     else {
+    pool = getKanaList()
+    .filter(k => k[0] !== correct && k[2] === currentKana[2])
+      .map(k => k[0]);
+    }
+  }else{
+// Membuat jawaban palsu saat mode normal    
+    // Mode Membaca Kanji
+    if (mode.includes("-kanji-baca")) {
+    pool = getKanaList()
+    .filter(k => k[0] !== correct && k[2] === currentKana[2])
+      .map(k => k[0]);
+    }
+    // Mode Mengartikan Kanji
+     else if (mode.includes("kanji")) {
+    pool = getKanaList()
+    .filter(k => k[1] !== correct && k[2] === currentKana[2])
+      .map(k => k[1]);
+    }
+    // Mode default (hiragana katakana atu mode yang belum didefinisikan)
+    else {
+    pool = getKanaList()
+    .filter(k => k[1] !== correct && k[2] === currentKana[2])
+      .map(k => k[1]);
+    }
+  }
+  return shuffle(pool).slice(0, 3);
+}
+
+// Fungsi untuk mengacak lokasi jawaban 
+function shuffle(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+      return array;
+    }
+    
+// Fungsi untuk mengungkap semua jawaban
+    function revealAllAnswers() {
+    const buttons = document.querySelectorAll('#choices button');
+  buttons.forEach(btn => {
+    const text = btn.textContent;
+    const match = getKanaList().find(pair => {
+        // Mencari alamat dataset yang akan dijadikan pasangan tiap jawaban (baik yang palsu ataupu yang asli)
+      
+      // saat mode reverse   
+  if (isReverseMode()) {
+        // Dalam mode baca kanji 
+        if (mode.includes('-kanji-baca')) { return pair[4] === text && pair[2] === currentKana[2];}
+        
+        // Dalam mode artikan kanji 
+        else if (mode.includes('-kanji')) {return (pair[4] || pair[0]) === text && pair[2] === currentKana[2];}
+      
+      // Dalam mode yang tidak dideklarasikan spesifik (kotoba, hiragana, katakana) 
+        else { return pair[0] === text && pair[2] === currentKana[2];}
+    }
+     
+     // saat mode normal
+      else {
+        // Dalam mode baca kanji 
+        if (mode.includes('-kanji-baca')) { return pair[0] === text && pair[2] === currentKana[2];}
+        
+        // Dalam mode artikan kanji 
+        else if (mode.includes('-kanji')) { return pair[1] === text && pair[2] === currentKana[2];}
+        
+        // Dalam mode yang tidak dideklarasikan spesifik (kotoba, hiragana, katakana) 
+        else { return pair[1] === text && pair[2] === currentKana[2];}
+    }
+    });
+    
+    if (match) {
+        // Jika alamat pasangan dataset ditemukan, maka ditampilkan ke user
+    
+    // Saat mode reverse
+  if (isReverseMode()) {
+        
+        // Dalam mode baca kanji 
+        if (mode.includes('-kanji-baca')) { btn.innerHTML = `${match[4]} : ${match[0]}<br><hiragana class="hiragana-jawaban">${match[1]}</hiragana>`;}        
+        // Dalam mode artikan kanji        
+        else if (mode.includes('-kanji')) { const mainText = match[4] || match[0]; const hiraganaText = mainText !== match[0] ? match[0] : "";
+                btn.innerHTML = `${mainText} : ${match[1]}<br><hiragana class="hiragana-jawaban">${hiraganaText}</hiragana>`;}
+        // Dalam mode yang tidak dideklarasikan spesifik 
+        else { btn.innerHTML = `${match[0]} : ${match[1]}<br><hiragana class="hiragana-jawaban">${match[4] ? `(${match[4]})` : ""}</hiragana>`; }
+        
+    } 
+    
+    // Saat mode normal
+     else {
+        // Dalam mode baca kanji 
+        if (mode.includes('-kanji-baca')) { btn.innerHTML = `${match[0]} : ${match[4]}<br><hiragana class="hiragana-jawaban">(${match[1]})</hiragana>`;}
+        // Dalam mode artikan kanji 
+        else if (mode.includes('-kanji')) {btn.innerHTML = `${match[1]} : ${match[0]}<br><hiragana class="hiragana-jawaban">${match[4] ? `(${match[4]})` : ""}</hiragana>`;}
+        // Dalam mode yang tidak dideklarasikan spesifik 
+        else { btn.innerHTML = `${match[0]} : ${match[1]}<br><hiragana class="hiragana-jawaban">${match[4] ? `(${match[4]})` : ""}</hiragana>`; }
+    }
+    }
+});
+}
+
+function mulaiQuizPilihanGanda() {
+    const list = getKanaList();
+  sessionList = shuffle([...list]);
+  totalSoal = sessionList.length;
+  totalCount = 0; // Beda dengan varian global. Ini agar setiap kali quiz direset, nomor soal kembali ke 0
+  correctCount = 0; // sama dengan totalCount, yg beda dengan varian global. Ini agar setiap kali quiz direset, total soal benar kembali ke 0
+  document.getElementById('restart').style.display = 'none';
+  document.getElementById('score').style.display = 'none';
+  updateScore();
+  pickKana();
+}
+
+
+// Fungsi soal Matematika
+
+// fungsi untuk memilih angka random dalam rentang tertentu, dan mencegah bilangan koma. Untuk pilihan rentangnya cek fungsi buatSoalMM()
+function random(angka1, angka2) {
+    return Math.floor(Math.random() * (angka2 - angka1 + 1)) + angka1;
+}
+
+
+// fungsi khusus untuk membuat soal menyederhanakan pecahan
+function gcd(x, y) {
+    return y === 0 ? x : gcd(y, x % y);
+}
+
+function buatPecahanTidakSederhana() {
+    let pembilang, penyebut, fpb;
+
+    do {
+        pembilang = random(1, 9);
+        penyebut = random(2, 12);
+        fpb = gcd(pembilang, penyebut);
+    } 
+    // Tambahan: cegah pembilang === penyebut (jadi 1/1)
+    while (fpb === 1 || pembilang === penyebut);
+
+    return {
+        soal: `${pembilang}/${penyebut}`,
+        jawab: `${pembilang / fpb}/${penyebut / fpb}`
+    };
+}
+
+function buatSoalPecahanPenjumlahan() {
+    let p1 = buatPecahanTidakSederhana();
+    let p2 = buatPecahanTidakSederhana();
+
+    // Pisahkan pembilang & penyebut
+    let [a1, b1] = p1.soal.split("/").map(Number);
+    let [a2, b2] = p2.soal.split("/").map(Number);
+
+    // Samakan penyebut
+    let pembilang = a1 * b2 + a2 * b1;
+    let penyebut = b1 * b2;
+
+    // Pastikan HASIL > 1
+    if (pembilang <= penyebut) {
+        return buatSoalPecahanPenjumlahan(); // ulang
+    }
+
+    // Jawaban versi disederhanakan
+    let fpb = gcd(pembilang, penyebut);
+    let sederhana = `${pembilang / fpb}/${penyebut / fpb}`;
+
+    return {
+        soal: `${p1.soal} + ${p2.soal}`,
+        jawab: {
+            tidakSederhana: `${pembilang}/${penyebut}`,
+            sederhana: sederhana
+        }
+    };
+}
+
+function buatSoalPecahanPerkalian() {
+
+    let p1 = buatPecahanTidakSederhana();
+    let p2 = buatPecahanTidakSederhana();
+
+    let [a1, b1] = p1.soal.split("/").map(Number);
+    let [a2, b2] = p2.soal.split("/").map(Number);
+
+    // Perkalian pecahan
+    let pembilang = a1 * a2;
+    let penyebut = b1 * b2;
+
+    // hitung FPB hasil
+    let fpb = gcd(pembilang, penyebut);
+
+    return {
+        soal: `${p1.soal} × ${p2.soal}`,
+        jawab: {
+            tidakSederhana: `${pembilang}/${penyebut}`,
+            sederhana: `${pembilang / fpb}/${penyebut / fpb}`
+        }
+    };
+}
+
+function buatSoalCampuranPengurangan() {
+
+    // bilangan bulat 1–5
+    let bulat1 = random(1, 5);
+    let bulat2 = random(1, 5);
+
+    // pecahan tidak sederhana (agar bisa disederhanakan)
+    let p1 = buatPecahanTidakSederhana();
+    let p2 = buatPecahanTidakSederhana();
+
+    let [a1, b1] = p1.soal.split("/").map(Number);
+    let [a2, b2] = p2.soal.split("/").map(Number);
+
+    // ubah campuran ke pecahan biasa
+    let pb1 = bulat1 * b1 + a1; 
+    let pb2 = bulat2 * b2 + a2;
+
+    // memastikan bilangan tidak negatif
+    if (pb1 / b1 < pb2 / b2) {
+        return buatSoalCampuranPengurangan();
+    }
+
+    // pengurangan pecahan
+    let pembilang = pb1 * b2 - pb2 * b1;
+    let penyebut = b1 * b2;
+
+    let fpb = gcd(pembilang, penyebut);
+
+    return {
+        soal: `${bulat1} <cilik style="font-size: 17px;position: relative;bottom: 5px;">${a1}/${b1}</cilik> - ${bulat2} <cilik style="font-size: 17px;position: relative;bottom: 5px;">${a2}/${b2}</cilik>`,
+        jawab: `${pembilang / fpb}/${penyebut / fpb}`
+    };
+}
+
+function buatSoalKomaKePecahan() {
+    // pilih hanya 1 atau 2 digit
+    let digit = random(1, 2);
+
+    let penyebut = Math.pow(10, digit);  // 10 atau 100
+
+    // pembilang 1–9 untuk 1 digit / 1–99 untuk 2 digit
+    let pembilang = random(1, penyebut - 1);
+
+    // bentuk desimal sesuai digit (pastikan tampil sebagai desimal rapi)
+    let desimal = (pembilang / penyebut).toFixed(digit);
+
+    return {
+        soal: `${desimal} = .../...`,
+        jawab: `${pembilang}/${penyebut}`  // tidak disederhanakan
+    };
+}
+
+// Fungsi untuk membuat soal aritmatika
+function soal37() {
+    let start = random(1, 20);
+    let d = random(1, 10);
+     
+    let a0 = start;
+    let a1 = a0 + d;
+    let a2 = a1 + d;
+    let a3 = a2 + d;
+    let a4 = a3 + d;
+    let a5 = a4 + d;
+
+    return {
+        soal: `${a0}, ${a1}, ${a2}, (?), ${a4}, ${a5}`,
+        jawab: a3
+    };
+}
+function soal38() {
+    let start = random(1, 20) / 10;
+    let d = random(1, 10) / 10;
+
+    let a0 = Number(start.toFixed(1));
+    let a1 = Number((a0 + d).toFixed(1));
+    let a2 = Number((a1 + d).toFixed(1));
+    let a3 = Number((a2 + d).toFixed(1));
+    let a4 = Number((a3 + d).toFixed(1));
+    let a5 = Number((a4 + d).toFixed(1));
+
+    return {
+        soal: `${a0}, ${a1}, ${a2}, (?), ${a4}, ${a5}`,
+        jawab: a3
+    };
+}
+
+function gambarSiku(nomor, angleDeg) {
+    const canvas45 = document.getElementById(nomor);
+
+    // Kemiringan dalam radian
+    const rad = angleDeg * Math.PI / 180;
+
+    // Ukuran SVG
+    const W = 300;
+    const H = 300;
+    const sumbu = Math.min(W, H) * 0.8;
+
+    // Titik miring
+    const x1 = sumbu * Math.cos(rad);
+    const y1 = H - sumbu * Math.sin(rad);
+
+    // Masukkan SVG
+    canvas45.innerHTML = `
+<svg width="300" height="300" viewBox="0 0 ${W} ${H}">
+<g fill="none" stroke="white" stroke-width="3">
+  <!-- Garis Vertkal -->
+  <line x1="3" y1="${H-3}" x2="3" y2="50" /> 
+
+  <!-- Garis Horizontal -->
+  <line x1="3" y1="${H-3}" x2 ="${W -50}" y2="${H-3}" />
+
+  <!-- Garis Sumbu -->
+  <line x1="3" y1="${H-3}" x2="${x1}" y2="${y1}" stroke-dasharray="8 12"/>
+
+  <!-- kotak kecil -->
+  <rect x="3" y="${H - 23}" width="20" height="20"/>
+  </g>
+  <!-- Teks sudut -->
+  <text x="${W - 100}" y="${H - 25}" fill="white" font-size="16">${angleDeg}°</text>
+  <text x="25" y="${H/2}" fill="white" font-size="20">?°</text>
+
+</svg>`;
+}
+
+// menggambar persegi panjang untuk soal nomor 46
+function gambarPersegiPanjang(NomorSoal, panjang, lebar) {
+  const canvas46 = document.getElementById(NomorSoal);
+  ukuranW = 300;
+  ukuranH = 150;
+  padding = 5;
+  canvas46.innerHTML = `
+    <svg width="${ukuranW}" height="${ukuranH}" viewBox="0 0 ${ukuranW} ${ukuranH}">
+      <!-- Persegi panjang -->
+      <g fill="none" stroke="white" stroke-width="3">
+        <line x1="${padding}" y1="${padding}" x2="${ukuranW - padding}" y2="${padding}"/>
+        <line x1="${ukuranW - padding}" y1="${ukuranH - padding}" x2="${padding}" y2="${ukuranH - padding}" /> 
+        <line x1="${padding}" y1="${padding}" x2="${padding}" y2="${ukuranH - padding}"/>
+        <line x1="${ukuranW - padding}" y1="${padding}" x2="${ukuranW - padding}" y2="${ukuranH - padding}"/>
+      </g>
+      <!-- Label panjang -->
+      <text x="${ukuranW / 2}" y="${ukuranH - padding - 5}" fill="white" font-size="16" text-anchor="middle">${panjang} cm</text>
+      <!-- Label lebar -->
+      <text x="${padding + 5}" y="${ukuranH / 2}" fill="white" font-size="16" text-anchor="start">${lebar} cm</text>
+    </svg>
+  `;
+}
+
+
+function gambarSegitiga(NomorSoal, alas, tinggi){
+  lokasiGambar = document.getElementById(NomorSoal);
+  ukuran = 200;
+  padding = 30;
+
+  lokasiGambar.innerHTML = `
+    <svg width="${ukuran}" height="${ukuran}" viewBox="0 0 ${ukuran} ${ukuran}">
+      <g fill="none" stroke="white" stroke-width="3">
+        <line x1="3" y1="${ukuran - 30}" x2="${ukuran - 3}" y2="${ukuran - 30}"/>
+        <line x1="${ukuran - 3}" y1="${ukuran - 30}" x2="${ukuran / 2}" y2="${padding}"/>
+        <line x1="${ukuran / 2}" y1="${padding}" x2="3" y2="${ukuran - 30}"/>
+        <line x1="${ukuran / 2}" y1="${ukuran - 30}" x2="${ukuran / 2}" y2="${padding}" stroke-dasharray="8 12"/>
+      </g>
+
+      <text x="${ukuran / 2 - 30}" y="${ukuran -10}" fill="white" font-size="16">A : ${alas} cm</text>
+      <text x="0" y="${ukuran / 4}" fill="white" font-size="16">T : ${tinggi} cm</text>
+      </svg>
+  `;
+}
+
+// nggambar lingkaran untuk soal 48
+function gambarLingkaran(NomorSoal, jari2) {
+  const lokasiGambar = document.getElementById(NomorSoal);
+
+  lokasiGambar.innerHTML = `
+    <svg width="235" height="235" viewBox="0 0 235 235">
+      <g fill="none" stroke="white" stroke-width="3">
+        <circle cx="117.5" cy="117.5" r="87.5" />
+        <line x1="117.5" y1="117.5" x2="205" y2="117.5" />
+      </g>
+      <text x="160" y="110" fill="white" font-size="16" text-anchor="middle">r = ${jari2} cm</text>
+    </svg>
+  `;
+}
+
+function gambarBalok(panjang, lebar, tinggi) {
+  const lokasiGambar = document.getElementById("divBalok");
+
+  lokasiGambar.innerHTML = `
+  <svg width="320" height="150" viewBox="0 0 320 150">
+    <!-- Muka depan -->
+    <line class="garis" x1="60" y1="50" x2="200" y2="50" />
+    <line class="garis" x1="200" y1="50" x2="200" y2="130" />
+    <line class="garis" x1="200" y1="130" x2="60" y2="130" />
+    <line class="garis" x1="60" y1="130" x2="60" y2="50" />
+
+    <!-- Muka belakang -->
+    <line class="garis" x1="100" y1="30" x2="240" y2="30" />
+    <line class="garis" x1="240" y1="30" x2="240" y2="110" />
+    <line class="garis" x1="240" y1="110" x2="100" y2="110" stroke-dasharray="8 6" style="stroke: #858585;"/>
+    <line class="garis" x1="100" y1="110" x2="100" y2="30" stroke-dasharray="8 6" style="stroke: #858585;"/>
+
+    <!-- Garis penghubung depan-belakang -->
+    <line class="garis" x1="60" y1="50" x2="100" y2="30" />
+    <line class="garis" x1="200" y1="50" x2="240" y2="30" />
+    <line class="garis" x1="200" y1="130" x2="240" y2="110" />
+    <line class="garis" x1="60" y1="130" x2="100" y2="110" stroke-dasharray="8 6" style="stroke: #858585;"/>
+
+    <!-- Teks -->
+    <text x="225" y="140">L: ${lebar} cm</text>
+    <text x="67"  y="95">T: ${tinggi} cm</text>
+    <text x="125" y="25">P: ${panjang} cm</text>
+  </svg>
+  `;
+}
+
+
+// fungsi untuk membuat soal matematika
+function buatSoalMM() {
+    const kotakSoalMM = document.getElementById("soalMM");
+    kotakSoalMM.innerHTML = "";
+    periksaMM.style.display = 'block';
+
+    soalMM = [];
+
+    // Soal 1
+    let a1 = random(10, 99);
+    let b1 = random(10, 99);
+    soalMM.push({
+        soal: `${a1} + ${b1}`,
+        jawab: a1 + b1
+    });
+
+    // Soal 2
+    let b2 = random(100, 999);
+    let a2 = random(100, 999);
+    soalMM.push({
+        soal: `${a2} + ${b2}`,
+        jawab: a2 + b2
+    });
+
+    // Soal 3
+    let a3 = random(1000, 9999);
+    let b3 = random(1000, 9999);
+    soalMM.push({
+        soal: `${a3} + ${b3}`,
+        jawab: a3 + b3
+    });
+
+    // Soal 4
+    let b4 = random(10, 99);
+    let a4 = random(10, 99);
+    soalMM.push({
+        soal: `${a4} - ${b4}`,
+        jawab: a4 - b4
+    });
+
+    // Soal 5
+    let b5 = random(100, 999);
+    let a5 = random(100, 999);
+    soalMM.push({
+        soal: `${a5} - ${b5}`,
+        jawab: a5 - b5
+    });
+
+    // Soal 6
+    let a6 = random(1000, 9999); 
+    let b6 = random(1000, 9999);
+    soalMM.push({
+        soal: `${a6} - ${b6}`,
+        jawab: a6 - b6
+    });
+
+    // soal 7
+    let a7 = random(1, 99);
+    let b7 = random(1, 99);
+    soalMM.push({
+        soal: `${a7} × ${b7}`,
+        jawab: a7 * b7
+    });
+    
+    // soal 8
+    let a8, b8;
+      do { a8 = random(1, 999); b8 = random(6, 99);}
+      while (a8 % b8 !== 0); // mencari nilai tanpa koma
+    soalMM.push({
+    soal: `${a8} ÷ ${b8}`,
+    jawab: a8 / b8
+    });
+
+    // soal 9
+    let a9, b9;
+      do { a9 = random(1, 9999); b9 = random(6, 99);}
+      while (a9 % b9 !== 0); // mencari nilai tanpa koma
+    soalMM.push({
+    soal: `${a9} ÷ ${b9}`,
+    jawab: a9 / b9
+    });
+
+    // soal 10
+    let a10 = random(10, 99);
+    let b10 = random(1, 99);
+    let c10 = a10 + b10;
+    soalMM.push({
+        soal: `(?) + ${b10} = ${c10}`,
+        jawab: a10
+    });
+
+    // soal 11
+    let a11 = random(10, 40);
+    let b11 = random(10, 99);
+    let c11 = a11 * b11;
+    soalMM.push({
+        soal: `(?) × ${b11} = ${c11}`,
+        jawab: a11
+    });
+
+    // soal 12
+    let a12 = random(10, 20);
+    let b12 = random(10, 20);
+    let c12 = random(1, 9);
+    let d12 = (a12 * c12) - b12;
+    soalMM.push({
+        soal: `${a12}x - ${b12} = ${d12} ; x = ?`,
+        jawab: c12
+    });
+
+    // soal 13
+    let a13 = random(10, 99) + random(1, 9) / 10;
+    let b13 = random(3, 9);                         
+    let c13 = random(1, 99) + random(1, 9) / 10; 
+    soalMM.push({
+        soal: `${a13.toFixed(1)} - ${b13} + ${c13.toFixed(1)}`,
+        jawab: Number(a13.toFixed(1)) - b13 + Number((c13).toFixed(1))
+    });
+    
+    // soal 14
+    let a14 = random(1, 99)                         
+    let b14 = 0.5;
+    let c14 = random(1, 9) + random(1, 9) / 10; 
+    soalMM.push({
+        soal: `${a14} ÷ ${b14} + ${c14}`,
+        jawab: a14 / b14 + c14
+    });
+    
+    // soal 15
+    let a15 = random(1, 99)
+    let b15 = random(1, 9);
+    let c15 = random(1, 9) + random(1, 9) / 10;
+    soalMM.push({
+        soal: `${a15} + ${b15} × ${c15.toFixed(1)}`,
+        jawab:a15 + b15 * Number((c15).toFixed(1))
+    });
+
+    // soal 16
+    let a16 = random(1, 99)
+    soalMM.push({
+    soal: `${a16} cm = ... mm`,
+    jawab: a16 * 10,
+    satuan : ` mm`
+    });
+
+    // soal 17
+    let a17 = random(1, 99)
+    soalMM.push({
+    soal: `${a17} m = ... cm`,
+    jawab: a17 * 100,
+    satuan : ` cm`
+    });
+
+    // soal 18
+    let a18 = random(1, 99)
+    soalMM.push({
+    soal: `${a18} km = ... m`,
+    jawab: a18 * 1000,
+    satuan : ` m`
+    });
+
+    // soal 19
+    let a19 = random(1, 99)
+    soalMM.push({
+    soal: `${a19} kg = ... g`,
+    jawab: a19 * 1000,
+    satuan : ` g`
+    });
+
+    // soal 20
+    let a20 = random(1, 99);
+    soalMM.push({
+    soal: `${a20} ton = ... kg`,
+    jawab: a20 * 1000,
+    satuan : ` kg`
+    });
+
+    // soal 21
+    let a21 = random(1, 99);
+    soalMM.push({
+    soal: `${a21} cc = ... ml`,
+    jawab: a21,
+    satuan : ` ml`
+    })
+
+    // soal 22
+    let a22 = random(1000, 9999);
+    soalMM.push({
+    soal: `${a22} cc = ... L`,
+    jawab: a22 / 1000,
+    satuan : ` L`
+    })
+
+    // soal 23
+    let a23 = random(1, 60);
+    soalMM.push({
+      soal: `${a23} menit = ... detik`,
+      jawab: a23 * 60,
+      satuan : ` detik`
+    })
+
+    // soal 24
+    let a24 = random(1, 24);
+    soalMM.push({
+      soal: `${a24} jam = ... menit`,
+      jawab: a24 * 60,
+      satuan : ` menit`
+    });
+
+    // soal 25
+    let kelipatan = random(1, 24);
+    let a25 = kelipatan * 15;
+    soalMM.push({
+        soal: `${a25} menit = ... jam`,
+        jawab: a25 / 60,
+        satuan : ` jam`
+    });
+
+    // soal 26
+    let jaw26 = random(1, 20);
+    let a26 = jaw26 * jaw26; 
+    soalMM.push({
+        soal: `√${a26}`,
+        jawab: jaw26
+    });
+
+    // soal 27
+    let a27 = random(1, 20);
+    soalMM.push({
+      soal: `${a27}²`,
+      jawab: a27 * a27
+    });
+
+    // soal 28
+    let a28 = random(1, 9) + random(1, 9) / 10;
+    let b28 = random(1, 9) + random(1, 9) / 10;
+    soalMM.push({
+      soal: `${a28} + ${b28}`,
+      jawab: Number((a28 + b28).toFixed(1))
+    });
+    
+    // soal 29
+    let a29 = random(1, 9) + random(1, 9) / 10;
+    let b29 = random(1, 9) + random(1, 9) / 10;
+    soalMM.push({
+      soal: `${a29} - ${b29}`,
+      jawab: Number((a29 - b29).toFixed(1))
+    });
+
+    // soal 30
+    let a30 = random(1, 9) + random(1, 9) / 100;
+    let b30 = random(1, 9) + random(1, 9) / 100;
+    soalMM.push({
+      soal: `${a30} + ${b30}`,
+      jawab: Number((a30 + b30).toFixed(2))
+    });
+
+    // soal 31
+    let a31 = random(1, 9) + random(1, 9) / 100;
+    let b31 = random(1, 9) + random(1, 9) / 100;
+    soalMM.push({
+      soal: `${a31} x ${b31}`,
+      jawab: Number((a31 * b31).toFixed(2))
+    });
+    
+    // soal 32
+    let a32 = buatPecahanTidakSederhana();
+    soalMM.push({
+        soal: a32.soal,
+        jawab: a32.jawab
+    });
+
+    // soal 33
+    let a33 = buatSoalPecahanPenjumlahan();
+    soalMM.push({
+        soal: a33.soal,
+        jawab: a33.jawab.sederhana
+    });
+
+    // soal 34
+    let a34 = buatSoalPecahanPerkalian();
+    soalMM.push({
+        soal: a34.soal,
+        jawab: a34.jawab.sederhana
+    });
+
+    // soal 35
+    let a35 = buatSoalCampuranPengurangan();
+    soalMM.push({
+        soal: a35.soal,
+        jawab: a35.jawab
+    });
+
+    // soal 36
+    let a36 = buatSoalKomaKePecahan();
+    soalMM.push({
+        soal: a36.soal,
+        jawab: a36.jawab
+    });
+
+    // soal 37
+    soalMM.push(soal37());
+
+    // soal 38
+    soalMM.push(soal38());
+
+    // Soal 39
+    let a39 = random(10, 99);
+    let b39 = random(10, 99);
+    let c39 = random(10, 99);
+    let d39 = random(10, 99);
+    soalMM.push({
+        soal: `${a39}, ${b39}, ${c39}, ${d39} Rata-rata = ?`,
+        jawab: (a39 + b39 + c39 + d39) / 4
+    });
+
+    // soal 40
+    let a40 = random(10, 99);
+    let b40;
+    let c40;
+    do { b40 = random(1, 9) / 10; c40 = random(1, 9) / 10;} while(b40 === c40 );
+    b40 = Math.round(b40 * 100) / 100; // nyegah konversi ke biner, eror
+    c40 = Math.round(c40 * 100) / 100; // nyegah konversi ke biner, eror
+    soalMM.push({
+        soal: `<Nbulat style=" display: flex; flex-direction: row; gap: 24px; margin-bottom: 10px;">${a40}
+        <Nrentang style=" display: flex; flex-direction: column;">
+          <poitif>+${b40}</poitif>
+          <negat>-${c40}</negat>
+          </Nrentang>
+          </Nbulat>Nilai Maksimum?`,
+        jawab: a40 + b40
+    });
+
+    // soal 41
+    let d40 = (b40 + c40) / 2;
+    d40 = Math.round(d40 * 100) / 100;// nyegah konversi ke biner, eror
+    let e40;
+    let kondisi1 = Number(((a40 + b40) - d40).toFixed(2));
+    let kondisi2 = Number(((a40 - c40) + d40).toFixed(2));
+    if( kondisi1 === kondisi2) {
+       e40 = kondisi1
+    } else{ 
+      e40 = `<jseror class="jseror" style="color: yellow;"><br>#JS-Floating-eror#<br><br>
+       Javascript salah baca angka soal, yang hasil bacaannya malah seperti ini:<br><br>
+       kondisi 1 = ${a40} + ${b40} - (${a40} + ${b40}) ÷ 2 = ${kondisi1}<br><br>
+       kondisi 2 = ${a40} - ${c40} + (${a40} + ${b40}) ÷ 2 = ${kondisi2}<br><br>
+       (javascript tidak langsung "membaca" angka soal, tetapi angka soal di konversi ke floating biner dan baru javascript bisa membacanya. entah kenapa konversinya salah. Padahal aku sudah memberi algoritma pengaman, yang mencegah kesalahan konversi ke biner).
+       <br><br>Jika kamu ingin perbaiki, cek pengaman math.round di variabel b40, c40, d40. Pastikan ketiga variabel telah di bulatkan atau di"math.round" dulu sebelum dieksekusi sebagai angka di soal</jseror>`
+      };
+    soalMM.push({
+        soal: `<Nbulat style=" display: flex; flex-direction: row; gap: 24px; margin-bottom: 10px;">${a40}
+        <Nrentang style=" display: flex; flex-direction: column;">
+          <poitif>+${b40}</poitif>
+          <negat>-${c40}</negat>
+          </Nrentang>
+          </Nbulat>Nilai Tengah?`,
+        jawab: e40
+    });
+
+    // soal 42
+    soalMM.push({
+        soal: `<Nbulat style=" display: flex; flex-direction: row; gap: 24px; margin-bottom: 10px;">${a40}
+        <Nrentang style=" display: flex; flex-direction: column;">
+          <poitif>+${b40}</poitif>
+          <negat>-${c40}</negat>
+          </Nrentang>
+          </Nbulat>Nilai Minimum`,
+        jawab: a40 - c40
+    });
+
+    // soal 43
+    let a43, b43;
+    do {
+        a43 = random(1, 9) + random(1, 9) / 10;
+        b43 = random(1, 9) + random(1, 9) / 10;
+    } while (a43 === b43);   // ulangi sampe pny nilai beda
+    let operator = (a43 > b43) ? ")" : "(";
+    soalMM.push({
+        soal: `Contoh : 6 ) 2<br>${a43} (?) ${b43}`,
+        jawab: operator
+    });
+    
+    // soal 44
+    let a44, b44, hasil;
+    do {
+        a44 = random(10, 99);
+        b44 = random(10, 99);
+        hasil = (a44 * b44) / 100;
+    } while (hasil % 1 !== 0);  // ulangi kalau tidak bulat
+    soalMM.push({
+        soal: `${a44} % dari ${b44} = ?`,
+        jawab: hasil
+    });
+
+    // soal 45
+    let b45 = random(15, 70);
+    setTimeout(() => { gambarSiku(45, b45); }, 800);
+    soalMM.push({
+        soal: `Berapakah besar sudut lancip berikut?<br>`,
+        gambar: `<nggambar id='45'>Menggambar... </nggambar>`,
+        jawab: 90 - b45,
+        satuan : `°`,
+        heightSoal : `height: 415px;`
+    });
+    
+    // Soal 46
+    let p46,l46;
+    do { p46 = random(8, 28); l46 = random(8, 25);} while (p46 === l46 || p46 < l46 + 3);
+    setTimeout(() => { gambarPersegiPanjang(46, p46, l46); }, 800);
+    soalMM.push({
+        soal: `Hitunglah luas persegi panjang berikut:`,
+        gambar: `<nggambar id='46'>Menggambar... </nggambar>`,
+        jawab: p46 * l46,
+        satuan: ` cm²`,
+        heightSoal : `height: 415px;`
+    });
+
+    // soal 47
+    let a47, t47;
+    a47 = random(5, 20); t47 = random(5, 20);
+    setTimeout(() => { gambarSegitiga(47, a47, t47); }, 800);
+    soalMM.push({
+        soal: `Hitunglah luas segitiga berikut berikut:`,
+        gambar: `<nggambar id='47'>Menggambar... </nggambar>`,
+        jawab: 0.5 * a47 * t47,
+        satuan: ` cm²`,
+        heightSoal : `height: 415px;`
+    }); 
+    
+    // soal 48
+    a48 = random(7, 35);
+    let pi;
+    let habis;
+    if (a48 % 7 === 0) { 
+        pi = 22 / 7; 
+        habis = 1;
+    } else { 
+        pi = 3.14; 
+        habis = 0;
+    }
+    setTimeout(() => { gambarLingkaran(48,a48); }, 800);
+    let luas = pi * a48 * a48;
+    if (habis === 0) {
+        luas = Number(luas.toFixed(2));
+    }
+    soalMM.push({
+        soal: `Hitunglah luas lingkaran berikut berikut:`,
+        gambar: `<nggambar id='48'>Menggambar... </nggambar>`,
+        jawab: luas,
+        satuan: ` cm²`,
+        heightSoal : `height: 415px;`
+    });
+
+    // Soal 49
+    let p49,l49,t49;
+    do { p49 = random(10, 28); l49 = random(10, 25); t49 = random(5, 9)} while (p49 === l49 || p49 < l49 + 3);
+    setTimeout(() => { gambarBalok(p49, l49, t49); }, 800);
+    soalMM.push({
+        soal: `Hitunglah volume balok berikut:`,
+        gambar: `<nggambar id='divBalok'>Menggambar...</nggambar>`,
+        jawab: p49 * l49 * t49,
+        satuan: ` cm³`,
+        heightSoal : `height: 415px;`
+
+    });
+
+    // soal 50
+    a50 = random(7, 35);
+    let pikeliling;
+    let habiskeliling;
+    if (a50 % 7 === 0) { 
+        pikeliling = 22 / 7; 
+        habiskeliling = 1;
+    } else { 
+        pikeliling = 3.14; 
+        habiskeliling = 0;
+    }
+    setTimeout(() => { gambarLingkaran(50,a50); }, 800);
+    let keliling = 2 * pikeliling * a50;
+    if (habiskeliling === 0) {
+        keliling = Number(keliling.toFixed(2));
+    }
+    soalMM.push({
+        soal: `Hitunglah keliling lingkaran berikut berikut:`,
+        gambar: `<nggambar id='50'>Menggambar... </nggambar>`,
+        jawab: keliling,
+        satuan: ` cm²`,
+        heightSoal : `height: 415px;`
+    });
+
+
+
+    // Fungsi pembuat 1 blok soal
+    function tambahSoal(nomor, data) {
+        const kontainerSoal = document.createElement('kontainerSoal');
+        kontainerSoal.className = 'kont-soal';
+        kotakSoalMM.appendChild(kontainerSoal);
+        
+        kontainerSoal.innerHTML = `    
+        <div class="bagan-judulMM" style="${(data.heightSoal || "")}">
+      <nomorsoalmm class="nomorSoalMM">Soal ${nomor}<br></nomorsoalmm>
+      <soalmm class="soalMM">${data.soal}</soalmm>
+      <div>${data.gambar || ""}</div>
+      <kuncijawabanMM class="kunciJwbMM"></kuncijawabanMM>
+      </div>
+
+      <div class="bagan-pilihanMM">
+          <jwb>Jawabanmu:<br></jwb>
+          <input type="text" class="inputJWBMM" inputmode="numeric" placeholder="Jawab disini..." data-nomor-soal="1">
+      </div>`;
+  }
+    //  Generate semua soal sekaligus
+    soalMM.forEach((item, index) => {
+        tambahSoal(index + 1, item);
+    });
+
+
+    // ==============================
+    //  VALIDASI JAWABAN
+    // ==============================    
+    function verifikasiJWBMM() {
+    
+        let MMbenar = 0;
+        let MMtotal = soalMM.length;
+    
+        const inputs = kotakSoalMM.querySelectorAll("input");
+        const judulList = kotakSoalMM.querySelectorAll(".bagan-judulMM");
+    
+        inputs.forEach((inp, i) => {
+            let user = inp.value.trim();
+            let kunci = soalMM[i].jawab;
+        
+            let isBenar = false;
+        
+            // Cek jawaban angka biasa. koma (,) dan titik (.) dianggap sama
+            if (user !== "" && Number(user) === Number(kunci)) {
+                isBenar = true;
+            }
+            // Cek jawaban pecahan
+            else if (user.includes("/") && String(kunci).includes("/")) {
+                const [uPemb, uPeny] = user.split("/").map(Number);
+                const [kPemb, kPeny] = String(kunci).split("/").map(Number);
+            
+                if (uPemb / uPeny === kPemb / kPeny) {
+                    isBenar = true;
+                }
+            }
+            else if (user !== "" && String(user) === String(kunci)) {
+                isBenar = true;
+            }          
+            // Feedback dengan diganti warna latar
+            if (isBenar) {
+                MMbenar++;
+                judulList[i].style.backgroundColor = "#0b5827"; // hijau
+                inputs[i].style.color = "#3af27d"; // hijau
+                inputs[i].disabled = true;
+            } else {
+                judulList[i].style.backgroundColor = "#5e2828"; // merah
+                inputs[i].style.color = "#ff6d6d"; // merah
+                inputs[i].disabled = true;
+                inputs[i].placeholder ='Kosong';
+            }
+          
+        });
+      
+        // Tampilkan kunciJawbanMM
+        document.querySelectorAll("kuncijawabanMM").forEach((j, i) => {
+            j.style.display = "block";
+            j.innerHTML = "Jawaban Benar: " + soalMM[i].jawab + (soalMM[i].satuan || "");
+        });
+      
+        let nilaiMM = MMbenar * 2;
+        alert(`Dalam waktu ${cetakTime}, kamu menjawab ${MMbenar} soal dengan benar.\nNilai kamu: ${nilaiMM}`);
+        kotakNilaiMM.innerHTML = `<soalBenar style='color: #22c55e;'>Benar : ${MMbenar} soal</soalBenar><score class="font-teal skorMM"> Nilai : ${nilaiMM} </score><soalSalah style="color: #f87171;"> Salah : ${MMtotal - MMbenar} Soal</soalSalah>`;
+        kotakNilaiMM.style.display = 'flex';
+        periksaMM.style.display = 'none';
+        ulangMM.style.display = 'block';
+    };
+    
+    
+         Timer.start();
+         
+        // fungsi tombol verifikasi jawban soal MM
+        btnCekMM.onclick = function(){ verifikasiJWBMM(); Timer.stop();};
+
+        // fungsi tombol ulangi Quiz MM
+        ulangMM.onclick = function(){
+          buatSoalMM(); 
+          periksaMM.style.display = 'block';
+          ulangMM.style.display = 'none';
+          kotakNilaiMM.style.display = 'none';
+        };
+
+  }
+  // --- END CORE FUNCTION --- \\
+
+
+// --- DATASET FILTERING FUNCTION --- \\
+
+function getKanaList() {
+// Fungsi untuk mengambil semua pilihan bab kotoba yang dipilih pengguna
+let selectedBab = Array.from(document.querySelectorAll('.bab-choice:checked')).map(cb => cb.value);
+
+      // Filter berdasarkan mode saat ini
+// Mode Hira Kata
+if (mode.startsWith('hiragana')) return kanaList.filter(indeks => indeks[2] === 'hiragana');
+if (mode.startsWith('katakana')) return kanaList.filter(indeks => indeks[2] === 'katakana');
+if (mode.startsWith('bothkana')) return kanaList.filter(indeks => (indeks[2] === 'hiragana' || indeks[2] === 'katakana'));
+
+// Mode Baca Kanji
+if (mode.startsWith('semua-kanji-baca')) { return kanaList.filter(indeks => selectedBab.includes(indeks[2]) && indeks[4] && indeks[4] !== '');}
+
+// Mode Artikan Kanji
+if (mode.startsWith('semua-kanji')) { return kanaList.filter(indeks => selectedBab.includes(indeks[2]));}
+
+// Mode Kotoba
+if (mode.startsWith('semua-kotoba')) { return kanaList.filter(indeks => selectedBab.includes(indeks[2]));}
+
+return kanaList;
+}
+
+// --- END DATASET FILTERING FUNCTION --- \\
+
+
+// --- START "QUIZ ELEMEENT" FUNCTION -- \\
+
+//Fungsi perhitungan skor
+  function updateScore() {
+        const skor = totalCount === 0 ? 0 : Math.floor(correctCount * 100 / totalCount);
+      document.getElementById('score').textContent = `Nilai: ${skor}`;
+    }
+// --- END "QUIZ ELEMEENT" FUNCTION -- \\
+ 
+
+// --- ON-BOOT FUNCTION --- \\
+// Semua fungsi yang dimuat saat web telah 100% diload. Dimuat disini
+
+ function bangunUI() {
+  // Kondisi default element untuk semua mode
+  // Atau saat element dibawah ini tidak didefinisikan khusus di mode tertentu, maka kondisi default ini yang didapat element itu
+    badanQuiz.style.display = 'flex';
+    welcomeMsg.style.display = 'none';
+    reverseBtn.style.display = 'Flex';
+    stopBtn.style.display = 'flex'; 
+    tableContainer.style.display = 'none';
+    stopBtn.textContent = 'Keluar Quiz';
+    pilihan.style.display = 'none';
+    judulpilihan.style.display = 'none';
+    tombolBacaPilihanKanji.style.display = 'none';
+    tombolartikanPilihanKanji.style.display = 'none';
+    tombolkotobaNokanji.style.display = 'none';
+    periksaMM.style.display = 'none';
+    ulangMM.style.display = 'none';
+    quizMM.style.display = 'none';
+    kotakNilaiMM.style.display = "none";
+    pewaktu.style.display = "none";
+    Timer.stop();
+
+    
+ if (mode.startsWith('0kosong')) {
+    // UI welcome
+    welcomeMsg.style.display = 'flex';
+    
+    // UI halaman QUIZ
+    badanQuiz.style.display = 'none';
+    reverseBtn.style.display = 'none';
+    stopBtn.style.display = 'none'; 
+    stopBtn.textContent = 'Keluar Quiz';
+  }
+
+// Halaman "pemilihan bab Quiz Membaca Kotoba (Kanji Only)""
+else if (mode.startsWith('pilih-baca-kanji')) {
+    // UI halaman QUIZ
+    badanQuiz.style.display = 'none';
+    reverseBtn.style.display = 'none';
+    stopBtn.style.display = 'block'; 
+    stopBtn.textContent = 'Kembali Ke Home';
+
+    // UI halaman Multiple choice
+    pilihan.style.display = 'flex';
+    judulpilihan.innerHTML = '<gedi>Pilih Materi Quiz <br>(BAB kotoba)</gedi><br><catatan-mode>Dalam mode ini, kotoba yang umumnya ditulis kanji yang akan diujikan. Kotoba yang umumnya ditulis full hira/kata tidak termasuk. Kamu diminta untuk mencari furigana dengan benar</catatan-mode>';
+    judulpilihan.style.display = 'block';
+    tombolBacaPilihanKanji.style.display = 'block';
+    mulaiQuizPilihanGanda();
+}
+
+// Halaman "pemilihan bab Quiz Mengartikan Kotoba (Kanji included)""
+else if (mode.startsWith('pilih-kotoba-kanji')){
+
+    // UI halaman QUIZ
+    badanQuiz.style.display = 'none';
+    reverseBtn.style.display = 'none';
+    stopBtn.style.display = 'block'; 
+    stopBtn.textContent = 'Kembali Ke Home';
+
+    // UI halaman Multiple choice
+    pilihan.style.display = 'flex';
+    judulpilihan.style.display = 'block';
+    judulpilihan.innerHTML = '<gedi>Pilih Materi Quiz <br>(BAB kotoba)</gedi><br><catatan-mode>Dalam mode ini semua kotoba pada tiap bab diujikan. Baik dalam bentuk hira/kata maupun kanji. Kamu diminta untuk mengartikanya dengan benar</catatan-mode>';
+    tombolartikanPilihanKanji.style.display = 'block';
+    mulaiQuizPilihanGanda();
+}
+
+// Halaman "pemilihan bab Quiz Mengartikan Kotoba (Non-kanji)""
+else if (mode.startsWith('pilih-kotoba-nokanji')) {
+
+    // UI halaman QUIZ
+    badanQuiz.style.display = 'none';
+    reverseBtn.style.display = 'none';
+    stopBtn.style.display = 'block'; 
+    stopBtn.textContent = 'Kembali Ke Home';
+
+        // UI halaman Multiple choice
+    pilihan.style.display = 'flex';
+    judulpilihan.style.display = 'block';
+    judulpilihan.innerHTML = '<gedi>Pilih Materi Quiz <br>(BAB kotoba)</gedi><br><catatan-mode>Dalam mode ini semua kotoba pada tiap bab diujikan. Tapi dalam bentuk hira/kata saja. Kamu diminta untuk mengartikanya dengan benar</catatan-mode>';
+    tombolkotobaNokanji.style.display = 'block';
+    mulaiQuizPilihanGanda();
+}
+
+else if (mode.startsWith('quizMM')) {
+
+    // UI halaman QUIZ
+    badanQuiz.style.display = 'none';
+    reverseBtn.style.display = 'none';
+    stopBtn.style.display = 'block'; 
+    stopBtn.textContent = 'Kembali Ke Home';
+
+    // UI halaman quiz MM
+    quizMM.style.display = 'flex';
+    buatSoalMM();
+
+}
+
+else if(mode.startsWith('tabel')){
+
+    // Ui Tabel
+    tableContainer.style.display = 'flex';
+    buildVocabTable(); // Jangan sering-sering membangun tabel. SANGAT BERAT
+
+    badanQuiz.style.display ="none";
+    reverseBtn.style.display ='none';
+    stopBtn.innerHTML =`Kembali ke Home`;
+}
+
+
+// Kondisi undefine. Jika suatu mode belum atau tidak didefinisikan, maka kondisi ini dipanggil
+// Note : kondisi default dan kondisi undefine, dieksekusi bersamaan. 
+// Tetapi kondisi default dieksekusi dahulu, baru kondisi undefine dieksekusi
+// Ya kondisi undefine "menimpa" kondisi default
+else{
+  mulaiQuizPilihanGanda();
+  Timer.start();
+}
+  } 
+  bangunUI();
+</script>
+</body>
+</html>
