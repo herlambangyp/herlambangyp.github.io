@@ -833,7 +833,7 @@ const pewaktu = document.querySelector(".pewaktu");
 const dataTimer = document.querySelector("#dataTimer");
 
 // Cek update
-cekUpdate.src = "https://herlambangyp.github.io/versi.js";
+cekUpdate.src = `https://herlambangyp.github.io/versi.js?t=${Date.now()}`;
 cekUpdate.onload = () => {
   try{
     if(versiFile === dataServer.versi){
@@ -862,7 +862,6 @@ cekUpdate.onload = () => {
   }
 
 };
-
 cekUpdate.onerror = () => {
   infoUpdate.innerHTML = `
   <span class="gagalCek"style="margin-top:-5px;">
