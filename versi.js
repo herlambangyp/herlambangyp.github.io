@@ -1,4 +1,4 @@
 const versiResmi = {
-    versi: "3.1.7",
+    versi: "3.1.8",
     changelog: "Update tersedia"
 };
