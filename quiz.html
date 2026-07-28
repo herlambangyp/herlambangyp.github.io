@@ -37,14 +37,13 @@ body {
   }
   #toTopBtn {
     position: fixed;
-    bottom: 15px;
+    bottom: 10px;
     right: 20px;
-    width: 40px;
-    height: 40px;
+    width: 50px;
+    height: 50px;
     border: none;
     background: #008080;
     color: white;
-    font-size: 24px;
     cursor: pointer;
     display: none;
     z-index: 9999;
@@ -52,6 +51,8 @@ body {
     padding: 0px;
     min-width: 0px;
     min-height: 0px;
+    justify-content: center;
+    align-items: center;
 }
 
 #toTopBtn:hover {
@@ -594,13 +595,91 @@ display: block;
     border-radius: 4px;
 
     }
+      
+#toast-container {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 9999;
+
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.toast {
+    min-width: 250px;
+    max-width: 350px;
+    padding: 15px 20px;
+    background: #333;
+    color: #ffffff;
+    font-family: system-ui;
+    font-weight: 400;    
+    border-radius: 10px;
+    font-size: 15px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    animation: masuk 0.3s ease forwards;
+}
+
+
+.toast.keluar {
+    animation: keluar 0.3s ease forwards;
+}
+.toast.success {
+    background: green;
+    color: black;
+}
+
+.toast.error {
+    background: crimson;
+    color: black;
+}
+.toast.warning {
+    background: darkorange;
+    color: black;
+}
+.toast.neutral {
+    background: #005889;
+}
+
+
+@keyframes masuk {
+
+    from {
+        opacity: 0;
+        transform: translateX(100px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+
+}
+
+
+@keyframes keluar {
+
+    from {
+        opacity: 1;
+        transform: translateX(0);
+    }
+
+    to {
+        opacity: 0;
+        transform: translateX(100px);
+    }
+
+}
+
 </style>
 </head>
 <body>
 <div class="AllWrapper">
 <div id="nextOverlay"></div>    
+<div id="toast-container"></div>  
 
-    <h1>Quiz Mourop Apalan V<span id="versiFile">3.1.10</span></h1>
+    <h1>Quiz Mourop Apalan V<span id="versiFile">3.1.10a</span></h1>
 
     <button id="pilihMode" class="pilihMode" onclick="modeTerpilih('menuPilihMode')"></button>
 
@@ -817,7 +896,19 @@ display: block;
       behavior: "smooth"
     })' 
   title="Kembali ke atas">
-⮝
+  <svg xmlns="http://www.w3.org/2000/svg" 
+    width="30" 
+    height="30" 
+    viewBox="0 0 24 24" 
+    fill="none" 
+    stroke="currentColor" 
+    stroke-width="2.8" 
+    stroke-linecap="round" 
+    stroke-linejoin="round">
+    
+    <path d="M12 19V6"/>
+    <path d="M6 12l6-6 6 6"/>
+  </svg>
 </button>
 
   <div class="text-kecil">*Web diload sepenuhnya tanpa data internet</div>
@@ -3941,7 +4032,7 @@ const kanaList = [
 // fungsi tombol back to top
 window.addEventListener("scroll", () => {
     if (window.scrollY > 350) {
-        toTopBtn.style.display = "block";
+        toTopBtn.style.display = "flex";
     } else {
         toTopBtn.style.display = "none";
     }
@@ -4016,7 +4107,7 @@ function modeTerpilih (dipilih) {
       case 'BukuMinna-kotoba':
         const selected = Array.from(document.querySelectorAll('.bab-choice:checked')).map(cb => cb.value)
         if (selected.length === 0) {
-          alert("⚠️ Minimal pilih 1 kek >:(")
+          tampilkanNotif("⚠️ Minimal pilih 1 kek >:(")
           return
         }
       break;
@@ -4041,6 +4132,23 @@ document.getElementById('reverseBtn').addEventListener('click', () => {
 
 // --- NON-QUIZ FUNCTION --- \\
 // Semua fungsi yang tidak memiliki pengaruh dengan logika quiz, ditempatkan disini
+
+// Semua fungsi yang tidak memiliki pengaruh dengan logika quiz, ditempatkan disini
+
+function tampilkanNotif(pesan, kelas='neutral', durasi = 3000,) {
+    const container = document.getElementById("toast-container")
+    const toast = document.createElement("div")
+    toast.className = `toast ${kelas}`
+    toast.textContent = pesan
+    container.appendChild(toast);
+    setTimeout(() => {
+        toast.classList.add("keluar")
+        setTimeout(() => {
+            toast.remove()
+        }, 300)
+    }, durasi)
+}
+
 
 // Fungsi download Update
 async function downloadVersiBaru() {
@@ -4151,11 +4259,13 @@ function pickKana() {
   let options;
   let nomorsoal = nomor();
   const angkaBab = currentKana[2].replace(/\D/g, "");
+  console.log(`Total yang diterima Pick Kana = ${sessionList.length}`)
 
   function nomor() { return totalCount < 1 ? 1 : totalCount + 1;};
 
 // Mengecek apakah shuflfle sessionList telah kosong. Jika kosong berarti semua dataset telah di tampilkan di quiz. Artinya Quiz selesai
   if (sessionList.length === 0) { // cek fungsi startSession untuk mengetahui asal var sessionList
+    console.log(`mode ${mode}`)
     Timer.stop();
     document.getElementById('kana').textContent = 'Selesai!';
     document.getElementById('result').innerHTML = `<h4>Kuis selesai!. Dalam waktu ${cetakTime}, dari ${totalSoal} soal kamu menjawab ${correctCount} dengan benar</h4>`;
@@ -4417,6 +4527,8 @@ function mulaiQuizPilihanGanda() {
   correctCount = 0; // sama dengan totalCount, yg beda dengan varian global. Ini agar setiap kali quiz direset, total soal benar kembali ke 0
   document.getElementById('restart').style.display = 'none';
   document.getElementById('score').style.display = 'none';
+    console.log(`Total yang diberikan mulai Quiz = ${totalSoal}`)
+
   updateScore();
   pickKana();
 }
