@@ -35,6 +35,28 @@ body {
     flex-direction: column;
     align-items: center;
   }
+  #toTopBtn {
+    position: fixed;
+    bottom: 15px;
+    right: 20px;
+    width: 40px;
+    height: 40px;
+    border: none;
+    background: #008080;
+    color: white;
+    font-size: 24px;
+    cursor: pointer;
+    display: none;
+    z-index: 9999;
+    border-radius: 50%;
+    padding: 0px;
+    min-width: 0px;
+    min-height: 0px;
+}
+
+#toTopBtn:hover {
+    background: #3c557c;
+}
 .gagalCek{
     font-weight: 400;
     font-size: 8px;
@@ -578,7 +600,7 @@ display: block;
 <div class="AllWrapper">
 <div id="nextOverlay"></div>    
 
-    <h1>Quiz Mourop Apalan V<span id="versiFile">3.1.9</span></h1>
+    <h1>Quiz Mourop Apalan V<span id="versiFile">3.1.10</span></h1>
 
     <button id="pilihMode" class="pilihMode" onclick="modeTerpilih('menuPilihMode')"></button>
 
@@ -593,7 +615,7 @@ display: block;
 
 <!-- Tombol Stop Quiz -->
 <div id="stopQuizWrapper">
-<button id="stopQuizBtn" onclick="modeTerpilih(`0kosong`)" class="hidden">#EROR01 JS Syntax Failure</button>
+<button id="stopQuizBtn" onclick="modeTerpilih(`0kosong`)" class="hidden">#ERROR01 JS Syntax Failure</button>
 </div>
 
 <p id="debugMode" style="display: none;"></p>
@@ -705,7 +727,25 @@ display: block;
       </div>
 
       <div class="kotakTombolPilihanMenu">
-        <button class="tombolPilihanMenu"onclick="modeTerpilih('tabel-buku-im')">Tabel Semua Kotoba Buku IM</button>
+
+        <button class="tombolPilihanMenu"
+        onclick="
+          modeTerpilih('tabelBukuIM');
+          judulMode('Tabel Kotoba Buku IM');
+          buildVocabTable('','kotoba');
+          ">
+          Tabel Kotoba Buku IM
+        </button>
+
+        <button class="tombolPilihanMenu"
+        onclick="
+          modeTerpilih('tabelBukuMinna');
+          judulMode('Tabel Kotoba Buku Minna');
+          buildVocabTable('','BukuMinna');
+          ">
+          Tabel Kotoba Buku Minna
+        </button>
+
       </div>
       
     </div>
@@ -726,7 +766,10 @@ display: block;
 
 <!-- Container Tabel -->
 <div id="vocabTableContainer" class="hidden">
-    <h2 class="judultabel">Tabel Kotoba Buku IM</h2>  
+    
+  <h2 class="judultabel" id="judulTabel"></h2>  
+  <div id="catatankanji" class="text-kecil">
+  </div>
       <input id="tableSearch" type="text" placeholder="Klik untuk cari kotoba/kanji...">
   <table id="vocabTable" border="1">
     <thead>
@@ -739,31 +782,7 @@ display: block;
     </thead>
     <tbody><td>-</td><td>-</td><td>-</td><td>-</td></tbody>
 </table>
-  <div id="catatankanji" class="text-kecil">
-    <p>Footnote terkait kolom "Baca" (kesimpulan pribadi ---!!! LITERATUR LANJUTAN DIPERLUKAN !!!---):</p>
-<ul>
-    <li>
-    Jika kanji berdiri sendiri atau bersama hiragana/katakana bacaan 
-    <strong>Kunyomi</strong>  
-    → 「行きます : いきます | 本 : ほん」
-</li>
-  <li>
-    Jika ada 2 kanji atau lebih berpasangan tanpa Hira/kata (dalam 1 kotoba), bacaan 
-    <strong>Onyomi</strong>  
-    → 「銀行 : ギンコウ | 火気厳禁 : カキゲンキン」
-</li>
-  <li>
-    Kanji nama seseorang semua dibaca <strong>Kunyomi</strong>.  
-    Contoh: 「葉矢辺 : Hayabe (HYP) | 三葉 : Mitsuha | 山本 : Yamamoto」.  
-    (Kurang tahu jika nama makhluk lain, benda mati seperti nama kapal/pesawat dibaca apa)
-</li>
-  <li>
-    Beberapa memiliki bacaan ghawendheng seperti  
-    「今日 : きょう (kyou)」  
-    (tidak ditemukan literatur jelas terkait aturan bacaan ghawendheng ini).
-</li>
-</ul>
-</div>
+
 
 </div>
 
@@ -791,7 +810,16 @@ display: block;
    <button style="display: none;" id="btnBuatMM">Mulai Lagi</button>
 <br><span class="hak"><strong>Buatan <a href="https://herlambangyp.ct.ws/" style="color: cadetblue;text-decoration: none;">@Herlambang YP</a></strong></span>
   
-  
+<button id="toTopBtn" 
+  onclick='
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth"
+    })' 
+  title="Kembali ke atas">
+⮝
+</button>
+
   <div class="text-kecil">*Web diload sepenuhnya tanpa data internet</div>
 </div>
 <script>
@@ -831,6 +859,8 @@ const quizMM = document.getElementById('soalMM');
 const btnCekMM = document.getElementById("btnPeriksaMM");
 const pewaktu = document.querySelector(".pewaktu");
 const dataTimer = document.querySelector("#dataTimer");
+const toTopBtn = document.getElementById("toTopBtn");
+const judulTabel = document.getElementById('judulTabel');
 
 // Cek update
 cekUpdate.src = `https://herlambangyp.github.io/versi.js?t=${Date.now()}`;
@@ -838,8 +868,9 @@ cekUpdate.onload = () => {
   try{
     if(versiFile === dataServer.versi){
       infoUpdate.innerHTML = `
-      <span class="gagalCek"style="margin-top:-5px;">
-        Tidak ditemukan ada update. File kamu sudah terbaru
+      <span class="gagalCek"style="position:relative; top:15px;">
+        Tidak ditemukan ada update. File kamu sudah terbaru.
+        <br><a style='color:darkgray' href='https://herlambangyp.github.io/versi.js'>*Klik disini</a> untuk melihat riwayat pembaruan
       </span>`
 
     }else{
@@ -872,6 +903,7 @@ cekUpdate.onerror = () => {
   </span>`
 };
 document.head.appendChild(cekUpdate);
+
 
 // Dataset materi quiz
 const kanaList = [
@@ -3906,8 +3938,17 @@ const kanaList = [
 // --- START EVENT HANDLER --- \\
 // --- Semua fungsi yang memerlukan interaksi user dsimipan dibawah ini --- \\
 
+// fungsi tombol back to top
+window.addEventListener("scroll", () => {
+    if (window.scrollY > 350) {
+        toTopBtn.style.display = "block";
+    } else {
+        toTopBtn.style.display = "none";
+    }
+});
+
+// fungsi untuk membuat cekbox bab (didasarkan pada data indeks[2] kanaList)
 function buatPilihanBab(kotoba){
-  console.log('Data kotobaBuku = '+kotobaBuku+'. Sedangkan data kotoba di fungsi = '+kotoba)
 if(kotobaBuku === kotoba){
     return
   }
@@ -3957,7 +3998,7 @@ pilihan.addEventListener("change", (e) => {
 
 // Fungsi search dalam tabel
 document.getElementById('tableSearch').addEventListener('input', (e)=>{
-    buildVocabTable(e.target.value);
+    buildVocabTable(e.target.value, kotobaBuku);
 });
 
 function judulMode(judul){
@@ -4067,21 +4108,23 @@ const Timer = {
 };
 
 // Fungsi untuk mengisi table dengan dataset terstruktur
-function buildVocabTable(filter='') {
-    const tbody = document.querySelector('#vocabTable tbody');
+function buildVocabTable(filter='', bagian='') {
+  const tbody = document.querySelector('#vocabTable tbody');
+  kotobaBuku = bagian;
+  judulTabel.textContent=judulModeSaved;
   tbody.innerHTML = '';
   const q = (filter||'').toLowerCase();
   
   kanaList.forEach(entry => {
     const [baca, arti, bab, tipe, kanji, latin] = entry;
-    if (tipe !== 'kotoba') return;
+    if (tipe !== bagian) return;
     
     const kanjiDisplay = (kanji && kanji !== '') ? kanji : '-';
     const bacaDisplay = baca || '-';
     const artiDisplay = arti || '-';
     
     const rowText = `${bab} ${kanjiDisplay} ${bacaDisplay} ${artiDisplay} ${latin}`.toLowerCase();
-    if (q && !rowText.includes(q)) return; // filter pencarian
+    if (q && !rowText.includes(q)) return;
     
     const tr = document.createElement('tr');
     tr.innerHTML = `<td class='text-uppercase'>${bab}</td><td>${kanjiDisplay}</td><td>${bacaDisplay}</td><td class='text-capitalize'>${artiDisplay}</td>`;
@@ -5435,8 +5478,6 @@ else if(mode.startsWith('tabel')){
 
     // Ui Tabel
     tableContainer.style.display = 'flex';
-    buildVocabTable(); // Jangan sering-sering membangun tabel. SANGAT BERAT
-
     badanQuiz.style.display ="none";
     reverseBtn.style.display ='none';
     stopBtn.innerHTML =`Kembali ke Home`;
