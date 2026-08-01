@@ -1,12 +1,20 @@
 window.dataServer = {
 
-    versi: "3.1.10a",
+    versi: "3.1.11",
     changeLog: `
-            - Memperbaiki bug ikon panah keatas tidak muncul di mobile
-            - Menambahkan toast sebagai pesan eror, alih-alih alerts web yang kurang stabil 
+            - Menambahkan info berapa jumlah soal yang akan dipakai di mode artikan dan baca kanji
+            - Menambahkan batasan jumlah soal yang dipakai di quiz. 
+              Sekarang user bisa mengatur jumlah soal yang ingin dipakai di quiz, 
+              agar tidak terlalu banyak soal yang harus dijawab
+            - Memperbaiki bug judul mode yang salah saat di mode reversed 
+
             `,
 
     changeLogVersiLama:`
+
+        3.1.10a
+            - Memperbaiki bug ikon panah keatas tidak muncul di mobile
+            - Menambahkan toast sebagai pesan eror, alih-alih alerts web yang kurang stabil   
 
         3.1.10
             - Menambahkan tabel kotoba buku Minna no Nihonggo
