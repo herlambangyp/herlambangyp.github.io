@@ -15,9 +15,6 @@ Tapi mohon,
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Quiz Mourop Apalan</title>
 <style>
-:root{
-    --warna-tombol: 0, 128, 128;
-}
 body {
         margin: 0px;
     height: 100%;
@@ -134,10 +131,9 @@ salah {
     width: -webkit-fill-available;
   }
 
-.judulUtama {
+h1 {
     color: #f8fafc;
     margin-bottom: 0px;
-    margin-top : 0px;
     padding: 10px;
     background-color: teal;
     width: -webkit-fill-available;
@@ -235,10 +231,6 @@ salah {
     width: 100%;
     text-align: center;
 }
-#pilihBab{
-  max-width: 410px;
-  margin-bottom: 25px;
-}
 .bab-choice{
   font-size: smaller;
 }
@@ -290,7 +282,7 @@ button {
     padding: 10px 20px;
     border: none;
     border-radius: 10px;
-    background-color: rgba(var(--warna-tombol), 1);
+    background-color: #2563eb;
     color: white;
     cursor: pointer;
     min-width: 120px;
@@ -299,9 +291,9 @@ button {
     transition: background-color 0.2s ease;
 }
 
-.tombolPilihanMenu:hover {
-    background-color: rgba(var(--warna-tombol), 0.8);
-  }
+button:hover {
+    background-color: #1d4ed8;
+}
 
 #result {
     font-size: 22px;
@@ -341,7 +333,6 @@ button {
     background: #008080;
     padding: 6px;
     max-width: 400px;
-    cursor: pointer;
 }
 .hak {
     font-size: 13px;
@@ -359,7 +350,7 @@ button {
     border-radius: 10px;
     padding: 25px;
     min-height: 125px;
-    width: -webkit-fill-available;
+    min-width: -webkit-fill-available;
     flex-direction: column;
     margin-top: 40px;
     justify-content: space-between;
@@ -372,19 +363,52 @@ button {
     max-width: 600px;
     margin-top: 20px;
 }
+.kotak-reset{
+    display: none;
+      flex-wrap: nowrap;
+    flex-direction: row;
+    align-items: center;
+    width: -webkit-fill-available;
+    justify-content: flex-start;
+}
+#reverseBtn{
+    width: 20px;
+    min-width: 0px;
+    text-align: center;
+    font-size: 10px;
+    height: 11px;
+    min-height: 20px;
+    padding: 0px;
+    color: black;
+    border-radius: 50%;
+    margin-right: 0px;
+    background-color: oldlace;
+}
+
+.inforeset{
+    font-size: 9px;
+    color: darkgrey;
+      }
+.panah-kiri{
+   font-size: 15px;
+    margin-right: 4px;
+    margin-left: 4px;
+    color: darkgrey;
+}
 .hiragana-jawaban{
     font-size:medium;
 }
 .bagan-pilihan{
     width: -webkit-fill-available;
     flex-wrap: wrap;
+    margin-bottom: 25px;
     flex-direction: row;
     padding: 12px;
     justify-content: space-between;
     border-right: solid 1px;
     border-left: solid 1px;
     border-bottom: solid 1px;
-    display: grid;
+    display: none;
 }
 
 
@@ -419,6 +443,13 @@ catatan-mode{
     position: relative;
     top: -10px;
 }
+#kotak-reverse{
+    display: flex;
+    position: relative;
+    justify-content: center;
+    top: -5px;
+    width: fit-content;
+    }
     .asal-kotoba{
     position: relative;
     top: -10px;
@@ -583,7 +614,7 @@ display: block;
     background: #333;
     color: #ffffff;
     font-family: system-ui;
-    font-weight: 500;    
+    font-weight: 400;    
     border-radius: 10px;
     font-size: 15px;
     box-shadow: 0 5px 15px rgba(0,0,0,0.3);
@@ -601,6 +632,7 @@ display: block;
 
 .toast.error {
     background: crimson;
+    color: black;
 }
 .toast.warning {
     background: darkorange;
@@ -639,65 +671,7 @@ display: block;
     }
 
 }
-#bentukSoal{
-    display: none;
-    flex-direction: column;
-    align-items: center;
-    margin: 20px auto;
-    padding: 22px;
-    max-width: 400px;
-    border-radius: 16px;
-}
 
-.judulBentukSoal{
-    font-size:22px;
-    font-weight:bold;
-    text-align:center;
-}
-
-.subJudulBentukSoal{
-    text-align: center;
-    font-size: 14px;
-    color: #666;
-    position: relative;
-    top: -3px;
-    margin-bottom: 15px;
-}
-
-#ButtonBentukSoal{
-    width:100%;
-
-    display:flex;
-    flex-direction:column;
-    gap:12px;
-}
-
-.tombolBentukSoal{
-    width: 100%;
-    padding: 16px 18px;
-    border: none;
-    border-radius: 12px;
-    cursor: pointer;
-    transition: .2s;
-    text-align: left;
-    background-color: transparent;
-}
-
-.judulTombol{
-    font-size: 18px;
-    font-weight: bold;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-.exmpword{
-  font-size: 25px;
-}
-
-.deskripsiTombol{
-    font-size: 12px;
-    color: #666;
-}
 </style>
 </head>
 <body>
@@ -705,7 +679,7 @@ display: block;
 <div id="nextOverlay"></div>    
 <div id="toast-container"></div>  
 
-    <h1 class="judulUtama">Quiz Mourop Apalan V<span id="versiFile">3.1.12</span></h1>
+    <h1>Quiz Mourop Apalan V<span id="versiFile">3.1.10a</span></h1>
 
     <button id="pilihMode" class="pilihMode" onclick="modeTerpilih('menuPilihMode')"></button>
 
@@ -723,26 +697,8 @@ display: block;
 <button id="stopQuizBtn" onclick="modeTerpilih(`0kosong`)" class="hidden">#ERROR01 JS Syntax Failure</button>
 </div>
 
-<p id="debugMode"></p>
-<!-- jika ingin buat UI baru, buat dibawah sini -->
-<div id="bentukSoal" class="boxUmum">
-    <div class="judulBentukSoal">
-        Bentuk Soalnya?
-    </div>
-    <div class="subJudulBentukSoal">
-        Pilih bentuk soal yang akan digunakan untuk quiz ini
-    </div>
-    <div id="ButtonBentukSoal" class="kotakTombolPilihanMenu">
+<p id="debugMode" style="display: none;"></p>
 
-        <button id="tombolNormal" class="tombolBentukSoal" style="outline: solid 2px #e100a0;">
-        </button>
-
-        <button id="tombolReverse" class="tombolBentukSoal" style="outline: solid 2px #7aff00;">
-        </button>
-
-    </div>
-
-</div>
 <div id="menuPilihan" class="boxUmum">
   <div>
     <span class="judulMenu">Pilih Mode Quiz</span>
@@ -753,9 +709,9 @@ display: block;
       </div>
 
       <div class="kotakTombolPilihanMenu">
-        <button class="tombolPilihanMenu"onclick="helperMode ='hiragana';modeTerpilih('bentukSoal', 'Quiz Hiragana');">Hiragana</button>
-        <button class="tombolPilihanMenu"onclick="helperMode ='katakana';modeTerpilih('bentukSoal', 'Quiz Katakana');">Katakana</button>
-        <button class="tombolPilihanMenu"onclick="helperMode ='bothkana';modeTerpilih('bentukSoal', 'Quiz Hiragana & Katakana');">Hiragana & Katakana</button>
+        <button class="tombolPilihanMenu" onclick="modeTerpilih('hiragana');judulMode('Quiz Hiragana')">Hiragana</button>
+        <button class="tombolPilihanMenu"onclick="modeTerpilih('katakana');judulMode('Quiz Katakana')">Katakana</button>
+        <button class="tombolPilihanMenu"onclick="modeTerpilih('bothkana');judulMode('Quiz Hiragana & Katakana')">Hiragana & Katakana</button>
       </div>
       
     </div>
@@ -767,7 +723,7 @@ display: block;
       </div>
 
       <div class="kotakTombolPilihanMenu">
-        <button class="tombolPilihanMenu"onclick="modeTerpilih('quizMM', 'Test Soal Matematika IM');">Mulai Test</button>
+        <button class="tombolPilihanMenu"onclick="modeTerpilih('quizMM');judulMode('Test Soal Matematika IM')">Mulai Test</button>
       </div>
       
     </div>
@@ -782,24 +738,24 @@ display: block;
         <button class="tombolPilihanMenu"
         onclick="
           buatPilihanBab('kotoba'); 
-          modeTerpilih('pilih-kotoba-nokanji', 'Artikan Kotoba Buku IM (Tanpa Kanji)');
-          ">
+          modeTerpilih('pilih-kotoba-nokanji');
+          judulMode('Artikan Kotoba Buku IM (Tanpa Kanji)')">
           Mengartikan Kotoba (Non-kanji)
         </button>
 
         <button class="tombolPilihanMenu"
         onclick="
           buatPilihanBab('kotoba'); 
-          modeTerpilih('pilih-kotoba-kanji', 'Artikan Kotoba Buku IM (Dg Kanji)')
-          ">
+          modeTerpilih('pilih-kotoba-kanji')
+          judulMode('Artikan Kotoba Buku IM (Dg Kanji)')">
           Mengartikan Kotoba (dg kanji)
         </button>
 
         <button class="tombolPilihanMenu"
         onclick="
           buatPilihanBab('kotoba'); 
-          modeTerpilih('pilih-baca-kanji', 'Membaca Kanji Buku IM')
-          ">
+          modeTerpilih('pilih-baca-kanji')
+          judulMode('Membaca Kanji Buku IM')">
           Membaca Kanji
         </button>
       </div>
@@ -821,24 +777,24 @@ display: block;
         <button class="tombolPilihanMenu"
         onclick="
           buatPilihanBab('BukuMinna'); 
-          modeTerpilih('pilih-kotoba-nokanji', 'Artikan Kotoba Buku Minna (Tanpa Kanji)');
-          ">
+          modeTerpilih('pilih-kotoba-nokanji');
+          judulMode('Artikan Kotoba Buku Minna (Tanpa Kanji)')">
           Mengartikan Kotoba (Non-kanji)
         </button>
 
         <button class="tombolPilihanMenu"
         onclick="
           buatPilihanBab('BukuMinna'); 
-          modeTerpilih('pilih-kotoba-kanji', 'Artikan Kotoba Buku Minna (Dg Kanji)')
-          ">
+          modeTerpilih('pilih-kotoba-kanji')
+          judulMode('Artikan Kotoba Buku Minna (Dg Kanji)')">
           Mengartikan Kotoba (dg kanji)
         </button>
 
         <button class="tombolPilihanMenu"
         onclick="
           buatPilihanBab('BukuMinna'); 
-          modeTerpilih('pilih-baca-kanji', 'Membaca Kanji Buku Minna')"
-          >
+          modeTerpilih('pilih-baca-kanji')
+          judulMode('Membaca Kanji Buku Minna')">
           Membaca Kanji
         </button></div>
     </div>
@@ -853,7 +809,8 @@ display: block;
 
         <button class="tombolPilihanMenu"
         onclick="
-          modeTerpilih('tabelBukuIM', 'Tabel Kotoba Buku IM');
+          modeTerpilih('tabelBukuIM');
+          judulMode('Tabel Kotoba Buku IM');
           buildVocabTable('','kotoba');
           ">
           Tabel Kotoba Buku IM
@@ -861,7 +818,8 @@ display: block;
 
         <button class="tombolPilihanMenu"
         onclick="
-          modeTerpilih('tabelBukuMinna', 'Tabel Kotoba Buku Minna');
+          modeTerpilih('tabelBukuMinna');
+          judulMode('Tabel Kotoba Buku Minna');
           buildVocabTable('','BukuMinna');
           ">
           Tabel Kotoba Buku Minna
@@ -870,21 +828,19 @@ display: block;
       </div>
       
     </div>
-
+    
   </div>
 </div>
 
-<div id="pilihBab">
+<div style="max-width: 410px;">
   <div id="judul-pilihan-kotoba" class="bagan-judul">
     <gedi>Javascript(JS) Mati. Gunakan Browser lain</gedi><br>
     <catatan-mode>Sebaiknya gunakan Chrome untuk mengfungsikan web-app ini. Atau jika kamu mencoba debugging code. Kemungkinan eror ini disebabkan karena typo di code JS. Cek console-log untuk detail typo</catatan-mode>
   </div>
   <div id="pilihan-kotoba" class="bagan-pilihan">
   </div>
-  <span id="infoJumSoal">
-  </span>
 </div>
-    <button class="tombol-start-quiz" id="startKotoba" onClick="modeTerpilih('bentukSoal')"></button>
+    <button class="tombol-start-quiz" id="startKotoba"></button>
 
 
 <!-- Container Tabel -->
@@ -915,6 +871,11 @@ display: block;
   <div class="tombol-jawaban">
   <div id="result"></div>
   <div class="choices" id="choices"></div>
+  </div>
+    <div id="kotak-reverse"class="kotak-reset">
+    <button id="reverseBtn">⇆</button>
+    <div class="panah-kiri">← </div>
+    <p class="inforeset">Tekan untuk menukar jawaban jadi soal, dan sebaliknya<br><info class="inforeset2">(Akan mereset quiz saat ini)</info></p>
   </div>
   <div id="score"></div>
   <button id="restart" onclick="mulaiQuizPilihanGanda();Timer.start()">Mulai Ulang</button>
@@ -950,31 +911,26 @@ display: block;
   </svg>
 </button>
 
-  <div id="footnote" class="text-kecil">*Web diload sepenuhnya tanpa data internet</div>
+  <div class="text-kecil">*Web diload sepenuhnya tanpa data internet</div>
 </div>
 <script>
 // --- VARIABEL GLOBAL --- \\
-let currentKana = {}
-let sessionList = []
-let soalMM = []
-let mode = '0kosong'
-let correctCount = 0
-let totalCount = 0
-let isClickable = true
-let totalSoal = 0
-let indexSoal = -1
+let currentKana = {};
+let sessionList = [];
+let soalMM = [];
+let mode = '0kosong';
+let correctCount = 0;
+let totalCount = 0;
+let isClickable = true;
+let totalSoal = 0;
 let kotobaBuku = `kosong`
-let judulModeSaved = `Klik Disini Untuk Pilih Mode Quiz`
-let soalDipakai =0
-let helperMode = ''
-let terpanggil = 0 // Jangan digunakan, kecuali debugging fungsi terpanggil berapa kali
-
-
+let judulModeSaved = `0`
 
 // --- ELEMENT GLOBAL --- \\
 const versiFile = document.getElementById('versiFile').textContent
 const cekUpdate = document.createElement("script");
 const infoUpdate = document.getElementById('infoUpdate')
+const reverseBtn = document.getElementById('kotak-reverse');
 const pilihSemua = document.getElementById('pilih-semua');
 const pilihanBab = document.querySelectorAll('.bab-choice');
 const periksaMM = document.getElementById('btnPeriksaMM');
@@ -985,15 +941,11 @@ const welcomeMsg = document.getElementById('sambutan');
 const menuPilihan = document.getElementById('menuPilihan');
 const catatankanji = document.getElementById('infokanjiquiz');
 const pilihMode = document.getElementById('pilihMode')
-const bentukSoal = document.getElementById('bentukSoal')
-const pilihBab = document.getElementById('pilihBab')
 const pilihan = document.getElementById('pilihan-kotoba');
 const judulpilihan = document.getElementById('judul-pilihan-kotoba');
 const stopBtn = document.getElementById('stopQuizBtn');
 const tableContainer = document.getElementById('vocabTableContainer');
 const startKotoba = document.getElementById('startKotoba');
-const tombolNormal = document.getElementById('tombolNormal');
-const tombolReverse = document.getElementById('tombolReverse');
 const quizMM = document.getElementById('soalMM');
 const btnCekMM = document.getElementById("btnPeriksaMM");
 const pewaktu = document.querySelector(".pewaktu");
@@ -4085,9 +4037,7 @@ window.addEventListener("scroll", () => {
         toTopBtn.style.display = "none";
     }
 });
-function soalDibatasi(){
-soalDipakai = Number(document.getElementById('batasSoal')?.value) || Infinity
-}
+
 // fungsi untuk membuat cekbox bab (didasarkan pada data indeks[2] kanaList)
 function buatPilihanBab(kotoba){
 if(kotobaBuku === kotoba){
@@ -4112,7 +4062,6 @@ daftarBab.forEach(bab => {
 
 const jumlahKolom = 3;
 const jumlahBaris = Math.ceil(daftarBab.length / jumlahKolom);
-const jumSoal = document.getElementById('infoJumSoal')
 pilihan.style.gridTemplateRows = `repeat(${jumlahBaris}, auto)`;
 pilihan.style.gridAutoFlow = "column";
 
@@ -4122,35 +4071,18 @@ pilihan.insertAdjacentHTML("beforeend", `
         SEMUA
     </label>
 `);
-jumSoal.innerHTML= ''
+
 pilihan.addEventListener("change", (e) => {
+
     if (e.target.id === "pilih-semua") {
         document.querySelectorAll(".bab-choice")
-            .forEach(cb => cb.checked = e.target.checked)
-    } else {
-        const semua = document.querySelectorAll(".bab-choice")
-        document.getElementById("pilih-semua").checked =
-            [...semua].every(cb => cb.checked)
+            .forEach(cb => cb.checked = e.target.checked);
+        return;
     }
-    soalDipakai = getKanaList(helperMode).length
-    soalDipakai>0?jumSoal.innerHTML=`
-    <div class="kont-soal" style="width:100%;">
-      <div class="bagan-pilihanMM" style="margin-bottom: 0px;">
-        <catatan-mode>Akan ada ${soalDipakai} soal. Isi dibawah ini untuk membatasi jumlah soal:<br></catatan-mode>
-        <input 
-          id="batasSoal"
-          style="border: solid 1px;padding: 5px;margin: 3px 0px;border-radius: 12px; font-size:12px;" 
-          type="number" 
-          minlength="4" 
-          class="inputJWBMM" 
-          inputmode="numeric" 
-          placeholder="Isi disini untuk batasi Soal"
-          onInput='soalDibatasi()'
-          >
-          <span class="text-kecil" style="text-align: end;">*kosongkan untuk ambil semua soal</span>
-      </div>
-    </div>
-    `:jumSoal.innerHTML =''
+
+    const semua = document.querySelectorAll(".bab-choice");
+    document.getElementById("pilih-semua").checked =
+        [...semua].every(cb => cb.checked);
 
 });
 }
@@ -4160,33 +4092,41 @@ document.getElementById('tableSearch').addEventListener('input', (e)=>{
     buildVocabTable(e.target.value, kotobaBuku);
 });
 
-function modeTerpilih (dipilih, judul=judulModeSaved) {
-  mode = dipilih
-  judulModeSaved = judul
-  pilihMode.textContent = judul
-  switch (mode) {
-      case kotobaBuku+'-kanji-baca':
-      case kotobaBuku+'-kanji':
-      case kotobaBuku+'-kotoba':
-      case kotobaBuku+'-kanji-baca-rev':
-      case kotobaBuku+'-kanji-rev':
-      case kotobaBuku+'-kotoba-rev':
+function judulMode(judul){
+  judulModeSaved = judul;
+  pilihMode.textContent = judul;
+}
+function modeTerpilih (dipilih) {
+    mode = dipilih;
+    switch (mode) {
+      case 'kotoba-kanji-baca':
+      case 'kotoba-kanji':
+      case 'kotoba-kotoba':
+      case 'BukuMinna-kanji-baca':
+      case 'BukuMinna-kanji':
+      case 'BukuMinna-kotoba':
         const selected = Array.from(document.querySelectorAll('.bab-choice:checked')).map(cb => cb.value)
         if (selected.length === 0) {
-          tampilkanNotif("⚠️ Minimal pilih 1 kek >:(", 'error')
+          tampilkanNotif("⚠️ Minimal pilih 1 kek >:(")
           return
         }
-        if(soalDipakai < 4) {
-          tampilkanNotif("Minimal soal adalah 4, atau kosongkan untuk ambil semua soal", 'warning', 5000)
-          return
-        }
-        bangunUI()
-        return true
       break;
       }
-  bangunUI()
-  return false
+  bangunUI();
 };
+
+
+// Fungsi untuk Tombol resetBtn yang menukar indeks dataset "jawaban" menjadi "soal" dan sebaliknya. Dengan menambahkan -rev
+// Lihat fungsi isReverseMode dan kapan fungsi itu dipanggil, untuk lebih detailnya
+document.getElementById('reverseBtn').addEventListener('click', () => {
+    if (mode.endsWith('-rev')) {
+    mode = mode.replace('-rev', '');
+} else {
+    mode = mode + '-rev';
+}
+  bangunUI();
+});
+
 // --- END EVENT HANDLER --- \\
 
 
@@ -4305,20 +4245,13 @@ function buildVocabTable(filter='', bagian='') {
 // --- START CORE FUNCTION --- \\
 // --- Semua fungsi krusial seperti pengkalkulasi logika, algoritma soal, dan lain sebagainya. Dimuat disini --- \\\
 
+//fungsi untuk mendeteksi apakah mode reverse atau normal, sesimpel mendeteksi apakah mode berakhiran '-rev' di class html
+function isReverseMode() { return mode.endsWith('-rev');}
+
 // Fungsi untuk membuat soal dan memilih jawaban atas soal tersebut
 function pickKana() {
-  indexSoal++;
-  if (indexSoal === totalSoal) {
-    Timer.stop();
-    document.getElementById('kana').textContent = 'Selesai!';
-    document.getElementById('result').innerHTML = `<h4>Kuis selesai!. Dalam waktu ${cetakTime}, dari ${totalSoal} soal kamu menjawab ${correctCount} dengan benar</h4>`;
-    document.getElementById('choices').innerHTML = '';
-    document.getElementById('soal').innerHTML = '';
-    document.getElementById('restart').style.display = 'inline-block';
-    document.getElementById('score').style.display = 'block';
-    return;
-  }
 
+  // Local Variabel fungsi pickKana
   currentKana = sessionList.pop();
   const choicesContainer = document.getElementById('choices');
   choicesContainer.innerHTML = '';
@@ -4326,23 +4259,43 @@ function pickKana() {
   let options;
   let nomorsoal = nomor();
   const angkaBab = currentKana[2].replace(/\D/g, "");
+  console.log(`Total yang diterima Pick Kana = ${sessionList.length}`)
+
   function nomor() { return totalCount < 1 ? 1 : totalCount + 1;};
 
-  if (mode.endsWith('-rev')) {
+// Mengecek apakah shuflfle sessionList telah kosong. Jika kosong berarti semua dataset telah di tampilkan di quiz. Artinya Quiz selesai
+  if (sessionList.length === 0) { // cek fungsi startSession untuk mengetahui asal var sessionList
+    console.log(`mode ${mode}`)
+    Timer.stop();
+    document.getElementById('kana').textContent = 'Selesai!';
+    document.getElementById('result').innerHTML = `<h4>Kuis selesai!. Dalam waktu ${cetakTime}, dari ${totalSoal} soal kamu menjawab ${correctCount} dengan benar</h4>`;
+    document.getElementById('choices').innerHTML = '';
+    document.getElementById('soal').innerHTML = '';
+    document.getElementById('restart').style.display = 'inline-block';
+    document.getElementById('score').style.display = 'block';
+    reverseBtn.style.display = 'none';
+    return;
+}
+
+  if (isReverseMode()) {
 // Mode reverse
 
+    // Mode Baca Kanji (DataBuku-kanji-baca-rev)
     if (mode.includes('-kanji-baca')) {
-        document.getElementById('kana').textContent = currentKana[0];
+      // Aku akan menempatkan comment-line di mode ini sebagai contoh. Intinya sama di berbagai mode lain
+        document.getElementById('kana').textContent = currentKana[0]; // mengisi dan menampilkan indeks dataset yang jadi soal 
       document.getElementById('soal').innerHTML = `<Z class='asal-kotoba'> ${angkaBab ? 'Kotoba BAB ' + angkaBab + '<br>' : ''}</Z><strong>Soal ke ${nomorsoal} dari ${totalSoal} soal</strong><br>Tulisan kanji dari huruf di atas adalah...?`;// bentuk soal mode saat ini
       options = shuffle([currentKana[4], ...generateFakeAnswers(currentKana[4])]);
     } 
     
+    // Mode Baca Kanji (DataBuku-kanji-rev)
     else if (mode.includes('-kanji')) {
         document.getElementById('kana').textContent = currentKana[1] || currentKana[0];
       document.getElementById('soal').innerHTML = `<Z class='asal-kotoba'> ${angkaBab ? 'Kotoba BAB ' + angkaBab + '<br>' : ''}</Z><strong>Soal ke ${nomorsoal} dari ${totalSoal} soal</strong><br>Bagaimana cara menulis kosakata diatas?`;
       options = shuffle([currentKana[4] || currentKana[0], ...generateFakeAnswers(currentKana[4] || currentKana[0])]);
     }
     
+    // Mode lain yang belum didefinisikan dalam versi -rev
     else {
         document.getElementById('kana').textContent = currentKana[1];
       document.getElementById('soal').innerHTML = `<Z class='asal-kotoba'> ${angkaBab ? 'Kotoba BAB ' + angkaBab + '<br>' : ''}</Z><strong>Soal ke ${nomorsoal} dari ${totalSoal} soal</strong><br>Cara menulis jepang huruf diatas adalah...`;
@@ -4351,18 +4304,21 @@ function pickKana() {
 } else {
 // Mode Normal
 
+    // Mode Baca Kanji (DataBuku-kanji-baca)
     if (mode.includes('-kanji-baca')) {
         document.getElementById('kana').textContent = currentKana[4];
       document.getElementById('soal').innerHTML = `<Z class='asal-kotoba'> ${angkaBab ? 'Kotoba BAB ' + angkaBab + '<br>' : ''}</Z><strong>Soal ke ${nomorsoal} dari ${totalSoal} soal</strong><br>Furigana huruf diatas adalah...`;
       options = shuffle([currentKana[0], ...generateFakeAnswers(currentKana[0])]);
     }
     
+    // Mode Baca Kanji (DataBuku-kanji)
     else if (mode.includes('-kanji')) {
         document.getElementById('kana').textContent = currentKana[4] || currentKana[0];
       document.getElementById('soal').innerHTML = `<Z class='asal-kotoba'> ${angkaBab ? 'Kotoba BAB ' + angkaBab + '<br>' : ''}</Z><strong>Soal ke ${nomorsoal} dari ${totalSoal} soal</strong><br>Apa arti tulisan di atas?`;
       options = shuffle([currentKana[1], ...generateFakeAnswers(currentKana[1])]);
     }
     
+    // Mode lain yang belum didefinisikan
     else {
         document.getElementById('kana').textContent = currentKana[0];
       document.getElementById('soal').innerHTML = `<Z class='asal-kotoba'> ${angkaBab ? 'Kotoba BAB ' + angkaBab + '<br>' : ''}</Z><strong>Soal ke ${nomorsoal} dari ${totalSoal} soal</strong><br>Romaji Huruf diatas adalah...`;
@@ -4390,7 +4346,7 @@ function pickKana() {
   const overlay = document.getElementById('nextOverlay');  
   let correctAnswer;
 
-  if (mode.endsWith('-rev')) {
+  if (isReverseMode()) {
   // Tentukan jawaban benar sesuai mode reverse
   if (mode.includes('-kanji-baca')) {
     correctAnswer = currentKana[4]; 
@@ -4404,7 +4360,7 @@ function pickKana() {
   if (mode.includes('-kanji-baca')) {
     correctAnswer = currentKana[0];   // baca kanji → hiragana
 } else if (mode.includes('-kanji')) {
-    correctAnswer = currentKana[1];   // arti kanji → hiragana
+    correctAnswer = currentKana[1];   // arti kanji → hiragana (atau sesuaikan datasetmu)
 } else {
     correctAnswer = currentKana[1];   // default → romaji
 }
@@ -4449,7 +4405,7 @@ overlay.addEventListener('click', function next() {
 // Fungsi untuk membuat jawaban palsu  
 function generateFakeAnswers(correct) {
 
-  if (mode.endsWith('-rev')) {
+  if (isReverseMode()) {
 // Membuat jawaban palsu saat mode reverse    
     if (mode.includes("-kanji-baca")) {
     pool = getKanaList()
@@ -4510,7 +4466,7 @@ function shuffle(array) {
         // Mencari alamat dataset yang akan dijadikan pasangan tiap jawaban (baik yang palsu ataupu yang asli)
       
       // saat mode reverse   
-  if (mode.endsWith('-rev')) {
+  if (isReverseMode()) {
         // Dalam mode baca kanji 
         if (mode.includes('-kanji-baca')) { return pair[4] === text && pair[2] === currentKana[2];}
         
@@ -4538,7 +4494,7 @@ function shuffle(array) {
         // Jika alamat pasangan dataset ditemukan, maka ditampilkan ke user
     
     // Saat mode reverse
-  if (mode.endsWith('-rev')) {
+  if (isReverseMode()) {
         
         // Dalam mode baca kanji 
         if (mode.includes('-kanji-baca')) { btn.innerHTML = `${match[4]} : ${match[0]}<br><hiragana class="hiragana-jawaban">${match[1]}</hiragana>`;}        
@@ -4563,17 +4519,16 @@ function shuffle(array) {
 });
 }
 
-function mulaiQuizPilihanGanda(modeDiterima=mode) {    
-  let list = getKanaList(modeDiterima)
-  sessionList = modeTerpilih(modeDiterima)? shuffle([...list]).slice(0, soalDipakai) : shuffle([...list]);
-
-  pilihMode.textContent = judulModeSaved
+function mulaiQuizPilihanGanda() {
+    const list = getKanaList();
+  sessionList = shuffle([...list]);
   totalSoal = sessionList.length;
-  totalCount = 0;
-  correctCount = 0;
-  indexSoal = -1;
+  totalCount = 0; // Beda dengan varian global. Ini agar setiap kali quiz direset, nomor soal kembali ke 0
+  correctCount = 0; // sama dengan totalCount, yg beda dengan varian global. Ini agar setiap kali quiz direset, total soal benar kembali ke 0
   document.getElementById('restart').style.display = 'none';
   document.getElementById('score').style.display = 'none';
+    console.log(`Total yang diberikan mulai Quiz = ${totalSoal}`)
+
   updateScore();
   pickKana();
 }
@@ -5476,21 +5431,33 @@ function buatSoalMM() {
 
 
 // --- DATASET FILTERING FUNCTION --- \\
-function getKanaList(modeQuiz=mode) {
-// Fungsi untuk mengambil semua pilihan bab kotoba yang dipilih pengguna
-const selectedBab = [...document.querySelectorAll('.bab-choice:checked')].map(cb => cb.value);
-// Filter berdasarkan mode saat ini
-// Mode Hira Kata
-if (modeQuiz.startsWith('hiragana')) return kanaList.filter(indeks => indeks[2] === 'hiragana');
-if (modeQuiz.startsWith('katakana')) return kanaList.filter(indeks => indeks[2] === 'katakana');
-if (modeQuiz.startsWith('bothkana')) return kanaList.filter(indeks => (indeks[2] === 'hiragana' || indeks[2] === 'katakana'));
 
+function getKanaList() {
+// Fungsi untuk mengambil semua pilihan bab kotoba yang dipilih pengguna
+let selectedBab = Array.from(document.querySelectorAll('.bab-choice:checked')).map(cb => cb.value);
+
+      // Filter berdasarkan mode saat ini
+// Mode Hira Kata
+if (mode.startsWith('hiragana')) return kanaList.filter(indeks => indeks[2] === 'hiragana');
+if (mode.startsWith('katakana')) return kanaList.filter(indeks => indeks[2] === 'katakana');
+if (mode.startsWith('bothkana')) return kanaList.filter(indeks => (indeks[2] === 'hiragana' || indeks[2] === 'katakana'));
+
+// Filter Buku Biru
 // Mode Baca Kanji
-if (modeQuiz.startsWith(kotobaBuku+'-kanji-baca')) { return kanaList.filter(indeks => selectedBab.includes(indeks[2]) && indeks[4] && indeks[4] !== '' && indeks[3] === kotobaBuku);}
+if (mode.startsWith('kotoba-kanji-baca')) { return kanaList.filter(indeks => selectedBab.includes(indeks[2]) && indeks[4] && indeks[4] !== '' && indeks[3] === 'kotoba');}
 // Mode Artikan Kanji
-if (modeQuiz.startsWith(kotobaBuku+'-kanji')) { return kanaList.filter(indeks => selectedBab.includes(indeks[2]) && indeks[3] === kotobaBuku);}
+if (mode.startsWith('kotoba-kanji')) { return kanaList.filter(indeks => selectedBab.includes(indeks[2]) && indeks[3] === 'kotoba');}
 // Mode Kotoba
-if (modeQuiz.startsWith(kotobaBuku+'-kotoba')) { return kanaList.filter(indeks => selectedBab.includes(indeks[2]) && indeks[3] === kotobaBuku);}
+if (mode.startsWith('kotoba-kotoba')) { return kanaList.filter(indeks => selectedBab.includes(indeks[2]) && indeks[3] === 'kotoba');}
+
+// Filter Buku Minna
+// Mode Baca Kanji
+if (mode.startsWith('BukuMinna-kanji-baca')) { return kanaList.filter(indeks => selectedBab.includes(indeks[2]) && indeks[4] && indeks[4] !== '' && indeks[3] === 'BukuMinna');}
+// Mode Artikan Kanji
+if (mode.startsWith('BukuMinna-kanji')) { return kanaList.filter(indeks => selectedBab.includes(indeks[2]) && indeks[3] === 'BukuMinna');}
+// Mode Kotoba
+if (mode.startsWith('BukuMinna-kotoba')) { return kanaList.filter(indeks => selectedBab.includes(indeks[2]) && indeks[3] === 'BukuMinna');}
+
 return kanaList;
 }
 
@@ -5509,18 +5476,21 @@ return kanaList;
 
 // --- ON-BOOT FUNCTION --- \\
 // Semua fungsi yang dimuat saat web telah 100% diload. Dimuat disini
+
  function bangunUI() {
   // Kondisi default element untuk semua mode
   // Atau saat element dibawah ini tidak didefinisikan khusus di mode tertentu, maka kondisi default ini yang didapat element itu
     badanQuiz.style.display = 'flex';
+    pilihMode.textContent = 'Klik Disini Untuk Pilih Mode Quiz'
     welcomeMsg.style.display = 'none';
+    reverseBtn.style.display = 'Flex';
     stopBtn.style.display = 'flex'; 
     menuPilihan.style.display ='none';
-    bentukSoal.style.display = 'none';
-    pilihBab.style.display = 'none'
     tableContainer.style.display = 'none';
     stopBtn.textContent = 'Keluar Quiz';
     startKotoba.style.display = 'none';
+    pilihan.style.display = 'none';
+    judulpilihan.style.display = 'none';
     periksaMM.style.display = 'none';
     ulangMM.style.display = 'none';
     quizMM.style.display = 'none';
@@ -5529,24 +5499,18 @@ return kanaList;
     Timer.stop();
     
     // Menampilkan/print text saat ini dalam mode apa di halaman web
-    document.getElementById("debugMode").innerHTML = `
-    Mode aktif = ${mode}<br> 
-    Judul Mode Saved = ${judulModeSaved}<br>
-    helperMode = ${helperMode}<br>
-    `
-    document.getElementById("debugMode").style.display = "none"
-    infoUpdate.style.display = "flex"
-    document.getElementById("footnote").style.display = "block"
+    document.getElementById("debugMode").textContent = "Mode aktif: " + mode + ' Judul Mode Saved = '+judulModeSaved; // Terdapat element <p> HTML dg id debugMode untuk mengecek status mode saat ini.
+    // Ganti style display dengan Inspektion Web untuk menampilkan debugging ini
 
 
     
  if (mode.startsWith('0kosong')) {
     // UI welcome
     welcomeMsg.style.display = 'flex';
-    pilihMode.textContent = 'Klik Disini Untuk Pilih Mode Quiz'
-
+    
     // UI halaman QUIZ
     badanQuiz.style.display = 'none';
+    reverseBtn.style.display = 'none';
     stopBtn.style.display = 'none'; 
     stopBtn.textContent = 'Keluar Quiz';
   }
@@ -5555,15 +5519,18 @@ return kanaList;
 else if (mode.startsWith('pilih-baca-kanji')) {
     // UI halaman QUIZ
     badanQuiz.style.display = 'none';
+    reverseBtn.style.display = 'none';
     stopBtn.style.display = 'block'; 
     stopBtn.textContent = 'Kembali Ke Home';
 
     // UI halaman Multiple choice
+    pilihan.style.display = 'grid';
     judulpilihan.innerHTML = '<gedi>Pilih Materi Quiz <br>(BAB kotoba)</gedi><br><catatan-mode>Dalam mode ini, kotoba yang umumnya ditulis kanji yang akan diujikan. Kotoba yang umumnya ditulis full hira/kata tidak termasuk. Kamu diminta untuk mencari furigana dengan benar</catatan-mode>';
-    pilihBab.style.display = 'block'
+    judulpilihan.style.display = 'block';
     startKotoba.style.display = 'block';
     startKotoba.innerHTML = `Mulai Quiz Baca Kanji`;
-    helperMode = kotobaBuku+'-kanji-baca';
+    startKotoba.onclick = () => {modeTerpilih(kotobaBuku+'-kanji-baca');pilihMode.textContent = judulModeSaved;};    
+    mulaiQuizPilihanGanda();
 }
 
 // Halaman "pemilihan bab Quiz Mengartikan Kotoba (Kanji included)""
@@ -5571,16 +5538,19 @@ else if (mode.startsWith('pilih-kotoba-kanji')){
 
     // UI halaman QUIZ
     badanQuiz.style.display = 'none';
+    reverseBtn.style.display = 'none';
     stopBtn.style.display = 'block'; 
     stopBtn.textContent = 'Kembali Ke Home';
     
 
     // UI halaman Multiple choice
+    pilihan.style.display = 'grid';
+    judulpilihan.style.display = 'block';
     judulpilihan.innerHTML = '<gedi>Pilih Materi Quiz <br>(BAB kotoba)</gedi><br><catatan-mode>Dalam mode ini semua kotoba pada tiap bab diujikan. Baik dalam bentuk hira/kata maupun kanji. Kamu diminta untuk mengartikanya dengan benar</catatan-mode>';
-    pilihBab.style.display = 'block'
     startKotoba.style.display = 'block'
     startKotoba.innerHTML = `Mulai Quiz Artikan Kotoba (dg Kanji)`;
-    helperMode = kotobaBuku+'-kanji';
+    startKotoba.onclick = () => {modeTerpilih(kotobaBuku+'-kanji');pilihMode.textContent = judulModeSaved;};    
+    mulaiQuizPilihanGanda();
 }
 
 // Halaman "pemilihan bab Quiz Mengartikan Kotoba (Non-kanji)""
@@ -5588,21 +5558,25 @@ else if (mode.startsWith('pilih-kotoba-nokanji')) {
 
     // UI halaman QUIZ
     badanQuiz.style.display = 'none';
+    reverseBtn.style.display = 'none';
     stopBtn.style.display = 'block'; 
     stopBtn.textContent = 'Kembali Ke Home';
 
         // UI halaman Multiple choice
+    pilihan.style.display = 'grid';
+    judulpilihan.style.display = 'block';
     judulpilihan.innerHTML = '<gedi>Pilih Materi Quiz <br>(BAB kotoba)</gedi><br><catatan-mode>Dalam mode ini semua kotoba pada tiap bab diujikan. Tapi dalam bentuk hira/kata saja. Kamu diminta untuk mengartikanya dengan benar</catatan-mode>';
-    pilihBab.style.display = 'block'
     startKotoba.style.display = 'block'
     startKotoba.innerHTML = `Mulai Quiz Artikan Kotoba (tanpa Kanji)`;
-    helperMode = kotobaBuku+'-kotoba';
+    startKotoba.onclick = () => {modeTerpilih(kotobaBuku+'-kotoba');pilihMode.textContent = judulModeSaved;};    
+    mulaiQuizPilihanGanda();
   }
 
 else if (mode.startsWith('quizMM')) {
 
     // UI halaman QUIZ
     badanQuiz.style.display = 'none';
+    reverseBtn.style.display = 'none';
     stopBtn.style.display = 'block'; 
     stopBtn.textContent = 'Kembali Ke Home';
 
@@ -5617,91 +5591,26 @@ else if(mode.startsWith('tabel')){
     // Ui Tabel
     tableContainer.style.display = 'flex';
     badanQuiz.style.display ="none";
+    reverseBtn.style.display ='none';
     stopBtn.innerHTML =`Kembali ke Home`;
-}
-
-else if(mode.startsWith('canvas')){
-    // Ui Tabel
-    badanQuiz.style.display ="none";
-    stopBtn.innerHTML =`Kembali ke Home`;
-}
-
-else if(mode.startsWith('bentukSoal')){
-    // Ui Tabel
-    bentukSoal.style.display ="flex";
-    badanQuiz.style.display ="none";
-    pilihMode.textContent = judulModeSaved
-    stopBtn.innerHTML =`Kembali ke Home`
-    let hurufJepang
-    let hurufLatin
-    let contohJpg
-    let contohLtn
-    let descNorm
-    let descRev
-    switch (helperMode) {
-      case 'hiragana':
-      case 'katakana':
-      case 'bothkana':
-        hurufJepang = 'Huruf Jepang'
-        hurufLatin = 'Huruf Latin'
-        contohJpg = 'あ'
-        contohLtn = 'A'
-        descNorm = 'Soal berupa huruf hiragana / katakana'
-        descRev = 'Soal berupa huruf latin (cara baca)'
-      break;
-      case kotobaBuku+'-kanji':
-      case kotobaBuku+'-kanji-rev':
-      case kotobaBuku+'-kotoba':
-      case kotobaBuku+'-kotoba-rev':
-        hurufJepang = 'Bahasa Jepang'
-        hurufLatin = 'Bahasa Indonesia'
-        contohJpg = 'とき'
-        contohLtn = 'Jam'
-        descNorm = 'Soal berbahasa Jepang dg tulisan Jepang'
-        descRev = 'Soal berbahasa Indonesia'
-        if (helperMode.startsWith(kotobaBuku+'-kanji')) {contohJpg = '時';}
-      break;
-      case kotobaBuku+'-kanji-baca':
-      case kotobaBuku+'-kanji-baca-rev':
-        hurufJepang = 'Huruf Kanji'
-        hurufLatin = 'Huruf Hiragana / Katakana'
-        contohJpg = '時'
-        contohLtn = 'とき'
-        descNorm = 'Soal berbentuk Kanji'
-        descRev = 'Soal berbentuk Hiragana / Katakana (cara baca)'
-      break;
-      }
-    tombolNormal.innerHTML=`            
-    <div class="judulTombol">
-      <div style="max-width:70%;">
-        ${hurufJepang}
-        <div class="deskripsiTombol">${descNorm}</div>
-      </div>
-      <span class="exmpword" style="color:#e100a0 ;">${contohJpg}</span>
-    </div>`
-    tombolReverse.innerHTML=`            
-    <div class="judulTombol">
-      <div style="max-width:70%;">
-        ${hurufLatin}
-        <div class="deskripsiTombol">${descRev}</div>
-      </div>
-      <span class="exmpword" style="color:#7aff00 ;">${contohLtn}</span>
-    </div>`
-    tombolNormal.onclick = () => {mulaiQuizPilihanGanda(helperMode)}
-    tombolReverse.onclick = () => {mulaiQuizPilihanGanda(helperMode+'-rev')}
 }
 
 else if(mode.startsWith('menuPilihMode')){
 
     badanQuiz.style.display ="none";
     menuPilihan.style.display = 'flex';
+    reverseBtn.style.display ='none';
     pilihMode.textContent = 'Pilih Mode Quiz Dibawah'
     stopBtn.innerHTML =`Kembali ke Home`;
 }
 
+
+// Kondisi undefine. Jika suatu mode belum atau tidak didefinisikan, maka kondisi ini dipanggil
+// Note : kondisi default dan kondisi undefine, dieksekusi bersamaan. 
+// Tetapi kondisi default dieksekusi dahulu, baru kondisi undefine dieksekusi
+// Ya kondisi undefine "menimpa" kondisi default
 else{
-  stopBtn.style.display = 'block'; 
-  stopBtn.textContent = 'Kembali Ke Home'; 
+  mulaiQuizPilihanGanda();
   Timer.start();
 }
   } 
