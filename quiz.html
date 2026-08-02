@@ -705,7 +705,7 @@ display: block;
 <div id="nextOverlay"></div>    
 <div id="toast-container"></div>  
 
-    <h1 class="judulUtama">Quiz Mourop Apalan V<span id="versiFile">3.1.12</span></h1>
+    <h1 class="judulUtama">Quiz Mourop Apalan V<span id="versiFile">3.1.12a</span></h1>
 
     <button id="pilihMode" class="pilihMode" onclick="modeTerpilih('menuPilihMode')"></button>
 
@@ -4161,16 +4161,7 @@ document.getElementById('tableSearch').addEventListener('input', (e)=>{
 });
 
 function modeTerpilih (dipilih, judul=judulModeSaved) {
-  mode = dipilih
-  judulModeSaved = judul
-  pilihMode.textContent = judul
-  switch (mode) {
-      case kotobaBuku+'-kanji-baca':
-      case kotobaBuku+'-kanji':
-      case kotobaBuku+'-kotoba':
-      case kotobaBuku+'-kanji-baca-rev':
-      case kotobaBuku+'-kanji-rev':
-      case kotobaBuku+'-kotoba-rev':
+  if(mode.startsWith('pilih-')) {
         const selected = Array.from(document.querySelectorAll('.bab-choice:checked')).map(cb => cb.value)
         if (selected.length === 0) {
           tampilkanNotif("⚠️ Minimal pilih 1 kek >:(", 'error')
@@ -4180,10 +4171,17 @@ function modeTerpilih (dipilih, judul=judulModeSaved) {
           tampilkanNotif("Minimal soal adalah 4, atau kosongkan untuk ambil semua soal", 'warning', 5000)
           return
         }
+      }
+      if (helperMode.startsWith(kotobaBuku+'-')) {
+        mode = dipilih
+        judulModeSaved = judul
+        pilihMode.textContent = judul
         bangunUI()
         return true
-      break;
       }
+  mode = dipilih
+  judulModeSaved = judul
+  pilihMode.textContent = judul
   bangunUI()
   return false
 };
@@ -5533,6 +5531,7 @@ return kanaList;
     Mode aktif = ${mode}<br> 
     Judul Mode Saved = ${judulModeSaved}<br>
     helperMode = ${helperMode}<br>
+    kotobaBuku = ${kotobaBuku}<br>
     `
     document.getElementById("debugMode").style.display = "none"
     infoUpdate.style.display = "flex"
