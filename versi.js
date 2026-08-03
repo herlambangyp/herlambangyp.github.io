@@ -1,14 +1,17 @@
 window.dataServer = {
 
-    versi: "3.1.12b",
+    versi: "3.1.13",
     changeLog: `
-            - Memperbaiki bug tombol keluar atau kembali ke home yang tidak bisa,
-              karena entah kenapa, user selalu diminta memilih setidaknya 1 bab.
-              Sekarang sudah normal
-
+            - Memperbarui UI quiz matematika IM, agar lebih persis seperti kertas ujian
+            
             `,
 
     changeLogVersiLama:`
+
+        3.1.12b 
+            - Memperbaiki bug tombol keluar atau kembali ke home yang tidak bisa,
+              karena entah kenapa, user selalu diminta memilih setidaknya 1 bab.
+              Sekarang sudah normal
 
         3.1.12a 
             - Memperbaiki bug notifikasi batasan jumlah soal yang muncul di tempat yang salah

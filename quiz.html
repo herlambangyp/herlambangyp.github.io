@@ -441,14 +441,30 @@ display: block;
     align-items: flex-start;}
     
     .soalMM{
-    font-size: 25px;
+    font-size: 2.7em;
     font-family: monospace;
-    width: 100%;
+    border-bottom: solid 1px #404040;
+      }
+
+    .jawabanMM{
+    border-bottom: solid 1px #404040;
       }
 /* Default (misalnya mobile first) */
 .kont-soal {
-  width: 100%;
+    width: 100%;
+    background: #303030;
+  }
+.nomorSoal{
+  background: #464646;
 }
+.kepalaTabel{
+    background: rgb(72, 58, 31);
+}
+.isiTabMM{
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+  }
 
 /* Desktop KECIL — layar hingga 1439px */
 @media (min-width: 769px) and (max-width: 1439px) {
@@ -463,17 +479,6 @@ display: block;
     width: 25%;
   }
 }
-.bagan-judulMM{
-    text-align: left;
-    display: flex;
-    background: rgb(72, 58, 31);
-    flex-direction: column;
-    justify-content: space-between;
-    margin-top: 12px;
-    padding: 12px;
-    border: solid 1px;
-    align-items: center;
-}
 .bagan-pilihanMM{
     width: -webkit-fill-available;
     margin-bottom: 25px;
@@ -487,7 +492,7 @@ display: block;
 .inputJWBMM{
     background-color: #ffffff00;
     color: #ffffff;
-    font-size: 14px;
+    font-size: 18px;
     font-family: system-ui;
     border-right: none;
     border-left: none;
@@ -568,10 +573,10 @@ display: block;
     top: 20px;
     right: 20px;
     z-index: 9999;
-
     display: flex;
     flex-direction: column;
     gap: 10px;
+    padding-left: 18px;
 }
 
 .toast {
@@ -594,7 +599,6 @@ display: block;
 }
 .toast.success {
     background: green;
-    color: black;
 }
 
 .toast.error {
@@ -702,7 +706,7 @@ display: block;
 <div id="nextOverlay"></div>    
 <div id="toast-container"></div>  
 
-    <h1 class="judulUtama">Quiz Mourop Apalan V<span id="versiFile">3.1.12b</span></h1>
+    <h1 class="judulUtama">Quiz Mourop Apalan V<span id="versiFile">3.2.1</span></h1>
 
     <button id="pilihMode" class="pilihMode" onclick="modeTerpilih('menuPilihMode')"></button>
 
@@ -722,6 +726,7 @@ display: block;
 
 <p id="debugMode"></p>
 <!-- jika ingin buat UI baru, buat dibawah sini -->
+
 <div id="bentukSoal" class="boxUmum">
     <div class="judulBentukSoal">
         Bentuk Soalnya?
@@ -917,8 +922,19 @@ display: block;
   <button id="restart" onclick="mulaiQuizPilihanGanda()">Mulai Ulang</button>
 </div>
 
-<div id="soalMM"></div>
-
+<table class="tabelMM">
+    <thead class="kepalaTabel">
+        <tr>
+            <th>No</th>
+            <th>Soal</th>
+            <th>Jawab</th>
+        </tr>
+    </thead>
+    <tbody id="soalMM">
+        <tr>
+        </tr>
+    </tbody>
+</table>
 <score id="nilaiMM"> </score>
 <timer class="pewaktu"><sw id="iconStopwatch" style="display: flex;"></sw><waktu id="dataTimer"></waktu></timer>
    <button style="display: none;" id="btnPeriksaMM">Akhiri & Periksa Jawaban</button>
@@ -974,6 +990,7 @@ const cekUpdate = document.createElement("script")
 const infoUpdate = document.getElementById('infoUpdate')
 const pilihSemua = document.getElementById('pilih-semua')
 const pilihanBab = document.querySelectorAll('.bab-choice')
+const tabelMM = document.querySelector('.tabelMM')
 const periksaMM = document.getElementById('btnPeriksaMM')
 const ulangMM = document.getElementById('btnBuatMM')
 const kotakNilaiMM = document.getElementById(`nilaiMM`)
@@ -5224,16 +5241,8 @@ function buatSoalMM() {
     let e40;
     let kondisi1 = Number(((a40 + b40) - d40).toFixed(2));
     let kondisi2 = Number(((a40 - c40) + d40).toFixed(2));
-    if( kondisi1 === kondisi2) {
-       e40 = kondisi1
-    } else{ 
-      e40 = `<jseror class="jseror" style="color: yellow;"><br>#JS-Floating-eror#<br><br>
-       Javascript salah baca angka soal, yang hasil bacaannya malah seperti ini:<br><br>
-       kondisi 1 = ${a40} + ${b40} - (${a40} + ${b40}) ÷ 2 = ${kondisi1}<br><br>
-       kondisi 2 = ${a40} - ${c40} + (${a40} + ${b40}) ÷ 2 = ${kondisi2}<br><br>
-       (javascript tidak langsung "membaca" angka soal, tetapi angka soal di konversi ke floating biner dan baru javascript bisa membacanya. entah kenapa konversinya salah. Padahal aku sudah memberi algoritma pengaman, yang mencegah kesalahan konversi ke biner).
-       <br><br>Jika kamu ingin perbaiki, cek pengaman math.round di variabel b40, c40, d40. Pastikan ketiga variabel telah di bulatkan atau di"math.round" dulu sebelum dieksekusi sebagai angka di soal</jseror>`
-      };
+    if( kondisi1 === kondisi2) {e40 = kondisi1} 
+    else{ e40 = `Floating Point Error (IEEE 754)`};
     soalMM.push({
         soal: `<Nbulat style=" display: flex; flex-direction: row; gap: 24px; margin-bottom: 10px;">${a40}
         <Nrentang style=" display: flex; flex-direction: column;">
@@ -5379,23 +5388,26 @@ function buatSoalMM() {
 
     // Fungsi pembuat 1 blok soal
     function tambahSoal(nomor, data) {
-        const kontainerSoal = document.createElement('kontainerSoal');
+        const kontainerSoal = document.createElement('tr');
         kontainerSoal.className = 'kont-soal';
         kotakSoalMM.appendChild(kontainerSoal);
-        
-        kontainerSoal.innerHTML = `    
-        <div class="bagan-judulMM" style="${(data.heightSoal || "")}">
-      <nomorsoalmm class="nomorSoalMM">Soal ${nomor}<br></nomorsoalmm>
-      <soalmm class="soalMM">${data.soal}</soalmm>
-      <div>${data.gambar || ""}</div>
-      <kuncijawabanMM class="kunciJwbMM"></kuncijawabanMM>
-      </div>
-
-      <div class="bagan-pilihanMM">
-          <jwb>Jawabanmu:<br></jwb>
-          <input type="text" class="inputJWBMM" inputmode="numeric" placeholder="Jawab disini..." data-nomor-soal="1">
-      </div>`;
+        kontainerSoal.innerHTML = `
+          <td class="nomorSoal">${nomor}</td>
+          <td class="soalMM">
+            <span class="isiTabMM">
+              <span>${data.soal}</span>
+              <span>${data.gambar|| ""}</span>
+            </span>
+          </td>
+          <td class="jawabanMM">
+            <span class="isiTabMM">
+              <input type="text" class="inputJWBMM" inputmode="numeric" placeholder="Jawab disini..." data-nomor-soal="1">
+              <span class="kunciJwbMM"></span>
+            </span>
+          </td>
+      `;
   }
+  
     //  Generate semua soal sekaligus
     soalMM.forEach((item, index) => {
         tambahSoal(index + 1, item);
@@ -5411,7 +5423,7 @@ function buatSoalMM() {
         let MMtotal = soalMM.length;
     
         const inputs = kotakSoalMM.querySelectorAll("input");
-        const judulList = kotakSoalMM.querySelectorAll(".bagan-judulMM");
+        const judulList = kotakSoalMM.querySelectorAll(".kont-soal");
     
         inputs.forEach((inp, i) => {
             let user = inp.value.trim();
@@ -5451,13 +5463,16 @@ function buatSoalMM() {
         });
       
         // Tampilkan kunciJawbanMM
-        document.querySelectorAll("kuncijawabanMM").forEach((j, i) => {
+        document.querySelectorAll(".kunciJwbMM").forEach((j, i) => {
             j.style.display = "block";
             j.innerHTML = "Jawaban Benar: " + soalMM[i].jawab + (soalMM[i].satuan || "");
         });
       
-        let nilaiMM = MMbenar * 2;
-        alert(`Dalam waktu ${cetakTime}, kamu menjawab ${MMbenar} soal dengan benar.\nNilai kamu: ${nilaiMM}`);
+        let nilaiMM = MMbenar * 2
+        tampilkanNotif(`Dalam waktu ${cetakTime}, kamu menjawab ${MMbenar} soal dengan benar.\nNilai kamu: ${nilaiMM}`, 'success', 5000)
+        setTimeout(()=>{
+          tampilkanNotif(`Ada kemungkinan kunci jawaban menghasilkan angka rusak, karena keterbatasan coding JavaScript yang kurang akurat dalam menulis biner tipe data float (angka desimal atau pecahan)`, 'neutral', 7000)
+        }, 1000)
         kotakNilaiMM.innerHTML = `<soalBenar style='color: #22c55e;'>Benar : ${MMbenar} soal</soalBenar><score class="font-teal skorMM"> Nilai : ${nilaiMM} </score><soalSalah style="color: #f87171;"> Salah : ${MMtotal - MMbenar} Soal</soalSalah>`;
         kotakNilaiMM.style.display = 'flex';
         periksaMM.style.display = 'none';
@@ -5529,6 +5544,7 @@ return kanaList;
     kotakNilaiMM,
     pewaktu,
     welcomeMsg,
+    tabelMM,
     ].forEach(e => {e.style.display = "none"})
     
     // Menampilkan/print text saat ini dalam mode apa di halaman web
@@ -5583,7 +5599,14 @@ return kanaList;
       badanQuiz.style.display = 'none'
       stopBtn.style.display = 'block' 
       stopBtn.textContent = 'Kembali Ke Home'
-      quizMM.style.display = 'flex'
+      tabelMM.style.display = 'table'
+      quizMM.style.display = 'table-row-group'
+      if (window.innerWidth <= 900) {
+        tabelMM.style.zoom = "0.5";
+        tampilkanNotif('Perbersar atau zoom untuk melihat lebih jelas')
+      }else{
+        tampilkanNotif('Tampilan halaman ini di desain untuk mobile. Kurang cocok untuk desktop/PC')
+      }
       buatSoalMM()
     break;
 
