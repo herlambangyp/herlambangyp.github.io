@@ -304,17 +304,15 @@ button {
   }
 
 #result {
-    font-size: 22px;
-    color: #10f866;
     text-align: center;
-    padding: 0px 7px 0px 7px;
+}
+.endQuiz {
+    padding: 1px 7px;
+    text-align: center;
+    outline: solid seagreen;
+    border-radius: 10px;
 }
 
-#score {
-    font-size: 20px;
-  color: #f1f5f9;
-  margin-top: 5px;
-}
 #sambutan{
   display: none;
   text-align: center;
@@ -331,7 +329,7 @@ button {
 .text-kecil {
     font-size: 10px;
     color: #94a3b8;
-    text-align: center;
+    justify-content: center;
     width: 100%;
 }
 .adaUpdate{
@@ -660,7 +658,6 @@ display: block;
     font-size: 14px;
     color: #666;
     position: relative;
-    top: -3px;
     margin-bottom: 15px;
 }
 
@@ -705,7 +702,7 @@ display: block;
 <div id="nextOverlay"></div>    
 <div id="toast-container"></div>  
 
-    <h1 class="judulUtama">Quiz Mourop Apalan V<span id="versiFile">3.1.12a</span></h1>
+    <h1 class="judulUtama">Quiz Mourop Apalan V<span id="versiFile">3.1.12b</span></h1>
 
     <button id="pilihMode" class="pilihMode" onclick="modeTerpilih('menuPilihMode')"></button>
 
@@ -916,8 +913,8 @@ display: block;
   <div id="result"></div>
   <div class="choices" id="choices"></div>
   </div>
-  <div id="score"></div>
-  <button id="restart" onclick="mulaiQuizPilihanGanda();Timer.start()">Mulai Ulang</button>
+  
+  <button id="restart" onclick="mulaiQuizPilihanGanda()">Mulai Ulang</button>
 </div>
 
 <div id="soalMM"></div>
@@ -968,48 +965,49 @@ let judulModeSaved = `Klik Disini Untuk Pilih Mode Quiz`
 let soalDipakai =0
 let helperMode = ''
 let terpanggil = 0 // Jangan digunakan, kecuali debugging fungsi terpanggil berapa kali
-
+let serverLink = `https://herlambangyp.github.io/`
 
 
 // --- ELEMENT GLOBAL --- \\
 const versiFile = document.getElementById('versiFile').textContent
-const cekUpdate = document.createElement("script");
+const cekUpdate = document.createElement("script")
 const infoUpdate = document.getElementById('infoUpdate')
-const pilihSemua = document.getElementById('pilih-semua');
-const pilihanBab = document.querySelectorAll('.bab-choice');
-const periksaMM = document.getElementById('btnPeriksaMM');
-const ulangMM = document.getElementById('btnBuatMM');
-const kotakNilaiMM = document.getElementById(`nilaiMM`);
-const badanQuiz = document.getElementById('badan-quiz');
-const welcomeMsg = document.getElementById('sambutan');
-const menuPilihan = document.getElementById('menuPilihan');
-const catatankanji = document.getElementById('infokanjiquiz');
+const pilihSemua = document.getElementById('pilih-semua')
+const pilihanBab = document.querySelectorAll('.bab-choice')
+const periksaMM = document.getElementById('btnPeriksaMM')
+const ulangMM = document.getElementById('btnBuatMM')
+const kotakNilaiMM = document.getElementById(`nilaiMM`)
+const badanQuiz = document.getElementById('badan-quiz')
+const welcomeMsg = document.getElementById('sambutan')
+const menuPilihan = document.getElementById('menuPilihan')
+const catatankanji = document.getElementById('infokanjiquiz')
 const pilihMode = document.getElementById('pilihMode')
 const bentukSoal = document.getElementById('bentukSoal')
 const pilihBab = document.getElementById('pilihBab')
-const pilihan = document.getElementById('pilihan-kotoba');
-const judulpilihan = document.getElementById('judul-pilihan-kotoba');
-const stopBtn = document.getElementById('stopQuizBtn');
-const tableContainer = document.getElementById('vocabTableContainer');
-const startKotoba = document.getElementById('startKotoba');
-const tombolNormal = document.getElementById('tombolNormal');
-const tombolReverse = document.getElementById('tombolReverse');
-const quizMM = document.getElementById('soalMM');
-const btnCekMM = document.getElementById("btnPeriksaMM");
-const pewaktu = document.querySelector(".pewaktu");
-const dataTimer = document.querySelector("#dataTimer");
-const toTopBtn = document.getElementById("toTopBtn");
-const judulTabel = document.getElementById('judulTabel');
+const pilihan = document.getElementById('pilihan-kotoba')
+const judulpilihan = document.getElementById('judul-pilihan-kotoba')
+const stopBtn = document.getElementById('stopQuizBtn')
+const tableContainer = document.getElementById('vocabTableContainer')
+const startKotoba = document.getElementById('startKotoba')
+const tombolNormal = document.getElementById('tombolNormal')
+const tombolReverse = document.getElementById('tombolReverse')
+const quizMM = document.getElementById('soalMM')
+const btnCekMM = document.getElementById("btnPeriksaMM")
+const pewaktu = document.querySelector(".pewaktu")
+const dataTimer = document.querySelector("#dataTimer")
+const toTopBtn = document.getElementById("toTopBtn")
+const judulTabel = document.getElementById('judulTabel')
+const restartBtn = document.getElementById('restart')
 
 // Cek update
-cekUpdate.src = `https://herlambangyp.github.io/versi.js?t=${Date.now()}`;
+cekUpdate.src = `${serverLink}versi.js?t=${Date.now()}`
 cekUpdate.onload = () => {
   try{
     if(versiFile === dataServer.versi){
       infoUpdate.innerHTML = `
       <span class="gagalCek"style="position:relative; top:15px;">
         Tidak ditemukan ada update. File kamu sudah terbaru.
-        <br><a style='color:darkgray' href='https://herlambangyp.github.io/versi.js'>*Klik disini</a> untuk melihat riwayat pembaruan
+        <br><a style='color:darkgray' href='${serverLink}versi.js'>*Klik disini</a> untuk melihat riwayat pembaruan
       </span>`
 
     }else{
@@ -1021,15 +1019,15 @@ cekUpdate.onload = () => {
         Klik disini untuk download file terbaru
       </a>
       <span class="gagalCek">
-        <a style='color:darkgray' href='https://herlambangyp.github.io/versi.js'>*Klik disini</a> untuk melihat apa yang di update
+        <a style='color:darkgray' href='${serverLink}versi.js'>*Klik disini</a> untuk melihat apa yang di update
       </span>`
     }
   }catch(err){
     infoUpdate.innerHTML = `
     <span class="gagalCek" style="color: #000000;background: #ff8c00;border-radius: 3px;">
       Server pembaruan mengalami masalah! Silahkan menuju ke 
-      <a href="https://herlambangyp.ct.ws/quiz.html">
-        herlambangyp.ct.ws/quiz.html
+      <a href="${serverLink}quiz.html">
+        ${serverLink}quiz.html
       </a>. Untuk tetap mendapatkan update terbaru. <br>Hubungi aku terkait bug ini, untuk perbaikan server
     </span>`
   }
@@ -4161,6 +4159,11 @@ document.getElementById('tableSearch').addEventListener('input', (e)=>{
 });
 
 function modeTerpilih (dipilih, judul=judulModeSaved) {
+  if(['0kosong', 'menuPilihMode'].includes(dipilih)){
+    mode = dipilih
+    bangunUI()
+    return false
+  }
   if(mode.startsWith('pilih-')) {
         const selected = Array.from(document.querySelectorAll('.bab-choice:checked')).map(cb => cb.value)
         if (selected.length === 0) {
@@ -4308,12 +4311,21 @@ function pickKana() {
   indexSoal++;
   if (indexSoal === totalSoal) {
     Timer.stop();
-    document.getElementById('kana').textContent = 'Selesai!';
-    document.getElementById('result').innerHTML = `<h4>Kuis selesai!. Dalam waktu ${cetakTime}, dari ${totalSoal} soal kamu menjawab ${correctCount} dengan benar</h4>`;
-    document.getElementById('choices').innerHTML = '';
-    document.getElementById('soal').innerHTML = '';
-    document.getElementById('restart').style.display = 'inline-block';
-    document.getElementById('score').style.display = 'block';
+    const skor = totalCount === 0 ? 0 : Math.floor(correctCount * 100 / totalCount)
+    document.getElementById('kana').textContent = ''
+    document.getElementById('result').innerHTML = `
+    <div class="endQuiz">
+      <h2>Quiz Selesai</h2>
+      <h4 style="color:lightseagreen;">
+        Dalam waktu ${cetakTime}, 
+        dari ${totalSoal} soal kamu menjawab ${correctCount} dengan benar
+      </h4>
+      <h3>Nilaimu : ${skor}</3>
+    </div>  
+    `
+    document.getElementById('choices').innerHTML = ''
+    document.getElementById('soal').innerHTML = ''
+    restartBtn.style.display = 'inline-block'
     return;
   }
 
@@ -4434,7 +4446,6 @@ function pickKana() {
   
   // Bagian umum
   revealAllAnswers();
-  updateScore();
 overlay.style.display = 'block'; // tampilkan overlay
 overlay.addEventListener('click', function next() {
   overlay.style.display = 'none'; // sembunyikan overlay
@@ -4563,17 +4574,15 @@ function shuffle(array) {
 
 function mulaiQuizPilihanGanda(modeDiterima=mode) {    
   let list = getKanaList(modeDiterima)
-  sessionList = modeTerpilih(modeDiterima)? shuffle([...list]).slice(0, soalDipakai) : shuffle([...list]);
+  sessionList = modeTerpilih(modeDiterima)? shuffle([...list]).slice(0, soalDipakai) : shuffle([...list])
 
   pilihMode.textContent = judulModeSaved
-  totalSoal = sessionList.length;
-  totalCount = 0;
-  correctCount = 0;
-  indexSoal = -1;
-  document.getElementById('restart').style.display = 'none';
-  document.getElementById('score').style.display = 'none';
-  updateScore();
-  pickKana();
+  totalSoal = sessionList.length
+  totalCount = 0
+  correctCount = 0
+  indexSoal = -1
+  restartBtn.style.display = 'none'
+  pickKana()
 }
 
 
@@ -5496,12 +5505,6 @@ return kanaList;
 
 
 // --- START "QUIZ ELEMEENT" FUNCTION -- \\
-
-//Fungsi perhitungan skor
-  function updateScore() {
-        const skor = totalCount === 0 ? 0 : Math.floor(correctCount * 100 / totalCount);
-      document.getElementById('score').textContent = `Nilai: ${skor}`;
-    }
 // --- END "QUIZ ELEMEENT" FUNCTION -- \\
  
 
@@ -5510,21 +5513,23 @@ return kanaList;
  function bangunUI() {
   // Kondisi default element untuk semua mode
   // Atau saat element dibawah ini tidak didefinisikan khusus di mode tertentu, maka kondisi default ini yang didapat element itu
-    badanQuiz.style.display = 'flex';
-    welcomeMsg.style.display = 'none';
-    stopBtn.style.display = 'flex'; 
-    menuPilihan.style.display ='none';
-    bentukSoal.style.display = 'none';
-    pilihBab.style.display = 'none'
-    tableContainer.style.display = 'none';
-    stopBtn.textContent = 'Keluar Quiz';
-    startKotoba.style.display = 'none';
-    periksaMM.style.display = 'none';
-    ulangMM.style.display = 'none';
-    quizMM.style.display = 'none';
-    kotakNilaiMM.style.display = "none";
-    pewaktu.style.display = "none";
-    Timer.stop();
+    Timer.stop()
+    badanQuiz.style.display = 'flex'
+    stopBtn.style.display = 'flex'
+    stopBtn.textContent = 'Keluar Quiz'
+    ;[
+    menuPilihan,
+    bentukSoal,
+    pilihBab,
+    tableContainer,
+    startKotoba,
+    periksaMM,
+    ulangMM,
+    quizMM,
+    kotakNilaiMM,
+    pewaktu,
+    welcomeMsg,
+    ].forEach(e => {e.style.display = "none"})
     
     // Menampilkan/print text saat ini dalam mode apa di halaman web
     document.getElementById("debugMode").innerHTML = `
@@ -5532,179 +5537,141 @@ return kanaList;
     Judul Mode Saved = ${judulModeSaved}<br>
     helperMode = ${helperMode}<br>
     kotobaBuku = ${kotobaBuku}<br>
-    `
-    document.getElementById("debugMode").style.display = "none"
-    infoUpdate.style.display = "flex"
-    document.getElementById("footnote").style.display = "block"
+    `;document.getElementById("debugMode").style.display = "none"
 
+    ;["infoUpdate","footnote"].forEach(id => {
+      document.getElementById(id).style.display = "flex"
+    })
 
-    
- if (mode.startsWith('0kosong')) {
-    // UI welcome
-    welcomeMsg.style.display = 'flex';
-    pilihMode.textContent = 'Klik Disini Untuk Pilih Mode Quiz'
-
-    // UI halaman QUIZ
-    badanQuiz.style.display = 'none';
-    stopBtn.style.display = 'none'; 
-    stopBtn.textContent = 'Keluar Quiz';
+  if (mode.startsWith('pilih-')) {
+    badanQuiz.style.display = 'none'
+    stopBtn.textContent = 'Kembali Ke Home'
+    ;[stopBtn, pilihBab, startKotoba].forEach(e=>{e.style.display = "block"})
   }
-
-// Halaman "pemilihan bab Quiz Membaca Kotoba (Kanji Only)""
-else if (mode.startsWith('pilih-baca-kanji')) {
-    // UI halaman QUIZ
-    badanQuiz.style.display = 'none';
-    stopBtn.style.display = 'block'; 
-    stopBtn.textContent = 'Kembali Ke Home';
-
-    // UI halaman Multiple choice
-    judulpilihan.innerHTML = '<gedi>Pilih Materi Quiz <br>(BAB kotoba)</gedi><br><catatan-mode>Dalam mode ini, kotoba yang umumnya ditulis kanji yang akan diujikan. Kotoba yang umumnya ditulis full hira/kata tidak termasuk. Kamu diminta untuk mencari furigana dengan benar</catatan-mode>';
-    pilihBab.style.display = 'block'
-    startKotoba.style.display = 'block';
-    startKotoba.innerHTML = `Mulai Quiz Baca Kanji`;
-    helperMode = kotobaBuku+'-kanji-baca';
-}
-
-// Halaman "pemilihan bab Quiz Mengartikan Kotoba (Kanji included)""
-else if (mode.startsWith('pilih-kotoba-kanji')){
-
-    // UI halaman QUIZ
-    badanQuiz.style.display = 'none';
-    stopBtn.style.display = 'block'; 
-    stopBtn.textContent = 'Kembali Ke Home';
-    
-
-    // UI halaman Multiple choice
-    judulpilihan.innerHTML = '<gedi>Pilih Materi Quiz <br>(BAB kotoba)</gedi><br><catatan-mode>Dalam mode ini semua kotoba pada tiap bab diujikan. Baik dalam bentuk hira/kata maupun kanji. Kamu diminta untuk mengartikanya dengan benar</catatan-mode>';
-    pilihBab.style.display = 'block'
-    startKotoba.style.display = 'block'
-    startKotoba.innerHTML = `Mulai Quiz Artikan Kotoba (dg Kanji)`;
-    helperMode = kotobaBuku+'-kanji';
-}
-
-// Halaman "pemilihan bab Quiz Mengartikan Kotoba (Non-kanji)""
-else if (mode.startsWith('pilih-kotoba-nokanji')) {
-
-    // UI halaman QUIZ
-    badanQuiz.style.display = 'none';
-    stopBtn.style.display = 'block'; 
-    stopBtn.textContent = 'Kembali Ke Home';
-
-        // UI halaman Multiple choice
-    judulpilihan.innerHTML = '<gedi>Pilih Materi Quiz <br>(BAB kotoba)</gedi><br><catatan-mode>Dalam mode ini semua kotoba pada tiap bab diujikan. Tapi dalam bentuk hira/kata saja. Kamu diminta untuk mengartikanya dengan benar</catatan-mode>';
-    pilihBab.style.display = 'block'
-    startKotoba.style.display = 'block'
-    startKotoba.innerHTML = `Mulai Quiz Artikan Kotoba (tanpa Kanji)`;
-    helperMode = kotobaBuku+'-kotoba';
-  }
-
-else if (mode.startsWith('quizMM')) {
-
-    // UI halaman QUIZ
-    badanQuiz.style.display = 'none';
-    stopBtn.style.display = 'block'; 
-    stopBtn.textContent = 'Kembali Ke Home';
-
-    // UI halaman quiz MM
-    quizMM.style.display = 'flex';
-    buatSoalMM();
-
-}
-
-else if(mode.startsWith('tabel')){
-
-    // Ui Tabel
-    tableContainer.style.display = 'flex';
-    badanQuiz.style.display ="none";
-    stopBtn.innerHTML =`Kembali ke Home`;
-}
-
-else if(mode.startsWith('canvas')){
-    // Ui Tabel
-    badanQuiz.style.display ="none";
-    stopBtn.innerHTML =`Kembali ke Home`;
-}
-
-else if(mode.startsWith('bentukSoal')){
-    // Ui Tabel
-    bentukSoal.style.display ="flex";
-    badanQuiz.style.display ="none";
-    pilihMode.textContent = judulModeSaved
+  if(mode.startsWith('tabel')){
+    tableContainer.style.display = 'flex'
+    badanQuiz.style.display ="none"
     stopBtn.innerHTML =`Kembali ke Home`
-    let hurufJepang
-    let hurufLatin
-    let contohJpg
-    let contohLtn
-    let descNorm
-    let descRev
-    switch (helperMode) {
-      case 'hiragana':
-      case 'katakana':
-      case 'bothkana':
-        hurufJepang = 'Huruf Jepang'
-        hurufLatin = 'Huruf Latin'
-        contohJpg = 'あ'
-        contohLtn = 'A'
-        descNorm = 'Soal berupa huruf hiragana / katakana'
-        descRev = 'Soal berupa huruf latin (cara baca)'
-      break;
-      case kotobaBuku+'-kanji':
-      case kotobaBuku+'-kanji-rev':
-      case kotobaBuku+'-kotoba':
-      case kotobaBuku+'-kotoba-rev':
-        hurufJepang = 'Bahasa Jepang'
-        hurufLatin = 'Bahasa Indonesia'
-        contohJpg = 'とき'
-        contohLtn = 'Jam'
-        descNorm = 'Soal berbahasa Jepang dg tulisan Jepang'
-        descRev = 'Soal berbahasa Indonesia'
-        if (helperMode.startsWith(kotobaBuku+'-kanji')) {contohJpg = '時';}
-      break;
-      case kotobaBuku+'-kanji-baca':
-      case kotobaBuku+'-kanji-baca-rev':
-        hurufJepang = 'Huruf Kanji'
-        hurufLatin = 'Huruf Hiragana / Katakana'
-        contohJpg = '時'
-        contohLtn = 'とき'
-        descNorm = 'Soal berbentuk Kanji'
-        descRev = 'Soal berbentuk Hiragana / Katakana (cara baca)'
-      break;
-      }
-    tombolNormal.innerHTML=`            
-    <div class="judulTombol">
-      <div style="max-width:70%;">
-        ${hurufJepang}
-        <div class="deskripsiTombol">${descNorm}</div>
-      </div>
-      <span class="exmpword" style="color:#e100a0 ;">${contohJpg}</span>
-    </div>`
-    tombolReverse.innerHTML=`            
-    <div class="judulTombol">
-      <div style="max-width:70%;">
-        ${hurufLatin}
-        <div class="deskripsiTombol">${descRev}</div>
-      </div>
-      <span class="exmpword" style="color:#7aff00 ;">${contohLtn}</span>
-    </div>`
-    tombolNormal.onclick = () => {mulaiQuizPilihanGanda(helperMode)}
-    tombolReverse.onclick = () => {mulaiQuizPilihanGanda(helperMode+'-rev')}
-}
+    return
+  }
 
-else if(mode.startsWith('menuPilihMode')){
+  switch (mode) {
+    case '0kosong':
+      welcomeMsg.style.display = 'flex'
+      pilihMode.textContent = 'Klik Disini Untuk Pilih Mode Quiz'
+      ;[badanQuiz, stopBtn].forEach(e=>{e.style.display = "none"})    
+    break;
 
-    badanQuiz.style.display ="none";
-    menuPilihan.style.display = 'flex';
-    pilihMode.textContent = 'Pilih Mode Quiz Dibawah'
-    stopBtn.innerHTML =`Kembali ke Home`;
-}
+    case 'pilih-baca-kanji':
+      judulpilihan.innerHTML = '<gedi>Pilih Materi Quiz <br>(BAB kotoba)</gedi><br><catatan-mode>Dalam mode ini, kotoba yang umumnya ditulis kanji yang akan diujikan. Kotoba yang umumnya ditulis full hira/kata tidak termasuk. Kamu diminta untuk mencari furigana dengan benar</catatan-mode>';
+      startKotoba.innerHTML = `Mulai Quiz Baca Kanji`
+      helperMode = kotobaBuku+'-kanji-baca'
+    break;
 
-else{
-  stopBtn.style.display = 'block'; 
-  stopBtn.textContent = 'Kembali Ke Home'; 
-  Timer.start();
-}
-  } 
-  bangunUI();
+    case 'pilih-kotoba-kanji':
+      judulpilihan.innerHTML = '<gedi>Pilih Materi Quiz <br>(BAB kotoba)</gedi><br><catatan-mode>Dalam mode ini semua kotoba pada tiap bab diujikan. Baik dalam bentuk hira/kata maupun kanji. Kamu diminta untuk mengartikanya dengan benar</catatan-mode>';
+      startKotoba.innerHTML = `Mulai Quiz Artikan Kotoba (dg Kanji)`
+      helperMode = kotobaBuku+'-kanji'
+    break;
+
+    case 'pilih-kotoba-nokanji':
+      judulpilihan.innerHTML = '<gedi>Pilih Materi Quiz <br>(BAB kotoba)</gedi><br><catatan-mode>Dalam mode ini semua kotoba pada tiap bab diujikan. Tapi dalam bentuk hira/kata saja. Kamu diminta untuk mengartikanya dengan benar</catatan-mode>';
+      startKotoba.innerHTML = `Mulai Quiz Artikan Kotoba (tanpa Kanji)`
+      helperMode = kotobaBuku+'-kotoba'
+    break;
+    case 'quizMM':
+      badanQuiz.style.display = 'none'
+      stopBtn.style.display = 'block' 
+      stopBtn.textContent = 'Kembali Ke Home'
+      quizMM.style.display = 'flex'
+      buatSoalMM()
+    break;
+
+    case 'canvas':
+      badanQuiz.style.display ="none"
+      stopBtn.innerHTML =`Kembali ke Home`
+    break;
+
+    case 'bentukSoal':
+      bentukSoal.style.display ="flex"
+      badanQuiz.style.display ="none"
+      pilihMode.textContent = judulModeSaved
+      stopBtn.innerHTML =`Kembali ke Home`
+      let hurufJepang
+      let hurufLatin
+      let contohJpg
+      let contohLtn
+      let descNorm
+      let descRev
+      switch (helperMode) {
+        case 'hiragana':
+        case 'katakana':
+        case 'bothkana':
+          hurufJepang = 'Huruf Jepang'
+          hurufLatin = 'Huruf Latin'
+          contohJpg = 'あ'
+          contohLtn = 'A'
+          descNorm = 'Soal berupa huruf hiragana / katakana'
+          descRev = 'Soal berupa huruf latin (cara baca)'
+        break;
+        case kotobaBuku+'-kanji':
+        case kotobaBuku+'-kanji-rev':
+        case kotobaBuku+'-kotoba':
+        case kotobaBuku+'-kotoba-rev':
+          hurufJepang = 'Bahasa Jepang'
+          hurufLatin = 'Bahasa Indonesia'
+          contohJpg = 'とき'
+          contohLtn = 'Jam'
+          descNorm = 'Soal berbahasa Jepang dg tulisan Jepang'
+          descRev = 'Soal berbahasa Indonesia'
+          if (helperMode.startsWith(kotobaBuku+'-kanji')) {contohJpg = '時';}
+        break;
+        case kotobaBuku+'-kanji-baca':
+        case kotobaBuku+'-kanji-baca-rev':
+          hurufJepang = 'Huruf Kanji'
+          hurufLatin = 'Huruf Hiragana / Katakana'
+          contohJpg = '時'
+          contohLtn = 'とき'
+          descNorm = 'Soal berbentuk Kanji'
+          descRev = 'Soal berbentuk Hiragana / Katakana (cara baca)'
+        break;
+        }
+      tombolNormal.innerHTML=`            
+      <div class="judulTombol">
+        <div style="max-width:70%;">
+          ${hurufJepang}
+          <div class="deskripsiTombol">${descNorm}</div>
+        </div>
+        <span class="exmpword" style="color:#e100a0 ;">${contohJpg}</span>
+      </div>`
+      tombolReverse.innerHTML=`            
+      <div class="judulTombol">
+        <div style="max-width:70%;">
+          ${hurufLatin}
+          <div class="deskripsiTombol">${descRev}</div>
+        </div>
+        <span class="exmpword" style="color:#7aff00 ;">${contohLtn}</span>
+      </div>`
+      tombolNormal.onclick = () => {mulaiQuizPilihanGanda(helperMode)}
+      tombolReverse.onclick = () => {mulaiQuizPilihanGanda(helperMode+'-rev')}
+    break;
+
+    case 'menuPilihMode':
+      badanQuiz.style.display ="none"
+      menuPilihan.style.display = 'flex'
+      pilihMode.textContent = 'Pilih Mode Quiz Dibawah'
+      stopBtn.innerHTML =`Kembali ke Home`
+    break;
+
+    default:
+      console.log('kondisi default dimuat. Isi Mode = ', mode)
+      stopBtn.style.display = 'block'
+      stopBtn.textContent = 'Keluar Quiz' 
+      Timer.start()
+    break;
+  }
+} 
+  bangunUI()
 </script>
 </body>
 </html>
