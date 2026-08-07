@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="id" data-theme="valentine">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Happy Birthday! 🎂</title>
+  
+  <!-- Tailwind CSS + daisyUI CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
+  <link href="https://cdn.jsdelivr.net/npm/daisyui@5/themes.css" rel="stylesheet" type="text/css" />
+  <script src="https://cdn.jsdelivr.net/css-select/2.0.0/index.min.js"></script>
+  
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- Canvas Confetti Library -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+  
+  <!-- Custom Styles & Animations -->
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Sacramento&family=Plus+Jakarta+Sans:wght@300;400;600&display=swap');
+    
+    .font-romantic {
+      font-family: 'Sacramento', cursive;
+    }
+    .font-body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+
+    /* Animasi Berputar Lambat */
+    @keyframes slowSpin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+    
+    .animate-slow-spin {
+      animation: slowSpin 12s linear infinite;
+    }
+
+    /* Soft pulse / float effect untuk kado */
+    @keyframes float {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-10px); }
+    }
+    
+    .animate-float {
+      animation: float 3s ease-in-out infinite;
+    }
+
+    /* Animasi Tutup Kado Terangkat */
+    .lid-open {
+      transform: translateY(-80px) rotate(-15deg) scale(0.9);
+      opacity: 0;
+      transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+  </style>
+</head>
+<body class="font-body min-h-screen bg-gradient-to-br from-rose-100 via-orange-50 to-amber-100 text-stone-700 flex items-center justify-center p-4 overflow-x-hidden">
+
+  <!-- ================= LANDING PAGE (GIFT BOX) ================= -->
+  <div id="landingPage" class="flex flex-col items-center justify-center text-center transition-all duration-700 ease-out z-10">
+    
+    <!-- Gift Container -->
+    <div onclick="openGift()" class="cursor-pointer group relative my-8 p-6 transition-transform duration-300 hover:scale-105">
+      
+      <!-- Glow effect di belakang kado -->
+      <div class="absolute inset-0 bg-rose-300/40 rounded-full blur-2xl group-hover:bg-rose-400/50 transition-all duration-500"></div>
+
+      <!-- Icon Kado dengan Animasi -->
+      <div id="giftBox" class="relative z-10 flex flex-col items-center justify-center">
+        <!-- Tutup Kado -->
+        <i id="giftLid" class="fa-solid fa-gift text-7xl md:text-8xl text-rose-500 drop-shadow-md animate-slow-spin transition-all duration-700"></i>
+      </div>
+    </div>
+
+    <!-- Teks 'Click to Open' -->
+    <div id="giftText" class="space-y-2 animate-pulse">
+      <p class="text-xs uppercase tracking-widest text-rose-400 font-semibold">Special Delivery</p>
+      <h1 class="text-3xl md:text-4xl font-romantic text-rose-600 font-bold">Click to Open</h1>
+      <p class="text-xs text-stone-400">Ada kejutan kecil di dalamnya ✨</p>
+    </div>
+
+  </div>
+
+  <!-- ================= MAIN CONTENT (SLIDER CAROUSEL) ================= -->
+  <div id="mainContent" class="hidden opacity-0 scale-95 transition-all duration-1000 ease-out w-full max-w-xl mx-auto z-10">
+    
+    <!-- Header Ucapan -->
+    <div class="text-center mb-6">
+      <span class="badge badge-rose text-xs tracking-wider mb-2 bg-rose-200 text-rose-700 border-none px-3 py-2">HAPPY BIRTHDAY! 🎉</span>
+      <h2 class="text-4xl md:text-5xl font-romantic font-bold text-rose-600">Selamat Ulang Tahun!</h2>
+    </div>
+
+    <!-- Carousel Container (daisyUI) -->
+    <div class="carousel w-full rounded-3xl shadow-xl bg-white/70 backdrop-blur-md border border-white/60">
+      
+      <!-- Slide 1: Ucapan & Pesan -->
+      <div id="slide1" class="carousel-item relative w-full p-6 md:p-8 flex flex-col justify-between min-h-[380px]">
+        <div class="space-y-4">
+          <div class="w-12 h-12 rounded-2xl bg-rose-100 flex items-center justify-center text-rose-500 text-xl">
+            <i class="fa-solid fa-heart"></i>
+          </div>
+          <h3 class="text-xl font-semibold text-stone-800">Doa & Harapan</h3>
+          <p class="text-stone-600 leading-relaxed text-sm">
+            Semoga di usiamu yang baru ini, setiap harinya dipenuhi dengan kebahagiaan, tawa, dan hal-hal indah. Terima kasih sudah menjadi sosok yang selalu membawa hangat bagi orang-orang di sekitarmu.
+          </p>
+        </div>
+        <div class="flex justify-between items-center pt-6 border-t border-stone-100">
+          <span class="text-xs text-stone-400">Slide 1 dari 3</span>
+          <a href="#slide2" class="btn btn-circle btn-sm btn-ghost text-rose-500">
+            <i class="fa-solid fa-arrow-right"></i>
+          </a>
+        </div>
+      </div>
+
+      <!-- Slide 2: Galeri Foto / Kenangan -->
+      <div id="slide2" class="carousel-item relative w-full p-6 md:p-8 flex flex-col justify-between min-h-[380px]">
+        <div class="space-y-4">
+          <div class="w-12 h-12 rounded-2xl bg-amber-100 flex items-center justify-center text-amber-500 text-xl">
+            <i class="fa-solid fa-camera-retro"></i>
+          </div>
+          <h3 class="text-xl font-semibold text-stone-800">Momen Spesial</h3>
+          <p class="text-stone-600 text-sm">
+            Ganti bagian ini dengan foto atau deretan memori terbaik bersamanya sepanjang tahun ini!
+          </p>
+          <!-- Frame Foto Simpel -->
+          <div class="w-full h-40 bg-stone-100 rounded-2xl flex items-center justify-center border border-dashed border-stone-300 text-stone-400 text-sm">
+            [ Tempat Foto / Memory Card ]
+          </div>
+        </div>
+        <div class="flex justify-between items-center pt-6 border-t border-stone-100">
+          <a href="#slide1" class="btn btn-circle btn-sm btn-ghost text-stone-400">
+            <i class="fa-solid fa-arrow-left"></i>
+          </a>
+          <span class="text-xs text-stone-400">Slide 2 dari 3</span>
+          <a href="#slide3" class="btn btn-circle btn-sm btn-ghost text-rose-500">
+            <i class="fa-solid fa-arrow-right"></i>
+          </a>
+        </div>
+      </div>
+
+      <!-- Slide 3: Harapan / Musik / Penutup -->
+      <div id="slide3" class="carousel-item relative w-full p-6 md:p-8 flex flex-col justify-between min-h-[380px]">
+        <div class="space-y-4">
+          <div class="w-12 h-12 rounded-2xl bg-rose-100 flex items-center justify-center text-rose-500 text-xl">
+            <i class="fa-solid fa-cake-candles"></i>
+          </div>
+          <h3 class="text-xl font-semibold text-stone-800">Make a Wish! 🕯️</h3>
+          <p class="text-stone-600 leading-relaxed text-sm">
+            Tutup matamu sejenak, buat satu harapan terbaikmu, lalu hembuskan nafas. Semoga semua impianmu segera terwujud!
+          </p>
+          <div class="p-4 bg-rose-50/80 rounded-2xl border border-rose-100 text-center">
+            <p class="font-romantic text-2xl text-rose-600">Have a wonderful day ahead!</p>
+          </div>
+        </div>
+        <div class="flex justify-between items-center pt-6 border-t border-stone-100">
+          <a href="#slide2" class="btn btn-circle btn-sm btn-ghost text-stone-400">
+            <i class="fa-solid fa-arrow-left"></i>
+          </a>
+          <span class="text-xs text-stone-400">Slide 3 dari 3</span>
+          <a href="#slide1" class="btn btn-sm btn-soft btn-rose rounded-full text-xs">
+            Ulangi <i class="fa-solid fa-rotate-right ml-1"></i>
+          </a>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Navigation Dots Under Carousel -->
+    <div class="flex justify-center gap-2 mt-4">
+      <a href="#slide1" class="w-2.5 h-2.5 rounded-full bg-rose-300 hover:bg-rose-500 transition-colors"></a>
+      <a href="#slide2" class="w-2.5 h-2.5 rounded-full bg-rose-300 hover:bg-rose-500 transition-colors"></a>
+      <a href="#slide3" class="w-2.5 h-2.5 rounded-full bg-rose-300 hover:bg-rose-500 transition-colors"></a>
+    </div>
+
+  </div>
+
+  <!-- ================= JAVASCRIPT ================= -->
+  <script>
+    function openGift() {
+      const giftLid = document.getElementById('giftLid');
+      const giftText = document.getElementById('giftText');
+      const landingPage = document.getElementById('landingPage');
+      const mainContent = document.getElementById('mainContent');
+
+      // 1. Hentikan animasi spin & jalankan animasi buka kado
+      giftLid.classList.remove('animate-slow-spin');
+      giftLid.classList.add('lid-open');
+      giftText.style.opacity = '0';
+
+      // 2. Tembakkan Sparkles & Confetti
+      setTimeout(() => {
+        fireConfetti();
+      }, 200);
+
+      // 3. Transisi halus dari Landing Page ke Main Content
+      setTimeout(() => {
+        landingPage.classList.add('opacity-0', 'scale-90');
+        
+        setTimeout(() => {
+          landingPage.classList.add('hidden');
+          mainContent.classList.remove('hidden');
+          
+          // Trigger reflow untuk animasi fade-in & scale-up
+          requestAnimationFrame(() => {
+            mainContent.classList.remove('opacity-0', 'scale-95');
+            mainContent.classList.add('opacity-100', 'scale-100');
+          });
+        }, 500);
+      }, 700);
+    }
+
+    function fireConfetti() {
+      // Semburan confetti warm/romantic
+      const count = 200;
+      const defaults = {
+        origin: { y: 0.7 },
+        colors: ['#f43f5e', '#fb7185', '#fde047', '#a855f7', '#ffffff']
+      };
+
+      function fire(particleRatio, opts) {
+        confetti(Object.assign({}, defaults, opts, {
+          particleCount: Math.floor(count * particleRatio)
+        }));
+      }
+
+      fire(0.25, { spread: 26, startVelocity: 55 });
+      fire(0.2, { spread: 60 });
+      fire(0.35, { spread: 100, decay: 0.91, scalar: 0.8 });
+      fire(0.1, { spread: 120, startVelocity: 25, decay: 0.92, scalar: 1.2 });
+      fire(0.1, { spread: 120, startVelocity: 45 });
+    }
+  </script>
+</body>
+</html>
