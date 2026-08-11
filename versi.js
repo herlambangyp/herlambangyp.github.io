@@ -1,12 +1,19 @@
 window.dataServer = {
 
-    versi: "3.1.13",
+    versi: "3.2",
     changeLog: `
-            - Memperbarui UI quiz matematika IM, agar lebih persis seperti kertas ujian
+            - Menambahkan pendeteksi "tombol kembali" bawaan android atau "back" browser
+            - Sekarang navigasi halaman quiz bisa dilakukan dengan tombol kembali bawaan
+              atau fitur back browser
+            - Ui "Kembali ke home" tetap dipertahankan untuk device yang
+              tidak memiliki tombol kembali bawaan
             
             `,
 
     changeLogVersiLama:`
+
+        3.1.13 
+            - Memperbarui UI quiz matematika IM, agar lebih persis seperti kertas ujian
 
         3.1.12b 
             - Memperbaiki bug tombol keluar atau kembali ke home yang tidak bisa,

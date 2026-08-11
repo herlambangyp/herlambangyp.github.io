@@ -706,7 +706,7 @@ display: block;
 <div id="nextOverlay"></div>    
 <div id="toast-container"></div>  
 
-    <h1 class="judulUtama">Quiz Mourop Apalan V<span id="versiFile">3.1.13</span></h1>
+    <h1 class="judulUtama">Quiz Mourop Apalan V<span id="versiFile">3.2</span></h1>
 
     <button id="pilihMode" class="pilihMode" onclick="modeTerpilih('menuPilihMode')"></button>
 
@@ -970,14 +970,15 @@ display: block;
 let currentKana = {}
 let sessionList = []
 let soalMM = []
+let judulModeSaved = `Klik Disini Untuk Pilih Mode Quiz`
 let mode = '0kosong'
 let correctCount = 0
 let totalCount = 0
 let isClickable = true
+let kembaliDitekan = false
 let totalSoal = 0
 let indexSoal = -1
 let kotobaBuku = `kosong`
-let judulModeSaved = `Klik Disini Untuk Pilih Mode Quiz`
 let soalDipakai =0
 let helperMode = ''
 let terpanggil = 0 // Jangan digunakan, kecuali debugging fungsi terpanggil berapa kali
@@ -4100,6 +4101,34 @@ window.addEventListener("scroll", () => {
         toTopBtn.style.display = "none";
     }
 });
+
+// Fungsi search dalam tabel
+document.getElementById('tableSearch').addEventListener('input', (e)=>{
+    buildVocabTable(e.target.value, kotobaBuku);
+});
+history.replaceState({ 
+  mode: mode, 
+  judulModeSaved:judulModeSaved,
+  helperMode:helperMode
+}, "")
+
+// fungsi tombol kembali bawaan perangkat
+window.addEventListener('popstate', (event) => {
+  if (event.state) {
+    kembaliDitekan = true
+    helperMode = event.state.helperMode
+    modeTerpilih(event.state.mode, event.state.judulModeSaved)
+  }
+});
+
+function buatHistori(modeHistori, judulHistori){
+  history.pushState({ 
+    mode: modeHistori, 
+    judulModeSaved: judulHistori,
+    helperMode:helperMode 
+  }, "")
+}
+
 function soalDibatasi(){
 soalDipakai = Number(document.getElementById('batasSoal')?.value) || Infinity
 }
@@ -4170,16 +4199,17 @@ pilihan.addEventListener("change", (e) => {
 });
 }
 
-// Fungsi search dalam tabel
-document.getElementById('tableSearch').addEventListener('input', (e)=>{
-    buildVocabTable(e.target.value, kotobaBuku);
-});
-
+let filterBab = false
 function modeTerpilih (dipilih, judul=judulModeSaved) {
+  if (!kembaliDitekan) {
+    buatHistori(dipilih, judul)
+  }
+  kembaliDitekan = false
   if(['0kosong', 'menuPilihMode'].includes(dipilih)){
     mode = dipilih
     bangunUI()
-    return false
+    filterBab = false
+    return
   }
   if(mode.startsWith('pilih-')) {
         const selected = Array.from(document.querySelectorAll('.bab-choice:checked')).map(cb => cb.value)
@@ -4192,19 +4222,24 @@ function modeTerpilih (dipilih, judul=judulModeSaved) {
           return
         }
       }
-      if (helperMode.startsWith(kotobaBuku+'-')) {
+  if (helperMode.startsWith(kotobaBuku+'-')) {
         mode = dipilih
         judulModeSaved = judul
         pilihMode.textContent = judul
         bangunUI()
-        return true
+        mulaiQuizPilihanGanda()
+        filterBab = true
+        return
       }
   mode = dipilih
   judulModeSaved = judul
   pilihMode.textContent = judul
   bangunUI()
-  return false
+  mulaiQuizPilihanGanda()
+  filterBab = false
+  return
 };
+
 // --- END EVENT HANDLER --- \\
 
 
@@ -4317,6 +4352,13 @@ function buildVocabTable(filter='', bagian='') {
     tbody.appendChild(tr);
 });
 }
+
+// Debug
+
+function psn(pesan){
+  console.log(pesan)
+}
+
 // --- END NON QUIZ FUNCTION --- \\
 
 
@@ -4589,9 +4631,9 @@ function shuffle(array) {
 });
 }
 
-function mulaiQuizPilihanGanda(modeDiterima=mode) {    
+function mulaiQuizPilihanGanda(modeDiterima=helperMode) {    
   let list = getKanaList(modeDiterima)
-  sessionList = modeTerpilih(modeDiterima)? shuffle([...list]).slice(0, soalDipakai) : shuffle([...list])
+  sessionList = filterBab? shuffle([...list]).slice(0, soalDipakai) : shuffle([...list])
 
   pilihMode.textContent = judulModeSaved
   totalSoal = sessionList.length
@@ -5498,7 +5540,7 @@ function buatSoalMM() {
 
 
 // --- DATASET FILTERING FUNCTION --- \\
-function getKanaList(modeQuiz=mode) {
+function getKanaList(modeQuiz=helperMode) {
 // Fungsi untuk mengambil semua pilihan bab kotoba yang dipilih pengguna
 const selectedBab = [...document.querySelectorAll('.bab-choice:checked')].map(cb => cb.value);
 // Filter berdasarkan mode saat ini
@@ -5532,6 +5574,7 @@ return kanaList;
     badanQuiz.style.display = 'flex'
     stopBtn.style.display = 'flex'
     stopBtn.textContent = 'Keluar Quiz'
+    let rmh = 'Kembali ke Home'
     ;[
     menuPilihan,
     bentukSoal,
@@ -5553,7 +5596,8 @@ return kanaList;
     Judul Mode Saved = ${judulModeSaved}<br>
     helperMode = ${helperMode}<br>
     kotobaBuku = ${kotobaBuku}<br>
-    `;document.getElementById("debugMode").style.display = "none"
+    `
+    document.getElementById("debugMode").style.display = "none"
 
     ;["infoUpdate","footnote"].forEach(id => {
       document.getElementById(id).style.display = "flex"
@@ -5561,13 +5605,13 @@ return kanaList;
 
   if (mode.startsWith('pilih-')) {
     badanQuiz.style.display = 'none'
-    stopBtn.textContent = 'Kembali Ke Home'
+    stopBtn.textContent = rmh
     ;[stopBtn, pilihBab, startKotoba].forEach(e=>{e.style.display = "block"})
   }
   if(mode.startsWith('tabel')){
     tableContainer.style.display = 'flex'
     badanQuiz.style.display ="none"
-    stopBtn.innerHTML =`Kembali ke Home`
+    stopBtn.innerHTML =rmh
     return
   }
 
@@ -5612,24 +5656,22 @@ return kanaList;
 
     case 'canvas':
       badanQuiz.style.display ="none"
-      stopBtn.innerHTML =`Kembali ke Home`
+      stopBtn.innerHTML =rmh
     break;
 
     case 'bentukSoal':
       bentukSoal.style.display ="flex"
       badanQuiz.style.display ="none"
       pilihMode.textContent = judulModeSaved
-      stopBtn.innerHTML =`Kembali ke Home`
+      stopBtn.innerHTML =rmh
       let hurufJepang
       let hurufLatin
       let contohJpg
       let contohLtn
       let descNorm
       let descRev
-      switch (helperMode) {
-        case 'hiragana':
-        case 'katakana':
-        case 'bothkana':
+      switch (true) {
+        case ['hiragana', 'katakana', 'bothkana'].includes(helperMode):
           hurufJepang = 'Huruf Jepang'
           hurufLatin = 'Huruf Latin'
           contohJpg = 'あ'
@@ -5637,20 +5679,16 @@ return kanaList;
           descNorm = 'Soal berupa huruf hiragana / katakana'
           descRev = 'Soal berupa huruf latin (cara baca)'
         break;
-        case kotobaBuku+'-kanji':
-        case kotobaBuku+'-kanji-rev':
-        case kotobaBuku+'-kotoba':
-        case kotobaBuku+'-kotoba-rev':
+        case helperMode.endsWith('-kanji'):
+        case helperMode.endsWith('-kotoba'):
           hurufJepang = 'Bahasa Jepang'
           hurufLatin = 'Bahasa Indonesia'
-          contohJpg = 'とき'
+          helperMode.endsWith('-kanji')? contohJpg = '時': contohJpg = 'とき'
           contohLtn = 'Jam'
           descNorm = 'Soal berbahasa Jepang dg tulisan Jepang'
           descRev = 'Soal berbahasa Indonesia'
-          if (helperMode.startsWith(kotobaBuku+'-kanji')) {contohJpg = '時';}
         break;
-        case kotobaBuku+'-kanji-baca':
-        case kotobaBuku+'-kanji-baca-rev':
+        case helperMode.endsWith('-baca'):
           hurufJepang = 'Huruf Kanji'
           hurufLatin = 'Huruf Hiragana / Katakana'
           contohJpg = '時'
@@ -5675,15 +5713,15 @@ return kanaList;
         </div>
         <span class="exmpword" style="color:#7aff00 ;">${contohLtn}</span>
       </div>`
-      tombolNormal.onclick = () => {mulaiQuizPilihanGanda(helperMode)}
-      tombolReverse.onclick = () => {mulaiQuizPilihanGanda(helperMode+'-rev')}
+      tombolNormal.onclick = () => {modeTerpilih(helperMode)}
+      tombolReverse.onclick = () => {modeTerpilih(helperMode+'-rev')}
     break;
 
     case 'menuPilihMode':
       badanQuiz.style.display ="none"
       menuPilihan.style.display = 'flex'
       pilihMode.textContent = 'Pilih Mode Quiz Dibawah'
-      stopBtn.innerHTML =`Kembali ke Home`
+      stopBtn.innerHTML =rmh
     break;
 
     default:
