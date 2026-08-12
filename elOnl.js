@@ -1,6 +1,8 @@
 window.linkDown = {
 
-    linkDownloadDataset:`<div class="kotakSubMenu">
+    linkDownloadDataset:`
+    
+    <div class="kotakSubMenu">
       <div class="titleSubMenu">
         <span class="judulSubMenu">Dataset Huruf Jepang</span>
         <span class="keteranganSubMenu">
@@ -24,8 +26,10 @@ window.linkDown = {
       </div>
 
       <div class="kotakTombolPilihanMenu">
-        <button class="tombolPilihanMenu"onclick="modeTerpilih('quizMM', 'Test Soal Matematika IM');">Download Dataset (21Mb)</button>
+        <button class="tombolPilihanMenu" 
+        onclick="downloadFile('https://raw.githubusercontent.com/herlambangyp/herlambangyp.github.io/refs/heads/main/dataset-hrf-jpn.txt', 'dataset-hrf-jpn.txt')">Download Dataset (21Mb)</button>
       </div>
-      
-    </div>`
+    </div>
+    
+    `
 }
