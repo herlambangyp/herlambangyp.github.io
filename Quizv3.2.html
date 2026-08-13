@@ -565,12 +565,8 @@ display: block;
     padding: 7px;
     width: fit-content;
     border-radius: 4px;
+
     }
-      
-.tombolPilihanMenu:disabled{
-    background: darkslategrey;
-    opacity: 0.8;
-  }
       
 #toast-container {
     position: fixed;
@@ -703,24 +699,6 @@ display: block;
     font-size: 12px;
     color: #666;
 }
-.fileUp{
-  background: #2f4f4f;
-}
-#kotakTulis {    
-  max-width: 360px;
-  padding: 15px;
-  border-radius: 8px;
-}
-  #board { position: relative; width: 300px; height: 300px; margin: 10px auto; border: 2px dashed #cbd5e1; border-radius: 8px; }
-  #svgLayer, #canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
-  #svgLayer { pointer-events: none; }
-  #canvas { cursor: crosshair; touch-action: none; }
-  #status{
-    text-align: center;
-    font-size: 10px;
-    color: dimgrey;
-    max-width: 290px;
-  }
 </style>
 </head>
 <body>
@@ -728,15 +706,16 @@ display: block;
 <div id="nextOverlay"></div>    
 <div id="toast-container"></div>  
 
-    <h1 class="judulUtama">Quiz Mourop Apalan V<span id="versiFile">4.2Lw (Beta)</span></h1>
+    <h1 class="judulUtama">Quiz Mourop Apalan V<span id="versiFile">3.2</span></h1>
+
     <button id="pilihMode" class="pilihMode" onclick="modeTerpilih('menuPilihMode')"></button>
 
 <div id="sambutan" class="boxUmum">
-    Kamu menggunakan versi Beta
-  <span style="font-weight: 400; font-size: 10px; color: lightslategrey;">Beta LW (Live Writing). Memperkenalkan fitur menulis langsung dihalaman web dan tersedia secara offline</span><br>
-  <span class="note">Fitur belum sepenuhnya siap</span>
+    Selamat datang di <br>QUIZ MOUROP APALAN<br>
+  <span style="font-weight: 400; font-size: 7px; color: lightslategrey;">Quiz ini dibuat ben ra mumet lek ngapalne kotoba :(</span><br>
+  <span class="note">Quiz ini didasarkan dari beberapa buku bahasa jepang, yang aku (Herlambang YP) pernah pelajari</span>
     
-    <div class="text-kecil">Kemungkinan akan banyak eror</div>
+    <div class="text-kecil">Pilih mode quiz di atas untuk memulai</div>
     <div id="infoUpdate"></div>
 </div>
 
@@ -747,24 +726,6 @@ display: block;
 
 <p id="debugMode"></p>
 <!-- jika ingin buat UI baru, buat dibawah sini -->
- <div id="kotakInTXT" class="boxUmum">
-<div>
-  <label><b>Load Dataset Huruf:</b><div>(Tidak Perlu Koneksi Internet)</div></label><br>
-  <input type="file" class="fileUp" id="fileInput" accept=".txt,.jsonl"><br>
-  <p id="statusFile" class="gagalCek" style="font-size: 10px;">
-  </p>
-  <p class="gagalCek" style="font-size: 10px;">
-    Wajib untuk meload dataset terlebih dahulu. Jika tidak punya,
-    <a style="color:darkgray;text-decoration: underline;"onclick="buatLinkDown('linkDat')"> *klik disini (<b>Perlu Internet</b>) </a>
-    untuk mendownload file dataset
-  </p>
-    <button id="btnLoad" class="tombolPilihanMenu" style="margin-top: 5px; display: none;" onclick="modeTerpilih('menulis')" disabled>Mulai Quiz Menulis (Masih tahap Beta)</button>
-  <div id="linkDat">
-
-  </div>
-    </div>
- </div>
-
 
 <div id="bentukSoal" class="boxUmum">
     <div class="judulBentukSoal">
@@ -790,40 +751,13 @@ display: block;
     <div class="kotakSubMenu">
       <div class="titleSubMenu">
         <span class="judulSubMenu">Hiragana & Katakana</span>
-        <span class="keteranganSubMenu">Quiz baca huruf pilihan ganda (menebak cara baca huruf). Dan quiz menulis huruf</span>
+        <span class="keteranganSubMenu">Quiz menebak bagaimana cara membaca suatu huruf hiragana atau katakana. Berupa pilihan ganda 4 jawaban</span>
       </div>
-      <span class="keteranganSubMenu">Pilih salah satu:</span>
+
       <div class="kotakTombolPilihanMenu">
-        <button class="tombolPilihanMenu"onclick="helperMode ='hiragana';modeTerpilih('bentukSoal', 'Quiz Hiragana');">Baca Hiragana</button>
-        <button class="tombolPilihanMenu"onclick="helperMode ='katakana';modeTerpilih('bentukSoal', 'Quiz Katakana');">Baca Katakana</button>
-        <button class="tombolPilihanMenu"onclick="helperMode ='bothkana';modeTerpilih('bentukSoal', 'Quiz Hiragana & Katakana');">Baca Hiragana & Katakana</button>
-      
-        <button 
-        class="tombolPilihanMenu"
-        onclick="
-          helperMode ='hiragana';
-          modeTerpilih('perluDb', 'Menulis Hiragana');
-        ">
-        Menulis Hiragana
-      </button>
-
-        <button 
-        class="tombolPilihanMenu"
-        onclick="
-          helperMode ='katakana';
-          modeTerpilih('perluDb', 'Menulis Katakana');
-        ">
-        Menulis Katakana
-      </button>
-
-        <button 
-        class="tombolPilihanMenu"
-        onclick="
-          helperMode ='bothkana';
-          modeTerpilih('perluDb', 'Menulis Hiragana & Katakana');
-        ">
-        Menulis Hiragana & Katakana
-      </button>
+        <button class="tombolPilihanMenu"onclick="helperMode ='hiragana';modeTerpilih('bentukSoal', 'Quiz Hiragana');">Hiragana</button>
+        <button class="tombolPilihanMenu"onclick="helperMode ='katakana';modeTerpilih('bentukSoal', 'Quiz Katakana');">Katakana</button>
+        <button class="tombolPilihanMenu"onclick="helperMode ='bothkana';modeTerpilih('bentukSoal', 'Quiz Hiragana & Katakana');">Hiragana & Katakana</button>
       </div>
       
     </div>
@@ -870,24 +804,6 @@ display: block;
           ">
           Membaca Kanji
         </button>
-
-        <button class="tombolPilihanMenu"
-        onclick="
-          helperMode = 'menulis';
-          buatPilihanBab('kotoba'); 
-          modeTerpilih('pilih-baca-kanji', 'Menulis Kotoba Buku IM dg Kanji')
-          ">
-          Menulis Kotoba dg Kanji
-        </button>
-
-        <button class="tombolPilihanMenu"
-        onclick="
-          helperMode = 'menulis';
-          buatPilihanBab('kotoba'); 
-          modeTerpilih('pilih-kotoba-nokanji', 'Menulis Kotoba Buku IM dg Hiragana/Katakana saja')
-          ">
-          Menulis Kotoba dg Hiragana/Katakana
-        </button>
       </div>
       
     </div>
@@ -926,27 +842,7 @@ display: block;
           modeTerpilih('pilih-baca-kanji', 'Membaca Kanji Buku Minna')"
           >
           Membaca Kanji
-        </button>
-
-        <button class="tombolPilihanMenu"
-        onclick="
-          helperMode = 'menulis';
-          buatPilihanBab('BukuMinna'); 
-          modeTerpilih('pilih-baca-kanji', 'Menulis Kotoba Buku Minna dg Kanji')
-          ">
-          Menulis Kotoba dg Kanji
-        </button>
-
-        <button class="tombolPilihanMenu"
-        onclick="
-          helperMode = 'menulis';
-          buatPilihanBab('BukuMinna'); 
-          modeTerpilih('pilih-kotoba-nokanji', 'Menulis Kotoba Buku Minna dg Hiragana/Katakana saja')
-          ">
-          Menulis Kotoba dg Hiragana/Katakana
-        </button>
-      
-      </div>
+        </button></div>
     </div>
 
       <div class="kotakSubMenu">
@@ -990,7 +886,7 @@ display: block;
   <span id="infoJumSoal">
   </span>
 </div>
-    <button class="tombol-start-quiz" id="startKotoba"></button>
+    <button class="tombol-start-quiz" id="startKotoba" onClick="modeTerpilih('bentukSoal')"></button>
 
 
 <!-- Container Tabel -->
@@ -1016,24 +912,14 @@ display: block;
 </div>
 
 <div id="badan-quiz">
-    <div id="kana" class="text-capitalize">Game Engine Mati</div>
-  <div id="soal"></div>
+    <div id="kana" class="text-capitalize">Kesalahan fatal alur code terdeteksi. Cek consol-Log</div>
+  <Z id="soal"></Z>
+  <div class="tombol-jawaban">
   <div id="result"></div>
-  <div id="kotakTulis">
-    <div id="jumHrf" style="text-align: center; color: darkgray;"></div>
-    <div style="text-align: center;font-size: 14px; color: darkgray;">Gambarlah disini :<div id="stateTulis"></div></div>
-    <div id="board">
-      <div id="kanjiKont" style="text-align: center;"></div>
-      <div id="svgLayer"></div>
-      <canvas id="canvas" width="1024" height="1024"></canvas>
-    </div>
-    <button id="bantuTulis" onclick="bantuanAnim()"></button>
-  </div>
-  <div id="tomblJwbn" class="tombol-jawaban">
   <div class="choices" id="choices"></div>
   </div>
   
-  <button id="restart" onclick="mulaiQuizPilihanGanda(); modeTerpilih()">Mulai Ulang</button>
+  <button id="restart" onclick="mulaiQuizPilihanGanda()">Mulai Ulang</button>
 </div>
 
 <table class="tabelMM">
@@ -1081,16 +967,15 @@ display: block;
 </div>
 <script>
 // --- VARIABEL GLOBAL --- \\
-let svg, shapes, guides, currentKana, sessionList, soalMM, wordList = []
+let currentKana = {}
+let sessionList = []
+let soalMM = []
 let judulModeSaved = `Klik Disini Untuk Pilih Mode Quiz`
 let mode = '0kosong'
-let salahKali = 1
-let kesempatan = 4
 let correctCount = 0
 let totalCount = 0
 let isClickable = true
 let kembaliDitekan = false
-let salahsemua = false
 let totalSoal = 0
 let indexSoal = -1
 let kotobaBuku = `kosong`
@@ -1098,13 +983,6 @@ let soalDipakai =0
 let helperMode = ''
 let terpanggil = 0 // Jangan digunakan, kecuali debugging fungsi terpanggil berapa kali
 let serverLink = `https://herlambangyp.github.io/`
-let filterBab = false
-let db = new Map()
-let currentStroke = 0, isDrawing = false, userPoints = []
-let wordIndex = 0
-let hurufBenar =0
-let sisaBantuan = 5
-
 
 
 // --- ELEMENT GLOBAL --- \\
@@ -1118,27 +996,12 @@ const periksaMM = document.getElementById('btnPeriksaMM')
 const ulangMM = document.getElementById('btnBuatMM')
 const kotakNilaiMM = document.getElementById(`nilaiMM`)
 const badanQuiz = document.getElementById('badan-quiz')
-const soal = document.getElementById("soal")
-const kana = document.getElementById("kana")
-const tomblJwbn = document.getElementById("tomblJwbn")
-const result = document.getElementById("result")
 const welcomeMsg = document.getElementById('sambutan')
 const menuPilihan = document.getElementById('menuPilihan')
 const catatankanji = document.getElementById('infokanjiquiz')
-const board = document.getElementById("board")
-const bantuTulis = document.getElementById('bantuTulis')
-const canvas = document.getElementById("canvas")
-const ctx = canvas.getContext("2d")
-const svgLayer = document.getElementById("svgLayer")
-const jumHrf = document.getElementById('jumHrf')
-const stateTulis = document.getElementById('stateTulis')
-const kanjiKont = document.getElementById('kanjiKont')
-const statusFile = document.getElementById('statusFile')
 const pilihMode = document.getElementById('pilihMode')
 const bentukSoal = document.getElementById('bentukSoal')
 const pilihBab = document.getElementById('pilihBab')
-const kotakInTXT = document.getElementById('kotakInTXT')
-const kotakTulis = document.getElementById('kotakTulis')
 const pilihan = document.getElementById('pilihan-kotoba')
 const judulpilihan = document.getElementById('judul-pilihan-kotoba')
 const stopBtn = document.getElementById('stopQuizBtn')
@@ -1153,46 +1016,29 @@ const dataTimer = document.querySelector("#dataTimer")
 const toTopBtn = document.getElementById("toTopBtn")
 const judulTabel = document.getElementById('judulTabel')
 const restartBtn = document.getElementById('restart')
-const buttons = document.querySelectorAll('#choices button');
-const overlay = document.getElementById('nextOverlay');  
+
 // Cek update
 cekUpdate.src = `${serverLink}versi.js?t=${Date.now()}`
 cekUpdate.onload = () => {
   try{
     if(versiFile === dataServer.versi){
       infoUpdate.innerHTML = `
-      <span class="gagalCek" style="margin-top:5px;">
-        Kamu bisa kembali ke versi lebih stabil Quiz v3.2.html dengan download disini
-      </span>
-      <a class="adaUpdate" onclick="downloadFile('${serverLink}Quizv3.2.html', 'Quiz v3.2.html')">
-        Klik disini untuk download versi stabil (302Kb)
-      </a>
-      <span class="gagalCek">
-        <a style='color:darkgray' href='${serverLink}versi.js'>*Klik disini</a> untuk melihat apa yang di update
+      <span class="gagalCek"style="position:relative; top:15px;">
+        Tidak ditemukan ada update. File kamu sudah terbaru.
+        <br><a style='color:darkgray' href='${serverLink}versi.js'>*Klik disini</a> untuk melihat riwayat pembaruan
       </span>`
 
     }else{
-      infoUpdate.innerHTML = `      <span class="gagalCek" style="margin-top:5px;">
-        Kamu bisa kembali ke versi lebih stabil Quiz v3.2.html
+      infoUpdate.innerHTML = `
+      <span class="gagalCek" style="margin-top:5px;">
+        Terdapat file terbaru di server
       </span>
-      <a class="adaUpdate" onclick="downloadFile('${serverLink}Quizv3.2.html', 'Quiz v3.2.html')">
-        Klik disini untuk download versi stabil (302Kb)
+      <a class="adaUpdate" onclick="downloadVersiBaru()">
+        Klik disini untuk download file terbaru
       </a>
       <span class="gagalCek">
         <a style='color:darkgray' href='${serverLink}versi.js'>*Klik disini</a> untuk melihat apa yang di update
       </span>`
-      
-      // `
-      // <span class="gagalCek" style="margin-top:5px;">
-      //   Terdapat file terbaru di server : Quiz v${dataServer.versi}.html
-      // </span>
-      // <a class="adaUpdate" onclick="downloadFile('${serverLink}quiz.html', 'Quiz v${dataServer.versi}.html')">
-      //   Klik disini untuk download
-      // </a>
-      // <span class="gagalCek">
-      //   <a style='color:darkgray' href='${serverLink}versi.js'>*Klik disini</a> untuk melihat apa yang di update
-      // </span>
-      // `
     }
   }catch(err){
     infoUpdate.innerHTML = `
@@ -1292,7 +1138,7 @@ const kanaList = [
 ['くるま', 'mobil', 'bab2', 'kotoba', '車', 'kuruma'],
 ['けいたいでんわ', 'telepon genggam', 'bab2', 'kotoba', '携帯電話', 'keitai denwa'],
 ['ゴミばこ', 'tempat sampah', 'bab2', 'kotoba', '', 'gomibako'],
-['コトベックス', 'Meteran Gulung', 'bab2', 'kotoba', '', 'kotobekkusu'],
+['コトベックス', 'Meteran Gulung', 'bab2', 'kotoba', '', 'kotobekkusu'], // *nama alat, romaji sesuai tulisan*
 ['じしょ', 'kamus', 'bab2', 'kotoba', '辞書', 'jisho'],
 ['シャープペンシル', 'pensil mekanik', 'bab2', 'kotoba', '', 'shaapupenshiru'],
 ['しゃちょう', 'direktur', 'bab2', 'kotoba', '社長', 'shachou'],
@@ -1322,26 +1168,27 @@ const kanaList = [
 ['ラジオ', 'radio', 'bab2', 'kotoba', '', 'rajio'],
 ['ラジオかせ', 'radio kaset', 'bab2', 'kotoba', '', 'rajio kase'],
 
+
 // Dataset Kotoba BAB 3
-['あそこ', 'di sana (bentuk sopan)', 'bab3', 'kotoba', '', 'asoko (achira)'],
+['あそこ (あちら)', 'di sana (bentuk sopan)', 'bab3', 'kotoba', '', 'asoko (achira)'],
 ['いくら', 'berapa (harga)', 'bab3', 'kotoba', '', 'ikura'],
 ['イタリア', 'Italia', 'bab3', 'kotoba', '', 'itaria'],
 ['おてあらい', 'wastafel', 'bab3', 'kotoba', 'お手洗い', 'otearai'],
-['ーかい', 'lantai ke-... /1x 2x', 'bab3', 'kotoba', '', '...kai'],
+['、、、かい', 'lantai ke-... /1x 2x', 'bab3', 'kotoba', '', '...kai'],
 ['かいしゃ', 'perusahaan', 'bab3', 'kotoba', '会社', 'kaisha'],
 ['きょうしつ', 'ruang kelas', 'bab3', 'kotoba', '教室', 'kyoushitsu'],
 ['こうじょう', 'pabrik', 'bab3', 'kotoba', '工場', 'koujou'],
-['ここ', 'di sini (bentuk sopan)', 'bab3', 'kotoba', '', 'koko (kochira)'],
+['ここ (こちら)', 'di sini (bentuk sopan)', 'bab3', 'kotoba', '', 'koko (kochira)'],
 ['じむしょ', 'kantor administrasi', 'bab3', 'kotoba', '事務所', 'jimusho'],
 ['しょくどう', 'kantin / ruang makan', 'bab3', 'kotoba', '食堂', 'shokudou'],
 ['そうこ', 'gudang', 'bab3', 'kotoba', '倉庫', 'souko'],
-['そこ', 'di situ (bentuk sopan)', 'bab3', 'kotoba', '', 'soko (sochira)'],
+['そこ (そちら)', 'di situ (bentuk sopan)', 'bab3', 'kotoba', '', 'soko (sochira)'],
 ['だいどころ', 'dapur', 'bab3', 'kotoba', '台所', 'daidokoro'],
 ['ちゅうぞう', 'pengecoran (logam)', 'bab3', 'kotoba', '鋳造', 'chuuzou'],
 ['でんき', 'listrik', 'bab3', 'kotoba', '電気', 'denki'],
 ['ドイツ', 'Jerman', 'bab3', 'kotoba', '', 'doitsu'],
 ['トイレ', 'toilet', 'bab3', 'kotoba', '', 'toire'],
-['どこ', 'di mana (bentuk sopan)', 'bab3', 'kotoba', '', 'doko (dochira)'],
+['どこ (どちら)', 'di mana (bentuk sopan)', 'bab3', 'kotoba', '', 'doko (dochira)'],
 ['とそう', 'pengecatan', 'bab3', 'kotoba', '', 'tosou'],
 ['ふろば', 'kamar mandi (tempat berendam)', 'bab3', 'kotoba', '風呂場', 'furoba'],
 ['りょう', 'asrama', 'bab3', 'kotoba', '寮', 'ryou'],
@@ -1356,7 +1203,7 @@ const kanaList = [
 ['おととい', 'kemarin lusa', 'bab4', 'kotoba', '', 'ototoi'],
 ['おわります', 'selesai', 'bab4', 'kotoba', '終わります', 'owarimasu'],
 ['かようび', 'hari Selasa', 'bab4', 'kotoba', '火曜日', 'kayoubi'],
-['ーから', 'dari ... (waktu)', 'bab4', 'kotoba', '', '... kara'],
+['、、、から', 'dari ... (waktu)', 'bab4', 'kotoba', '', '... kara'],
 ['きのう', 'kemarin', 'bab4', 'kotoba', '', 'kinou'],
 ['きょう', 'hari ini', 'bab4', 'kotoba', '今日', 'kyou'],
 ['ぎんこう', 'bank', 'bab4', 'kotoba', '銀行', 'ginkou'],
@@ -1385,7 +1232,7 @@ const kanaList = [
 ['まいあさ', 'setiap pagi', 'bab4', 'kotoba', '毎朝', 'maiasa'],
 ['まいにち', 'setiap hari', 'bab4', 'kotoba', '毎日', 'mainichi'],
 ['まいばん', 'setiap malam', 'bab4', 'kotoba', '毎晩', 'maiban'],
-['ーまで', 'sampai ー(waktu)', 'bab4', 'kotoba', '', '... made'],
+['・・・まで', 'sampai ... (waktu)', 'bab4', 'kotoba', '', '... made'],
 ['もくようび', 'hari Kamis', 'bab4', 'kotoba', '木曜日', 'mokuyoubi'],
 ['やすみます', 'libur', 'bab4', 'kotoba', '休みます', 'yasumimasu'],
 ['ゆうびんきょく', 'kantor pos', 'bab4', 'kotoba', '郵便局', 'yuubinkyoku'],
@@ -1539,7 +1386,7 @@ const kanaList = [
 ['あかい', 'merah', 'bab8', 'kotoba', '赤い', 'akai'],
 ['あたらしい', 'baru', 'bab8', 'kotoba', '新しい', 'atarashii'],
 ['あつい', 'panas / tebal', 'bab8', 'kotoba', '暑い / 厚い', 'atsui'],
-['よい', 'baik / bagus', 'bab8', 'kotoba', '良い', 'ii / yoi'],
+['いい・よい', 'baik / bagus', 'bab8', 'kotoba', '良い', 'ii / yoi'],
 ['いそがしい', 'sibuk', 'bab8', 'kotoba', '忙しい', 'isogashii'],
 ['おいしい', 'enak', 'bab8', 'kotoba', '美味しい', 'oishii'],
 ['おおい', 'banyak', 'bab8', 'kotoba', '多い', 'ooi'],
@@ -2456,7 +2303,7 @@ const kanaList = [
 ['いいですね', 'bagus ya', 'bab6', 'BukuMinna', '良いですね', 'ii desu ne'],
 ['わかりました', 'mengerti', 'bab6', 'BukuMinna', '分かりました', 'wakarimashita'],
 ['なんですか', 'ada apa', 'bab6', 'BukuMinna', '何ですか', 'nan desu ka'],
-['じゃまた', 'sampai jumpa', 'bab6', 'BukuMinna', '', 'jaa, mata'],
+['じゃ、また', 'sampai jumpa', 'bab6', 'BukuMinna', '', 'jaa, mata'],
 ['メキシコ', 'Meksiko', 'bab6', 'BukuMinna', '', 'Mekishiko'],
 
 //Dataset bab7 Minna
@@ -2557,7 +2404,7 @@ const kanaList = [
 ['そうですね', 'benarkah', 'bab8', 'BukuMinna', 'そうですね', 'sou desu ne'],
 ['もういっぱいいかがですか', 'mau tambah lagi?', 'bab8', 'BukuMinna', 'もう一杯いかがですか', 'mou ippai ikaga desu ka'],
 ['けっこうです', 'terima kasih, sudah cukup', 'bab8', 'BukuMinna', '結構です', 'kekkou desu'],
-['もうーですね', 'sudah ~ ya', 'bab8', 'BukuMinna', 'もうーですね', 'mou ~ desu ne'],
+['もう～ですね', 'sudah ~ ya', 'bab8', 'BukuMinna', 'もう～ですね', 'mou ~ desu ne'],
 ['そろそろしつれいします', 'maaf saya pamit dulu', 'bab8', 'BukuMinna', 'そろそろ失礼します', 'sorosoro shitsurei shimasu'],
 ['いいえ', 'sama-sama', 'bab8', 'BukuMinna', '', 'iie'],
 ['またいらっしゃってください', 'silakan datang lagi', 'bab8', 'BukuMinna', 'またいらっしゃって下さい', 'mata irasshatte kudasai'],
@@ -2604,7 +2451,7 @@ const kanaList = [
 ['いいですよ', 'boleh', 'bab9', 'BukuMinna', '良いですよ', 'ii desu yo'],
 ['ざんねんですね', 'sayang sekali ya', 'bab9', 'BukuMinna', '残念ですね', 'zannen desu ne'],
 ['いっしょにいかがですか', 'bagaimana kalau bersama-sama', 'bab9', 'BukuMinna', '一緒にいかがですか', 'issho ni ikaga desu ka'],
-['ーはちょっと', 'maaf saya tidak bisa', 'bab9', 'BukuMinna', 'ーはちょっと', '~ wa chotto'],
+['～はちょっと', 'maaf saya tidak bisa', 'bab9', 'BukuMinna', '～はちょっと', '~ wa chotto'],
 ['だめですか', 'tidak boleh ya', 'bab9', 'BukuMinna', '駄目ですか', 'dame desu ka'],
 
 // Bab 10 buku minna
@@ -2701,7 +2548,7 @@ const kanaList = [
 ['かしこまりました', 'baik, saya mengerti', 'bab11', 'BukuMinna', '畏まりました', 'kashikomarimashita'],
 ['いいてんきですね', 'cuacanya bagus ya', 'bab11', 'BukuMinna', '良い天気ですね', 'ii tenki desu ne'],
 ['おでかけですか', 'hendak pergi?', 'bab11', 'BukuMinna', 'お出掛けですか', 'odekake desu ka'],
-['ちょっとまで', 'sebentar sampai ...', 'bab11', 'BukuMinna', 'ちょっとーまで', 'chotto ~ made'],
+['ちょっとまで', 'sebentar sampai ...', 'bab11', 'BukuMinna', 'ちょっと～まで', 'chotto ~ made'],
 ['いってらっしゃい', 'selamat jalan', 'bab11', 'BukuMinna', '行ってらっしゃい', 'itterasshai'],
 ['いってきます', 'saya pergi dulu', 'bab11', 'BukuMinna', '行って来ます', 'ittekimasu'],
 ['ふなびん', 'kirim lewat kapal', 'bab11', 'BukuMinna', '船便', 'funabin'],
@@ -2754,7 +2601,7 @@ const kanaList = [
 ['ずっと', 'jauh lebih', 'bab12', 'BukuMinna', '', 'zutto'],
 ['はじめて', 'untuk pertama kali', 'bab12', 'BukuMinna', '初めて', 'hajimete'],
 ['ただいま', 'saya pulang', 'bab12', 'BukuMinna', '只今', 'tadaima'],
-['わあすごいひとですね', 'wah, banyak sekali orang ya', 'bab12', 'BukuMinna', 'わあ凄い人ですね', 'waa, sugoi hito desu ne'],
+['わあ、すごいひとですね', 'wah, banyak sekali orang ya', 'bab12', 'BukuMinna', 'わあ、凄い人ですね', 'waa, sugoi hito desu ne'],
 ['おかえりなさい', 'selamat datang kembali', 'bab12', 'BukuMinna', 'お帰りなさい', 'okaerinasai'],
 ['ひと', 'orang', 'bab12', 'BukuMinna', '人', 'hito'],
 ['つかれます', 'lelah', 'bab12', 'BukuMinna', '疲れます', 'tsukaremasu'],
@@ -3169,7 +3016,7 @@ const kanaList = [
 ['ごみ', 'sampah', 'bab26', 'BukuMinna', '', 'gomi'],
 ['こっかいぎじどう', 'gedung parlemen', 'bab26', 'BukuMinna', '国会議事堂', 'kokkaigijidou'],
 ['へいじつ', 'hari kerja', 'bab26', 'BukuMinna', '平日', 'heijitsu'],
-['ーべん', '~dialek', 'bab26', 'BukuMinna', 'ー弁', '~ben'],
+['～べん', '~dialek', 'bab26', 'BukuMinna', '～弁', '~ben'],
 ['こんど', 'lain kali, kali ini', 'bab26', 'BukuMinna', '今度', 'kondo'],
 ['すいぶん', 'kelembapan, kadar air', 'bab26', 'BukuMinna', '水分', 'suibun'],
 ['ちょくせつ', 'langsung', 'bab26', 'BukuMinna', '直接', 'chokusetsu'],
@@ -3187,9 +3034,9 @@ const kanaList = [
 ['びん', 'botol', 'bab26', 'BukuMinna', '瓶', 'bin'],
 ['かん', 'kaleng', 'bab26', 'BukuMinna', '缶', 'kan'],
 ['ガス', 'gas', 'bab26', 'BukuMinna', '', 'gasu'],
-['ーかいしゃ', 'perusahaan ~', 'bab26', 'BukuMinna', 'ー会社', '~kaisha'],
+['～かいしゃ', 'perusahaan ~', 'bab26', 'BukuMinna', '～会社', '~kaisha'],
 ['うちゅう', 'luar angkasa', 'bab26', 'BukuMinna', '宇宙', 'uchuu'],
-['ーさま', 'Tuan/Nyonya (sangat sopan)', 'bab26', 'BukuMinna', 'ー様', '~sama'],
+['～さま', 'Tuan/Nyonya (sangat sopan)', 'bab26', 'BukuMinna', '～様', '~sama'],
 ['うちゅうせん', 'pesawat luar angkasa', 'bab26', 'BukuMinna', '宇宙船', 'uchuusen'],
 ['こわい', 'menakutkan', 'bab26', 'BukuMinna', '怖い', 'kowai'],
 ['うちゅうステーション', 'stasiun luar angkasa', 'bab26', 'BukuMinna', '宇宙ステーション', 'uchuu suteeshon'],
@@ -3214,11 +3061,11 @@ const kanaList = [
 ['いえ', 'rumah', 'bab27', 'BukuMinna', '家', 'ie'],
 ['マンション', 'apartemen', 'bab27', 'BukuMinna', '', 'manshon'],
 ['キッチン', 'dapur', 'bab27', 'BukuMinna', '', 'kicchin'],
-['ーきょうしつ', '~kelas', 'bab27', 'BukuMinna', 'ー教室', '~kyoushitsu'],
+['～きょうしつ', '~kelas', 'bab27', 'BukuMinna', '～教室', '~kyoushitsu'],
 ['パーティールーム', 'ruang pesta', 'bab27', 'BukuMinna', '', 'paatii ruumu'],
 ['かた', 'orang (bentuk sopan)', 'bab27', 'BukuMinna', '方', 'kata'],
-['ーご', 'sesudah ~', 'bab27', 'BukuMinna', 'ー後', '~go'],
-['ーしか', 'hanya ~ (bentuk negatif)', 'bab27', 'BukuMinna', '', '~shika'],
+['～ご', 'sesudah ~', 'bab27', 'BukuMinna', '～後', '~go'],
+['～しか', 'hanya ~ (bentuk negatif)', 'bab27', 'BukuMinna', '', '~shika'],
 ['ほかの', 'yang lain', 'bab27', 'BukuMinna', '他の', 'hoka no'],
 ['はっきり', 'dengan jelas', 'bab27', 'BukuMinna', '', 'hakkiri'],
 ['かぐ', 'perabot rumah', 'bab27', 'BukuMinna', '家具', 'kagu'],
@@ -3267,8 +3114,8 @@ const kanaList = [
 ['かしゅ', 'penyanyi', 'bab28', 'BukuMinna', '歌手', 'kashu'],
 ['しょうせつ', 'novel', 'bab28', 'BukuMinna', '小説', 'shousetsu'],
 ['しょうせつか', 'novelis', 'bab28', 'BukuMinna', '小説家', 'shousetsuka'],
-['ーか', '~aliran', 'bab28', 'BukuMinna', 'ー科', '~ka'],
-['ーき', '~mesin', 'bab28', 'BukuMinna', 'ー機', '~ki'],
+['～か', '~aliran', 'bab28', 'BukuMinna', '～科', '~ka'],
+['～き', '~mesin', 'bab28', 'BukuMinna', '～機', '~ki'],
 ['むすこ', 'anak laki-laki (sendiri)', 'bab28', 'BukuMinna', '息子', 'musuko'],
 ['むすこさん', 'putra (orang lain)', 'bab28', 'BukuMinna', '息子さん', 'musuko san'],
 ['むすめ', 'anak perempuan (sendiri)', 'bab28', 'BukuMinna', '娘', 'musume'],
@@ -3325,9 +3172,9 @@ const kanaList = [
 ['いまのでんしゃ', 'kereta yang tadi', 'bab29', 'BukuMinna', '今の電車', 'ima no densha'],
 ['わすれもの', 'barang tertinggal', 'bab29', 'BukuMinna', '忘れ物', 'wasuremono'],
 ['このくらい', 'sekitar segini', 'bab29', 'BukuMinna', '', 'kono kurai'],
-['ーがわ', 'sisi ~', 'bab29', 'BukuMinna', 'ー側', '~gawa'],
+['～がわ', 'sisi ~', 'bab29', 'BukuMinna', '～側', '~gawa'],
 ['ポケット', 'kantong', 'bab29', 'BukuMinna', '', 'poketto'],
-['ーへん', 'sekitar', 'bab29', 'BukuMinna', 'ー辺', '~hen'],
+['～へん', 'sekitar', 'bab29', 'BukuMinna', '～辺', '~hen'],
 ['おぼえていません', 'saya tidak ingat', 'bab29', 'BukuMinna', '覚えていません', 'oboete imasen'],
 ['あみだな', 'rak bagasi', 'bab29', 'BukuMinna', '網棚', 'amidana'],
 ['たしか', 'kalau tidak salah', 'bab29', 'BukuMinna', '確か', 'tashika'],
@@ -3339,7 +3186,7 @@ const kanaList = [
 ['えきまえ', 'depan stasiun', 'bab29', 'BukuMinna', '駅前', 'ekimae'],
 ['たおれます', 'roboh, tumbang', 'bab29', 'BukuMinna', '倒れます', 'taoremasu'],
 ['にし', 'barat', 'bab29', 'BukuMinna', '西', 'nishi'],
-['ーのほう', 'sebelah ~', 'bab29', 'BukuMinna', 'ーの方', '~no hou'],
+['～のほう', 'sebelah ~', 'bab29', 'BukuMinna', '～の方', '~no hou'],
 ['もえます', 'terbakar', 'bab29', 'BukuMinna', '燃えます', 'moemasu'],
 ['レポーター', 'reporter', 'bab29', 'BukuMinna', '', 'repootaa'],
 
@@ -3384,7 +3231,7 @@ const kanaList = [
 ['ひじょうじ', 'saat darurat', 'bab30', 'BukuMinna', '非常時', 'hijouji'],
 ['せいかつします', 'menjalani kehidupan', 'bab30', 'BukuMinna', '生活します', 'seikatsu shimasu'],
 ['かいちゅうでんとう', 'senter', 'bab30', 'BukuMinna', '懐中電灯', 'kaichuu dentou'],
-['ーとかーとか', '~dan lain-lain', 'bab30', 'BukuMinna', 'ーとかーとか', '~toka, ~toka'],
+['～とか～とか', '~dan lain-lain', 'bab30', 'BukuMinna', '～とか、～とか', '~toka, ~toka'],
 ['まるい', 'bundar', 'bab30', 'BukuMinna', '丸い', 'marui'],
 ['ある', 'suatu', 'bab30', 'BukuMinna', '', 'aru'],
 ['ゆめをみます', 'bermimpi', 'bab30', 'BukuMinna', '夢を見ます', 'yume o mimasu'],
@@ -3415,8 +3262,8 @@ const kanaList = [
 ['おんせん', 'pemandian air panas', 'bab31', 'BukuMinna', '温泉', 'onsen'],
 ['かえり', 'perjalanan pulang', 'bab31', 'BukuMinna', '帰り', 'kaeri'],
 ['おこさん', 'anak (orang lain)', 'bab31', 'BukuMinna', 'お子さん', 'okosan'],
-['ーごう', 'nomor ~ (kereta)', 'bab31', 'BukuMinna', 'ー号', '~gou'],
-['ーのほう', 'ke arah ~', 'bab31', 'BukuMinna', 'ーの方', '~no hou'],
+['～ごう', 'nomor ~ (kereta)', 'bab31', 'BukuMinna', '～号', '~gou'],
+['～のほう', 'ke arah ~', 'bab31', 'BukuMinna', '～の方', '~no hou'],
 ['ずっと', 'terus, sepanjang waktu', 'bab31', 'BukuMinna', '', 'zutto'],
 ['のこります', 'tinggal, tersisa', 'bab31', 'BukuMinna', '残ります', 'nokorimasu'],
 ['にゅうがくしけん', 'ujian masuk', 'bab31', 'BukuMinna', '入学試験', 'nyuugaku shiken'],
@@ -3462,7 +3309,7 @@ const kanaList = [
 ['にし', 'barat', 'bab32', 'BukuMinna', '西', 'nishi'],
 ['みなみ', 'selatan', 'bab32', 'BukuMinna', '南', 'minami'],
 ['きた', 'utara', 'bab32', 'BukuMinna', '北', 'kita'],
-['こくさいー', 'internasional ~', 'bab32', 'BukuMinna', '国際ー', 'kokusai~'],
+['こくさい～', 'internasional ~', 'bab32', 'BukuMinna', '国際～', 'kokusai~'],
 ['すいどう', 'saluran air', 'bab32', 'BukuMinna', '水道', 'suidou'],
 ['エンジン', 'mesin', 'bab32', 'BukuMinna', '', 'enjin'],
 ['チーム', 'tim', 'bab32', 'BukuMinna', '', 'chiimu'],
@@ -3522,12 +3369,12 @@ const kanaList = [
 ['のみほうだい', 'minum sepuasnya', 'bab33', 'BukuMinna', '飲み放題', 'nomihoudai'],
 ['しようちゅう', 'sedang digunakan', 'bab33', 'BukuMinna', '使用中', 'shiyouchuu'],
 ['ぼしゅうちゅう', 'sedang membuka pendaftaran', 'bab33', 'BukuMinna', '募集中', 'boshuuchuu'],
-['ーちゅう', 'sedang ~', 'bab33', 'BukuMinna', 'ー中', '~chuu'],
-['どういうー', 'yang bagaimana ~', 'bab33', 'BukuMinna', '', 'dou iu ~'],
-['いくらーても', 'meskipun ~', 'bab33', 'BukuMinna', '', 'ikura ~temo'],
+['～ちゅう', 'sedang ~', 'bab33', 'BukuMinna', '～中', '~chuu'],
+['どういう～', 'yang bagaimana ~', 'bab33', 'BukuMinna', '', 'dou iu ~'],
+['いくら～ても', 'meskipun ~', 'bab33', 'BukuMinna', '', 'ikura ~temo'],
 ['もう', 'lagi', 'bab33', 'BukuMinna', '', 'mou'],
-['あとー', 'sisa ~', 'bab33', 'BukuMinna', '', 'ato ~'],
-['ーほど', 'kira-kira', 'bab33', 'BukuMinna', '', '~hodo'],
+['あと～', 'sisa ~', 'bab33', 'BukuMinna', '', 'ato ~'],
+['～ほど', 'kira-kira', 'bab33', 'BukuMinna', '', '~hodo'],
 ['ちゅうしゃいはん', 'pelanggaran parkir', 'bab33', 'BukuMinna', '駐車違反', 'chuushaihan'],
 ['ばっきん', 'denda', 'bab33', 'BukuMinna', '罰金', 'bakkin'],
 ['じしん', 'gempa bumi', 'bab33', 'BukuMinna', '地震', 'jishin'],
@@ -3565,7 +3412,7 @@ const kanaList = [
 ['しょうゆ', 'kecap asin', 'bab34', 'BukuMinna', '醤油', 'shouyu'],
 ['ソース', 'saus', 'bab34', 'BukuMinna', '', 'soosu'],
 ['おきゃくさん', 'tamu', 'bab34', 'BukuMinna', 'お客さん', 'okyakusan'],
-['ーかー', '~atau~', 'bab34', 'BukuMinna', '', '~ka~'],
+['～か～', '~atau~', 'bab34', 'BukuMinna', '', '~ka~'],
 ['ゆうべ', 'tadi malam', 'bab34', 'BukuMinna', '夕べ', 'yuube'],
 ['さっき', 'baru saja', 'bab34', 'BukuMinna', '', 'sakki'],
 ['さどう', 'upacara minum teh', 'bab34', 'BukuMinna', '茶道', 'sadou'],
@@ -3576,9 +3423,9 @@ const kanaList = [
 ['いかがですか', 'bagaimana?', 'bab34', 'BukuMinna', '', 'ikaga desu ka'],
 ['にがい', 'pahit', 'bab34', 'BukuMinna', '苦い', 'nigai'],
 ['ざいりょう', 'bahan', 'bab34', 'BukuMinna', '材料', 'zairyou'],
-['ーぶん', 'untuk ~ porsi', 'bab34', 'BukuMinna', 'ー分', '~bun'],
-['ーグラム', '~gram', 'bab34', 'BukuMinna', '', '~guramu'],
-['ーこ', '~buah (bilangan)', 'bab34', 'BukuMinna', 'ー個', '~ko'],
+['～ぶん', 'untuk ~ porsi', 'bab34', 'BukuMinna', '～分', '~bun'],
+['～グラム', '~gram', 'bab34', 'BukuMinna', '', '~guramu'],
+['～こ', '~buah (bilangan)', 'bab34', 'BukuMinna', '～個', '~ko'],
 ['たまねぎ', 'bawang bombai', 'bab34', 'BukuMinna', '玉ねぎ', 'tamanegi'],
 ['よんぶんのいち', 'seperempat', 'bab34', 'BukuMinna', '4分の1', 'yonbun no ichi'],
 ['ちょうみりょう', 'bumbu', 'bab34', 'BukuMinna', '調味料', 'choumiryou'],
@@ -3596,7 +3443,7 @@ const kanaList = [
 ['かわります', 'berubah', 'bab35', 'BukuMinna', '変わります', 'kawarimasu'],
 ['こまります', 'kesulitan', 'bab35', 'BukuMinna', '困ります', 'komarimasu'],
 ['つけます', 'memberi, memasang', 'bab35', 'BukuMinna', '付けます', 'tsukemasu'],
-['なおります', 'sembuh, diperbaiki', 'bab35', 'BukuMinna', '治ります直ります', 'naorimasu'],
+['なおります', 'sembuh, diperbaiki', 'bab35', 'BukuMinna', '治ります、直ります', 'naorimasu'],
 ['クリックします', 'mengklik', 'bab35', 'BukuMinna', '', 'kurikku shimasu'],
 ['にゅうりょくします', 'memasukkan (input)', 'bab35', 'BukuMinna', '入力します', 'nyuuryoku shimasu'],
 ['ただしい', 'benar', 'bab35', 'BukuMinna', '正しい', 'tadashii'],
@@ -3645,7 +3492,7 @@ const kanaList = [
 ['きょく', 'lagu, musik', 'bab36', 'BukuMinna', '曲', 'kyoku'],
 ['まいしゅう', 'setiap minggu', 'bab36', 'BukuMinna', '毎週', 'maishuu'],
 ['まいつき', 'setiap bulan', 'bab36', 'BukuMinna', '毎月', 'maitsuki'],
-['まいねん', 'setiap tahun', 'bab36', 'BukuMinna', '毎年', 'mainen'],
+['まいねん/まいとし', 'setiap tahun', 'bab36', 'BukuMinna', '毎年', 'mainen'],
 ['このごろ', 'akhir-akhir ini', 'bab36', 'BukuMinna', '', 'konogoro'],
 ['やっと', 'akhirnya', 'bab36', 'BukuMinna', '', 'yatto'],
 ['かなり', 'cukup', 'bab36', 'BukuMinna', '', 'kanari'],
@@ -3661,12 +3508,12 @@ const kanaList = [
 ['チャレンジします', 'mencoba, menantang diri', 'bab36', 'BukuMinna', '', 'charenji shimasu'],
 ['きもち', 'perasaan, sikap', 'bab36', 'BukuMinna', '気持ち', 'kimochi'],
 ['のりもの', 'kendaraan', 'bab36', 'BukuMinna', '乗り物', 'norimono'],
-['ーせいき', 'abad ~', 'bab36', 'BukuMinna', 'ー世紀', '~seiki'],
+['～せいき', 'abad ~', 'bab36', 'BukuMinna', '～世紀', '~seiki'],
 ['とおく', 'jauh', 'bab36', 'BukuMinna', '遠く', 'tooku'],
 ['めずらしい', 'langka', 'bab36', 'BukuMinna', '珍しい', 'mezurashii'],
 ['きしゃ', 'kereta api (lama)', 'bab36', 'BukuMinna', '汽車', 'kisha'],
 ['きせん', 'kapal uap', 'bab36', 'BukuMinna', '汽船', 'kisen'],
-['おおぜいのー', 'banyak ~', 'bab36', 'BukuMinna', '大勢のー', 'oozei no ~'],
+['おおぜいの～', 'banyak ~', 'bab36', 'BukuMinna', '大勢の～', 'oozei no ~'],
 ['はこびます', 'mengangkut', 'bab36', 'BukuMinna', '運びます', 'hakobimasu'],
 ['りようします', 'menggunakan, memanfaatkan', 'bab36', 'BukuMinna', '利用します', 'riyou shimasu'],
 ['じゆうに', 'dengan bebas', 'bab36', 'BukuMinna', '自由に', 'jiyuu ni'],
@@ -3696,19 +3543,19 @@ const kanaList = [
 ['どろぼう', 'pencuri', 'bab37', 'BukuMinna', '泥棒', 'dorobou'],
 ['けいかん', 'polisi', 'bab37', 'BukuMinna', '警官', 'keikan'],
 ['せかいじゅう', 'seluruh dunia', 'bab37', 'BukuMinna', '世界中', 'sekaijuu'],
-['ーじゅう', 'seluruh ~', 'bab37', 'BukuMinna', 'ー中', '~juu'],
-['ーせいき', 'abad ~', 'bab37', 'BukuMinna', 'ー世紀', '~seiki'],
+['～じゅう', 'seluruh ~', 'bab37', 'BukuMinna', '～中', '~juu'],
+['～せいき', 'abad ~', 'bab37', 'BukuMinna', '～世紀', '~seiki'],
 ['なにご', 'bahasa apa', 'bab37', 'BukuMinna', '何語', 'nanigo'],
 ['だれか', 'seseorang', 'bab37', 'BukuMinna', '', 'dareka'],
 ['みなさま', 'hadirin, Anda semua', 'bab37', 'BukuMinna', '皆様', 'minasama'],
 ['やけます', 'terbakar', 'bab37', 'BukuMinna', '焼けます', 'yakemasu'],
 ['そのご', 'setelah itu', 'bab37', 'BukuMinna', 'その後', 'sono go'],
 ['せかいいさん', 'warisan dunia', 'bab37', 'BukuMinna', '世界遺産', 'sekai isan'],
-['ーのひとつ', 'salah satu ~', 'bab37', 'BukuMinna', 'ーの一つ', '~no hitotsu'],
+['～のひとつ', 'salah satu ~', 'bab37', 'BukuMinna', '～の一つ', '~no hitotsu'],
 ['きんいろ', 'warna emas', 'bab37', 'BukuMinna', '金色', 'kiniro'],
 ['ほんもの', 'asli', 'bab37', 'BukuMinna', '本物', 'honmono'],
 ['きん', 'emas', 'bab37', 'BukuMinna', '金', 'kin'],
-['ーキロ', '~kilogram', 'bab37', 'BukuMinna', '', '~kiro'],
+['～キロ', '~kilogram', 'bab37', 'BukuMinna', '', '~kiro'],
 ['うつくしい', 'indah', 'bab37', 'BukuMinna', '美しい', 'utsukushii'],
 ['ごうかな', 'mewah', 'bab37', 'BukuMinna', '豪華な', 'gouka na'],
 ['ちょうこく', 'ukiran, patung', 'bab37', 'BukuMinna', '彫刻', 'choukoku'],
@@ -3744,7 +3591,7 @@ const kanaList = [
 ['でんげん', 'sumber listrik', 'bab38', 'BukuMinna', '電源', 'dengen'],
 ['しゅうかん', 'kebiasaan', 'bab38', 'BukuMinna', '習慣', 'shuukan'],
 ['けんこう', 'kesehatan', 'bab38', 'BukuMinna', '健康', 'kenkou'],
-['ーせい', 'buatan ~', 'bab38', 'BukuMinna', 'ー製', '~sei'],
+['～せい', 'buatan ~', 'bab38', 'BukuMinna', '～製', '~sei'],
 ['おととし', '2 tahun lalu', 'bab38', 'BukuMinna', '一昨年', 'ototoshi'],
 ['いけない', 'salah, tidak boleh', 'bab38', 'BukuMinna', '', 'ikenai'],
 ['おさきに', 'duluan', 'bab38', 'BukuMinna', 'お先に', 'osaki ni'],
@@ -3753,7 +3600,7 @@ const kanaList = [
 ['きちんと', 'dengan rapi', 'bab38', 'BukuMinna', '', 'kichinto'],
 ['せいりします', 'merapikan', 'bab38', 'BukuMinna', '整理します', 'seiri shimasu'],
 ['ほうほう', 'cara, metode', 'bab38', 'BukuMinna', '方法', 'houhou'],
-['ーさつ', 'buah (bilangan buku)', 'bab38', 'BukuMinna', 'ー冊', '~satsu'],
+['～さつ', 'buah (bilangan buku)', 'bab38', 'BukuMinna', '～冊', '~satsu'],
 ['はんこ', 'cap, stempel', 'bab38', 'BukuMinna', '判子', 'hanko'],
 ['おします', 'mengecap, memberi cap', 'bab38', 'BukuMinna', '押します', 'oshimasu'],
 ['ふたご', 'anak kembar', 'bab38', 'BukuMinna', '双子', 'futago'],
@@ -3766,7 +3613,7 @@ const kanaList = [
 ['せわをします', 'mengurus, merawat', 'bab38', 'BukuMinna', '世話をします', 'sewa o shimasu'],
 ['じかんがたちます', 'waktu berlalu', 'bab38', 'BukuMinna', '時間が経ちます', 'jikan ga tachimasu'],
 ['だいすきな', 'sangat suka', 'bab38', 'BukuMinna', '大好きな', 'daisuki na'],
-['ーてん', 'poin, nilai', 'bab38', 'BukuMinna', 'ー点', '~ten'],
+['～てん', 'poin, nilai', 'bab38', 'BukuMinna', '～点', '~ten'],
 ['きがつよい', 'berkemauan keras', 'bab38', 'BukuMinna', '気が強い', 'ki ga tsuyoi'],
 ['けんかします', 'bertengkar', 'bab38', 'BukuMinna', '喧嘩します', 'kenka shimasu'],
 ['ふしぎな', 'aneh, misterius', 'bab38', 'BukuMinna', '不思議な', 'fushigi na'],
@@ -3803,10 +3650,10 @@ const kanaList = [
 ['おみあい', 'perjodohan', 'bab39', 'BukuMinna', 'お見合い', 'omiai'],
 ['そうさ', 'pengoperasian', 'bab39', 'BukuMinna', '操作', 'sousa'],
 ['かいじょう', 'tempat acara', 'bab39', 'BukuMinna', '会場', 'kaijou'],
-['ーだい', 'biaya untuk ~', 'bab39', 'BukuMinna', 'ー代', '~dai'],
-['ーや', 'penjual ~', 'bab39', 'BukuMinna', 'ー屋', '~ya'],
+['～だい', 'biaya untuk ~', 'bab39', 'BukuMinna', '～代', '~dai'],
+['～や', 'penjual ~', 'bab39', 'BukuMinna', '～屋', '~ya'],
 ['フロント', 'resepsionis', 'bab39', 'BukuMinna', '', 'furonto'],
-['ーごうしつ', 'kamar nomor ~', 'bab39', 'BukuMinna', 'ー号室', '~goushitsu'],
+['～ごうしつ', 'kamar nomor ~', 'bab39', 'BukuMinna', '～号室', '~goushitsu'],
 ['タオル', 'handuk', 'bab39', 'BukuMinna', '', 'taoru'],
 ['せっけん', 'sabun', 'bab39', 'BukuMinna', '石鹸', 'sekken'],
 ['おおぜい', 'banyak orang', 'bab39', 'BukuMinna', '大勢', 'oozei'],
@@ -3826,7 +3673,7 @@ const kanaList = [
 ['でんとうてき', 'secara tradisional', 'bab39', 'BukuMinna', '伝統的', 'dentouteki'],
 
 ['かぞえます', 'menghitung', 'bab40', 'BukuMinna', '数えます', 'kazoemasu'],
-['はかります', 'mengukur, menimbang', 'bab40', 'BukuMinna', '量ります', 'hakarimasu'],
+['はかります', 'mengukur, menimbang', 'bab40', 'BukuMinna', '測ります・量ります', 'hakarimasu'],
 ['たしかめます', 'memastikan', 'bab40', 'BukuMinna', '確かめます', 'tashikamemasu'],
 ['あいます', 'cocok', 'bab40', 'BukuMinna', '合います', 'aimasu'],
 ['しゅっぱつします', 'berangkat', 'bab40', 'BukuMinna', '出発します', 'shuppatsu shimasu'],
@@ -3854,15 +3701,15 @@ const kanaList = [
 ['おもさ', 'berat', 'bab40', 'BukuMinna', '重さ', 'omosa'],
 ['たかさ', 'tinggi', 'bab40', 'BukuMinna', '高さ', 'takasa'],
 ['おおきさ', 'ukuran', 'bab40', 'BukuMinna', '大きさ', 'ookisa'],
-['ーびん', 'botol', 'bab40', 'BukuMinna', 'ー瓶', '~bin'],
-['ーこ', 'buah (benda kecil)', 'bab40', 'BukuMinna', 'ー個', '~ko'],
-['ーほん', 'batang', 'bab40', 'BukuMinna', 'ー本', '~hon'],
-['ーはい', 'cangkir, gelas', 'bab40', 'BukuMinna', 'ー杯', '~hai'],
-['ーセンチ', 'sentimeter', 'bab40', 'BukuMinna', '', '~senchi'],
-['ーミリ', 'milimeter', 'bab40', 'BukuMinna', '', '~miri'],
-['ーグラム', 'gram', 'bab40', 'BukuMinna', '', '~guramu'],
-['ーいじょう', 'lebih dari atau sama dengan', 'bab40', 'BukuMinna', 'ー以上', '~ijou'],
-['ーいか', 'kurang dari atau sama dengan', 'bab40', 'BukuMinna', 'ー以下', '~ika'],
+['～びん', 'botol', 'bab40', 'BukuMinna', '～瓶', '~bin'],
+['～こ', 'buah (benda kecil)', 'bab40', 'BukuMinna', '～個', '~ko'],
+['～ほん', 'batang', 'bab40', 'BukuMinna', '～本', '~hon'],
+['～はい', 'cangkir, gelas', 'bab40', 'BukuMinna', '～杯', '~hai'],
+['～センチ', 'sentimeter', 'bab40', 'BukuMinna', '', '~senchi'],
+['～ミリ', 'milimeter', 'bab40', 'BukuMinna', '', '~miri'],
+['～グラム', 'gram', 'bab40', 'BukuMinna', '', '~guramu'],
+['～いじょう', 'lebih dari atau sama dengan', 'bab40', 'BukuMinna', '～以上', '~ijou'],
+['～いか', 'kurang dari atau sama dengan', 'bab40', 'BukuMinna', '～以下', '~ika'],
 ['どうでしょうか', 'bagaimana?', 'bab40', 'BukuMinna', '', 'dou deshou ka'],
 ['テスト', 'tes', 'bab40', 'BukuMinna', '', 'tesuto'],
 ['せいせき', 'hasil belajar, nilai', 'bab40', 'BukuMinna', '成績', 'seiseki'],
@@ -3915,17 +3762,17 @@ const kanaList = [
 ['そぼ', 'nenek', 'bab41', 'BukuMinna', '祖母', 'sobo'],
 ['まご', 'cucu', 'bab41', 'BukuMinna', '孫', 'mago'],
 ['おまごさん', 'cucu (orang lain)', 'bab41', 'BukuMinna', 'お孫さん', 'omagosan'],
-['おじ', 'paman', 'bab41', 'BukuMinna', '伯父', 'oji'],
-['おじさん', 'paman (orang lain)', 'bab41', 'BukuMinna', '伯父さん', 'ojisan'],
+['おじ', 'paman', 'bab41', 'BukuMinna', '叔父・伯父', 'oji'],
+['おじさん', 'paman (orang lain)', 'bab41', 'BukuMinna', '伯父さん・叔父さん', 'ojisan'],
 ['かんりにん', 'pengelola', 'bab41', 'BukuMinna', '管理人', 'kanrinin'],
 ['このあいだ', 'beberapa waktu yang lalu', 'bab41', 'BukuMinna', 'この間', 'kono aida'],
 ['ひとこと', 'sepatah kata', 'bab41', 'BukuMinna', '一言', 'hitokoto'],
-['ーずつ', 'masing-masing, setiap', 'bab41', 'BukuMinna', '', '~zutsu'],
+['～ずつ', 'masing-masing, setiap', 'bab41', 'BukuMinna', '', '~zutsu'],
 ['ふたり', 'sepasang, dua orang', 'bab41', 'BukuMinna', '二人', 'futari'],
 ['おたく', 'rumah Anda', 'bab41', 'BukuMinna', 'お宅', 'otaku'],
 ['どうぞおしあわせに', 'semoga berbahagia', 'bab41', 'BukuMinna', 'どうぞお幸せに', 'douzo oshiawase ni'],
 ['むかしばなし', 'cerita rakyat', 'bab41', 'BukuMinna', '昔話', 'mukashibanashi'],
-['あるー', 'suatu ~', 'bab41', 'BukuMinna', '', 'aru ~'],
+['ある～', 'suatu ~', 'bab41', 'BukuMinna', '', 'aru ~'],
 ['おとこ', 'laki-laki', 'bab41', 'BukuMinna', '男', 'otoko'],
 ['こどもたち', 'anak-anak', 'bab41', 'BukuMinna', '子供たち', 'kodomotachi'],
 ['いじめます', 'menyiksa, mengganggu', 'bab41', 'BukuMinna', '', 'ijimemasu'],
@@ -3969,7 +3816,7 @@ const kanaList = [
 ['そろばん', 'sempoa', 'bab42', 'BukuMinna', '', 'soroban'],
 ['たいおんけい', 'termometer badan', 'bab42', 'BukuMinna', '体温計', 'taionkei'],
 ['ざいりょう', 'bahan', 'bab42', 'BukuMinna', '材料', 'zairyou'],
-['あるー', 'suatu ~', 'bab42', 'BukuMinna', '', 'aru ~'],
+['ある～', 'suatu ~', 'bab42', 'BukuMinna', '', 'aru ~'],
 ['いっしょうけんめい', 'dengan sekuat tenaga', 'bab42', 'BukuMinna', '一生懸命', 'isshoukenmei'],
 ['なぜ', 'mengapa', 'bab42', 'BukuMinna', '', 'naze'],
 ['どのくらい', 'berapa lama, seberapa banyak', 'bab42', 'BukuMinna', '', 'dono kurai'],
@@ -3977,7 +3824,7 @@ const kanaList = [
 ['はんぶん', 'setengah', 'bab42', 'BukuMinna', '半分', 'hanbun'],
 ['ローン', 'kredit', 'bab42', 'BukuMinna', '', 'roon'],
 ['せかいはつ', 'yang pertama di dunia', 'bab42', 'BukuMinna', '世界初', 'sekai hatsu'],
-['ーによって', 'oleh ~', 'bab42', 'BukuMinna', '', '~ni yotte'],
+['～によって', 'oleh ~', 'bab42', 'BukuMinna', '', '~ni yotte'],
 ['どんぶり', 'mangkuk', 'bab42', 'BukuMinna', '', 'donburi'],
 ['めん', 'mi', 'bab42', 'BukuMinna', '麺', 'men'],
 ['ひろめます', 'menyebarluaskan', 'bab42', 'BukuMinna', '広めます', 'hiromemasu'],
@@ -4032,7 +3879,7 @@ const kanaList = [
 ['ようしょく', 'masakan Barat', 'bab44', 'BukuMinna', '洋食', 'youshoku'],
 ['おかず', 'lauk-pauk', 'bab44', 'BukuMinna', '', 'okazu'],
 ['りょう', 'jumlah, kuantitas', 'bab44', 'BukuMinna', '量', 'ryou'],
-['ーばい', '~ kali', 'bab44', 'BukuMinna', '', '~bai'],
+['～ばい', '~ kali', 'bab44', 'BukuMinna', '', '~bai'],
 ['シングル', 'kamar/tempat tidur single', 'bab44', 'BukuMinna', '', 'shinguru'],
 ['ツイン', 'kamar twin', 'bab44', 'BukuMinna', '', 'tsuin'],
 ['せんたくもの', 'cucian', 'bab44', 'BukuMinna', '洗濯物', 'sentakumono'],
@@ -4040,9 +3887,9 @@ const kanaList = [
 ['カット', 'potong rambut', 'bab44', 'BukuMinna', '', 'katto'],
 ['シャンプー', 'keramas', 'bab44', 'BukuMinna', '', 'shanpuu'],
 ['ショート', 'pendek', 'bab44', 'BukuMinna', '', 'shooto'],
-['ーみたいにしてください', 'tolong buat seperti ~', 'bab44', 'BukuMinna', '', '~mitai ni shite kudasai'],
+['～みたいにしてください', 'tolong buat seperti ~', 'bab44', 'BukuMinna', '', '~mitai ni shite kudasai'],
 ['これでよろしいでしょうか', 'bagaimana kalau begini?', 'bab44', 'BukuMinna', '', 'kore de yoroshii deshou ka'],
-['どうもおつかれさまでした', 'terima kasih, sudah selesai', 'bab44', 'BukuMinna', '', '(doumo) otsukaresama deshita'],
+['「どうも」おつかれさまでした', 'terima kasih, sudah selesai', 'bab44', 'BukuMinna', '', '(doumo) otsukaresama deshita'],
 ['いやがります', 'tidak mau, enggan', 'bab44', 'BukuMinna', '嫌がります', 'iyagarimasu'],
 ['また', 'dan, lalu', 'bab44', 'BukuMinna', '', 'mata'],
 ['うまく', 'dengan baik, dengan pandai', 'bab44', 'BukuMinna', '', 'umaku'],
@@ -4072,7 +3919,7 @@ const kanaList = [
 ['かかりいん', 'petugas', 'bab45', 'BukuMinna', '係員', 'kakariin'],
 ['コース', 'lintasan, jalur', 'bab45', 'BukuMinna', '', 'koosu'],
 ['スタート', 'mulai', 'bab45', 'BukuMinna', '', 'sutaato'],
-['ーい', 'juara ke-~', 'bab45', 'BukuMinna', 'ー位', '~i'],
+['～い', 'juara ke-~', 'bab45', 'BukuMinna', '～位', '~i'],
 ['ゆうしょうします', 'menjadi juara', 'bab45', 'BukuMinna', '優勝します', 'yuushou shimasu'],
 ['なやみ', 'masalah, kekhawatiran', 'bab45', 'BukuMinna', '悩み', 'nayami'],
 ['めざましどけい', 'jam alarm', 'bab45', 'BukuMinna', '目覚まし時計', 'mezamashi dokei'],
@@ -4095,7 +3942,7 @@ const kanaList = [
 ['たくはいびん', 'jasa pengiriman', 'bab46', 'BukuMinna', '宅配便', 'takuhaibin'],
 ['げんいん', 'penyebab', 'bab46', 'BukuMinna', '原因', 'genin'],
 ['こちら', 'sini', 'bab46', 'BukuMinna', '', 'kochira'],
-['ーのところ', 'tempat ~', 'bab46', 'BukuMinna', 'ーの所', '~no tokoro'],
+['～のところ', 'tempat ~', 'bab46', 'BukuMinna', '～の所', '~no tokoro'],
 ['はんとし', 'setengah tahun', 'bab46', 'BukuMinna', '半年', 'hantoshi'],
 ['ちょうど', 'pas, tepat', 'bab46', 'BukuMinna', '', 'choudo'],
 ['たったいま', 'baru saja', 'bab46', 'BukuMinna', 'たった今', 'tatta ima'],
@@ -4121,7 +3968,7 @@ const kanaList = [
 ['なくなります', 'meninggal dunia', 'bab47', 'BukuMinna', '亡くなります', 'nakunarimasu'],
 ['あつまります', 'berkumpul', 'bab47', 'BukuMinna', '集まります', 'atsumarimasu'],
 ['わかれます', 'berpisah', 'bab47', 'BukuMinna', '別れます', 'wakaremasu'],
-['こえがします', 'terdengar suara', 'bab47', 'BukuMinna', '声がします', 'koe ga shimasu'],
+['おと／こえがします', 'terdengar suara', 'bab47', 'BukuMinna', '音／声がします', 'oto / koe ga shimasu'],
 ['あじがします', 'terasa (rasa)', 'bab47', 'BukuMinna', '味がします', 'aji ga shimasu'],
 ['においがします', 'berbau, tercium aroma', 'bab47', 'BukuMinna', '匂いがします', 'nioi ga shimasu'],
 ['きびしい', 'keras, ketat', 'bab47', 'BukuMinna', '厳しい', 'kibishii'],
@@ -4139,7 +3986,7 @@ const kanaList = [
 ['さんせい', 'setuju', 'bab47', 'BukuMinna', '賛成', 'sansei'],
 ['はんたい', 'menentang, tidak setuju', 'bab47', 'BukuMinna', '反対', 'hantai'],
 ['だいとうりょう', 'presiden', 'bab47', 'BukuMinna', '大統領', 'daitouryou'],
-['ーによると', 'menurut ~', 'bab47', 'BukuMinna', '', '~ni yoru to'],
+['～によると', 'menurut ~', 'bab47', 'BukuMinna', '', '~ni yoru to'],
 ['こんやくします', 'bertunangan', 'bab47', 'BukuMinna', '婚約します', 'konyaku shimasu'],
 ['どうも', 'rupanya', 'bab47', 'BukuMinna', '', 'doumo'],
 ['こいびと', 'pacar, kekasih', 'bab47', 'BukuMinna', '恋人', 'koibito'],
@@ -4162,7 +4009,7 @@ const kanaList = [
 ['せいと', 'murid', 'bab48', 'BukuMinna', '生徒', 'seito'],
 ['ファイル', 'file, map', 'bab48', 'BukuMinna', '', 'fairu'],
 ['じゆうに', 'dengan bebas', 'bab48', 'BukuMinna', '自由に', 'jiyuu ni'],
-['ーかん', 'selama ~', 'bab48', 'BukuMinna', 'ー間', '~kan'],
+['～かん', 'selama ~', 'bab48', 'BukuMinna', '～間', '~kan'],
 ['いいことですね', 'bagus ya', 'bab48', 'BukuMinna', '', 'ii koto desu ne'],
 ['おいそがしいですか', 'apakah Anda sibuk?', 'bab48', 'BukuMinna', 'お忙しいですか', 'oisogashii desu ka'],
 ['えいぎょう', 'bisnis, usaha', 'bab48', 'BukuMinna', '営業', 'eigyou'],
@@ -4171,7 +4018,7 @@ const kanaList = [
 ['たのしみます', 'menikmati', 'bab48', 'BukuMinna', '楽しみます', 'tanoshimimasu'],
 ['おや', 'orang tua', 'bab48', 'BukuMinna', '親', 'oya'],
 ['しょうがくせい', 'murid sekolah dasar', 'bab48', 'BukuMinna', '小学生', 'shougakusei'],
-['ーパーセント', 'persen ~', 'bab48', 'BukuMinna', '', '~paasento'],
+['～パーセント', 'persen ~', 'bab48', 'BukuMinna', '', '~paasento'],
 ['そのつぎ', 'berikutnya, setelah itu', 'bab48', 'BukuMinna', 'その次', 'sono tsugi'],
 ['しゅうじ', 'kaligrafi Jepang', 'bab48', 'BukuMinna', '習字', 'shuuji'],
 ['ふつうの', 'biasa', 'bab48', 'BukuMinna', '普通の', 'futsuu no'],
@@ -4190,11 +4037,11 @@ const kanaList = [
 ['りょかん', 'penginapan tradisional Jepang', 'bab49', 'BukuMinna', '旅館', 'ryokan'],
 ['バスてい', 'halte bus', 'bab49', 'BukuMinna', 'バス停', 'basu tei'],
 ['おくさま', 'istri (bentuk hormat)', 'bab49', 'BukuMinna', '奥様', 'okusama'],
-['ーさま', 'Yth. ~', 'bab49', 'BukuMinna', 'ー様', '~sama'],
+['～さま', 'Yth. ~', 'bab49', 'BukuMinna', '～様', '~sama'],
 ['たまに', 'kadang-kadang', 'bab49', 'BukuMinna', '', 'tamani'],
 ['どなたでも', 'siapa saja', 'bab49', 'BukuMinna', '', 'donata demo'],
-['ーといいます', 'bernama ~', 'bab49', 'BukuMinna', '', '~to iimasu'],
-['ーねんーくみ', 'kelas ~', 'bab49', 'BukuMinna', 'ー年ー組', '~nen ~kumi'],
+['～といいます', 'bernama ~', 'bab49', 'BukuMinna', '', '~to iimasu'],
+['～ねん～くみ', 'kelas ~', 'bab49', 'BukuMinna', '～年～組', '~nen ~kumi'],
 ['だします', 'menjadi (misal demam)', 'bab49', 'BukuMinna', '出します', 'dashimasu'],
 ['よろしくおつたえください', 'tolong sampaikan salam saya', 'bab49', 'BukuMinna', 'よろしくお伝えください', 'yoroshiku otsutae kudasai'],
 ['しつれいいたします', 'permisi (bentuk sangat sopan)', 'bab49', 'BukuMinna', '失礼いたします', 'shitsurei itashimasu'],
@@ -4242,312 +4089,9 @@ const kanaList = [
 ['いかします', 'memanfaatkan, menggunakan', 'bab50', 'BukuMinna', '生かします', 'ikashimasu'],
 ];
 
+
 // --- START EVENT HANDLER --- \\
 // --- Semua fungsi yang memerlukan interaksi user dsimipan dibawah ini --- \\
-
-// Baca file txt
-ctx.lineWidth = 24
-ctx.lineCap = ctx.lineJoin = "round"
-ctx.strokeStyle = "#2563eb"
-document.getElementById("fileInput").addEventListener("change", (e) => {
-  let file = e.target.files[0]
-  if (!file) return
-
-  let reader = new FileReader()
-  reader.onload = (evt) => {
-    db.clear();
-    evt.target.result.split(/\r?\n/).forEach(line => {
-      try {
-        let json = JSON.parse(line.trim())
-        if (json.character && json.strokes) db.set(json.character, json)
-      } catch(err){}
-    })
-
-    if (db.size > 0) {
-      statusFile.textContent = `✅ ${db.size} Karakter/Huruf Siap!`
-
-      const btnLoad = document.querySelector("#btnLoad")
-      btnLoad.disabled = false
-      btnLoad.style.display = 'block'
-    } else {
-      statusFile.textContent = "❌ File tidak valid!"
-      btnLoad.disabled = true
-      btnLoad.style.display = 'none'
-    }
-  }
-  reader.readAsText(file)
-})
-
-// 3. GENERATE SVG DARI JSON ANIMCJK
-function jsonToSvg(data) {
-  let flipY = y => 900 - parseFloat(y);
-
-  // stroke utama
-  let strokes = data.strokes.map((s, i) => {
-    let d = s.replace(/(-?\d+),(-?\d+)/g, (_, x, y) => `${x} ${flipY(y)}`);
-    return `<path id="s${i}" d="${d}" style="opacity:0;"/>`;
-  }).join("");
-
-  // guider validator
-  let clips = data.strokes.map((_, i) => `<clipPath id="c${i}"><use href="#s${i}"/></clipPath>`).join("");
-
-  // animator goresan
-  let medians = data.medians.map((m, i) => {
-    let d = m.map(([x,y], idx) => `${idx===0?'M':'L'}${x} ${flipY(y)}`).join("");
-    return `<path id="m${i}" pathLength="3333" clip-path="url(#c${i})" d="${d}"/>`;
-  }).join("");
-
-  // hsailkan svg
-  return `
-  <svg class="acjk" viewBox="0 0 1024 1024">
-    <style>
-      @keyframes drawStroke {
-        0% { stroke-dashoffset: 3339; }
-        80%, 100% { stroke-dashoffset: 0; }
-      }
-      svg.acjk path[clip-path] {
-        stroke-dasharray: 3337;
-        stroke-dashoffset: 3339;
-        stroke-width: 128;
-        stroke-linecap: round;
-        fill: none;
-        stroke: #22c55e;
-        animation: none;
-      }
-      svg.acjk path[clip-path].active-anim {
-        animation: drawStroke 1.2s linear infinite;
-      }
-      svg.acjk path[id^="s"] { fill: #ccc; }
-    </style>
-    ${strokes}<defs>${clips}</defs>${medians}
-  </svg>`
-}
-function loadNextChar() {
-  if (wordIndex < wordList.length) {
-    let currentChar = wordList[wordIndex];
-    loadKanji(currentChar);
-    jumHrf.innerHTML=`Gambarlah huruf ke ${wordIndex+1} (Total ada ${wordList.length} huruf)`
-    bantuanAnim(111)
-
-  } else {
-    if(sessionList.length !==0){
-      // Masuk soal berikutnya
-      if(hurufBenar<(wordList.length/2)) {
-        result.innerHTML = `<salah>Salah :(<div class="feedback">${hurufBenar} dari ${wordList.length} huruf benar. <div>Klik dimana saja untuk lanjut</div></div></salah>`;
-      }else{
-        correctCount++
-        result.innerHTML = `<benar>Benar!<div class="feedback">${hurufBenar} dari ${wordList.length} huruf benar. <div>Klik dimana saja untuk lanjut</div></div></benar>`;
-      }
-      overlay.style.display = 'block'
-      overlay.addEventListener('click', function next() {
-        overlay.style.display = 'none'
-        salahsemua=false
-        hurufBenar=0
-        totalCount++
-        kanjiKont.innerHTML=""
-        pickKana()
-        overlay.removeEventListener('click', next);
-      }, { once: true })
-        return
-    }
-    // saat quiz menulis selesai
-    hurufBenar<(wordList.length/2)?'':correctCount++
-    hurufBenar=0
-    svgLayer.innerHTML = "";
-    clearCanvas();
-    pickKana()
-  }
-}
-
-function loadKanji(char) {
-  let charData = db.get(char);
-
-  if (!charData) {
-    pesan(`Karakter "${char}" tidak ditemukan dalam file TXT.`, 'danger', 4000)
-    svgLayer.innerHTML = ""
-    clearCanvas()
-    return
-  }
-
-  svgLayer.innerHTML = jsonToSvg(charData);
-  svg = svgLayer.querySelector("svg");
-  shapes = Array.from(svg.querySelectorAll("path[id]"));
-  guides = Array.from(svg.querySelectorAll("path[clip-path]"));
-
-  currentStroke = 0;
-  clearCanvas();
-  }
-
-// 5. DRAWING SYSTEM (CANVAS)
-function getPos(e) {
-  let r = canvas.getBoundingClientRect()
-  return {
-    x: (e.clientX - r.left) * 1024 / r.width,
-    y: (e.clientY - r.top) * 1024 / r.height
-  };
-}
-
-canvas.addEventListener("pointerdown", e => {
-  if (currentStroke >= guides.length) return
-  isDrawing = true; 
-  userPoints = []
-  let p = getPos(e); 
-
-  userPoints.push(p)
-  ctx.beginPath(); ctx.moveTo(p.x, p.y)
-});
-
-canvas.addEventListener("pointermove", e => {
-  if (!isDrawing) return
-  let p = getPos(e); userPoints.push(p)
-  ctx.lineTo(p.x, p.y); ctx.stroke()
-});
-
-canvas.addEventListener("pointerup", endStroke)
-canvas.addEventListener("pointerleave", endStroke)
-
-function endStroke() {
-  if (!isDrawing) return
-  isDrawing = false
-  validateStroke()
-}
-
-// 6. VALIDATOR
-function validateStroke() {
-  let guide = guides[currentStroke]
-  let len = guide.getTotalLength()
-  
-  // Ambil titik terdekat di panduan asli
-  let samples = userPoints.map(pt => {
-    let bestDist = Infinity, bestProg = 0
-    for (let d = 0; d <= len; d += 5) {
-      let p = guide.getPointAtLength(d)
-      let dist = Math.hypot(p.x - pt.x, p.y - pt.y);
-      if (dist < bestDist) { bestDist = dist; bestProg = d / len; }
-    }
-    return { dist: bestDist, prog: bestProg }
-  })
-
-// debug arah validator
-  // ctx.fillStyle = "red";
-  // for (let d = 0; d <= len; d += 10) {
-  //   let p = guide.getPointAtLength(d);
-  //   ctx.beginPath();
-  //   ctx.arc(p.x, p.y, 6, 0, Math.PI * 2);
-  //   ctx.fill();
-  // }
-
-  // 1. Akurasi Jalur (Jarak < 120px dari garis asli)
-  let near = samples.filter(s => s.dist < 120).length / samples.length
-
-  // 2. Cakupan (Panjang goresan minimal 60% dari garis asli)
-  let progs = samples.map(s => s.prog)
-  let coverage = Math.max(...progs) - Math.min(...progs)
-
-  // 3. Arah Goresan (Maju > 65%)
-  let fwd = 0, bwd = 0;
-  for (let i = 1; i < progs.length; i++) {
-    let diff = progs[i] - progs[i-1]
-    if (diff > 0.01) fwd++; else if (diff < -0.01) bwd++
-  }
-  let direction = fwd / Math.max(1, fwd + bwd)
-
-  // validator benar
-  function benar(){
-    board.style.border = `dashed 2px #a9a9a9`
-    stopStrokeAnimation()
-    salahKali = 1
-    kesempatan = 4
-    shapes[currentStroke].style.opacity = "1"
-    currentStroke++
-    clearCanvas()
-    if (currentStroke >= guides.length) {
-      wordIndex++
-      stateTulis.innerHTML=''
-      if(!salahsemua){ 
-        hurufBenar++
-        kanjiKont.innerHTML += `<span>${wordList[wordIndex - 1]}</span>`}
-      else{
-        kanjiKont.innerHTML += `<span style="color: #f87171;">${wordList[wordIndex - 1]}</span>` 
-        salahsemua = false       
-      }
-      bantuanAnim(1)
-      setTimeout(() => {
-        
-        loadNextChar()
-      }, 1000)
-      }
-  }
-  function salah( p =`Sisa ${kesempatan} kali pecobaan sebelum dianggap salah`){
-    stateTulis.innerHTML =`
-    <div class="text-kecil" style="position: relative;margin-bottom: -5px;">${p}</div>`}
-  const kusus = new Set(['み','な','ま', 'よ', 'む', 'ぬ', 'ね', 'ほ', 'は', 'す', 'あ', 'お', 'ゆ', 'の', 'る']);
-  if (kusus.has(wordList[wordIndex])) {
-    if (near > 0.5 && coverage > 0.1 && direction > 0.5) {
-      benar()
-      return
-    } 
-  }
-  if (near > 0.65 && coverage > 0.65 && direction > 0.65) {
-    benar()
-  } else {
-    salahKali++
-    kesempatan = Math.max(0, kesempatan-1)
-    clearCanvas()
-    board.style.border = `dashed 2px #f87171`
-    
-    if(salahKali > 4){
-      salahsemua = true
-    }
-    if(salahsemua){
-      animateKanji()
-      salah(`Huruf ini telah dianggap salah`)
-      if(salahKali > 8 ){
-        benar()
-        return
-      }
-      return
-    }
-    salah()
-  }
-}
-function bantuanAnim(tambah =101){
-  if(sisaBantuan < 1 && tambah === 101){
-    bantuTulis.innerHTML = `Bantuan <div class="text-kecil">Sisa Bantuan ${sisaBantuan}</div>`
-  }
-  else if(tambah === 101){
-    animateKanji()
-    sisaBantuan = Math.max(0, sisaBantuan - 1)
-    bantuTulis.innerHTML = `Bantuan <div class="text-kecil">Sisa Bantuan ${sisaBantuan}</div>`
-  }
-  else if(tambah === 111){
-    bantuTulis.innerHTML = `Bantuan <div class="text-kecil">Sisa Bantuan ${sisaBantuan}</div>`
-  }
-  else{
-    sisaBantuan+=tambah
-    bantuTulis.innerHTML = `Bantuan + ${tambah} <div class="text-kecil">Sisa Bantuan ${sisaBantuan}</div>`
-  }
-}
-
-// 7. UTILS & BUTTON ACTIONS
-function animateKanji() {
-  if (!svg) return;
-  stopStrokeAnimation();
-  let activeMedian = svg.querySelector(`#m${currentStroke}`);
-  if (activeMedian) {
-    void activeMedian.offsetWidth; 
-    activeMedian.classList.add("active-anim");
-  }
-}
-
-function stopStrokeAnimation() {
-  if (!svg) return;
-  let active = svg.querySelector("path.active-anim");
-  if (active) {
-    active.classList.remove("active-anim");
-  }
-}
-function clearCanvas() { ctx.clearRect(0, 0, 1024, 1024); }
 
 // fungsi tombol back to top
 window.addEventListener("scroll", () => {
@@ -4576,6 +4120,14 @@ window.addEventListener('popstate', (event) => {
     modeTerpilih(event.state.mode, event.state.judulModeSaved)
   }
 });
+
+function buatHistori(modeHistori, judulHistori){
+  history.pushState({ 
+    mode: modeHistori, 
+    judulModeSaved: judulHistori,
+    helperMode:helperMode 
+  }, "")
+}
 
 function soalDibatasi(){
 soalDipakai = Number(document.getElementById('batasSoal')?.value) || Infinity
@@ -4647,7 +4199,8 @@ pilihan.addEventListener("change", (e) => {
 });
 }
 
-function modeTerpilih (dipilih=mode, judul=judulModeSaved) {
+let filterBab = false
+function modeTerpilih (dipilih, judul=judulModeSaved) {
   if (!kembaliDitekan) {
     buatHistori(dipilih, judul)
   }
@@ -4661,11 +4214,11 @@ function modeTerpilih (dipilih=mode, judul=judulModeSaved) {
   if(mode.startsWith('pilih-')) {
         const selected = Array.from(document.querySelectorAll('.bab-choice:checked')).map(cb => cb.value)
         if (selected.length === 0) {
-          pesan("⚠️ Minimal pilih 1 kek >:(", 'error')
+          tampilkanNotif("⚠️ Minimal pilih 1 kek >:(", 'error')
           return
         }
         if(soalDipakai < 4) {
-          pesan("Minimal soal adalah 4, atau kosongkan untuk ambil semua soal", 'warning', 5000)
+          tampilkanNotif("Minimal soal adalah 4, atau kosongkan untuk ambil semua soal", 'warning', 5000)
           return
         }
       }
@@ -4673,16 +4226,16 @@ function modeTerpilih (dipilih=mode, judul=judulModeSaved) {
         mode = dipilih
         judulModeSaved = judul
         pilihMode.textContent = judul
-        mulaiQuizPilihanGanda()
         bangunUI()
+        mulaiQuizPilihanGanda()
         filterBab = true
         return
       }
   mode = dipilih
   judulModeSaved = judul
   pilihMode.textContent = judul
-  mulaiQuizPilihanGanda()
   bangunUI()
+  mulaiQuizPilihanGanda()
   filterBab = false
   return
 };
@@ -4693,7 +4246,9 @@ function modeTerpilih (dipilih=mode, judul=judulModeSaved) {
 // --- NON-QUIZ FUNCTION --- \\
 // Semua fungsi yang tidak memiliki pengaruh dengan logika quiz, ditempatkan disini
 
-function pesan(pesan, kelas='neutral', durasi = 3000,) {
+// Semua fungsi yang tidak memiliki pengaruh dengan logika quiz, ditempatkan disini
+
+function tampilkanNotif(pesan, kelas='neutral', durasi = 3000,) {
     const container = document.getElementById("toast-container")
     const toast = document.createElement("div")
     toast.className = `toast ${kelas}`
@@ -4707,52 +4262,19 @@ function pesan(pesan, kelas='neutral', durasi = 3000,) {
     }, durasi)
 }
 
-function buatLinkDown(el) {
-  const container = document.getElementById(el)
-  container.innerHTML = `Membuat Ui link download...`
-  const script = document.createElement("script")
-  script.src = `${serverLink}elOnl.js?t=${Date.now()}`
 
-  script.onload = () => {
-    if (linkDown.linkDownloadDataset) {
-      container.innerHTML = linkDown.linkDownloadDataset
-      pesan('Pilih dataset dibawah')
-    }
-  }
-
-  script.onerror = () => {
-    container.innerHTML = ``
-    pesan('Tidak ada koneksi internet :(')
-  }
-  document.head.appendChild(script);
-}
-
-async function downloadFile(link, file) {
-  const url = link;
-  const response = await fetch(url);
-  const reader = response.body.getReader();
-  const chunks = [];
-
-  while (true) {
-    const { done, value } = await reader.read();
-    if (done) break;
-    chunks.push(value);
-  }
-
-  const blobUrl = URL.createObjectURL(new Blob(chunks));
-  const a = document.createElement('a');
-  a.href = blobUrl
-  a.download = file
-  a.click();
-  URL.revokeObjectURL(blobUrl);
-}
-
-function buatHistori(modeHistori, judulHistori){
-  history.pushState({ 
-    mode: modeHistori, 
-    judulModeSaved: judulHistori,
-    helperMode:helperMode 
-  }, "")
+// Fungsi download Update
+async function downloadVersiBaru() {
+    const response = await fetch(
+        "https://herlambangyp.github.io/quiz.html"
+    );
+    const blob = await response.blob();
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "Quiz v"+dataServer.versi+'.html';
+    a.click();
+    URL.revokeObjectURL(url);
 }
 
 // icon stopwatch
@@ -4832,6 +4354,7 @@ function buildVocabTable(filter='', bagian='') {
 }
 
 // Debug
+
 function psn(pesan){
   console.log(pesan)
 }
@@ -4843,16 +4366,13 @@ function psn(pesan){
 // --- Semua fungsi krusial seperti pengkalkulasi logika, algoritma soal, dan lain sebagainya. Dimuat disini --- \\\
 
 // Fungsi untuk membuat soal dan memilih jawaban atas soal tersebut
-function pickKana(indek) {
-  indexSoal++
-  psn('pickKana Terpanggil')
-  const choicesContainer = document.getElementById('choices')
+function pickKana() {
+  indexSoal++;
   if (indexSoal === totalSoal) {
-    Timer.stop()
-    const skor = totalCount === 0 ? 0 : Math.floor(correctCount * 100 / totalSoal)
-    kotakTulis.style.display = 'none'
-    kana.textContent = ''
-    result.innerHTML = `
+    Timer.stop();
+    const skor = totalCount === 0 ? 0 : Math.floor(correctCount * 100 / totalCount)
+    document.getElementById('kana').textContent = ''
+    document.getElementById('result').innerHTML = `
     <div class="endQuiz">
       <h2>Quiz Selesai</h2>
       <h4 style="color:lightseagreen;">
@@ -4862,94 +4382,81 @@ function pickKana(indek) {
       <h3>Nilaimu : ${skor}</3>
     </div>  
     `
-    choicesContainer.innerHTML = ''
-    soal.innerHTML = ''
+    document.getElementById('choices').innerHTML = ''
+    document.getElementById('soal').innerHTML = ''
     restartBtn.style.display = 'inline-block'
-    return
+    return;
   }
-  currentKana = sessionList.pop()
-  choicesContainer.innerHTML = ''
-  result.innerHTML = ''
-  let options;
-  let nomorsoal = nomor()
-  const angkaBab = currentKana[2].replace(/\D/g, "")
-  function nomor() { return totalCount < 1 ? 1 : totalCount + 1;}
 
-  if (mode.includes('menulis')) {
-      soal.innerHTML =`
-        <div class='asal-kotoba'> ${currentKana[2]}</div><strong>Soal ke ${nomorsoal} dari ${totalSoal} soal</strong><br>
-        Bisakah kamu gambar huruf jepangnya?
-      `
-      kana.textContent = currentKana[1];
-    if (helperMode.includes('-kanji')) {
-      wordIndex = 0 
-      wordList = currentKana[4] || currentKana[0];
-      loadNextChar()
-      return
-    }else {
-      wordIndex = 0 
-      wordList = currentKana[0];
-      loadNextChar()
-      return
-    }  
-    }
+  currentKana = sessionList.pop();
+  const choicesContainer = document.getElementById('choices');
+  choicesContainer.innerHTML = '';
+  document.getElementById('result').textContent = '';
+  let options;
+  let nomorsoal = nomor();
+  const angkaBab = currentKana[2].replace(/\D/g, "");
+  function nomor() { return totalCount < 1 ? 1 : totalCount + 1;};
+
   if (mode.endsWith('-rev')) {
 // Mode reverse
 
-    if (helperMode.includes('-kanji-baca')) {
-        kana.textContent = currentKana[0];
-      soal.innerHTML = `<div class='asal-kotoba'> ${angkaBab ? 'Kotoba BAB ' + angkaBab + '<br>' : ''}</div><strong>Soal ke ${nomorsoal} dari ${totalSoal} soal</strong><br>Tulisan kanji dari huruf di atas adalah...?`;
+    if (mode.includes('-kanji-baca')) {
+        document.getElementById('kana').textContent = currentKana[0];
+      document.getElementById('soal').innerHTML = `<Z class='asal-kotoba'> ${angkaBab ? 'Kotoba BAB ' + angkaBab + '<br>' : ''}</Z><strong>Soal ke ${nomorsoal} dari ${totalSoal} soal</strong><br>Tulisan kanji dari huruf di atas adalah...?`;// bentuk soal mode saat ini
       options = shuffle([currentKana[4], ...generateFakeAnswers(currentKana[4])]);
     } 
     
-    else if (helperMode.includes('-kanji')) {
-        kana.textContent = currentKana[1] || currentKana[0];
-      soal.innerHTML = `<div class='asal-kotoba'> ${angkaBab ? 'Kotoba BAB ' + angkaBab + '<br>' : ''}</div><strong>Soal ke ${nomorsoal} dari ${totalSoal} soal</strong><br>Bagaimana cara menulis kosakata diatas?`;
+    else if (mode.includes('-kanji')) {
+        document.getElementById('kana').textContent = currentKana[1] || currentKana[0];
+      document.getElementById('soal').innerHTML = `<Z class='asal-kotoba'> ${angkaBab ? 'Kotoba BAB ' + angkaBab + '<br>' : ''}</Z><strong>Soal ke ${nomorsoal} dari ${totalSoal} soal</strong><br>Bagaimana cara menulis kosakata diatas?`;
       options = shuffle([currentKana[4] || currentKana[0], ...generateFakeAnswers(currentKana[4] || currentKana[0])]);
     }
     
     else {
-        kana.textContent = currentKana[1];
-      soal.innerHTML = `<div class='asal-kotoba'> ${angkaBab ? 'Kotoba BAB ' + angkaBab + '<br>' : ''}</div><strong>Soal ke ${nomorsoal} dari ${totalSoal} soal</strong><br>Cara menulis jepang huruf diatas adalah...`;
+        document.getElementById('kana').textContent = currentKana[1];
+      document.getElementById('soal').innerHTML = `<Z class='asal-kotoba'> ${angkaBab ? 'Kotoba BAB ' + angkaBab + '<br>' : ''}</Z><strong>Soal ke ${nomorsoal} dari ${totalSoal} soal</strong><br>Cara menulis jepang huruf diatas adalah...`;
       options = shuffle([currentKana[0], ...generateFakeAnswers(currentKana[0])]);
     }   
 } else {
 // Mode Normal
 
-    if (helperMode.includes('-kanji-baca')) {
-        kana.textContent = currentKana[4];
-      soal.innerHTML = `<div class='asal-kotoba'> ${angkaBab ? 'Kotoba BAB ' + angkaBab + '<br>' : ''}</div><strong>Soal ke ${nomorsoal} dari ${totalSoal} soal</strong><br>Furigana huruf diatas adalah...`;
+    if (mode.includes('-kanji-baca')) {
+        document.getElementById('kana').textContent = currentKana[4];
+      document.getElementById('soal').innerHTML = `<Z class='asal-kotoba'> ${angkaBab ? 'Kotoba BAB ' + angkaBab + '<br>' : ''}</Z><strong>Soal ke ${nomorsoal} dari ${totalSoal} soal</strong><br>Furigana huruf diatas adalah...`;
       options = shuffle([currentKana[0], ...generateFakeAnswers(currentKana[0])]);
     }
     
-    else if (helperMode.includes('-kanji')) {
-        kana.textContent = currentKana[4] || currentKana[0];
-      soal.innerHTML = `<div class='asal-kotoba'> ${angkaBab ? 'Kotoba BAB ' + angkaBab + '<br>' : ''}</div><strong>Soal ke ${nomorsoal} dari ${totalSoal} soal</strong><br>Apa arti tulisan di atas?`;
+    else if (mode.includes('-kanji')) {
+        document.getElementById('kana').textContent = currentKana[4] || currentKana[0];
+      document.getElementById('soal').innerHTML = `<Z class='asal-kotoba'> ${angkaBab ? 'Kotoba BAB ' + angkaBab + '<br>' : ''}</Z><strong>Soal ke ${nomorsoal} dari ${totalSoal} soal</strong><br>Apa arti tulisan di atas?`;
       options = shuffle([currentKana[1], ...generateFakeAnswers(currentKana[1])]);
     }
     
     else {
-        kana.textContent = currentKana[0];
-      soal.innerHTML = `<div class='asal-kotoba'> ${angkaBab ? 'Kotoba BAB ' + angkaBab + '<br>' : ''}</div><strong>Soal ke ${nomorsoal} dari ${totalSoal} soal</strong><br>Romaji Huruf diatas adalah...`;
+        document.getElementById('kana').textContent = currentKana[0];
+      document.getElementById('soal').innerHTML = `<Z class='asal-kotoba'> ${angkaBab ? 'Kotoba BAB ' + angkaBab + '<br>' : ''}</Z><strong>Soal ke ${nomorsoal} dari ${totalSoal} soal</strong><br>Romaji Huruf diatas adalah...`;
       options = shuffle([currentKana[1], ...generateFakeAnswers(currentKana[1])]);
     }  
 }
       options.forEach(choice => {
-        const btn = document.createElement('button')
-        btn.textContent = choice
-        btn.classList.add('text-capitalize')
+        const btn = document.createElement('button');
+        btn.textContent = choice;
+        btn.classList.add('text-capitalize');
         btn.onclick = () => {          
-            if (!isClickable) return
-          checkAnswer(choice)
-        }
-        choicesContainer.appendChild(btn)
-    })
+            if (!isClickable) return;
+          checkAnswer(choice);
+        };
+        choicesContainer.appendChild(btn);
+    });  
 
 }
 
 // fungsi memverifikasi jawaban soal Pilihan Ganda (katakana, hiragana, kotoba, kanji, dll)
   function checkAnswer(answer) { 
   totalCount++;
+  const result = document.getElementById('result');
+  const buttons = document.querySelectorAll('#choices button');
+  const overlay = document.getElementById('nextOverlay');  
   let correctAnswer;
 
   if (mode.endsWith('-rev')) {
@@ -4973,8 +4480,7 @@ function pickKana(indek) {
   }
   
   // Warnai semua tombol
-  // WARNING! QUERY INI JANGAN DIMASUKAN VARIABEL
-  document.querySelectorAll('#choices button').forEach(btn => {
+  buttons.forEach(btn => {
     if (btn.textContent === correctAnswer) {
     btn.classList.add('correct');
       if (btn.textContent === answer) {
@@ -4991,10 +4497,10 @@ function pickKana(indek) {
   
   // Cek jawaban user
   if (answer === correctAnswer) {
-    result.innerHTML = '<benar>Benar!<div class="feedback"><strong>Klik dimana saja untuk lanjut</strong></div></benar>';
+    result.innerHTML = '<benar>Benar!<Z class="feedback"><strong>Klik dimana saja untuk lanjut</strong></Z></benar>';
     correctCount++;
 } else {
-    result.innerHTML = `<salah>Salah :(<div class="feedback"><strong>Klik dimana saja untuk lanjut</strong></div></salah>`;
+    result.innerHTML = `<salah>Salah :(<Z class="feedback"><strong>Klik dimana saja untuk lanjut</strong></Z></salah>`;
 }
   
   // Bagian umum
@@ -5065,8 +4571,8 @@ function shuffle(array) {
     
 // Fungsi untuk mengungkap semua jawaban
     function revealAllAnswers() {
-        // WARNING! QUERY INI JANGAN DIMASUKAN VARIABEL
-      document.querySelectorAll('#choices button').forEach(btn => {
+    const buttons = document.querySelectorAll('#choices button');
+  buttons.forEach(btn => {
     const text = btn.textContent;
     const match = getKanaList().find(pair => {
         // Mencari alamat dataset yang akan dijadikan pasangan tiap jawaban (baik yang palsu ataupu yang asli)
@@ -5131,7 +4637,6 @@ function mulaiQuizPilihanGanda(modeDiterima=helperMode) {
 
   pilihMode.textContent = judulModeSaved
   totalSoal = sessionList.length
-  salahsemua = false
   totalCount = 0
   correctCount = 0
   indexSoal = -1
@@ -5146,13 +4651,6 @@ function mulaiQuizPilihanGanda(modeDiterima=helperMode) {
 function random(angka1, angka2) {
     return Math.floor(Math.random() * (angka2 - angka1 + 1)) + angka1;
 }
-
-
-// fungsi untuk membuat soal matematika
-function buatSoalMM() {
-    const kotakSoalMM = document.getElementById("soalMM");
-    kotakSoalMM.innerHTML = "";
-    periksaMM.style.display = 'block';
 
 
 // fungsi khusus untuk membuat soal menyederhanakan pecahan
@@ -5444,6 +4942,13 @@ function gambarBalok(panjang, lebar, tinggi) {
   </svg>
   `;
 }
+
+
+// fungsi untuk membuat soal matematika
+function buatSoalMM() {
+    const kotakSoalMM = document.getElementById("soalMM");
+    kotakSoalMM.innerHTML = "";
+    periksaMM.style.display = 'block';
 
     soalMM = [];
 
@@ -6006,9 +5511,9 @@ function gambarBalok(panjang, lebar, tinggi) {
         });
       
         let nilaiMM = MMbenar * 2
-        pesan(`Dalam waktu ${cetakTime}, kamu menjawab ${MMbenar} soal dengan benar.\nNilai kamu: ${nilaiMM}`, 'success', 5000)
+        tampilkanNotif(`Dalam waktu ${cetakTime}, kamu menjawab ${MMbenar} soal dengan benar.\nNilai kamu: ${nilaiMM}`, 'success', 5000)
         setTimeout(()=>{
-          pesan(`Ada kemungkinan kunci jawaban menghasilkan angka rusak, karena keterbatasan coding JavaScript yang kurang akurat dalam menulis biner tipe data float (angka desimal atau pecahan)`, 'neutral', 7000)
+          tampilkanNotif(`Ada kemungkinan kunci jawaban menghasilkan angka rusak, karena keterbatasan coding JavaScript yang kurang akurat dalam menulis biner tipe data float (angka desimal atau pecahan)`, 'neutral', 7000)
         }, 1000)
         kotakNilaiMM.innerHTML = `<soalBenar style='color: #22c55e;'>Benar : ${MMbenar} soal</soalBenar><score class="font-teal skorMM"> Nilai : ${nilaiMM} </score><soalSalah style="color: #f87171;"> Salah : ${MMtotal - MMbenar} Soal</soalSalah>`;
         kotakNilaiMM.style.display = 'flex';
@@ -6040,16 +5545,16 @@ function getKanaList(modeQuiz=helperMode) {
 const selectedBab = [...document.querySelectorAll('.bab-choice:checked')].map(cb => cb.value);
 // Filter berdasarkan mode saat ini
 // Mode Hira Kata
-if (modeQuiz.endsWith('hiragana')) return kanaList.filter(indeks => indeks[2] === 'hiragana');
-if (modeQuiz.endsWith('katakana')) return kanaList.filter(indeks => indeks[2] === 'katakana');
-if (modeQuiz.endsWith('bothkana')) return kanaList.filter(indeks => (indeks[2] === 'hiragana' || indeks[2] === 'katakana'));
+if (modeQuiz.startsWith('hiragana')) return kanaList.filter(indeks => indeks[2] === 'hiragana');
+if (modeQuiz.startsWith('katakana')) return kanaList.filter(indeks => indeks[2] === 'katakana');
+if (modeQuiz.startsWith('bothkana')) return kanaList.filter(indeks => (indeks[2] === 'hiragana' || indeks[2] === 'katakana'));
 
 // Mode Baca Kanji
-if (modeQuiz.endsWith('-kanji-baca')) { return kanaList.filter(indeks => selectedBab.includes(indeks[2]) && indeks[4] && indeks[4] !== '' && indeks[3] === kotobaBuku);}
+if (modeQuiz.startsWith(kotobaBuku+'-kanji-baca')) { return kanaList.filter(indeks => selectedBab.includes(indeks[2]) && indeks[4] && indeks[4] !== '' && indeks[3] === kotobaBuku);}
 // Mode Artikan Kanji
-if (modeQuiz.endsWith('-kanji')) { return kanaList.filter(indeks => selectedBab.includes(indeks[2]) && indeks[3] === kotobaBuku);}
+if (modeQuiz.startsWith(kotobaBuku+'-kanji')) { return kanaList.filter(indeks => selectedBab.includes(indeks[2]) && indeks[3] === kotobaBuku);}
 // Mode Kotoba
-if (modeQuiz.endsWith('-kotoba')) { return kanaList.filter(indeks => selectedBab.includes(indeks[2]) && indeks[3] === kotobaBuku);}
+if (modeQuiz.startsWith(kotobaBuku+'-kotoba')) { return kanaList.filter(indeks => selectedBab.includes(indeks[2]) && indeks[3] === kotobaBuku);}
 return kanaList;
 }
 
@@ -6083,10 +5588,7 @@ return kanaList;
     pewaktu,
     welcomeMsg,
     tabelMM,
-    kotakInTXT,
-    kotakTulis,
     ].forEach(e => {e.style.display = "none"})
-
     
     // Menampilkan/print text saat ini dalam mode apa di halaman web
     document.getElementById("debugMode").innerHTML = `
@@ -6094,7 +5596,6 @@ return kanaList;
     Judul Mode Saved = ${judulModeSaved}<br>
     helperMode = ${helperMode}<br>
     kotobaBuku = ${kotobaBuku}<br>
-    salahsemua = ${salahsemua}<br>
     `
     document.getElementById("debugMode").style.display = "none"
 
@@ -6106,8 +5607,6 @@ return kanaList;
     badanQuiz.style.display = 'none'
     stopBtn.textContent = rmh
     ;[stopBtn, pilihBab, startKotoba].forEach(e=>{e.style.display = "block"})
-    startKotoba.innerHTML = `Mulai ${judulModeSaved}`
-    helperMode.includes('menulis')?startKotoba.addEventListener('click', ()=>{modeTerpilih('perluDb')}):startKotoba.addEventListener('click', ()=>{modeTerpilih('bentukSoal')})
   }
   if(mode.startsWith('tabel')){
     tableContainer.style.display = 'flex'
@@ -6115,6 +5614,7 @@ return kanaList;
     stopBtn.innerHTML =rmh
     return
   }
+
   switch (mode) {
     case '0kosong':
       welcomeMsg.style.display = 'flex'
@@ -6124,32 +5624,20 @@ return kanaList;
 
     case 'pilih-baca-kanji':
       judulpilihan.innerHTML = '<gedi>Pilih Materi Quiz <br>(BAB kotoba)</gedi><br><catatan-mode>Dalam mode ini, kotoba yang umumnya ditulis kanji yang akan diujikan. Kotoba yang umumnya ditulis full hira/kata tidak termasuk. Kamu diminta untuk mencari furigana dengan benar</catatan-mode>';
-    helperMode = kotobaBuku+'-kanji-baca'
+      startKotoba.innerHTML = `Mulai Quiz Baca Kanji`
+      helperMode = kotobaBuku+'-kanji-baca'
     break;
 
     case 'pilih-kotoba-kanji':
       judulpilihan.innerHTML = '<gedi>Pilih Materi Quiz <br>(BAB kotoba)</gedi><br><catatan-mode>Dalam mode ini semua kotoba pada tiap bab diujikan. Baik dalam bentuk hira/kata maupun kanji. Kamu diminta untuk mengartikanya dengan benar</catatan-mode>';
+      startKotoba.innerHTML = `Mulai Quiz Artikan Kotoba (dg Kanji)`
       helperMode = kotobaBuku+'-kanji'
     break;
 
     case 'pilih-kotoba-nokanji':
       judulpilihan.innerHTML = '<gedi>Pilih Materi Quiz <br>(BAB kotoba)</gedi><br><catatan-mode>Dalam mode ini semua kotoba pada tiap bab diujikan. Tapi dalam bentuk hira/kata saja. Kamu diminta untuk mengartikanya dengan benar</catatan-mode>';
+      startKotoba.innerHTML = `Mulai Quiz Artikan Kotoba (tanpa Kanji)`
       helperMode = kotobaBuku+'-kotoba'
-    break;
-
-    case 'perluDb':
-      badanQuiz.style.display ="none"
-      stopBtn.innerHTML =rmh
-      kotakInTXT.style.display = 'block'
-    break;
-
-    case 'menulis':
-      kotakTulis.style.display = 'block'
-      stopBtn.textContent = 'Keluar Quiz'
-      sisaBantuan =5
-      bantuanAnim(111)
-      kanjiKont.innerHTML =''
-      Timer.start()
     break;
     case 'quizMM':
       badanQuiz.style.display = 'none'
@@ -6159,9 +5647,9 @@ return kanaList;
       quizMM.style.display = 'table-row-group'
       if (window.innerWidth <= 900) {
         tabelMM.style.zoom = "0.5";
-        pesan('Perbersar atau zoom untuk melihat lebih jelas')
+        tampilkanNotif('Perbersar atau zoom untuk melihat lebih jelas')
       }else{
-        pesan('Tampilan halaman ini di desain untuk mobile. Kurang cocok untuk desktop/PC')
+        tampilkanNotif('Tampilan halaman ini di desain untuk mobile. Kurang cocok untuk desktop/PC')
       }
       buatSoalMM()
     break;
@@ -6244,7 +5732,6 @@ return kanaList;
     break;
   }
 } 
-
   bangunUI()
 </script>
 </body>

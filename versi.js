@@ -1,16 +1,35 @@
 window.dataServer = {
 
-    versi: "3.2",
+    versi: "4.2Lw (Beta)",
     changeLog: `
+            - INI ADALAH VERSI BETA. 
+            - Versi ini aku gunakan sebagai testing, apakah akan aman terkait dynamic
+              Ui Element yang aku tanamkan ke server, dan beberapa modifikasi terkait 
+              Quiz Engine
+            - Ukuran file lebih membengkak dari versi sebelumnya, karena belum aku optimasi terkait
+              engine core quiz (Mungkin membengkak sekitar 20-30 Kb)
+
+            - Fitur preview yg saat ini berfungsi (tetap ada kemungkinan bug besar):
+              1. Tersedia fitur live writing secara offline
+              2. Live writing termasuk animasi, bentuk stroke, dll
+              4. Saat ini hanya mencakup huruf jepang (7000+ Huruf). Belum dibuat dataset untuk 
+                 hanja Korea atau hanzi China Tradisional
+              5. Sekarang user bisa menulis kotoba buku secara "litterally"
+                
+            - ongoing:
+              1. Input text agar user bisa memasukan sendiri huruf kana/kanji untuk berlatih
+                 menulis (live writing)
+
+            `,
+
+    changeLogVersiLama:`
+
+        3.2 
             - Menambahkan pendeteksi "tombol kembali" bawaan android atau "back" browser
             - Sekarang navigasi halaman quiz bisa dilakukan dengan tombol kembali bawaan
               atau fitur back browser
             - Ui "Kembali ke home" tetap dipertahankan untuk device yang
               tidak memiliki tombol kembali bawaan
-            
-            `,
-
-    changeLogVersiLama:`
 
         3.1.13 
             - Memperbarui UI quiz matematika IM, agar lebih persis seperti kertas ujian
