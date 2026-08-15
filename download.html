@@ -24,18 +24,14 @@
 <body>
 
 <div id="status">Menyiapkan download...</div>
+<script src="versi.js"></script>
 
 <script>
   const status = document.getElementById('status')
-
-  // Daftar file yang boleh didownload
   const daftarFile = {
-    'dataset-hrf.json': 'dataset-hrf.json',
-    'animcjk.json': 'animcjk.json',
-    'dataset-kosakata.json': 'dataset-kosakata.json',
-    'data.txt':'dataJson.txt'
+    'dataset-hrf-jpn.txt': 'dataset/dataset-hrf-jpn.txt',
+    'quiz.html': 'quiz.html',
   }
-
   const params = new URLSearchParams(location.search)
   const namaFile = params.get('file')
 
@@ -49,27 +45,21 @@
 
   else {
     const pathFile = daftarFile[namaFile]
-
     const link = document.createElement('a')
-
     link.href = pathFile
-    link.download = namaFile
-
+    if (namaFile === 'quiz.html') {
+      link.download = `Quiz v${dataServer.versi}.html`
+    } else {
+      link.download = namaFile
+    }
     document.body.appendChild(link)
-
-    // Jalankan download
     link.click()
-
     link.remove()
-
     status.textContent = `⬇️ Mengunduh ${namaFile}...`
-
-    // Tutup tab setelah memberi browser waktu
     setTimeout(() => {
       window.close()
     }, 1000)
   }
 </script>
-
 </body>
 </html>
