@@ -53,12 +53,16 @@
       link.download = namaFile
     }
     document.body.appendChild(link)
+    console.log('namaFile:', namaFile)
+    console.log('pathFile:', pathFile)
+    console.log('versi:', dataServer.versi)
+    console.log('download:', link.download)
     link.click()
     link.remove()
     status.textContent = `⬇️ Mengunduh ${namaFile}...`
-    setTimeout(() => {
-      window.close()
-    }, 1000)
+    // setTimeout(() => {
+    //   window.close()
+    // }, 1000)
   }
 </script>
 </body>
