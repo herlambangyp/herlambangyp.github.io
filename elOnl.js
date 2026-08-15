@@ -26,10 +26,14 @@ window.linkDown = {
       </div>
 
       <div class="kotakTombolPilihanMenu">
-        <button class="tombolPilihanMenu" 
-        onclick="downloadFile('https://raw.githubusercontent.com/herlambangyp/herlambangyp.github.io/refs/heads/main/dataset-hrf-jpn.txt', 'dataset-hrf-jpn.txt')">Download Dataset (21Mb)</button>
+      <a class="adaUpdate" 
+        href="https://herlambangyp.github.io/download.html?file=dataset-hrf-jpn.txt"
+        target="_blank">Download Dataset (21Mb)
+        </a>
       </div>
     </div>
     
     `
+
+
 }

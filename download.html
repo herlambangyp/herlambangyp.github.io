@@ -50,7 +50,7 @@
     if (namaFile === 'quiz.html') {
       link.download = `Quiz v${dataServer.versi}.html`
     } else {
-      link.download = namaFile
+      link.download = '#'+namaFile
     }
     document.body.appendChild(link)
     console.log('namaFile:', namaFile)
@@ -60,9 +60,9 @@
     link.click()
     link.remove()
     status.textContent = `⬇️ Mengunduh ${namaFile}...`
-    // setTimeout(() => {
-    //   window.close()
-    // }, 1000)
+    setTimeout(() => {
+      window.close()
+    }, 1000)
   }
 </script>
 </body>
