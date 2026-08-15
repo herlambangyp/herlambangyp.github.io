@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Download</title>
+
+  <style>
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-family: sans-serif;
+    }
+
+    #status {
+      text-align: center;
+    }
+  </style>
+</head>
+
+<body>
+
+<div id="status">Menyiapkan download...</div>
+
+<script>
+  const status = document.getElementById('status')
+
+  // Daftar file yang boleh didownload
+  const daftarFile = {
+    'dataset-hrf.json': 'dataset-hrf.json',
+    'animcjk.json': 'animcjk.json',
+    'dataset-kosakata.json': 'dataset-kosakata.json',
+    'data.txt':'dataJson.txt'
+  }
+
+  const params = new URLSearchParams(location.search)
+  const namaFile = params.get('file')
+
+  if (!namaFile) {
+    status.textContent = '❌ Nama file tidak ditemukan'
+  }
+
+  else if (!daftarFile[namaFile]) {
+    status.textContent = '❌ File tidak diizinkan'
+  }
+
+  else {
+    const pathFile = daftarFile[namaFile]
+
+    const link = document.createElement('a')
+
+    link.href = pathFile
+    link.download = namaFile
+
+    document.body.appendChild(link)
+
+    // Jalankan download
+    link.click()
+
+    link.remove()
+
+    status.textContent = `⬇️ Mengunduh ${namaFile}...`
+
+    // Tutup tab setelah memberi browser waktu
+    setTimeout(() => {
+      window.close()
+    }, 1000)
+  }
+</script>
+
+</body>
+</html>
