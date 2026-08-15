@@ -75,5 +75,5 @@ window.dataServer = {
               Agar user bisa membaca changelog
 
         3.1.8
-            - Anchor point versi online dibuat`
+            - Anchor point versi online dibuat`,
 };
