@@ -1,24 +1,28 @@
 window.dataServer = {
 
-    versi: "4.2Lw (Beta)",
+    versi: "4.2.1",
     changeLog: `
-            - INI ADALAH VERSI BETA. 
-            - Versi ini aku gunakan sebagai testing, apakah akan aman terkait dynamic
-              Ui Element yang aku tanamkan ke server, dan beberapa modifikasi terkait 
-              Quiz Engine
-            - Ukuran file lebih membengkak dari versi sebelumnya, karena belum aku optimasi terkait
-              engine core quiz (Mungkin membengkak sekitar 20-30 Kb)
+            - Memperbarui logika live writing. Sekarang lebih interaktif
+            - Memperbarui tampilan Ui menulis kanji
+            - Membuat canvas lebih besar menyesuaikan ukuran layar secara dinamis.
+              Sekarang layout menulis membesar secara dinamis di mini-tablet, tablet, 
+              desktop touchscreen dan berbagai layar besar lainya
 
-            - Fitur preview yg saat ini berfungsi (tetap ada kemungkinan bug besar):
-              1. Tersedia fitur live writing secara offline
-              2. Live writing termasuk animasi, bentuk stroke, dll
-              4. Saat ini hanya mencakup huruf jepang (7000+ Huruf). Belum dibuat dataset untuk 
-                 hanja Korea atau hanzi China Tradisional
-              5. Sekarang user bisa menulis kotoba buku secara "litterally"
-                
+            - Memperbaiki navigasi tombol kembali yang masih terkesan seperti "web-page"
+              Sekarang tombol kembali langsung menuju ke home, lalu tekan kembali sekali lagi untuk keluar. 
+              Ini mencegah stuck tidak bisa keluar
+
+            - Optimasi server download. Sekarang "download" membuka web halaman download, alih-alih 
+              menggunakan background download procesing yang sangat berat
+
+            - Memperbaiki bug "minimal pilih 1 kek" yang kadang muncul di tempat yang salah
+
+            - Optimasi quiz engine agar tidak berat di beberapa perangkat low-end
+              saat quiz menulis / live writing
+
             - ongoing:
               1. Input text agar user bisa memasukan sendiri huruf kana/kanji untuk berlatih
-                 menulis (live writing)
+                 menulis (live writing). (Ui sedang aku desain)
 
             `,
 

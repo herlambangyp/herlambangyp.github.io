@@ -19,18 +19,52 @@ Tapi mohon,
     --warna-tombol: 0, 128, 128;
 }
 body {
-        margin: 0px;
+    margin: 0px;
     height: 100%;
     background: linear-gradient(-45deg, #888888, #193941, #000000, #331818, #ffa700);
     background-size: 400% 400%;
     animation: gradientBG 25s ease infinite;
     color: white;
     display: flex;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     flex-direction: column;
     padding: 20px;
     justify-content: flex-start;
     align-items: center;
+}
+
+.textCenter{
+  text-align: center;
+}
+.textDimGrey{
+  color: #cecece;
+}
+.cursive{
+  font-family: cursive;
+}
+.textGrey{
+  color: #b5b5b5;
+}
+.textSmall{
+  font-size: 14px;
+}
+.textGedi{
+  font-size: 30px;
+}
+.textNormal{
+  font-size: medium;
+}
+.widthFull{
+  width: 100%;
+}
+.tinggi150{
+  min-height: 150px;
+}
+.tengahkan{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
 .AllWrapper{
     width: 100%;
@@ -63,7 +97,7 @@ body {
 }
 .gagalCek{
     font-weight: 400;
-    font-size: 8px;
+    font-size: 10px;
     color: cadetblue;
 }  
 #infoUpdate{
@@ -149,7 +183,7 @@ salah {
     background-color: #1e293b;
     color: #f1f5f9;
     width: 100%;
-    height: 40px;
+    height: fit-content;
     text-align: left;
     padding: 9px;
     border-radius: 0px;
@@ -161,7 +195,7 @@ salah {
     text-align: center;
     width: 100%;
 }
-#stopQuizBtn{
+#stopBtn{
     background: darkorange;
     color: black;
     font-weight: bold;
@@ -231,7 +265,6 @@ salah {
 #kana {
     font-size: 37px;
     color: #f1f5f9;
-    margin: 10px;
     width: 100%;
     text-align: center;
 }
@@ -246,10 +279,10 @@ salah {
     display: flex;
     flex-direction: column;
     align-items: center;
+    min-width: 120px;
     gap: 15px;
     margin: 15px 0px 10px 0px;
 }
-
 .correct {
     background-color: #16a34a!important;
   color: white;
@@ -267,9 +300,6 @@ salah {
     border: solid 2px white!important;
      
     }
-#soal {
-    text-align: center;
-}
 
 .benar {
     display: flex;
@@ -289,13 +319,12 @@ button {
     font-size: 22px;
     padding: 10px 20px;
     border: none;
-    border-radius: 10px;
+    border-radius: 7px;
     background-color: rgba(var(--warna-tombol), 1);
     color: white;
     cursor: pointer;
-    min-width: 120px;
-    width: -webkit-fill-available;
-    min-height: 55px;
+    min-width: 100px;
+    width: fit-content;
     transition: background-color 0.2s ease;
 }
 
@@ -340,6 +369,7 @@ button {
     padding: 6px;
     max-width: 400px;
     cursor: pointer;
+    text-decoration: none;
 }
 .hak {
     font-size: 13px;
@@ -366,10 +396,9 @@ button {
     display: none;
     flex-direction: column;
     align-items: center;
-    width: 100%;
-    max-width: 600px;
     margin-top: 20px;
 }
+
 .hiragana-jawaban{
     font-size:medium;
 }
@@ -449,8 +478,8 @@ display: block;
     .jawabanMM{
     border-bottom: solid 1px #404040;
       }
-/* Default (misalnya mobile first) */
-.kont-soal {
+
+      .kont-soal {
     width: 100%;
     background: #303030;
   }
@@ -467,17 +496,52 @@ display: block;
   }
 
 /* Desktop KECIL — layar hingga 1439px */
-@media (min-width: 769px) and (max-width: 1439px) {
+@media (min-width: 750px) and (max-width: 1439px) {
   .kont-soal {
     width: 50%;
+  }
+    #board{
+    width: 500px!important;
+    height: 500px!important;
+  }
+  .kotakSoal{
+        width: 100%;
+        background: #442f26bf;
+        position: sticky;
+        top: 0px;
+        padding: 15px;
+        margin-bottom: 7px;
+        box-shadow: -7px 7px 0px 0px #0000006e;
+        z-index: 1;
   }
 }
 
 /* Desktop BESAR — layar 1440px ke atas */
 @media (min-width: 1440px) {
+  .textNormal{
+    font-size: large;
+  }
+
+
   .kont-soal {
     width: 25%;
   }
+    #board{
+    width: 425px!important;
+    height: 425px!important;
+  }
+    #badan-quiz{
+    align-items: center;
+    justify-content: center;
+  }
+  .kotakSoal{
+        padding: 10px;
+        background: #442f26;
+        max-width: 235px;
+        min-height: 205px;
+        border-radius: 0px 15px 10px 0px;
+        border-right: solid #938463 4px;
+}
 }
 .bagan-pilihanMM{
     width: -webkit-fill-available;
@@ -545,7 +609,7 @@ display: block;
 }
 .judulSubMenu{
   font-size: large;
-  border-bottom: solid;
+  border-bottom: outset;
   font-weight: 600;
 }
 .keteranganSubMenu{
@@ -707,11 +771,28 @@ display: block;
   background: #2f4f4f;
 }
 #kotakTulis {    
-  max-width: 360px;
-  padding: 15px;
-  border-radius: 8px;
+    border-radius: 8px;
 }
-  #board { position: relative; width: 300px; height: 300px; margin: 10px auto; border: 2px dashed #cbd5e1; border-radius: 8px; }
+.headBoard{
+    background: #005757;
+    padding: 10px 0px;
+    border-radius: 7px 7px 0px 0px;
+}
+  #board {    
+    position: relative;
+    width: 300px;
+    background: repeating-linear-gradient(to bottom, #00000000 0px, #00000000 29px, rgb(0 0 0) 32px), #cbb586;
+    height: 300px;
+    margin: 0px 0px 10px 0px;
+    border-left: dashed;
+    border-right: dashed;
+    display: flex;
+    border-bottom: dashed;
+    color: #005757;
+    border-radius: 0px 0px 25px 25px;
+    justify-content: center;
+    align-items: center;
+  }
   #svgLayer, #canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
   #svgLayer { pointer-events: none; }
   #canvas { cursor: crosshair; touch-action: none; }
@@ -721,49 +802,127 @@ display: block;
     color: dimgrey;
     max-width: 290px;
   }
+  #elmBlok {
+    align-items: center;
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    padding: 20px;
+    display: none;
+    background: rgb(0 0 0 / 0%);
+    opacity: 1;
+    transition: opacity 0.4s ease;
+    flex-direction: column;
+    justify-content: center;
+    backdrop-filter: blur(5px);
+}
+
+#elmBlok.hilang {
+    opacity: 0;
+}
+
+.waktuEl {
+    font-weight: bold;
+    text-align: center;
+    animation: hitungMundur 1s ease;
+}
+
+@keyframes hitungMundur {
+    0% {
+        transform: scale(1.5);
+        opacity: 0;
+    }
+
+    30% {
+        transform: scale(1);
+        opacity: 1;
+    }
+
+    70% {
+        transform: scale(1);
+        opacity: 1;
+    }
+
+    100% {
+        transform: scale(0.7);
+        opacity: 0;
+    }
+}
+.goldHead{
+    background: #005757;
+    padding: 10px 0px;
+    border-radius: 7px 7px 0px 0px;
+    font-size: 20px;
+}
+.goldDash{
+    text-align: center;
+    font-size: 40px;
+    border-top: none;
+    border-left: dashed;
+    border-right: dashed;
+    border-bottom: dashed;
+    color: #005757;
+    border-radius: 0px 0px 25px 25px;
+    background: #ffffff;
+    font-weight: 600;
+    padding: 50px 0px;
+    margin-bottom: 8px;
+}
 </style>
 </head>
 <body>
 <div class="AllWrapper">
-<div id="nextOverlay"></div>    
+<div id="nextOverlay"></div>
+<div id="elmBlok">
+</div>
 <div id="toast-container"></div>  
 
-    <h1 class="judulUtama">Quiz Mourop Apalan V<span id="versiFile">4.2Lw (Beta)</span></h1>
+    <h1 class="judulUtama">Quiz Mourop Apalan V<span id="versiFile">4.2.1</span></h1>
     <button id="pilihMode" class="pilihMode" onclick="modeTerpilih('menuPilihMode')"></button>
 
 <div id="sambutan" class="boxUmum">
-    Kamu menggunakan versi Beta
-  <span style="font-weight: 400; font-size: 10px; color: lightslategrey;">Beta LW (Live Writing). Memperkenalkan fitur menulis langsung dihalaman web dan tersedia secara offline</span><br>
-  <span class="note">Fitur belum sepenuhnya siap</span>
+    Selamat datang di <br>QUIZ MOUROP APALAN<br>
+  <span style="font-weight: 400; font-size: 7px; color: lightslategrey;">Quiz ini dibuat ben ra mumet lek ngapalne kotoba :(</span><br>
+  <span class="note">Acuan quiz dari buku-buku bahasa jepang, yang aku (Herlambang YP) pernah pelajari</span>
     
-    <div class="text-kecil">Kemungkinan akan banyak eror</div>
+    <div class="text-kecil">Pilih mode quiz di atas untuk memulai</div>
     <div id="infoUpdate"></div>
 </div>
 
 <!-- Tombol Stop Quiz -->
 <div id="stopQuizWrapper">
-<button id="stopQuizBtn" onclick="modeTerpilih(`0kosong`)" class="hidden">#ERROR01 JS Syntax Failure</button>
+<button id="stopBtn" onclick="history.back()" class="hidden widthFull">#ERROR01 JS Syntax Failure</button>
 </div>
 
 <p id="debugMode"></p>
 <!-- jika ingin buat UI baru, buat dibawah sini -->
- <div id="kotakInTXT" class="boxUmum">
-<div>
-  <label><b>Load Dataset Huruf:</b><div>(Tidak Perlu Koneksi Internet)</div></label><br>
-  <input type="file" class="fileUp" id="fileInput" accept=".txt,.jsonl"><br>
-  <p id="statusFile" class="gagalCek" style="font-size: 10px;">
-  </p>
-  <p class="gagalCek" style="font-size: 10px;">
-    Wajib untuk meload dataset terlebih dahulu. Jika tidak punya,
-    <a style="color:darkgray;text-decoration: underline;"onclick="buatLinkDown('linkDat')"> *klik disini (<b>Perlu Internet</b>) </a>
-    untuk mendownload file dataset
-  </p>
-    <button id="btnLoad" class="tombolPilihanMenu" style="margin-top: 5px; display: none;" onclick="modeTerpilih('menulis')" disabled>Mulai Quiz Menulis (Masih tahap Beta)</button>
-  <div id="linkDat">
 
-  </div>
+<div id="uiInput" class="tengahkan widthFull" style="max-width: 600px;">
+  <textarea id="kanjiInput" class="tinggi150 widthFull">
+
+  </textarea>
+  <button class="textNormal">Mulai quiz</button>
+
+</div>
+
+<div id="kotakInTXT" class="boxUmum">
+  <div>
+    <label><b>Load Dataset Huruf:</b><div>(Tidak Perlu Koneksi Internet)</div></label><br>
+    <input type="file" class="fileUp" id="fileInput" accept=".txt,.jsonl"><br>
+    
+    <p id="statusFile" class="gagalCek" style="font-size: 10px;"></p>
+
+    <p class="gagalCek" style="font-size: 10px;">
+      Wajib untuk meload dataset terlebih dahulu. Jika tidak punya,
+      <a style="color:darkgray;text-decoration: underline;"onclick="buatLinkDown('linkDat')"> Klik Disini <b>(Perlu Internet)</b> </a>
+      untuk mendownload file dataset
+    </p>
+
+    <button id="btnLoad" class="tombolPilihanMenu" style="margin-top: 5px; display: none;"></button>
+    <div id="linkDat">
     </div>
- </div>
+  </div>
+</div>
 
 
 <div id="bentukSoal" class="boxUmum">
@@ -797,7 +956,7 @@ display: block;
         <button class="tombolPilihanMenu"onclick="helperMode ='hiragana';modeTerpilih('bentukSoal', 'Quiz Hiragana');">Baca Hiragana</button>
         <button class="tombolPilihanMenu"onclick="helperMode ='katakana';modeTerpilih('bentukSoal', 'Quiz Katakana');">Baca Katakana</button>
         <button class="tombolPilihanMenu"onclick="helperMode ='bothkana';modeTerpilih('bentukSoal', 'Quiz Hiragana & Katakana');">Baca Hiragana & Katakana</button>
-      
+
         <button 
         class="tombolPilihanMenu"
         onclick="
@@ -949,6 +1108,31 @@ display: block;
       </div>
     </div>
 
+    <div class="kotakSubMenu">
+      <div class="titleSubMenu">
+        <span class="judulSubMenu">Menulis Karakter <div class="textGrey">(Segera Tersedia)</div></span>
+        <span class="keteranganSubMenu">
+          Quiz menulis berbagai karakter kanji. Atau bisa ketik sendiri
+          <div class="text-kecil">Engine quiz sebenarnya siap. Hanya saja aku belum punya desain Ui yang pas. Sementara aku matikan/"scrap" dulu..</div>
+        </span>
+      </div>
+
+      <div class="kotakTombolPilihanMenu">
+        <button class="tombolPilihanMenu" disabled>Kanji N5</button>
+        <button class="tombolPilihanMenu" disabled>Kanji N4</button>
+        <button class="tombolPilihanMenu" disabled>Kanji Nama</button>
+        <button class="tombolPilihanMenu" disabled>Kanji N3</button>
+        <button class="tombolPilihanMenu" disabled>Kanji N2</button>
+        <button class="tombolPilihanMenu" disabled>Hyogai Kanji</button>
+        <button class="tombolPilihanMenu" disabled>Kanji N1</button>
+        <button 
+        class="tombolPilihanMenu" onclick="helperMode ='custom_menulis';modeTerpilih('perluDb', 'Soal Custom');" disabled>
+        Ketik Sendiri 
+      </button>
+      </div>
+      
+    </div>
+
       <div class="kotakSubMenu">
       <div class="titleSubMenu">
         <span class="judulSubMenu">Bagian Bukan Quiz</span>
@@ -960,7 +1144,7 @@ display: block;
         <button class="tombolPilihanMenu"
         onclick="
           modeTerpilih('tabelBukuIM', 'Tabel Kotoba Buku IM');
-          buildVocabTable('','kotoba');
+          buatTabel('','kotoba');
           ">
           Tabel Kotoba Buku IM
         </button>
@@ -968,7 +1152,7 @@ display: block;
         <button class="tombolPilihanMenu"
         onclick="
           modeTerpilih('tabelBukuMinna', 'Tabel Kotoba Buku Minna');
-          buildVocabTable('','BukuMinna');
+          buatTabel('','BukuMinna');
           ">
           Tabel Kotoba Buku Minna
         </button>
@@ -983,7 +1167,7 @@ display: block;
 <div id="pilihBab">
   <div id="judul-pilihan-kotoba" class="bagan-judul">
     <gedi>Javascript(JS) Mati. Gunakan Browser lain</gedi><br>
-    <catatan-mode>Sebaiknya gunakan Chrome untuk mengfungsikan web-app ini. Atau jika kamu mencoba debugging code. Kemungkinan eror ini disebabkan karena typo di code JS. Cek console-log untuk detail typo</catatan-mode>
+    <catatan-mode>Sebaiknya gunakan Chrome untuk mengfungsikan web-app ini</catatan-mode>
   </div>
   <div id="pilihan-kotoba" class="bagan-pilihan">
   </div>
@@ -1016,24 +1200,29 @@ display: block;
 </div>
 
 <div id="badan-quiz">
-    <div id="kana" class="text-capitalize">Game Engine Mati</div>
-  <div id="soal"></div>
-  <div id="result"></div>
-  <div id="kotakTulis">
-    <div id="jumHrf" style="text-align: center; color: darkgray;"></div>
-    <div style="text-align: center;font-size: 14px; color: darkgray;">Gambarlah disini :<div id="stateTulis"></div></div>
+  <div id="kotakSoal" class="tengahkan" style="margin-bottom:8px">
+    <div id="kana" class="text-capitalize">ErR07? <b>Quiz_ Engine.DEAD:</b> func.!!quester</div>
+    <div id="soal"></div>
+    <div id="result"></div>
+  </div>
+  <div id="kotakTulis" class="tengahkan">
+    <div id="headBoard" class="textCenter textNormal headBoard widthFull">
+      <div id="jumHrf" class="textCenter textGrey"></div>
+      <div class="textCenter" id="kanjiKont"></div>
+      <div id="stateTulis"></div>
+    </div>
     <div id="board">
-      <div id="kanjiKont" style="text-align: center;"></div>
       <div id="svgLayer"></div>
+      <div id="tulisDisini" class="textGedi" style="position: relative; bottom: 8px;">tulislah disini..</div>
       <canvas id="canvas" width="1024" height="1024"></canvas>
     </div>
-    <button id="bantuTulis" onclick="bantuanAnim()"></button>
+    <button id="bantuTulis" class="widthFull" onclick="bantuanAnim()"></button>
   </div>
   <div id="tomblJwbn" class="tombol-jawaban">
   <div class="choices" id="choices"></div>
   </div>
   
-  <button id="restart" onclick="mulaiQuizPilihanGanda(); modeTerpilih()">Mulai Ulang</button>
+  <button id="restart" class="widthFull" onclick="mulaiQuiz(); modeTerpilih()">Mulai Ulang</button>
 </div>
 
 <table class="tabelMM">
@@ -1081,141 +1270,103 @@ display: block;
 </div>
 <script>
 // --- VARIABEL GLOBAL --- \\
-let svg, shapes, guides, currentKana, sessionList, soalMM, wordList = []
-let judulModeSaved = `Klik Disini Untuk Pilih Mode Quiz`
-let mode = '0kosong'
-let salahKali = 1
-let kesempatan = 4
-let correctCount = 0
-let totalCount = 0
-let isClickable = true
-let kembaliDitekan = false
-let salahsemua = false
-let totalSoal = 0
-let indexSoal = -1
-let kotobaBuku = `kosong`
-let soalDipakai =0
-let helperMode = ''
-let terpanggil = 0 // Jangan digunakan, kecuali debugging fungsi terpanggil berapa kali
-let serverLink = `https://herlambangyp.github.io/`
-let filterBab = false
-let db = new Map()
-let currentStroke = 0, isDrawing = false, userPoints = []
-let wordIndex = 0
-let hurufBenar =0
-let sisaBantuan = 5
+let correctCount = 0, 
+totalCount = 0, 
+totalSoal = 0, 
+soalDipakai = 0, 
+currentStroke = 0, 
+wordIndex = 0, 
+hrfDipke = 0, 
+hurufBenar = 0,
+salahKali = 1,
+kesempatan = 4,
+indexSoal = -1,
 
+svg =[], 
+shapes =[], 
+guides =[], 
+currentKana =[], 
+sessionList =[], 
+soalMM =[], 
+wordList =[], 
+oldMode =[], 
+userPoints = [],
+
+filterBab = false,
+isDrawing = false,
+salahsemua = false,
+kembaliDitekan = false,
+isClickable = true,
+
+judulModeSaved = `Klik Disini Untuk Pilih Mode Quiz`,
+mode = '0kosong',
+kotobaBuku = `kosong`,
+helperMode = '',
+serverLink = `https://herlambangyp.github.io/`,
+
+db = new Map(),
+sisaBantuan,
+waktu,
 
 
 // --- ELEMENT GLOBAL --- \\
-const versiFile = document.getElementById('versiFile').textContent
-const cekUpdate = document.createElement("script")
-const infoUpdate = document.getElementById('infoUpdate')
-const pilihSemua = document.getElementById('pilih-semua')
-const pilihanBab = document.querySelectorAll('.bab-choice')
-const tabelMM = document.querySelector('.tabelMM')
-const periksaMM = document.getElementById('btnPeriksaMM')
-const ulangMM = document.getElementById('btnBuatMM')
-const kotakNilaiMM = document.getElementById(`nilaiMM`)
-const badanQuiz = document.getElementById('badan-quiz')
-const soal = document.getElementById("soal")
-const kana = document.getElementById("kana")
-const tomblJwbn = document.getElementById("tomblJwbn")
-const result = document.getElementById("result")
-const welcomeMsg = document.getElementById('sambutan')
-const menuPilihan = document.getElementById('menuPilihan')
-const catatankanji = document.getElementById('infokanjiquiz')
-const board = document.getElementById("board")
-const bantuTulis = document.getElementById('bantuTulis')
-const canvas = document.getElementById("canvas")
-const ctx = canvas.getContext("2d")
-const svgLayer = document.getElementById("svgLayer")
-const jumHrf = document.getElementById('jumHrf')
-const stateTulis = document.getElementById('stateTulis')
-const kanjiKont = document.getElementById('kanjiKont')
-const statusFile = document.getElementById('statusFile')
-const pilihMode = document.getElementById('pilihMode')
-const bentukSoal = document.getElementById('bentukSoal')
-const pilihBab = document.getElementById('pilihBab')
-const kotakInTXT = document.getElementById('kotakInTXT')
-const kotakTulis = document.getElementById('kotakTulis')
-const pilihan = document.getElementById('pilihan-kotoba')
-const judulpilihan = document.getElementById('judul-pilihan-kotoba')
-const stopBtn = document.getElementById('stopQuizBtn')
-const tableContainer = document.getElementById('vocabTableContainer')
-const startKotoba = document.getElementById('startKotoba')
-const tombolNormal = document.getElementById('tombolNormal')
-const tombolReverse = document.getElementById('tombolReverse')
-const quizMM = document.getElementById('soalMM')
-const btnCekMM = document.getElementById("btnPeriksaMM")
-const pewaktu = document.querySelector(".pewaktu")
-const dataTimer = document.querySelector("#dataTimer")
-const toTopBtn = document.getElementById("toTopBtn")
-const judulTabel = document.getElementById('judulTabel')
-const restartBtn = document.getElementById('restart')
-const buttons = document.querySelectorAll('#choices button');
-const overlay = document.getElementById('nextOverlay');  
-// Cek update
-cekUpdate.src = `${serverLink}versi.js?t=${Date.now()}`
-cekUpdate.onload = () => {
-  try{
-    if(versiFile === dataServer.versi){
-      infoUpdate.innerHTML = `
-      <span class="gagalCek" style="margin-top:5px;">
-        Kamu bisa kembali ke versi lebih stabil Quiz v3.2.html dengan download disini
-      </span>
-      <a class="adaUpdate" onclick="downloadFile('${serverLink}Quizv3.2.html', 'Quiz v3.2.html')">
-        Klik disini untuk download versi stabil (302Kb)
-      </a>
-      <span class="gagalCek">
-        <a style='color:darkgray' href='${serverLink}versi.js'>*Klik disini</a> untuk melihat apa yang di update
-      </span>`
-
-    }else{
-      infoUpdate.innerHTML = `      <span class="gagalCek" style="margin-top:5px;">
-        Kamu bisa kembali ke versi lebih stabil Quiz v3.2.html
-      </span>
-      <a class="adaUpdate" onclick="downloadFile('${serverLink}Quizv3.2.html', 'Quiz v3.2.html')">
-        Klik disini untuk download versi stabil (302Kb)
-      </a>
-      <span class="gagalCek">
-        <a style='color:darkgray' href='${serverLink}versi.js'>*Klik disini</a> untuk melihat apa yang di update
-      </span>`
-      
-      // `
-      // <span class="gagalCek" style="margin-top:5px;">
-      //   Terdapat file terbaru di server : Quiz v${dataServer.versi}.html
-      // </span>
-      // <a class="adaUpdate" onclick="downloadFile('${serverLink}quiz.html', 'Quiz v${dataServer.versi}.html')">
-      //   Klik disini untuk download
-      // </a>
-      // <span class="gagalCek">
-      //   <a style='color:darkgray' href='${serverLink}versi.js'>*Klik disini</a> untuk melihat apa yang di update
-      // </span>
-      // `
-    }
-  }catch(err){
-    infoUpdate.innerHTML = `
-    <span class="gagalCek" style="color: #000000;background: #ff8c00;border-radius: 3px;">
-      Server pembaruan mengalami masalah! Silahkan menuju ke 
-      <a href="${serverLink}quiz.html">
-        ${serverLink}quiz.html
-      </a>. Untuk tetap mendapatkan update terbaru. <br>Hubungi aku terkait bug ini, untuk perbaikan server
-    </span>`
-  }
-
-};
-cekUpdate.onerror = () => {
-  infoUpdate.innerHTML = `
-  <span class="gagalCek"style="margin-top:-5px;">
-    Gagal cek ada update atau tidak. Tidak ada koneksi internet
-  </span>`
-};
-document.head.appendChild(cekUpdate);
+versiFile = document.getElementById('versiFile').textContent,
+cekUpdate = document.createElement("script"),
+uiUpdate = document.createElement("script"),
+infoUpdate = document.getElementById('infoUpdate'),
+pilihSemua = document.getElementById('pilih-semua'),
+pilihanBab = document.querySelectorAll('.bab-choice'),
+tabelMM = document.querySelector('.tabelMM'),
+periksaMM = document.getElementById('btnPeriksaMM'),
+ulangMM = document.getElementById('btnBuatMM'),
+kotakNilaiMM = document.getElementById(`nilaiMM`),
+badanQuiz = document.getElementById('badan-quiz'),
+soal = document.getElementById("soal"),
+kana = document.getElementById("kana"),
+tomblJwbn = document.getElementById("tomblJwbn"),
+result = document.getElementById("result"),
+welcomeMsg = document.getElementById('sambutan'),
+menuPilihan = document.getElementById('menuPilihan'),
+catatankanji = document.getElementById('infokanjiquiz'),
+headBoard = document.getElementById("headBoard"),
+board = document.getElementById("board"),
+tulisDisini = document.getElementById('tulisDisini'),
+bantuTulis = document.getElementById('bantuTulis'),
+canvas = document.getElementById("canvas"),
+ctx = canvas.getContext("2d"),
+svgLayer = document.getElementById("svgLayer"),
+jumHrf = document.getElementById('jumHrf'),
+stateTulis = document.getElementById('stateTulis'),
+kanjiKont = document.getElementById('kanjiKont'),
+uiInput = document.getElementById('uiInput'),
+statusFile = document.getElementById('statusFile'),
+pilihMode = document.getElementById('pilihMode'),
+bentukSoal = document.getElementById('bentukSoal'),
+pilihBab = document.getElementById('pilihBab'),
+kotakInTXT = document.getElementById('kotakInTXT'),
+kotakSoal = document.getElementById('kotakSoal'),
+kotakTulis = document.getElementById('kotakTulis'),
+pilihan = document.getElementById('pilihan-kotoba'),
+judulpilihan = document.getElementById('judul-pilihan-kotoba'),
+stopBtn = document.getElementById('stopBtn'),
+tableContainer = document.getElementById('vocabTableContainer'),
+startKotoba = document.getElementById('startKotoba'),
+tombolNormal = document.getElementById('tombolNormal'),
+tombolReverse = document.getElementById('tombolReverse'),
+quizMM = document.getElementById('soalMM'),
+btnCekMM = document.getElementById("btnPeriksaMM"),
+pewaktu = document.querySelector(".pewaktu"),
+dataTimer = document.querySelector("#dataTimer"),
+toTopBtn = document.getElementById("toTopBtn"),
+judulTabel = document.getElementById('judulTabel'),
+restartBtn = document.getElementById('restart'),
+buttons = document.querySelectorAll('#choices button'),
+overlay = document.getElementById('nextOverlay'),
+elmBlok = document.getElementById('elmBlok'),
 
 
 // Dataset materi quiz
-const kanaList = [
+kanaList = [
   // Template penulisan dataset ['karakter', 'baca/arti', 'mode/kelompok', 'keterangan lain1', 'keterangan lain2', dst], 
   // Pembacaan dimulai dari 0 dari kiri, jadi "karakter" adalah indeks 0, "baca/arti" adalah indeks 1, "mode/kelompok" adalah indeks 2
   // Jika ingin menambahkan dataset baru pastikan "mode/kelompok" atau "indeks[2]" wajib sama antar dataset yang sejenis. Sebagai penyeragam
@@ -4240,17 +4391,54 @@ const kanaList = [
 ['おげんきでいらっしゃいますか', 'apa kabar?', 'bab50', 'BukuMinna', 'お元気でいらっしゃいますか', 'ogenki de irasshaimasu ka'],
 ['めいわくをかけます', 'merepotkan, menyebabkan kesulitan', 'bab50', 'BukuMinna', '迷惑をかけます', 'meiwaku o kakemasu'],
 ['いかします', 'memanfaatkan, menggunakan', 'bab50', 'BukuMinna', '生かします', 'ikashimasu'],
-];
+]
+
+// --- ON-BOOT FUNC --- \\
+
+// Cek update
+uiUpdate.src = `${serverLink}uiUpdate.js?=${Date.now()}`
+uiUpdate.onload=o=>{
+  try{
+    cekUpdate.src = `${serverLink}versi.js?t=${Date.now()}`
+    cekUpdate.onload=o=> {
+      try{
+        if(versiFile === dataServer.versi){
+          infoUpdate.innerHTML = ElUpdate.uiNoUpdateQuiz()
+        }else{
+          infoUpdate.innerHTML = ElUpdate.uiAdaUpdateQuiz()
+        }
+      }catch(err){
+        infoUpdate.innerHTML = `
+        <span class="gagalCek textSmall" style="color: #000000;background: #ff8c00;border-radius: 3px;">
+          Ada eror <b>${err}</b> di server pembaruan <br>Silahkan menuju ke 
+          <a href="${serverLink}download.html?file=quiz.html">
+            "${serverLink}download.html?file=quiz.html"
+          </a><br>Kamu bisa hubungi aku ada eror <b>${err}</b> jika diperlukan
+        </span>
+        `
+        }
+      };
+      document.head.appendChild(cekUpdate);
+    }catch(err){
+      infoUpdate.innerHTML = `ui failed to load eror ${err}`
+    }
+  }
+  uiUpdate.onerror=o=>{
+    infoUpdate.innerHTML = `
+    <span class="gagalCek">
+      Gagal cek update. Tidak ada koneksi internet
+    </span>`
+  }
+  document.head.appendChild(uiUpdate);
+
+// --- END ON-BOOT FUNC --- \\
 
 // --- START EVENT HANDLER --- \\
-// --- Semua fungsi yang memerlukan interaksi user dsimipan dibawah ini --- \\
-
-// Baca file txt
 ctx.lineWidth = 24
 ctx.lineCap = ctx.lineJoin = "round"
-ctx.strokeStyle = "#2563eb"
-document.getElementById("fileInput").addEventListener("change", (e) => {
-  let file = e.target.files[0]
+ctx.strokeStyle = "#273351"
+document.getElementById("fileInput").oninput=o=> {
+  let file = o.target.files[0]
   if (!file) return
 
   let reader = new FileReader()
@@ -4266,365 +4454,151 @@ document.getElementById("fileInput").addEventListener("change", (e) => {
     if (db.size > 0) {
       statusFile.textContent = `✅ ${db.size} Karakter/Huruf Siap!`
 
-      const btnLoad = document.querySelector("#btnLoad")
-      btnLoad.disabled = false
+      let btnLoad = document.querySelector("#btnLoad")
       btnLoad.style.display = 'block'
     } else {
       statusFile.textContent = "❌ File tidak valid!"
-      btnLoad.disabled = true
       btnLoad.style.display = 'none'
     }
   }
   reader.readAsText(file)
-})
-
-// 3. GENERATE SVG DARI JSON ANIMCJK
-function jsonToSvg(data) {
-  let flipY = y => 900 - parseFloat(y);
-
-  // stroke utama
-  let strokes = data.strokes.map((s, i) => {
-    let d = s.replace(/(-?\d+),(-?\d+)/g, (_, x, y) => `${x} ${flipY(y)}`);
-    return `<path id="s${i}" d="${d}" style="opacity:0;"/>`;
-  }).join("");
-
-  // guider validator
-  let clips = data.strokes.map((_, i) => `<clipPath id="c${i}"><use href="#s${i}"/></clipPath>`).join("");
-
-  // animator goresan
-  let medians = data.medians.map((m, i) => {
-    let d = m.map(([x,y], idx) => `${idx===0?'M':'L'}${x} ${flipY(y)}`).join("");
-    return `<path id="m${i}" pathLength="3333" clip-path="url(#c${i})" d="${d}"/>`;
-  }).join("");
-
-  // hsailkan svg
-  return `
-  <svg class="acjk" viewBox="0 0 1024 1024">
-    <style>
-      @keyframes drawStroke {
-        0% { stroke-dashoffset: 3339; }
-        80%, 100% { stroke-dashoffset: 0; }
-      }
-      svg.acjk path[clip-path] {
-        stroke-dasharray: 3337;
-        stroke-dashoffset: 3339;
-        stroke-width: 128;
-        stroke-linecap: round;
-        fill: none;
-        stroke: #22c55e;
-        animation: none;
-      }
-      svg.acjk path[clip-path].active-anim {
-        animation: drawStroke 1.2s linear infinite;
-      }
-      svg.acjk path[id^="s"] { fill: #ccc; }
-    </style>
-    ${strokes}<defs>${clips}</defs>${medians}
-  </svg>`
-}
-function loadNextChar() {
-  if (wordIndex < wordList.length) {
-    let currentChar = wordList[wordIndex];
-    loadKanji(currentChar);
-    jumHrf.innerHTML=`Gambarlah huruf ke ${wordIndex+1} (Total ada ${wordList.length} huruf)`
-    bantuanAnim(111)
-
-  } else {
-    if(sessionList.length !==0){
-      // Masuk soal berikutnya
-      if(hurufBenar<(wordList.length/2)) {
-        result.innerHTML = `<salah>Salah :(<div class="feedback">${hurufBenar} dari ${wordList.length} huruf benar. <div>Klik dimana saja untuk lanjut</div></div></salah>`;
-      }else{
-        correctCount++
-        result.innerHTML = `<benar>Benar!<div class="feedback">${hurufBenar} dari ${wordList.length} huruf benar. <div>Klik dimana saja untuk lanjut</div></div></benar>`;
-      }
-      overlay.style.display = 'block'
-      overlay.addEventListener('click', function next() {
-        overlay.style.display = 'none'
-        salahsemua=false
-        hurufBenar=0
-        totalCount++
-        kanjiKont.innerHTML=""
-        pickKana()
-        overlay.removeEventListener('click', next);
-      }, { once: true })
-        return
-    }
-    // saat quiz menulis selesai
-    hurufBenar<(wordList.length/2)?'':correctCount++
-    hurufBenar=0
-    svgLayer.innerHTML = "";
-    clearCanvas();
-    pickKana()
-  }
 }
 
-function loadKanji(char) {
-  let charData = db.get(char);
-
-  if (!charData) {
-    pesan(`Karakter "${char}" tidak ditemukan dalam file TXT.`, 'danger', 4000)
-    svgLayer.innerHTML = ""
-    clearCanvas()
-    return
-  }
-
-  svgLayer.innerHTML = jsonToSvg(charData);
-  svg = svgLayer.querySelector("svg");
-  shapes = Array.from(svg.querySelectorAll("path[id]"));
-  guides = Array.from(svg.querySelectorAll("path[clip-path]"));
-
-  currentStroke = 0;
-  clearCanvas();
-  }
-
-// 5. DRAWING SYSTEM (CANVAS)
-function getPos(e) {
-  let r = canvas.getBoundingClientRect()
-  return {
-    x: (e.clientX - r.left) * 1024 / r.width,
-    y: (e.clientY - r.top) * 1024 / r.height
-  };
-}
-
-canvas.addEventListener("pointerdown", e => {
+canvas.onpointerdown=o=>{
   if (currentStroke >= guides.length) return
-  isDrawing = true; 
+  isDrawing = true
   userPoints = []
-  let p = getPos(e); 
-
+  let p = getPos(o)
+  tulisDisini.style.display = 'none'
   userPoints.push(p)
-  ctx.beginPath(); ctx.moveTo(p.x, p.y)
-});
+  ctx.beginPath()
+  ctx.moveTo(p.x, p.y)
+}
 
-canvas.addEventListener("pointermove", e => {
+canvas.onpointermove=o=>{
   if (!isDrawing) return
-  let p = getPos(e); userPoints.push(p)
+  let p = getPos(o); userPoints.push(p)
   ctx.lineTo(p.x, p.y); ctx.stroke()
-});
+}
 
 canvas.addEventListener("pointerup", endStroke)
 canvas.addEventListener("pointerleave", endStroke)
 
-function endStroke() {
-  if (!isDrawing) return
-  isDrawing = false
-  validateStroke()
-}
-
-// 6. VALIDATOR
-function validateStroke() {
-  let guide = guides[currentStroke]
-  let len = guide.getTotalLength()
-  
-  // Ambil titik terdekat di panduan asli
-  let samples = userPoints.map(pt => {
-    let bestDist = Infinity, bestProg = 0
-    for (let d = 0; d <= len; d += 5) {
-      let p = guide.getPointAtLength(d)
-      let dist = Math.hypot(p.x - pt.x, p.y - pt.y);
-      if (dist < bestDist) { bestDist = dist; bestProg = d / len; }
-    }
-    return { dist: bestDist, prog: bestProg }
-  })
-
-// debug arah validator
-  // ctx.fillStyle = "red";
-  // for (let d = 0; d <= len; d += 10) {
-  //   let p = guide.getPointAtLength(d);
-  //   ctx.beginPath();
-  //   ctx.arc(p.x, p.y, 6, 0, Math.PI * 2);
-  //   ctx.fill();
-  // }
-
-  // 1. Akurasi Jalur (Jarak < 120px dari garis asli)
-  let near = samples.filter(s => s.dist < 120).length / samples.length
-
-  // 2. Cakupan (Panjang goresan minimal 60% dari garis asli)
-  let progs = samples.map(s => s.prog)
-  let coverage = Math.max(...progs) - Math.min(...progs)
-
-  // 3. Arah Goresan (Maju > 65%)
-  let fwd = 0, bwd = 0;
-  for (let i = 1; i < progs.length; i++) {
-    let diff = progs[i] - progs[i-1]
-    if (diff > 0.01) fwd++; else if (diff < -0.01) bwd++
-  }
-  let direction = fwd / Math.max(1, fwd + bwd)
-
-  // validator benar
-  function benar(){
-    board.style.border = `dashed 2px #a9a9a9`
-    stopStrokeAnimation()
-    salahKali = 1
-    kesempatan = 4
-    shapes[currentStroke].style.opacity = "1"
-    currentStroke++
-    clearCanvas()
-    if (currentStroke >= guides.length) {
-      wordIndex++
-      stateTulis.innerHTML=''
-      if(!salahsemua){ 
-        hurufBenar++
-        kanjiKont.innerHTML += `<span>${wordList[wordIndex - 1]}</span>`}
-      else{
-        kanjiKont.innerHTML += `<span style="color: #f87171;">${wordList[wordIndex - 1]}</span>` 
-        salahsemua = false       
-      }
-      bantuanAnim(1)
-      setTimeout(() => {
-        
-        loadNextChar()
-      }, 1000)
-      }
-  }
-  function salah( p =`Sisa ${kesempatan} kali pecobaan sebelum dianggap salah`){
-    stateTulis.innerHTML =`
-    <div class="text-kecil" style="position: relative;margin-bottom: -5px;">${p}</div>`}
-  const kusus = new Set(['み','な','ま', 'よ', 'む', 'ぬ', 'ね', 'ほ', 'は', 'す', 'あ', 'お', 'ゆ', 'の', 'る']);
-  if (kusus.has(wordList[wordIndex])) {
-    if (near > 0.5 && coverage > 0.1 && direction > 0.5) {
-      benar()
-      return
-    } 
-  }
-  if (near > 0.65 && coverage > 0.65 && direction > 0.65) {
-    benar()
-  } else {
-    salahKali++
-    kesempatan = Math.max(0, kesempatan-1)
-    clearCanvas()
-    board.style.border = `dashed 2px #f87171`
-    
-    if(salahKali > 4){
-      salahsemua = true
-    }
-    if(salahsemua){
-      animateKanji()
-      salah(`Huruf ini telah dianggap salah`)
-      if(salahKali > 8 ){
-        benar()
-        return
-      }
-      return
-    }
-    salah()
-  }
-}
-function bantuanAnim(tambah =101){
-  if(sisaBantuan < 1 && tambah === 101){
-    bantuTulis.innerHTML = `Bantuan <div class="text-kecil">Sisa Bantuan ${sisaBantuan}</div>`
-  }
-  else if(tambah === 101){
-    animateKanji()
-    sisaBantuan = Math.max(0, sisaBantuan - 1)
-    bantuTulis.innerHTML = `Bantuan <div class="text-kecil">Sisa Bantuan ${sisaBantuan}</div>`
-  }
-  else if(tambah === 111){
-    bantuTulis.innerHTML = `Bantuan <div class="text-kecil">Sisa Bantuan ${sisaBantuan}</div>`
-  }
-  else{
-    sisaBantuan+=tambah
-    bantuTulis.innerHTML = `Bantuan + ${tambah} <div class="text-kecil">Sisa Bantuan ${sisaBantuan}</div>`
-  }
-}
-
-// 7. UTILS & BUTTON ACTIONS
-function animateKanji() {
-  if (!svg) return;
-  stopStrokeAnimation();
-  let activeMedian = svg.querySelector(`#m${currentStroke}`);
-  if (activeMedian) {
-    void activeMedian.offsetWidth; 
-    activeMedian.classList.add("active-anim");
-  }
-}
-
-function stopStrokeAnimation() {
-  if (!svg) return;
-  let active = svg.querySelector("path.active-anim");
-  if (active) {
-    active.classList.remove("active-anim");
-  }
-}
-function clearCanvas() { ctx.clearRect(0, 0, 1024, 1024); }
-
 // fungsi tombol back to top
-window.addEventListener("scroll", () => {
+window.onscroll=o=> {
     if (window.scrollY > 350) {
-        toTopBtn.style.display = "flex";
+        toTopBtn.style.display = "flex"
     } else {
-        toTopBtn.style.display = "none";
+        toTopBtn.style.display = "none"
     }
-});
+}
 
 // Fungsi search dalam tabel
-document.getElementById('tableSearch').addEventListener('input', (e)=>{
-    buildVocabTable(e.target.value, kotobaBuku);
-});
-history.replaceState({ 
-  mode: mode, 
-  judulModeSaved:judulModeSaved,
-  helperMode:helperMode
-}, "")
+document.getElementById('tableSearch').oninput=o=>{
+  buatTabel(e.target.value, kotobaBuku);
+}
 
 // fungsi tombol kembali bawaan perangkat
-window.addEventListener('popstate', (event) => {
-  if (event.state) {
+window.onpopstate=o=> {
+  if (o.state) {
     kembaliDitekan = true
-    helperMode = event.state.helperMode
-    modeTerpilih(event.state.mode, event.state.judulModeSaved)
+    helperMode = o.state.helperMode
+    modeTerpilih(o.state.mode, o.state.judulModeSaved)
   }
-});
+}
+
+
+// --- END EVENT HANDLER --- \\
+
+
+// --- GENERAL & DOM FUNCTION --- \\
+function startElBlok(angka=5, soal='Tidak ada soal', pesan='Tulislah kotoba ini:') {
+  elmBlok.style.display = 'flex'
+  function tampilkanAngka() {
+  elmBlok.innerHTML = `
+  <div style="max-width: 500px;" class="widthFull tengahkan">
+  <div class="textCenter goldHead widthFull">
+    <div class="textCenter widthFull textSmall textGrey">Mulai Dalam <span class="waktuEl">${angka}</span> Detik</div>
+    ${pesan}
+  </div>
+  <div class="goldDash widthFull">${soal}<div class="textSmall">${currentKana[0]}</div></div>
+  <button style="border:solid; min-width:65%;" onclick="skip()">Skip Waktu</button>
+  </div>
+  `;
+  angka--;
+  if (angka >= 0) {
+    waktu = setTimeout(tampilkanAngka, 1000);
+  } else {
+    skip()
+
+  }
+}
+  tampilkanAngka()
+
+}
+
+function skip() {
+    clearTimeout(waktu);
+    elmBlok.classList.add('hilang');
+    setTimeout(() => {
+        elmBlok.innerHTML = '';
+        elmBlok.classList.remove('hilang');
+        elmBlok.style.display ='none'
+    }, 400);
+}
+
+function clearCanvas() { ctx.clearRect(0, 0, 1024, 1024); }
 
 function soalDibatasi(){
 soalDipakai = Number(document.getElementById('batasSoal')?.value) || Infinity
 }
-// fungsi untuk membuat cekbox bab (didasarkan pada data indeks[2] kanaList)
+
+// buat checkbox
 function buatPilihanBab(kotoba){
-if(kotobaBuku === kotoba){
+  if(kotobaBuku === kotoba){
     return
   }
-if(kotobaBuku !== kotoba){
-  pilihan.innerHTML = ``;
-}
+  if(kotobaBuku !== kotoba){
+    pilihan.innerHTML = ``;
+  }
+
   kotobaBuku = kotoba
-const daftarBab = [...new Set(kanaList.filter(x => x[3] === kotoba).map(x => x[2]))]
-    .sort((a, b) => Number(a.slice(3)) - Number(b.slice(3)));
+  let jumlahKolom = 3,
+  daftarBab = [...new Set(kanaList.filter(x => x[3] === kotoba).map(x => x[2]))]
+  .sort((a, b) => Number(a.slice(3)) - Number(b.slice(3))),
+  jumlahBaris = Math.ceil(daftarBab.length / jumlahKolom),
+  jumSoal = document.getElementById('infoJumSoal')
 
-daftarBab.forEach(bab => {
-    const nomor = bab.slice(3);
+  daftarBab.forEach(bab => {
+    let nomor = bab.slice(3)
     pilihan.insertAdjacentHTML("beforeend", `
-        <label>
-            <input type="checkbox" value="${bab}" class="bab-choice">
-            BAB ${nomor}
-        </label>
-    `);
-});
-
-const jumlahKolom = 3;
-const jumlahBaris = Math.ceil(daftarBab.length / jumlahKolom);
-const jumSoal = document.getElementById('infoJumSoal')
-pilihan.style.gridTemplateRows = `repeat(${jumlahBaris}, auto)`;
-pilihan.style.gridAutoFlow = "column";
-
-pilihan.insertAdjacentHTML("beforeend", `
     <label>
-        <input type="checkbox" id="pilih-semua" class="pilihsemua">
-        SEMUA
-    </label>
-`);
-jumSoal.innerHTML= ''
-pilihan.addEventListener("change", (e) => {
-    if (e.target.id === "pilih-semua") {
-        document.querySelectorAll(".bab-choice")
-            .forEach(cb => cb.checked = e.target.checked)
+      <input type="checkbox" value="${bab}" class="bab-choice">
+        BAB ${nomor}
+      </label>
+    `)
+  })
+
+  pilihan.style.gridTemplateRows = `repeat(${jumlahBaris}, auto)`
+  pilihan.style.gridAutoFlow = "column"
+
+  pilihan.insertAdjacentHTML("beforeend", `
+  <label>
+    <input type="checkbox" id="pilih-semua" class="pilihsemua">
+     SEMUA
+  </label>
+  `)
+  jumSoal.innerHTML= ''
+  pilihan.onchange=o=>{
+    if (o.target.id === "pilih-semua") {
+      document.querySelectorAll(".bab-choice")
+      .forEach(cb => cb.checked = o.target.checked)
     } else {
-        const semua = document.querySelectorAll(".bab-choice")
-        document.getElementById("pilih-semua").checked =
-            [...semua].every(cb => cb.checked)
+      let semua = document.querySelectorAll(".bab-choice")
+      document.getElementById("pilih-semua").checked =
+      [...semua].every(cb => cb.checked)
     }
-    soalDipakai = getKanaList(helperMode).length
+    soalDipakai = varLister(helperMode).length
     soalDipakai>0?jumSoal.innerHTML=`
     <div class="kont-soal" style="width:100%;">
       <div class="bagan-pilihanMM" style="margin-bottom: 0px;">
@@ -4644,22 +4618,23 @@ pilihan.addEventListener("change", (e) => {
     </div>
     `:jumSoal.innerHTML =''
 
-});
+}
 }
 
 function modeTerpilih (dipilih=mode, judul=judulModeSaved) {
-  if (!kembaliDitekan) {
-    buatHistori(dipilih, judul)
-  }
-  kembaliDitekan = false
-  if(['0kosong', 'menuPilihMode'].includes(dipilih)){
+  if(['0kosong', 'menuPilihMode', 'custom_menulis'].includes(dipilih)){
     mode = dipilih
     bangunUI()
     filterBab = false
+    if (!kembaliDitekan) {
+      timpaHistori(dipilih, judul)
+    }else{
+      if(mode === '0kosong'){buatHistori(dipilih, judul)}
+    }
     return
   }
   if(mode.startsWith('pilih-')) {
-        const selected = Array.from(document.querySelectorAll('.bab-choice:checked')).map(cb => cb.value)
+        let selected = Array.from(document.querySelectorAll('.bab-choice:checked')).map(cb => cb.value)
         if (selected.length === 0) {
           pesan("⚠️ Minimal pilih 1 kek >:(", 'error')
           return
@@ -4669,11 +4644,23 @@ function modeTerpilih (dipilih=mode, judul=judulModeSaved) {
           return
         }
       }
+      
+      if (!(['hiragana', 'katakana', 'bothkana', 'menulis', 'quizMM'].includes(dipilih) ||
+      dipilih.endsWith('-rev') ||
+      dipilih.endsWith('-kotoba') ||
+      dipilih.endsWith('-kanji-baca') ||
+      dipilih === mode
+        )) {
+          if (!kembaliDitekan) {
+            timpaHistori(dipilih, judul);
+          }
+        }
+  kembaliDitekan = false
   if (helperMode.startsWith(kotobaBuku+'-')) {
         mode = dipilih
         judulModeSaved = judul
         pilihMode.textContent = judul
-        mulaiQuizPilihanGanda()
+        mulaiQuiz()
         bangunUI()
         filterBab = true
         return
@@ -4681,24 +4668,19 @@ function modeTerpilih (dipilih=mode, judul=judulModeSaved) {
   mode = dipilih
   judulModeSaved = judul
   pilihMode.textContent = judul
-  mulaiQuizPilihanGanda()
+  mulaiQuiz()
   bangunUI()
   filterBab = false
   return
 };
 
-// --- END EVENT HANDLER --- \\
-
-
-// --- NON-QUIZ FUNCTION --- \\
-// Semua fungsi yang tidak memiliki pengaruh dengan logika quiz, ditempatkan disini
-
+// Notif
 function pesan(pesan, kelas='neutral', durasi = 3000,) {
-    const container = document.getElementById("toast-container")
-    const toast = document.createElement("div")
+    let container = document.getElementById("toast-container")
+    let toast = document.createElement("div")
     toast.className = `toast ${kelas}`
     toast.textContent = pesan
-    container.appendChild(toast);
+    container.appendChild(toast)
     setTimeout(() => {
         toast.classList.add("keluar")
         setTimeout(() => {
@@ -4708,9 +4690,9 @@ function pesan(pesan, kelas='neutral', durasi = 3000,) {
 }
 
 function buatLinkDown(el) {
-  const container = document.getElementById(el)
+  let container = document.getElementById(el)
   container.innerHTML = `Membuat Ui link download...`
-  const script = document.createElement("script")
+  let script = document.createElement("script")
   script.src = `${serverLink}elOnl.js?t=${Date.now()}`
 
   script.onload = () => {
@@ -4727,28 +4709,18 @@ function buatLinkDown(el) {
   document.head.appendChild(script);
 }
 
-async function downloadFile(link, file) {
-  const url = link;
-  const response = await fetch(url);
-  const reader = response.body.getReader();
-  const chunks = [];
-
-  while (true) {
-    const { done, value } = await reader.read();
-    if (done) break;
-    chunks.push(value);
-  }
-
-  const blobUrl = URL.createObjectURL(new Blob(chunks));
-  const a = document.createElement('a');
-  a.href = blobUrl
-  a.download = file
-  a.click();
-  URL.revokeObjectURL(blobUrl);
+// point nav kembali
+function buatHistori(modeHistori =mode, judulHistori=judulModeSaved){
+  history.pushState({ 
+    mode: modeHistori, 
+    judulModeSaved: judulHistori,
+    helperMode:helperMode 
+  }, "")
 }
 
-function buatHistori(modeHistori, judulHistori){
-  history.pushState({ 
+// point nav kembali
+function timpaHistori(modeHistori, judulHistori){
+  history.replaceState({ 
     mode: modeHistori, 
     judulModeSaved: judulHistori,
     helperMode:helperMode 
@@ -4757,7 +4729,7 @@ function buatHistori(modeHistori, judulHistori){
 
 // icon stopwatch
 function iconsw(id) {
-  const lokasi = document.getElementById(id);
+  let lokasi = document.getElementById(id);
   lokasi.innerHTML = `
     <svg width="24" height="25"
 viewBox="0 0 24 24"
@@ -4771,85 +4743,218 @@ stroke-linejoin="round">
       <line x1="10" y1="3" x2="14" y2="3" />
       <line x1="12" y1="12" x2="12" y2="7" />
     </svg>
-  `;
+  `
 }
 
-// Tiner. Gunakan Timer.start() untuk mulai timer | Dan Timer.stop() untuk menghentikan Timer. Di fungsi manapun
-const Timer = {
+// Tiner
+let Timer = {
     start() {
-        this.mulaiSW = Date.now();
+        this.mulaiSW = Date.now()
         this.id = setInterval(() => {
-            this.waktu = Math.floor((Date.now() - this.mulaiSW) / 1000);
-            this.updateCetak();
-        }, 1000);
-       iconsw("iconStopwatch");
+            this.waktu = Math.floor((Date.now() - this.mulaiSW) / 1000)
+            this.updateCetak()
+        }, 1000)
+       iconsw("iconStopwatch")
     },
 
     stop() {
-        clearInterval(this.id);
+        clearInterval(this.id)
     },
 
     updateCetak() {
-      const jam = Math.floor(this.waktu / 3600);
-      const menit = Math.floor((this.waktu % 3600) / 60);
-      const detik = this.waktu % 60;
+      let jam = Math.floor(this.waktu / 3600)
+      let menit = Math.floor((this.waktu % 3600) / 60)
+      let detik = this.waktu % 60
 
       let hasil = [];
-      if (jam > 0) hasil.push(`${jam}j`);
-      if (menit > 0) hasil.push(`${menit}m`);
-      if (detik > 0) hasil.push(`${detik}d`);
-      if (hasil.length === 0) hasil = ["0d"];
+      if (jam > 0) hasil.push(`${jam}j`)
+      if (menit > 0) hasil.push(`${menit}m`)
+      if (detik > 0) hasil.push(`${detik}d`)
+      if (hasil.length === 0) hasil = ["0d"]
 
-      cetakTime = hasil.join(" ");
-        dataTimer.innerHTML = `${cetakTime}`;
-        pewaktu.style.display = 'flex';
+      cetakTime = hasil.join(" ")
+        dataTimer.innerHTML = `${cetakTime}`
+        pewaktu.style.display = 'flex'
     }
 };
 
 // Fungsi untuk mengisi table dengan dataset terstruktur
-function buildVocabTable(filter='', bagian='') {
-  const tbody = document.querySelector('#vocabTable tbody');
-  kotobaBuku = bagian;
-  judulTabel.textContent=judulModeSaved;
-  tbody.innerHTML = '';
-  const q = (filter||'').toLowerCase();
+function buatTabel(filter='', bagian='') {
+  let tbody = document.querySelector('#vocabTable tbody')
+  kotobaBuku = bagian
+  judulTabel.textContent=judulModeSaved
+  tbody.innerHTML = ''
+  let q = (filter||'').toLowerCase()
   
   kanaList.forEach(entry => {
-    const [baca, arti, bab, tipe, kanji, latin] = entry;
-    if (tipe !== bagian) return;
+    let [baca, arti, bab, tipe, kanji, latin] = entry
+    if (tipe !== bagian) return
     
-    const kanjiDisplay = (kanji && kanji !== '') ? kanji : '-';
-    const bacaDisplay = baca || '-';
-    const artiDisplay = arti || '-';
+    let kanjiDisplay = (kanji && kanji !== '') ? kanji : '-'
+    let bacaDisplay = baca || '-'
+    let artiDisplay = arti || '-'
     
-    const rowText = `${bab} ${kanjiDisplay} ${bacaDisplay} ${artiDisplay} ${latin}`.toLowerCase();
-    if (q && !rowText.includes(q)) return;
-    
-    const tr = document.createElement('tr');
+    let rowText = `${bab} ${kanjiDisplay} ${bacaDisplay} ${artiDisplay} ${latin}`.toLowerCase()
+    if (q && !rowText.includes(q)) return
+  
+    let tr = document.createElement('tr')
     tr.innerHTML = `<td class='text-uppercase'>${bab}</td><td>${kanjiDisplay}</td><td>${bacaDisplay}</td><td class='text-capitalize'>${artiDisplay}</td>`;
-    tbody.appendChild(tr);
-});
+    tbody.appendChild(tr)
+})
 }
 
-// Debug
-function psn(pesan){
-  console.log(pesan)
+// pilih angka random
+function random(angka1, angka2) {
+    return Math.floor(Math.random() * (angka2 - angka1 + 1)) + angka1
 }
 
-// --- END NON QUIZ FUNCTION --- \\
+function minLayar(text, angkaMin =0, angkaMax=0, durasi=3000){
+  if (window.innerWidth <= angkaMin) {
+    pesan(text, 'neutral', durasi)
+    return 'mobile'
+  }else if(window.innerWidth >= angkaMax){
+    pesan(text, 'neutral', durasi)
+    return 'desktop'
+  }
+}
+
+function shuffle(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+        let j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+      return array;
+    }
+// --- END GENERAL & DOM  FUNCTION --- \\
 
 
-// --- START CORE FUNCTION --- \\
-// --- Semua fungsi krusial seperti pengkalkulasi logika, algoritma soal, dan lain sebagainya. Dimuat disini --- \\\
+// --- QUIZ ENGINE --- \\
 
-// Fungsi untuk membuat soal dan memilih jawaban atas soal tersebut
-function pickKana(indek) {
+// compiler data karakter/huruf ke svg
+function ubahKeSVG(data) {
+  let flipY = y => 900 - parseFloat(y);
+
+  // stroke utama
+  let strokes = data.strokes.map((s, i) => {
+    let d = s.replace(/(-?\d+),(-?\d+)/g, (_, x, y) => `${x} ${flipY(y)}`);
+    return `<path id="s${i}" class="svgHuruf" d="${d}" style="opacity:0;"/>`;
+  }).join("");
+
+  // guider validator
+  let clips = data.strokes.map((_, i) => `<clipPath id="c${i}"><use href="#s${i}"/></clipPath>`).join("");
+
+  // animator goresan
+  let medians = data.medians.map((m, i) => {
+    let d = m.map(([x,y], idx) => `${idx===0?'M':'L'}${x} ${flipY(y)}`).join("");
+    return `<path id="m${i}" class="animHuruf" pathLength="3333" clip-path="url(#c${i})" d="${d}"/>`;
+  }).join("");
+
+  // hsailkan svg
+  return `
+  <svg class="acjk" viewBox="0 0 1024 1024">
+    <style>
+      @keyframes drawStroke {
+        0% { stroke-dashoffset: 3339; }
+        80%, 100% { stroke-dashoffset: 0; }
+      }
+      svg.acjk path[clip-path] {
+        stroke-dasharray: 3337;
+        stroke-dashoffset: 3339;
+        stroke-width: 128;
+        stroke-linecap: round;
+        fill: none;
+        stroke: #3c45638f;
+        animation: none;
+      }
+      svg.acjk path[clip-path].active-anim {
+        animation: drawStroke 1.2s linear infinite;
+      }
+      svg.acjk path[id^="s"] { fill: #273351; }
+    </style>
+    ${strokes}<defs>${clips}</defs>${medians}
+  </svg>`
+}
+
+// Renderer karakter/huruf
+function loadKanji(char) {
+  let charData = db.get(char);
+
+  if (!charData) {
+    wordIndex++
+    pesan(`ⓘ Huruf "${char}" tidak ada dalam dataset. Load huruf berikutnya...`, 'error', 6000)
+    kanjiKont.innerHTML += `<span>${char}</span>`
+    svgLayer.innerHTML = ""
+    clearCanvas()
+    loadNextChar()
+    return
+  }
+
+  svgLayer.innerHTML = ubahKeSVG(charData);
+  svg = svgLayer.querySelector("svg");
+  shapes = Array.from(svg.querySelectorAll("path[id]"));
+  guides = Array.from(svg.querySelectorAll("path[clip-path]"));
+
+  currentStroke = 0;
+  clearCanvas();
+  }
+
+function loadNextChar() {
+  headBoard.style.backgroundColor = `#005757`
+  board.style.color = `#005757`
+  if (wordIndex < wordList.length) {
+    // Msuk huruf berikutnya
+    let currentChar = wordList[wordIndex]
+    loadKanji(currentChar)
+    tulisDisini.style.display='block'
+    jumHrf.innerHTML=`Tulislah huruf ke ${wordIndex+1} (Total ada ${wordList.length} huruf)`
+    bantuanAnim(111)
+
+  } else {
+    if(sessionList.length !==0){
+      // Masuk kata berikutnya
+      if(hurufBenar<(wordList.length/2)) {
+        headBoard.style.backgroundColor = `#732a2a`
+        board.style.color = `#732a2a`
+        result.innerHTML = `<salah>Dianggap Salah :(<div class="feedback">${hurufBenar} dari ${hrfDipke} huruf benar. <div>Klik dimana saja untuk lanjut</div></div></salah>`;
+      }else{        
+        headBoard.style.backgroundColor = `#296d40`
+        board.style.color = `#296d40`
+        correctCount++
+        result.innerHTML = `<benar>Dianggap Benar!<div class="feedback">${hurufBenar} dari ${hrfDipke} huruf benar. <div>Klik dimana saja untuk lanjut</div></div></benar>`;
+      }
+      overlay.style.display = 'block'
+      overlay.onclick=o=>{
+        overlay.style.display = 'none'
+        salahsemua=false
+        hurufBenar=0
+        totalCount++
+        kanjiKont.innerHTML=""
+        quester()
+      }
+        return
+    }
+    // saat quiz menulis selesai
+      overlay.style.display = 'block'
+      overlay.onclick=o=>{
+        overlay.style.display = 'none'
+        hurufBenar<(wordList.length/2)?'':correctCount++
+        hurufBenar=0
+        svgLayer.innerHTML = "";
+        clearCanvas();
+        quester()
+      }
+
+  }
+  
+}
+
+// pemilih huruf/kata di dataset
+function quester() {
   indexSoal++
-  psn('pickKana Terpanggil')
-  const choicesContainer = document.getElementById('choices')
+  let choicesContainer = document.getElementById('choices')
   if (indexSoal === totalSoal) {
     Timer.stop()
-    const skor = totalCount === 0 ? 0 : Math.floor(correctCount * 100 / totalSoal)
+    let skor = totalCount === 0 ? 0 : Math.floor(correctCount * 100 / totalSoal)
     kotakTulis.style.display = 'none'
     kana.textContent = ''
     result.innerHTML = `
@@ -4872,26 +4977,30 @@ function pickKana(indek) {
   result.innerHTML = ''
   let options;
   let nomorsoal = nomor()
-  const angkaBab = currentKana[2].replace(/\D/g, "")
+  let angkaBab = currentKana[2].replace(/\D/g, "")
   function nomor() { return totalCount < 1 ? 1 : totalCount + 1;}
 
   if (mode.includes('menulis')) {
+      let kanji
+      kana.textContent = currentKana[1]
+      wordIndex = 0
+      hrfDipke = 0 
+      wordList = currentKana[0]
+      if (!['hiragana', 'katakana', 'bothkana'].includes(helperMode) &&!helperMode.endsWith('-kotoba')) {
+        wordList = currentKana[4] || currentKana[0]
+        startElBlok(wordList.length+3, wordList, 'Tulislah Kanji ini')
+        kanji = true
+      }
       soal.innerHTML =`
-        <div class='asal-kotoba'> ${currentKana[2]}</div><strong>Soal ke ${nomorsoal} dari ${totalSoal} soal</strong><br>
-        Bisakah kamu gambar huruf jepangnya?
+        <div class='asal-kotoba'>
+          ${kanji?'('+currentKana[0]+')':currentKana[4]?'('+currentKana[4]+')':''} 
+          ${currentKana[2]}
+        </div>
+        <strong>Soal ke ${nomorsoal} dari ${totalSoal} soal</strong><br>
+        Bisakah kamu tulis huruf jepangnya?
       `
-      kana.textContent = currentKana[1];
-    if (helperMode.includes('-kanji')) {
-      wordIndex = 0 
-      wordList = currentKana[4] || currentKana[0];
       loadNextChar()
       return
-    }else {
-      wordIndex = 0 
-      wordList = currentKana[0];
-      loadNextChar()
-      return
-    }  
     }
   if (mode.endsWith('-rev')) {
 // Mode reverse
@@ -4899,19 +5008,19 @@ function pickKana(indek) {
     if (helperMode.includes('-kanji-baca')) {
         kana.textContent = currentKana[0];
       soal.innerHTML = `<div class='asal-kotoba'> ${angkaBab ? 'Kotoba BAB ' + angkaBab + '<br>' : ''}</div><strong>Soal ke ${nomorsoal} dari ${totalSoal} soal</strong><br>Tulisan kanji dari huruf di atas adalah...?`;
-      options = shuffle([currentKana[4], ...generateFakeAnswers(currentKana[4])]);
+      options = shuffle([currentKana[4], ...penipu(currentKana[4])]);
     } 
     
     else if (helperMode.includes('-kanji')) {
         kana.textContent = currentKana[1] || currentKana[0];
       soal.innerHTML = `<div class='asal-kotoba'> ${angkaBab ? 'Kotoba BAB ' + angkaBab + '<br>' : ''}</div><strong>Soal ke ${nomorsoal} dari ${totalSoal} soal</strong><br>Bagaimana cara menulis kosakata diatas?`;
-      options = shuffle([currentKana[4] || currentKana[0], ...generateFakeAnswers(currentKana[4] || currentKana[0])]);
+      options = shuffle([currentKana[4] || currentKana[0], ...penipu(currentKana[4] || currentKana[0])]);
     }
     
     else {
-        kana.textContent = currentKana[1];
+      kana.textContent = currentKana[1];
       soal.innerHTML = `<div class='asal-kotoba'> ${angkaBab ? 'Kotoba BAB ' + angkaBab + '<br>' : ''}</div><strong>Soal ke ${nomorsoal} dari ${totalSoal} soal</strong><br>Cara menulis jepang huruf diatas adalah...`;
-      options = shuffle([currentKana[0], ...generateFakeAnswers(currentKana[0])]);
+      options = shuffle([currentKana[0], ...penipu(currentKana[0])]);
     }   
 } else {
 // Mode Normal
@@ -4919,25 +5028,25 @@ function pickKana(indek) {
     if (helperMode.includes('-kanji-baca')) {
         kana.textContent = currentKana[4];
       soal.innerHTML = `<div class='asal-kotoba'> ${angkaBab ? 'Kotoba BAB ' + angkaBab + '<br>' : ''}</div><strong>Soal ke ${nomorsoal} dari ${totalSoal} soal</strong><br>Furigana huruf diatas adalah...`;
-      options = shuffle([currentKana[0], ...generateFakeAnswers(currentKana[0])]);
+      options = shuffle([currentKana[0], ...penipu(currentKana[0])]);
     }
     
     else if (helperMode.includes('-kanji')) {
         kana.textContent = currentKana[4] || currentKana[0];
       soal.innerHTML = `<div class='asal-kotoba'> ${angkaBab ? 'Kotoba BAB ' + angkaBab + '<br>' : ''}</div><strong>Soal ke ${nomorsoal} dari ${totalSoal} soal</strong><br>Apa arti tulisan di atas?`;
-      options = shuffle([currentKana[1], ...generateFakeAnswers(currentKana[1])]);
+      options = shuffle([currentKana[1], ...penipu(currentKana[1])]);
     }
     
     else {
         kana.textContent = currentKana[0];
       soal.innerHTML = `<div class='asal-kotoba'> ${angkaBab ? 'Kotoba BAB ' + angkaBab + '<br>' : ''}</div><strong>Soal ke ${nomorsoal} dari ${totalSoal} soal</strong><br>Romaji Huruf diatas adalah...`;
-      options = shuffle([currentKana[1], ...generateFakeAnswers(currentKana[1])]);
+      options = shuffle([currentKana[1], ...penipu(currentKana[1])]);
     }  
 }
       options.forEach(choice => {
-        const btn = document.createElement('button')
+        let btn = document.createElement('button')
         btn.textContent = choice
-        btn.classList.add('text-capitalize')
+        btn.classList.add('text-capitalize', 'widthFull')
         btn.onclick = () => {          
             if (!isClickable) return
           checkAnswer(choice)
@@ -4947,186 +5056,345 @@ function pickKana(indek) {
 
 }
 
-// fungsi memverifikasi jawaban soal Pilihan Ganda (katakana, hiragana, kotoba, kanji, dll)
-  function checkAnswer(answer) { 
-  totalCount++;
-  let correctAnswer;
+function getPos(e) {
+  let r = canvas.getBoundingClientRect()
+  return {
+    x: (e.clientX - r.left) * 1024 / r.width,
+    y: (e.clientY - r.top) * 1024 / r.height
+  };
+}
 
+function endStroke() {
+  if (!isDrawing) return
+  isDrawing = false
+  cekGoresan()
+}
+
+function cekGoresan() {
+  let guide = guides[currentStroke]
+  let len = guide.getTotalLength()
+  
+  // Ambil titik terdekat dari guder
+  let samples = userPoints.map(pt => {
+    let bestDist = Infinity, bestProg = 0
+    for (let d = 0; d <= len; d += 5) {
+      let p = guide.getPointAtLength(d)
+      let dist = Math.hypot(p.x - pt.x, p.y - pt.y);
+      if (dist < bestDist) { bestDist = dist; bestProg = d / len; }
+    }
+    return { dist: bestDist, prog: bestProg }
+  })
+
+// debug arah guider
+  ctx.fillStyle = "red";
+  for (let d = 0; d <= len; d += 10) {
+    let p = guide.getPointAtLength(d);
+    ctx.beginPath();
+    ctx.arc(p.x, p.y, 6, 0, Math.PI * 2);
+    ctx.fill();
+  }
+
+  // 1. Akurasi Jalur (Jarak < 120px dari garis asli)
+  let near = samples.filter(s => s.dist < 120).length / samples.length
+
+  // 2. Cakupan (Panjang goresan minimal 60% dari garis asli)
+  let progs = samples.map(s => s.prog)
+  let coverage = Math.max(...progs) - Math.min(...progs)
+
+  // 3. Arah Goresan (Maju > 65%)
+  let fwd = 0, bwd = 0;
+  for (let i = 1; i < progs.length; i++) {
+    let diff = progs[i] - progs[i-1]
+    if (diff > 0.01) fwd++; else if (diff < -0.01) bwd++
+  }
+  let direction = fwd / Math.max(1, fwd + bwd)
+
+  // validator benar
+  function benar(){
+    stopAnim()
+    salahKali = 1
+    kesempatan = 4
+    shapes[currentStroke].style.opacity = "1"
+    currentStroke++
+    clearCanvas()
+    if (currentStroke >= guides.length) {
+      // ! huruf telah selesai
+      wordIndex++
+      hrfDipke++
+      stateTulis.innerHTML=''
+      if(!salahsemua){ 
+        hurufBenar++
+        kanjiKont.innerHTML += `<span>${wordList[wordIndex - 1]}</span>`}
+      else{
+        kanjiKont.innerHTML += `<span style="color: #f87171;">${wordList[wordIndex - 1]}</span>`       
+      }
+
+      if (['hiragana', 'katakana', 'bothkana'].includes(helperMode)||helperMode.endsWith('-kotoba')) 
+      {bantuanAnim(1)}else{bantuanAnim(2)}
+
+      headBoard.style.backgroundColor = salahsemua?`#732a2a` : `#296d40`
+      board.style.color = salahsemua?`#732a2a` : `#296d40`
+      
+      if(wordIndex === wordList.length){
+        loadNextChar()
+      }else{
+        overlay.style.display = 'block'
+        salah('Klik dimana saja untuk lanjut ke huruf berikutnya')
+          overlay.onclick=o=>{
+            overlay.style.display = 'none'
+            console.log('overlay dipaggi;')
+            stateTulis.innerHTML=''
+            loadNextChar()
+          }
+      }
+      salahsemua = false
+       
+      }else{
+        //Lanjut garis berikutnya
+        if(salahsemua){
+          animateKanji()
+          headBoard.style.backgroundColor = `#732a2a`
+          board.style.color = `#732a2a`
+        }else{
+          headBoard.style.backgroundColor = `#005757`
+          board.style.color = `#005757`
+          salah('Lanjutkan ke garis berikutnya..')
+        }
+
+      }
+  }
+
+  function salah( p =`Sisa ${kesempatan} kali pecobaan sebelum dianggap salah`){
+    stateTulis.innerHTML =`
+    <div class="textDimGrey" style="font-size:12px; position: relative;margin-bottom: -5px;">${p}</div>`
+  }
+
+  let kusus = new Set(['み','な','ま', 'よ', 'む', 'ぬ', 'ね', 'ほ', 'は', 'す', 'あ', 'お', 'ゆ', 'の', 'る']);
+  if (kusus.has(wordList[wordIndex])) {
+    if (near > 0.5 && coverage > 0.1 && direction > 0.5) {
+      benar()
+      return
+    } 
+  }
+  if (near > 0.65 && coverage > 0.65 && direction > 0.65) {
+    benar()
+  } else {
+    salahKali++
+    kesempatan = Math.max(0, kesempatan-1)
+    clearCanvas()
+    headBoard.style.backgroundColor = `#732a2a`
+    board.style.color = `#732a2a`
+    
+    if(salahKali > 4){
+      salahsemua = true
+    }
+    if(salahsemua){
+      animateKanji()
+      salah(`Huruf ini telah dianggap salah`)
+      if(salahKali > 6 ){
+        benar()
+        return
+      }
+      return
+    }
+    salah()
+  }
+}
+
+function bantuanAnim(tambah =101){
+  if(tambah === 111){
+    bantuTulis.innerHTML = `Bantuan <div class="textSmall textgrey">Sisa Bantuan ${sisaBantuan}</div>`
+  }
+  else if(tambah === 101){
+    sisaBantuan<=0?'':animateKanji()
+    sisaBantuan = Math.max(0, sisaBantuan - 1)
+    bantuTulis.innerHTML = `Bantuan <div class="textSmall textgrey">Sisa Bantuan ${sisaBantuan}</div>`
+  }
+  else{
+    sisaBantuan+=tambah
+    bantuTulis.innerHTML = `Bantuan + ${tambah} <div class="textSmall textgrey">Sisa Bantuan ${sisaBantuan}</div>`
+  }
+}
+
+function animateKanji() {
+  if (!svg) return;
+  stopAnim();
+  let activeMedian = svg.querySelector(`#m${currentStroke}`);
+  if (activeMedian) {
+    void activeMedian.offsetWidth; 
+    activeMedian.classList.add("active-anim");
+  }
+}
+
+function stopAnim() {
+  if (!svg) return;
+  let active = svg.querySelector("path.active-anim");
+  if (active) {
+    active.classList.remove("active-anim");
+  }
+}
+
+// verifikator Pilgan
+  function checkAnswer(answer) { 
+  totalCount++
+  let correctAnswer
   if (mode.endsWith('-rev')) {
-  // Tentukan jawaban benar sesuai mode reverse
-  if (mode.includes('-kanji-baca')) {
-    correctAnswer = currentKana[4]; 
-} else if (mode.includes('-kanji')) {
-    correctAnswer = currentKana[4] || currentKana[0];
-} else {
-    correctAnswer = currentKana[0];
-}
+    if (mode.includes('-kanji-baca')) {
+      correctAnswer = currentKana[4]
+    } 
+    else if (mode.includes('-kanji')) {
+      correctAnswer = currentKana[4] || currentKana[0]
+    } 
+    else {
+      correctAnswer = currentKana[0]
+    }
   }else{
-  // Tentukan jawaban benar sesuai mode
-  if (mode.includes('-kanji-baca')) {
-    correctAnswer = currentKana[0];   // baca kanji → hiragana
-} else if (mode.includes('-kanji')) {
-    correctAnswer = currentKana[1];   // arti kanji → hiragana
-} else {
-    correctAnswer = currentKana[1];   // default → romaji
-}
+    if (mode.includes('-kanji-baca')) {
+      correctAnswer = currentKana[0]
+    } 
+    else if (mode.includes('-kanji')) {
+      correctAnswer = currentKana[1]
+    } 
+    else {
+      correctAnswer = currentKana[1]
+    }
   }
   
   // Warnai semua tombol
   // WARNING! QUERY INI JANGAN DIMASUKAN VARIABEL
   document.querySelectorAll('#choices button').forEach(btn => {
     if (btn.textContent === correctAnswer) {
-    btn.classList.add('correct');
+      btn.classList.add('correct')
       if (btn.textContent === answer) {
-        btn.classList.add('bordered');
+        btn.classList.add('bordered')
+      }
+    } 
+    else if (btn.textContent === answer) {
+      btn.classList.add('selected')
     }
-} else if (btn.textContent === answer) {
-        btn.classList.add('selected');
-    }else {
-        btn.classList.add('incorrect');
+    else {
+      btn.classList.add('incorrect')
     }
-    btn.disabled = true;
-});
+  });
   
   
   // Cek jawaban user
   if (answer === correctAnswer) {
     result.innerHTML = '<benar>Benar!<div class="feedback"><strong>Klik dimana saja untuk lanjut</strong></div></benar>';
-    correctCount++;
-} else {
+    correctCount++
+  } else {
     result.innerHTML = `<salah>Salah :(<div class="feedback"><strong>Klik dimana saja untuk lanjut</strong></div></salah>`;
-}
-  
-  // Bagian umum
-  revealAllAnswers();
-overlay.style.display = 'block'; // tampilkan overlay
-overlay.addEventListener('click', function next() {
-  overlay.style.display = 'none'; // sembunyikan overlay
-  pickKana(); // lanjut ke soal berikutnya
-  overlay.removeEventListener('click', next);
-}, { once: true });
-
+  }
+  ungkapJwb()
+  overlay.style.display = 'block'
+  overlay.onclick = ()=>{
+    overlay.style.display = 'none'
+    quester()
+  }
 }
 
 // Fungsi untuk membuat jawaban palsu  
-function generateFakeAnswers(correct) {
+function penipu(correct) {
 
   if (mode.endsWith('-rev')) {
-// Membuat jawaban palsu saat mode reverse    
     if (mode.includes("-kanji-baca")) {
-    pool = getKanaList()
+    pool = varLister()
     .filter(k => k[4] && k[4] !== "" && k[4] !== correct && k[2] === currentKana[2])
-      .map(k => k[4]);
+    .map(k => k[4]);
     }
     // Mode Mengartikan Kanji
-     else if (mode.includes("-kanji")) {
-    pool = getKanaList()
-    .filter(k => { const value = k[4] && k[4] !== "" ? k[4] : k[0]; return value !== correct && k[2] === currentKana[2];})
-  .map(k => k[4] && k[4] !== "" ? k[4] : k[0]);
+    else if (mode.includes("-kanji")) {
+    pool = varLister()
+    .filter(k => { let value = k[4] && k[4] !== "" ? k[4] : k[0]; return value !== correct && k[2] === currentKana[2];})
+    .map(k => k[4] && k[4] !== "" ? k[4] : k[0]);
     }
-    // Mode default (hiragana katakana atu mode yang belum didefinisikan)
      else {
-    pool = getKanaList()
-    .filter(k => k[0] !== correct && k[2] === currentKana[2])
-      .map(k => k[0]);
+     pool = varLister()
+     .filter(k => k[0] !== correct && k[2] === currentKana[2])
+     .map(k => k[0]);
     }
   }else{
-// Membuat jawaban palsu saat mode normal    
     // Mode Membaca Kanji
     if (mode.includes("-kanji-baca")) {
-    pool = getKanaList()
-    .filter(k => k[0] !== correct && k[2] === currentKana[2])
+      pool = varLister()
+      .filter(k => k[0] !== correct && k[2] === currentKana[2])
       .map(k => k[0]);
     }
     // Mode Mengartikan Kanji
-     else if (mode.includes("kanji")) {
-    pool = getKanaList()
-    .filter(k => k[1] !== correct && k[2] === currentKana[2])
+    else if (mode.includes("kanji")) {
+      pool = varLister()
+      .filter(k => k[1] !== correct && k[2] === currentKana[2])
       .map(k => k[1]);
     }
-    // Mode default (hiragana katakana atu mode yang belum didefinisikan)
     else {
-    pool = getKanaList()
-    .filter(k => k[1] !== correct && k[2] === currentKana[2])
+      pool = varLister()
+      .filter(k => k[1] !== correct && k[2] === currentKana[2])
       .map(k => k[1]);
     }
   }
   return shuffle(pool).slice(0, 3);
 }
 
-// Fungsi untuk mengacak lokasi jawaban 
-function shuffle(array) {
-        for (let i = array.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [array[i], array[j]] = [array[j], array[i]];
-    }
-      return array;
-    }
-    
 // Fungsi untuk mengungkap semua jawaban
-    function revealAllAnswers() {
-        // WARNING! QUERY INI JANGAN DIMASUKAN VARIABEL
-      document.querySelectorAll('#choices button').forEach(btn => {
-    const text = btn.textContent;
-    const match = getKanaList().find(pair => {
-        // Mencari alamat dataset yang akan dijadikan pasangan tiap jawaban (baik yang palsu ataupu yang asli)
+function ungkapJwb() {
+      // WARNING! QUERY INI JANGAN DIMASUKAN VARIABEL
+    document.querySelectorAll('#choices button').forEach(btn => {
+  let text = btn.textContent;
+  let match = varLister().find(pair => {
+    
+if (mode.endsWith('-rev')) {
+      // Dalam mode baca kanji 
+      if (mode.includes('-kanji-baca')) { return pair[4] === text && pair[2] === currentKana[2];}
+      // Dalam mode artikan kanji 
+      else if (mode.includes('-kanji')) {return (pair[4] || pair[0]) === text && pair[2] === currentKana[2];}
+      else { return pair[0] === text && pair[2] === currentKana[2];}
+  }
+   
+    else {
+      // Dalam mode baca kanji 
+      if (mode.includes('-kanji-baca')) { return pair[0] === text && pair[2] === currentKana[2];}
       
-      // saat mode reverse   
-  if (mode.endsWith('-rev')) {
-        // Dalam mode baca kanji 
-        if (mode.includes('-kanji-baca')) { return pair[4] === text && pair[2] === currentKana[2];}
-        
-        // Dalam mode artikan kanji 
-        else if (mode.includes('-kanji')) {return (pair[4] || pair[0]) === text && pair[2] === currentKana[2];}
+      // Dalam mode artikan kanji 
+      else if (mode.includes('-kanji')) { return pair[1] === text && pair[2] === currentKana[2];}
       
-      // Dalam mode yang tidak dideklarasikan spesifik (kotoba, hiragana, katakana) 
-        else { return pair[0] === text && pair[2] === currentKana[2];}
-    }
-     
-     // saat mode normal
-      else {
-        // Dalam mode baca kanji 
-        if (mode.includes('-kanji-baca')) { return pair[0] === text && pair[2] === currentKana[2];}
-        
-        // Dalam mode artikan kanji 
-        else if (mode.includes('-kanji')) { return pair[1] === text && pair[2] === currentKana[2];}
-        
-        // Dalam mode yang tidak dideklarasikan spesifik (kotoba, hiragana, katakana) 
-        else { return pair[1] === text && pair[2] === currentKana[2];}
-    }
-    });
-    
-    if (match) {
-        // Jika alamat pasangan dataset ditemukan, maka ditampilkan ke user
-    
-    // Saat mode reverse
-  if (mode.endsWith('-rev')) {
-        
-        // Dalam mode baca kanji 
-        if (mode.includes('-kanji-baca')) { btn.innerHTML = `${match[4]} : ${match[0]}<br><hiragana class="hiragana-jawaban">${match[1]}</hiragana>`;}        
-        // Dalam mode artikan kanji        
-        else if (mode.includes('-kanji')) { const mainText = match[4] || match[0]; const hiraganaText = mainText !== match[0] ? match[0] : "";
-                btn.innerHTML = `${mainText} : ${match[1]}<br><hiragana class="hiragana-jawaban">${hiraganaText}</hiragana>`;}
-        // Dalam mode yang tidak dideklarasikan spesifik 
-        else { btn.innerHTML = `${match[0]} : ${match[1]}<br><hiragana class="hiragana-jawaban">${match[4] ? `(${match[4]})` : ""}</hiragana>`; }
-        
-    } 
-    
-    // Saat mode normal
-     else {
-        // Dalam mode baca kanji 
-        if (mode.includes('-kanji-baca')) { btn.innerHTML = `${match[0]} : ${match[4]}<br><hiragana class="hiragana-jawaban">(${match[1]})</hiragana>`;}
-        // Dalam mode artikan kanji 
-        else if (mode.includes('-kanji')) {btn.innerHTML = `${match[1]} : ${match[0]}<br><hiragana class="hiragana-jawaban">${match[4] ? `(${match[4]})` : ""}</hiragana>`;}
-        // Dalam mode yang tidak dideklarasikan spesifik 
-        else { btn.innerHTML = `${match[0]} : ${match[1]}<br><hiragana class="hiragana-jawaban">${match[4] ? `(${match[4]})` : ""}</hiragana>`; }
-    }
-    }
+      else { return pair[1] === text && pair[2] === currentKana[2];}
+  }
+  })
+  
+  if (match) {
+      // Jika alamat pasangan dataset ditemukan, maka ditampilkan ke user
+  
+  // Saat mode reverse
+if (mode.endsWith('-rev')) {
+      
+      // Dalam mode baca kanji 
+      if (mode.includes('-kanji-baca')) { 
+        btn.innerHTML = `${match[4]} : ${match[0]}<br><hiragana class="hiragana-jawaban">${match[1]}</hiragana>`;
+      }        
+      // Dalam mode artikan kanji        
+      else if (mode.includes('-kanji')) { 
+        let mainText = match[4] || match[0] 
+        let hiraganaText = mainText !== match[0] ? match[0] : ""
+        btn.innerHTML = `${mainText} : ${match[1]}<br><hiragana class="hiragana-jawaban">${hiraganaText}</hiragana>`;
+      }
+      else { btn.innerHTML = `${match[0]} : ${match[1]}<br><hiragana class="hiragana-jawaban">${match[4] ? `(${match[4]})` : ""}</hiragana>`; }
+      
+  } 
+  
+  // Saat mode normal
+   else {
+      // Dalam mode baca kanji 
+      if (mode.includes('-kanji-baca')) { btn.innerHTML = `${match[0]} : ${match[4]}<br><hiragana class="hiragana-jawaban">(${match[1]})</hiragana>`;}
+      // Dalam mode artikan kanji 
+      else if (mode.includes('-kanji')) {btn.innerHTML = `${match[1]} : ${match[0]}<br><hiragana class="hiragana-jawaban">${match[4] ? `(${match[4]})` : ""}</hiragana>`;}
+      else { btn.innerHTML = `${match[0]} : ${match[1]}<br><hiragana class="hiragana-jawaban">${match[4] ? `(${match[4]})` : ""}</hiragana>`; }
+  }
+  }
 });
 }
 
-function mulaiQuizPilihanGanda(modeDiterima=helperMode) {    
-  let list = getKanaList(modeDiterima)
+function mulaiQuiz(modeDiterima=helperMode) {    
+  let list = varLister(modeDiterima)
   sessionList = filterBab? shuffle([...list]).slice(0, soalDipakai) : shuffle([...list])
 
   pilihMode.textContent = judulModeSaved
@@ -5136,21 +5404,12 @@ function mulaiQuizPilihanGanda(modeDiterima=helperMode) {
   correctCount = 0
   indexSoal = -1
   restartBtn.style.display = 'none'
-  pickKana()
+  quester()
 }
-
-
-// Fungsi soal Matematika
-
-// fungsi untuk memilih angka random dalam rentang tertentu, dan mencegah bilangan koma. Untuk pilihan rentangnya cek fungsi buatSoalMM()
-function random(angka1, angka2) {
-    return Math.floor(Math.random() * (angka2 - angka1 + 1)) + angka1;
-}
-
 
 // fungsi untuk membuat soal matematika
 function buatSoalMM() {
-    const kotakSoalMM = document.getElementById("soalMM");
+    let kotakSoalMM = document.getElementById("soalMM");
     kotakSoalMM.innerHTML = "";
     periksaMM.style.display = 'block';
 
@@ -5318,19 +5577,19 @@ function soal38() {
 }
 
 function gambarSiku(nomor, angleDeg) {
-    const canvas45 = document.getElementById(nomor);
+    let canvas45 = document.getElementById(nomor);
 
     // Kemiringan dalam radian
-    const rad = angleDeg * Math.PI / 180;
+    let rad = angleDeg * Math.PI / 180;
 
     // Ukuran SVG
-    const W = 300;
-    const H = 300;
-    const sumbu = Math.min(W, H) * 0.8;
+    let W = 300;
+    let H = 300;
+    let sumbu = Math.min(W, H) * 0.8;
 
     // Titik miring
-    const x1 = sumbu * Math.cos(rad);
-    const y1 = H - sumbu * Math.sin(rad);
+    let x1 = sumbu * Math.cos(rad);
+    let y1 = H - sumbu * Math.sin(rad);
 
     // Masukkan SVG
     canvas45.innerHTML = `
@@ -5357,7 +5616,7 @@ function gambarSiku(nomor, angleDeg) {
 
 // menggambar persegi panjang untuk soal nomor 46
 function gambarPersegiPanjang(NomorSoal, panjang, lebar) {
-  const canvas46 = document.getElementById(NomorSoal);
+  let canvas46 = document.getElementById(NomorSoal);
   ukuranW = 300;
   ukuranH = 150;
   padding = 5;
@@ -5401,7 +5660,7 @@ function gambarSegitiga(NomorSoal, alas, tinggi){
 
 // nggambar lingkaran untuk soal 48
 function gambarLingkaran(NomorSoal, jari2) {
-  const lokasiGambar = document.getElementById(NomorSoal);
+  let lokasiGambar = document.getElementById(NomorSoal);
 
   lokasiGambar.innerHTML = `
     <svg width="235" height="235" viewBox="0 0 235 235">
@@ -5415,7 +5674,7 @@ function gambarLingkaran(NomorSoal, jari2) {
 }
 
 function gambarBalok(panjang, lebar, tinggi) {
-  const lokasiGambar = document.getElementById("divBalok");
+  let lokasiGambar = document.getElementById("divBalok");
 
   lokasiGambar.innerHTML = `
   <svg width="320" height="150" viewBox="0 0 320 150">
@@ -5756,12 +6015,12 @@ function gambarBalok(panjang, lebar, tinggi) {
     });
 
     // soal 40
-    let a40 = random(10, 99);
-    let b40;
-    let c40;
-    do { b40 = random(1, 9) / 10; c40 = random(1, 9) / 10;} while(b40 === c40 );
-    b40 = Math.round(b40 * 100) / 100; // nyegah konversi ke biner, eror
-    c40 = Math.round(c40 * 100) / 100; // nyegah konversi ke biner, eror
+    let a40 = random(10, 99)
+    let b40
+    let c40
+    do { b40 = random(1, 9) / 10; c40 = random(1, 9) / 10;} while(b40 === c40 )
+    b40 = Math.round(b40 * 100) / 100
+    c40 = Math.round(c40 * 100) / 100
     soalMM.push({
         soal: `<Nbulat style=" display: flex; flex-direction: row; gap: 24px; margin-bottom: 10px;">${a40}
         <Nrentang style=" display: flex; flex-direction: column;">
@@ -5773,13 +6032,13 @@ function gambarBalok(panjang, lebar, tinggi) {
     });
 
     // soal 41
-    let d40 = (b40 + c40) / 2;
-    d40 = Math.round(d40 * 100) / 100;// nyegah konversi ke biner, eror
+    let d40 = (b40 + c40) / 2
+    d40 = Math.round(d40 * 100) / 100
     let e40;
-    let kondisi1 = Number(((a40 + b40) - d40).toFixed(2));
-    let kondisi2 = Number(((a40 - c40) + d40).toFixed(2));
+    let kondisi1 = Number(((a40 + b40) - d40).toFixed(2))
+    let kondisi2 = Number(((a40 - c40) + d40).toFixed(2))
     if( kondisi1 === kondisi2) {e40 = kondisi1} 
-    else{ e40 = `Floating Point Error (IEEE 754)`};
+    else{ e40 = `Floating Point Error (IEEE 754)`}
     soalMM.push({
         soal: `<Nbulat style=" display: flex; flex-direction: row; gap: 24px; margin-bottom: 10px;">${a40}
         <Nrentang style=" display: flex; flex-direction: column;">
@@ -5925,7 +6184,7 @@ function gambarBalok(panjang, lebar, tinggi) {
 
     // Fungsi pembuat 1 blok soal
     function tambahSoal(nomor, data) {
-        const kontainerSoal = document.createElement('tr');
+        let kontainerSoal = document.createElement('tr');
         kontainerSoal.className = 'kont-soal';
         kotakSoalMM.appendChild(kontainerSoal);
         kontainerSoal.innerHTML = `
@@ -5959,8 +6218,8 @@ function gambarBalok(panjang, lebar, tinggi) {
         let MMbenar = 0;
         let MMtotal = soalMM.length;
     
-        const inputs = kotakSoalMM.querySelectorAll("input");
-        const judulList = kotakSoalMM.querySelectorAll(".kont-soal");
+        let inputs = kotakSoalMM.querySelectorAll("input");
+        let judulList = kotakSoalMM.querySelectorAll(".kont-soal");
     
         inputs.forEach((inp, i) => {
             let user = inp.value.trim();
@@ -5974,8 +6233,8 @@ function gambarBalok(panjang, lebar, tinggi) {
             }
             // Cek jawaban pecahan
             else if (user.includes("/") && String(kunci).includes("/")) {
-                const [uPemb, uPeny] = user.split("/").map(Number);
-                const [kPemb, kPeny] = String(kunci).split("/").map(Number);
+                let [uPemb, uPeny] = user.split("/").map(Number);
+                let [kPemb, kPeny] = String(kunci).split("/").map(Number);
             
                 if (uPemb / uPeny === kPemb / kPeny) {
                     isBenar = true;
@@ -6031,14 +6290,15 @@ function gambarBalok(panjang, lebar, tinggi) {
         };
 
   }
-  // --- END CORE FUNCTION --- \\
+
+  // --- END QUIZ ENGINE --- \\
 
 
-// --- DATASET FILTERING FUNCTION --- \\
-function getKanaList(modeQuiz=helperMode) {
-// Fungsi untuk mengambil semua pilihan bab kotoba yang dipilih pengguna
-const selectedBab = [...document.querySelectorAll('.bab-choice:checked')].map(cb => cb.value);
-// Filter berdasarkan mode saat ini
+// --- DATASET FILTERING --- \\
+
+// kanaList Filter
+function varLister(modeQuiz=helperMode) {
+let selectedBab = [...document.querySelectorAll('.bab-choice:checked')].map(cb => cb.value);
 // Mode Hira Kata
 if (modeQuiz.endsWith('hiragana')) return kanaList.filter(indeks => indeks[2] === 'hiragana');
 if (modeQuiz.endsWith('katakana')) return kanaList.filter(indeks => indeks[2] === 'katakana');
@@ -6052,23 +6312,35 @@ if (modeQuiz.endsWith('-kanji')) { return kanaList.filter(indeks => selectedBab.
 if (modeQuiz.endsWith('-kotoba')) { return kanaList.filter(indeks => selectedBab.includes(indeks[2]) && indeks[3] === kotobaBuku);}
 return kanaList;
 }
+function startWordQuiz() {
+  let text = document.getElementById("kanjiInput").value.trim();
+  if (!text) {
+    pesan('Isi setidaknya 1 huruf jepang. Tidak mendukung huruf latin!')
+    return}
+  sessionList = shuffle([...text])
+  pilihMode.textContent = judulModeSaved
+  totalSoal = sessionList.length
+  salahsemua = false
+  totalCount = 0
+  correctCount = 0
+  indexSoal = -1
+  restartBtn.style.display = 'none'
+  quester()
+}
+// --- END DATASET FILTERING --- \\
 
-// --- END DATASET FILTERING FUNCTION --- \\
-
-
-// --- START "QUIZ ELEMEENT" FUNCTION -- \\
-// --- END "QUIZ ELEMEENT" FUNCTION -- \\
- 
-
-// --- ON-BOOT FUNCTION --- \\
-// Semua fungsi yang dimuat saat web telah 100% diload. Dimuat disini
- function bangunUI() {
+// --- ON-LOAD FUNCTION --- \\
+function bangunUI() {
   // Kondisi default element untuk semua mode
   // Atau saat element dibawah ini tidak didefinisikan khusus di mode tertentu, maka kondisi default ini yang didapat element itu
     Timer.stop()
     badanQuiz.style.display = 'flex'
+    badanQuiz.style.flexDirection = ''
+    kotakSoal.classList.remove('kotakSoal')
     stopBtn.style.display = 'flex'
     stopBtn.textContent = 'Keluar Quiz'
+    soal.style.textAlign = 'center'
+    kana.style.textAlign = 'center'
     let rmh = 'Kembali ke Home'
     ;[
     menuPilihan,
@@ -6083,20 +6355,20 @@ return kanaList;
     pewaktu,
     welcomeMsg,
     tabelMM,
+    uiInput,
     kotakInTXT,
     kotakTulis,
     ].forEach(e => {e.style.display = "none"})
 
-    
-    // Menampilkan/print text saat ini dalam mode apa di halaman web
-    document.getElementById("debugMode").innerHTML = `
+    let debug = document.getElementById("debugMode")
+    debug.innerHTML = `
     Mode aktif = ${mode}<br> 
     Judul Mode Saved = ${judulModeSaved}<br>
     helperMode = ${helperMode}<br>
     kotobaBuku = ${kotobaBuku}<br>
     salahsemua = ${salahsemua}<br>
     `
-    document.getElementById("debugMode").style.display = "none"
+    debug.style.display = "none"
 
     ;["infoUpdate","footnote"].forEach(id => {
       document.getElementById(id).style.display = "flex"
@@ -6107,7 +6379,7 @@ return kanaList;
     stopBtn.textContent = rmh
     ;[stopBtn, pilihBab, startKotoba].forEach(e=>{e.style.display = "block"})
     startKotoba.innerHTML = `Mulai ${judulModeSaved}`
-    helperMode.includes('menulis')?startKotoba.addEventListener('click', ()=>{modeTerpilih('perluDb')}):startKotoba.addEventListener('click', ()=>{modeTerpilih('bentukSoal')})
+    helperMode==='menulis'?startKotoba.onclick = () => {modeTerpilih('perluDb')}:startKotoba.onclick = () => {modeTerpilih('bentukSoal')}
   }
   if(mode.startsWith('tabel')){
     tableContainer.style.display = 'flex'
@@ -6141,15 +6413,43 @@ return kanaList;
       badanQuiz.style.display ="none"
       stopBtn.innerHTML =rmh
       kotakInTXT.style.display = 'block'
+      btnLoad.onclick=o=>{modeTerpilih('menulis')}
+      btnLoad.textContent = `Mulai Quiz ${judulModeSaved}`
+      if(helperMode.startsWith('custom')){ 
+        btnLoad.onclick=o=>{modeTerpilih('custom_menulis')}
+        btnLoad.textContent = `Lanjut pilih huruf untuk quiz`
+      }
+    break;
+
+    case 'custom_menulis':
+      badanQuiz.style.display ="none"
+      stopBtn.innerHTML =rmh
+      uiInput.style.display ='flex'
+
     break;
 
     case 'menulis':
-      kotakTulis.style.display = 'block'
+      kotakTulis.style.display = 'flex'
       stopBtn.textContent = 'Keluar Quiz'
-      sisaBantuan =5
+      if (['hiragana', 'katakana', 'bothkana'].includes(helperMode)||helperMode.endsWith('-kotoba')) {
+        sisaBantuan = 3
+      } else {
+        sisaBantuan = 8
+      }
+      kanjiKont.innerHTML = ''
       bantuanAnim(111)
-      kanjiKont.innerHTML =''
       Timer.start()
+      if(window.innerWidth>=1430){
+        kotakSoal.classList.add('kotakSoal')
+        badanQuiz.style.flexDirection = 'row-reverse'
+        return
+      }
+      if(window.innerWidth>=750){
+        kotakSoal.classList.add('kotakSoal')
+        kotakSoal.classList.remove('tengahkan')
+        kana.style.textAlign = 'left'
+        soal.style.textAlign = 'left'
+      }
     break;
     case 'quizMM':
       badanQuiz.style.display = 'none'
@@ -6157,12 +6457,8 @@ return kanaList;
       stopBtn.textContent = 'Kembali Ke Home'
       tabelMM.style.display = 'table'
       quizMM.style.display = 'table-row-group'
-      if (window.innerWidth <= 900) {
-        tabelMM.style.zoom = "0.5";
-        pesan('Perbersar atau zoom untuk melihat lebih jelas')
-      }else{
-        pesan('Tampilan halaman ini di desain untuk mobile. Kurang cocok untuk desktop/PC')
-      }
+      tabelMM.style.zoom = "0.5"
+      minLayar('Saat ini ui Quiz MM masih didesain untuk layar hp. Zoom jika tulisan terlalu kecil', 0, 900)
       buatSoalMM()
     break;
 
@@ -6237,7 +6533,6 @@ return kanaList;
     break;
 
     default:
-      console.log('kondisi default dimuat. Isi Mode = ', mode)
       stopBtn.style.display = 'block'
       stopBtn.textContent = 'Keluar Quiz' 
       Timer.start()
@@ -6245,7 +6540,15 @@ return kanaList;
   }
 } 
 
-  bangunUI()
+bangunUI()
+history.replaceState({ 
+  mode: mode, 
+  judulModeSaved:judulModeSaved,
+  helperMode:helperMode
+}, "")
+buatHistori()
+// --- END ON-LOAD FUNCTION --- \\
+
 </script>
 </body>
 </html>
