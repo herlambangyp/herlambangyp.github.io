@@ -919,7 +919,7 @@ display: block;
 </div>
 <div id="toast-container"></div>  
 
-    <h1 class="judulUtama">Quiz Mourop Apalan V<span id="versiFile">4.3</span></h1>
+    <h1 class="judulUtama">Quiz Mourop Apalan V<span id="versiFile">4.3.1</span></h1>
     <button id="pilihMode" class="pilihMode" onclick="modeTerpilih('menuPilihMode')"></button>
     <!-- Tombol Stop Quiz -->
     <div id="stopQuizWrapper">
@@ -4759,7 +4759,7 @@ document.getElementById("fileInput").oninput = o => {
   if (!file) return
   Loader.show("statusFile", `Membaca file..`)
   if (typeof dataServer !== 'undefined' && dataServer && dataServer.versiDataset) {
-    if (file.name !== dataServer.versiDataset) {
+    if (file.name !== dataServer.versiDataset && '#'+file.name !== dataServer.versiDataset && file.name !== '#'+dataServer.versiDataset) {
       setTimeout(o=>{
         Loader.hide("statusFile", `❌ File tidak valid! Silahkan ${btntxtDown('Download')} lalu load lagi`)
       }, 600)

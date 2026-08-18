@@ -1,12 +1,12 @@
 window.dataServer = {
 
-    versi: "4.3",
+    versi: "4.3.1",
     changeLog: `
             - Fitur untuk mengetik sendiri soal quiz sekarang tersedia
             - Kanji JLPT N5-N1 sudah ada (data aku ambil dari MaaziApp)
             - Dataset karakter sekarang disimpan didalam memori browser
               sekarang tidak perlu selalu load file dataset (cukup sekali dipake seterusnya)
-              
+
             - Quiz scripting saat ini masih dalam tahap pre-release, belum bisa sepenuhnya
               mengontrol bentuk quiz (masih baru bisa mengirim 3 parameter = soal, arti, jawaban)
               Tetapi fungsi dasarnya sudah berjalan optimal
@@ -17,6 +17,8 @@ window.dataServer = {
               hingga quiz engine benar-benar kembali optimal 
               (terutama terkait algoritma pembaca bentuk tulisan di kanji besar)
 
+            - Memperbaiki bug, file dataset selalu ditolak padahal sesuai dengan nama server
+
 
             - ongoing:
               hasil parsing script akan bisa dijadikan file sendiri (file.qs) untuk disimpan.
@@ -26,7 +28,7 @@ window.dataServer = {
 
     changeLogVersiLama:`
 
-        3.2 
+        4.2
             - Memperbarui logika live writing. Sekarang lebih interaktif
             - Memperbarui tampilan Ui menulis kanji
             - Membuat canvas lebih besar menyesuaikan ukuran layar secara dinamis.
