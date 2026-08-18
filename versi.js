@@ -80,4 +80,7 @@ window.dataServer = {
 
         3.1.8
             - Anchor point versi online dibuat`,
+
+            
+    versiDataset:`hrfJpnV1-set_2.txt`
 };
