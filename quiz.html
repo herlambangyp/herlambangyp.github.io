@@ -32,7 +32,9 @@ body {
     justify-content: flex-start;
     align-items: center;
 }
-
+.pointer{
+  cursor: pointer;
+}
 .textCenter{
   text-align: center;
 }
@@ -46,16 +48,19 @@ body {
   color: #b5b5b5;
 }
 .textSmall{
-  font-size: 14px;
+  font-size: small;
 }
 .textGedi{
   font-size: 30px;
 }
 .textNormal{
-  font-size: medium;
+  font-size: 17px;
 }
 .widthFull{
   width: 100%;
+}
+.dashed{
+  border: dashed;padding: 10px;margin: 10px 0px;
 }
 .tinggi150{
   min-height: 150px;
@@ -65,6 +70,12 @@ body {
     flex-direction: column;
     align-items: center;
     justify-content: center;
+}
+.kirikan{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    flex-wrap: wrap;
 }
 .AllWrapper{
     width: 100%;
@@ -266,6 +277,7 @@ salah {
     font-size: 37px;
     color: #f1f5f9;
     width: 100%;
+    margin: inherit;
     text-align: center;
 }
 #pilihBab{
@@ -770,6 +782,15 @@ display: block;
 .fileUp{
   background: #2f4f4f;
 }
+#kotakInTXT{
+      display: block;
+    max-width: 300px;
+    border: solid #ff8c00;
+    padding: 15px;
+    color: rgb(255 255 255);
+    margin: 10px 0px;
+    border-radius: 0px 30px 0px 0px;
+}
 #kotakTulis {    
     border-radius: 8px;
 }
@@ -868,6 +889,27 @@ display: block;
     padding: 50px 0px;
     margin-bottom: 8px;
 }
+#kanjiInput{
+    background: #00000000;
+    color: rgb(255 255 255);
+    min-width: 200px;
+    width: 100%;
+    border-top: solid 20px #2a833e;
+    min-height: 315px;
+    border-bottom: solid 3px;
+    margin: 10px;
+    border-radius: 0px 0px 30px 30px;
+    padding-bottom: 25px;
+}
+.buttonScripting{
+  background: #00000000;
+  padding: 0px;
+  min-width: 0px;
+}
+.between{
+  display: flex;
+  justify-content: space-between;
+}
 </style>
 </head>
 <body>
@@ -877,8 +919,13 @@ display: block;
 </div>
 <div id="toast-container"></div>  
 
-    <h1 class="judulUtama">Quiz Mourop Apalan V<span id="versiFile">4.2.1</span></h1>
+    <h1 class="judulUtama">Quiz Mourop Apalan V<span id="versiFile">4.3</span></h1>
     <button id="pilihMode" class="pilihMode" onclick="modeTerpilih('menuPilihMode')"></button>
+    <!-- Tombol Stop Quiz -->
+    <div id="stopQuizWrapper">
+      <button id="stopBtn" onclick="history.back()" class="hidden widthFull">#ERROR01 JS Syntax Failure</button>
+    </div>
+    <p id="debugMode"></p>
 
 <div id="sambutan" class="boxUmum">
     Selamat datang di <br>QUIZ MOUROP APALAN<br>
@@ -889,36 +936,56 @@ display: block;
     <div id="infoUpdate"></div>
 </div>
 
-<!-- Tombol Stop Quiz -->
-<div id="stopQuizWrapper">
-<button id="stopBtn" onclick="history.back()" class="hidden widthFull">#ERROR01 JS Syntax Failure</button>
-</div>
-
-<p id="debugMode"></p>
 <!-- jika ingin buat UI baru, buat dibawah sini -->
 
 <div id="uiInput" class="tengahkan widthFull" style="max-width: 600px;">
-  <textarea id="kanjiInput" class="tinggi150 widthFull">
+<textarea id="kanjiInput" class="tinggi150 widthFull" oninput="simpanLog()"></textarea>
+<div class="widthFull between">
+  <button onclick="bersihkan()" id="btnHpsPsn" class="textNormal buttonScripting">🗑️ Bersihkan Input</button>
+  <button id="btnStartCustom" onclick="startWordQuiz()" class="textNormal buttonScripting"></button>
+</div>
+<div id="compilerLog" class="widthFull textNormal dashed"></div>
+  <div class="boxUmum textSmall">
+    <div class="textGedi"><b>Cara Buat Data Quiz</b></div>
+  <div>1. Format data kotoba/kosakata</div>
+    <ul>
+      <li>Format = "Soal (arti, furigana/cara baca)"</li>
+      <li>Beberapa bagian dikosongkan tidak masalah.. Seperti bagian furigana misalnya (Jika soalnya tidak memiliki kanji)</li>
+      <li>Format data cocok untuk semua mode quiz (Fitur "custom-file.qs" yg akan diupdate)</li>
+      <li>Contoh penulisan yang tepat:</li>
+        <ul>
+          <li>ことば(kosakata),<-tiap kata tutup dg koma</li>
+          <li>長い (panjang, ながい),</li>
+          <li>辞書 (kamus,じしょ),</li>
+          <li>チョコレート(coklat),</li>
+        </ul>
+    </ul>
+  <div>2. Format data huruf</div>
+    <ul>
+      <li>Format = Huruf Jepang (huruf latin diabaikan)</li>
+      <li>Jgn gunakan koma "," atau dalam kurung "( )"</li>
+      <li>Format ini hanya untuk mode quiz menulis</li>
+      <li>Furigana/Cara baca akan diisi otomatis oleh sistem quiz</li>
+      <li>Contoh penulisan yang tepat:</li>
+        <ul>
+          <li>あい うえお</li>
+          <li>一二三四五六 七八九 十百千 万</li>
+        </ul>
+    </ul>
+</div>
 
-  </textarea>
-  <button class="textNormal">Mulai quiz</button>
 
 </div>
 
-<div id="kotakInTXT" class="boxUmum">
+<div id="kotakInTXT">
   <div>
     <label><b>Load Dataset Huruf:</b><div>(Tidak Perlu Koneksi Internet)</div></label><br>
-    <input type="file" class="fileUp" id="fileInput" accept=".txt,.jsonl"><br>
-    
+    <div class="textSmall textGrey widthFull kirikan"><input type="file" class="fileUp" id="fileInput" accept=".txt,.jsonl,.qs">*.txt/.qs</div>    
     <p id="statusFile" class="gagalCek" style="font-size: 10px;"></p>
-
-    <p class="gagalCek" style="font-size: 10px;">
-      Wajib untuk meload dataset terlebih dahulu. Jika tidak punya,
-      <a style="color:darkgray;text-decoration: underline;"onclick="buatLinkDown('linkDat')"> Klik Disini <b>(Perlu Internet)</b> </a>
-      untuk mendownload file dataset
-    </p>
-
-    <button id="btnLoad" class="tombolPilihanMenu" style="margin-top: 5px; display: none;"></button>
+    <div>
+    <button id="btnLoad" class="textSmall widthFull textSmall" style="margin-top: 5px; display: none;"></button>
+    <button id="btnDelet" class="textSmall widthFull textSmall" style="margin-top: 5px; display: none;" onclick="hapusDbTxt()"></button>
+    </div>
     <div id="linkDat">
     </div>
   </div>
@@ -989,6 +1056,27 @@ display: block;
 
     <div class="kotakSubMenu">
       <div class="titleSubMenu">
+        <span class="judulSubMenu">Menulis Karakter</span>
+        <span class="keteranganSubMenu">
+          Quiz menulis berbagai karakter kanji. Atau bisa ketik sendiri
+        </span>
+      </div>
+
+      <div class="kotakTombolPilihanMenu">
+        <button class="tombolPilihanMenu" onclick="textUmum=n5;helperMode ='scripting';modeTerpilih('perluDb', 'Menulis Kanji N5');">Kanji N5</button>
+        <button class="tombolPilihanMenu" onclick="textUmum=n4;helperMode ='scripting';modeTerpilih('perluDb', 'Menulis Kanji N4');">Kanji N4</button>
+        <button class="tombolPilihanMenu" onclick="textUmum=n3;helperMode ='scripting';modeTerpilih('perluDb', 'Menulis Kanji N3');">Kanji N3</button>
+        <button class="tombolPilihanMenu" onclick="textUmum=n2;helperMode ='scripting';modeTerpilih('perluDb', 'Menulis Kanji N2');">Kanji N2</button>
+        <button class="tombolPilihanMenu" onclick="textUmum=n1;helperMode ='scripting';modeTerpilih('perluDb', 'Menulis Kanji N1');">Kanji N1</button>
+        <button class="tombolPilihanMenu" onclick="helperMode ='scripting';modeTerpilih('perluDb', 'Soal Custom');">
+        Ketik Sendiri 
+      </button>
+      </div>
+      
+    </div>
+
+    <div class="kotakSubMenu">
+      <div class="titleSubMenu">
         <span class="judulSubMenu">Test Matematika IM JAPAN</span>
         <span class="keteranganSubMenu">Bentuk soal matematika yang digunakan untuk tes matematika dalam program IM JAPAN</span>
       </div>
@@ -1032,18 +1120,18 @@ display: block;
 
         <button class="tombolPilihanMenu"
         onclick="
-          helperMode = 'menulis';
+          helperMode = 'menulis-kanji';
           buatPilihanBab('kotoba'); 
-          modeTerpilih('pilih-baca-kanji', 'Menulis Kotoba Buku IM dg Kanji')
+          modeTerpilih('perluDb', 'Menulis Kotoba Buku IM dg Kanji')
           ">
           Menulis Kotoba dg Kanji
         </button>
 
         <button class="tombolPilihanMenu"
         onclick="
-          helperMode = 'menulis';
+          helperMode = 'menulis-kotoba';
           buatPilihanBab('kotoba'); 
-          modeTerpilih('pilih-kotoba-nokanji', 'Menulis Kotoba Buku IM dg Hiragana/Katakana saja')
+          modeTerpilih('perluDb', 'Menulis Kotoba Buku IM dg Hiragana/Katakana saja')
           ">
           Menulis Kotoba dg Hiragana/Katakana
         </button>
@@ -1089,48 +1177,23 @@ display: block;
 
         <button class="tombolPilihanMenu"
         onclick="
-          helperMode = 'menulis';
+          helperMode = 'menulis-kanji';
           buatPilihanBab('BukuMinna'); 
-          modeTerpilih('pilih-baca-kanji', 'Menulis Kotoba Buku Minna dg Kanji')
+          modeTerpilih('perluDb', 'Menulis Kotoba Buku Minna dg Kanji')
           ">
           Menulis Kotoba dg Kanji
         </button>
 
         <button class="tombolPilihanMenu"
         onclick="
-          helperMode = 'menulis';
+          helperMode = 'menulis-kotoba';
           buatPilihanBab('BukuMinna'); 
-          modeTerpilih('pilih-kotoba-nokanji', 'Menulis Kotoba Buku Minna dg Hiragana/Katakana saja')
+          modeTerpilih('perluDb', 'Menulis Kotoba Buku Minna dg Hiragana/Katakana saja')
           ">
           Menulis Kotoba dg Hiragana/Katakana
         </button>
       
       </div>
-    </div>
-
-    <div class="kotakSubMenu">
-      <div class="titleSubMenu">
-        <span class="judulSubMenu">Menulis Karakter <div class="textGrey">(Segera Tersedia)</div></span>
-        <span class="keteranganSubMenu">
-          Quiz menulis berbagai karakter kanji. Atau bisa ketik sendiri
-          <div class="text-kecil">Engine quiz sebenarnya siap. Hanya saja aku belum punya desain Ui yang pas. Sementara aku matikan/"scrap" dulu..</div>
-        </span>
-      </div>
-
-      <div class="kotakTombolPilihanMenu">
-        <button class="tombolPilihanMenu" disabled>Kanji N5</button>
-        <button class="tombolPilihanMenu" disabled>Kanji N4</button>
-        <button class="tombolPilihanMenu" disabled>Kanji Nama</button>
-        <button class="tombolPilihanMenu" disabled>Kanji N3</button>
-        <button class="tombolPilihanMenu" disabled>Kanji N2</button>
-        <button class="tombolPilihanMenu" disabled>Hyogai Kanji</button>
-        <button class="tombolPilihanMenu" disabled>Kanji N1</button>
-        <button 
-        class="tombolPilihanMenu" onclick="helperMode ='custom_menulis';modeTerpilih('perluDb', 'Soal Custom');" disabled>
-        Ketik Sendiri 
-      </button>
-      </div>
-      
     </div>
 
       <div class="kotakSubMenu">
@@ -1169,10 +1232,27 @@ display: block;
     <gedi>Javascript(JS) Mati. Gunakan Browser lain</gedi><br>
     <catatan-mode>Sebaiknya gunakan Chrome untuk mengfungsikan web-app ini</catatan-mode>
   </div>
-  <div id="pilihan-kotoba" class="bagan-pilihan">
+  <div>
+    <form id="pilihan-kotoba" class="bagan-pilihan"></form>
   </div>
-  <span id="infoJumSoal">
-  </span>
+  <div>
+        <div class="kont-soal" style="width:100%;">
+      <div class="bagan-pilihanMM" style="margin-bottom: 0px;">
+        <div><span id="jumSoal">Pilih bab dulu, lalu </span> isi dibawah ini jika ingin membatasi jumlah soal:<br></div>
+        <input 
+          id="batasSoal"
+          style="border: solid 1px;padding: 5px;margin: 3px 0px;border-radius: 12px; font-size:12px;" 
+          type="number" 
+          minlength="4" 
+          class="inputJWBMM" 
+          inputmode="numeric" 
+          placeholder="Isi disini untuk batasi Soal"
+          onInput='soalDibatasi()'
+          >
+          <span class="text-kecil" style="text-align: end;">*kosongkan untuk ambil semua soal</span>
+      </div>
+    </div>
+  </div>
 </div>
     <button class="tombol-start-quiz" id="startKotoba"></button>
 
@@ -1297,19 +1377,41 @@ isDrawing = false,
 salahsemua = false,
 kembaliDitekan = false,
 isClickable = true,
+isType1,
+hrfValid,
 
 judulModeSaved = `Klik Disini Untuk Pilih Mode Quiz`,
 mode = '0kosong',
-kotobaBuku = `kosong`,
 helperMode = '',
+textUmum = '',
+saniti = '',
 serverLink = `https://herlambangyp.github.io/`,
+btntxtDown = (textDown) => `<a class="pointer" style="color:darkgray;text-decoration:underline" onclick="buatLinkDown('linkDat')">${textDown}</a>`,
+
+scrpDef=
+`‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾
+Quiz Scripting [ver 0.8-params_3]
+Regexed_from thisTyped by @HYP.
+________________________________
+
+[Data Opsional]
+Quiz by=namamu?
+        
+Tulis script quizmu dibawah sini
+
+`,
 
 db = new Map(),
+dbBacaan = new Map(),
 sisaBantuan,
 waktu,
+kotobaBuku,
 
+// --- LOG VAR ---
+scriptSaved = localStorage.getItem("kanjiInputLog"),
 
 // --- ELEMENT GLOBAL --- \\
+debug = document.getElementById("debugMode"),
 versiFile = document.getElementById('versiFile').textContent,
 cekUpdate = document.createElement("script"),
 uiUpdate = document.createElement("script"),
@@ -1339,7 +1441,12 @@ jumHrf = document.getElementById('jumHrf'),
 stateTulis = document.getElementById('stateTulis'),
 kanjiKont = document.getElementById('kanjiKont'),
 uiInput = document.getElementById('uiInput'),
+kanjiInput = document.getElementById("kanjiInput"),
+btnHpsPsn = document.getElementById("btnHpsPsn"),
+btnStartCustom = document.getElementById("btnStartCustom"),
+compilerLog = document.getElementById("compilerLog"),
 statusFile = document.getElementById('statusFile'),
+btnLoad = document.getElementById('btnLoad'),
 pilihMode = document.getElementById('pilihMode'),
 bentukSoal = document.getElementById('bentukSoal'),
 pilihBab = document.getElementById('pilihBab'),
@@ -1363,6 +1470,7 @@ restartBtn = document.getElementById('restart'),
 buttons = document.querySelectorAll('#choices button'),
 overlay = document.getElementById('nextOverlay'),
 elmBlok = document.getElementById('elmBlok'),
+
 
 
 // Dataset materi quiz
@@ -4391,10 +4499,162 @@ kanaList = [
 ['おげんきでいらっしゃいますか', 'apa kabar?', 'bab50', 'BukuMinna', 'お元気でいらっしゃいますか', 'ogenki de irasshaimasu ka'],
 ['めいわくをかけます', 'merepotkan, menyebabkan kesulitan', 'bab50', 'BukuMinna', '迷惑をかけます', 'meiwaku o kakemasu'],
 ['いかします', 'memanfaatkan, menggunakan', 'bab50', 'BukuMinna', '生かします', 'ikashimasu'],
-]
+],
+
+n5 =`
+Silahkan diedit jika terlalu banyak
+[Inputmu sebelumnya akan direplace jika kamu mengedit ini]
+by=MaaziApp
+
+一右雨円下何火外学間気休金九月見五午後
+語校行高国今左三山四子時七車十出書女小
+上食人水生西先千川前大男中長天電土東読
+南二日入年白八半百父聞母北本毎万名木友
+来六話
+`,
+n4 =`
+Silahkan diedit jika terlalu banyak
+[Inputmu sebelumnya akan direplace jika kamu mengedit ini]
+by=MaaziApp
+
+悪安以意医員飲院運映英駅屋音夏家
+歌花画会海界開楽漢館帰起急究牛去魚京強
+教業近銀空兄計建犬研験元言古公口工広考
+黒作仕使始姉思止死私紙試事字持自室質写
+社者借主手秋終習週集住重春少場色心新真
+親図世正青赤切早走送足族多体待貸代台題
+知地茶着昼注朝町鳥通弟店転田度冬答動同
+堂道特肉買売発飯病品不風服物分文別勉歩
+方妹味明目問夜野有夕曜洋用理立旅料力
+
+`,
+n3 =`
+Silahkan diedit jika terlalu banyak
+[Inputmu sebelumnya akan direplace jika kamu mengedit ini]
+by=MaaziApp
+
+位偉易違育因引泳越園演煙遠押横王化加科
+果過解回皆絵害格確覚掛割活寒完官感慣観
+関顔願危喜寄幾期機規記疑議客吸求球給居
+許供共恐局曲勤苦具偶靴君係形景経警迎欠
+決件権険原現限呼互御誤交候光向好幸更構
+港降号合刻告込困婚差座最妻才歳済際在罪
+財昨察殺雑参散産賛残市師指支資歯似次治
+示耳辞式識失実若取守種酒首受収宿術処初
+所緒助除勝商招消笑乗常情状職信寝深申神
+進吹数制性成政晴精声静席昔石積責折説雪
+絶戦洗船選然全祖組想争相窓草増側息束速
+続存他太打対退宅達単探断段談値恥置遅調
+頂直追痛定庭程適点伝徒渡登途都努怒倒投
+盗当等到逃頭働得突内難任認猫熱念能破馬
+敗杯背配箱髪抜判反犯晩番否彼悲疲費非飛
+備美必表貧付夫婦富怖浮負舞部福腹払平閉
+米変返便捕暮報抱放法訪亡忘忙望末満未民
+眠務夢娘命迷鳴面戻役約薬優由遊予余与容
+様葉要陽欲頼落利流留両良類例冷礼列連路
+労老論和
+
+`,
+n2=`
+Silahkan diedit jika terlalu banyak
+[Inputmu sebelumnya akan direplace jika kamu mengedit ini]
+by=MaaziApp
+
+圧依囲委移胃衣域印宇羽雲営栄永鋭液延塩
+汚央奥欧黄億温可河荷菓課貨介快改械灰階
+貝各角革額乾刊巻干患換汗甘管簡缶丸含岸
+岩希机祈季技喫詰逆久旧巨漁競協叫境挟橋
+況胸極玉均禁区隅掘訓群軍傾型敬軽芸劇血
+券県肩賢軒減個固庫戸枯湖雇効厚硬紅耕肯
+航荒講郊鉱香腰骨根混査砂再採祭細菜材坂
+咲冊刷札皿算伺刺史枝糸脂詞誌児寺湿捨弱
+周州拾舟柔祝述準純順署諸召将床承昇焼照
+省章紹象賞城畳蒸植触伸森臣身辛針震勢姓
+星清税隻籍績跡接設占専泉浅線双層捜掃燥
+総装像憎臓蔵贈造則測卒孫尊損村帯替袋濯
+谷担炭短団池築畜竹仲柱虫駐著貯兆庁超沈
+珍低停底泥滴的鉄殿塗党凍塔島湯灯筒導童
+銅毒届曇鈍軟乳燃悩濃脳農波拝倍泊薄爆麦
+肌畑板版般販比皮被鼻匹筆氷秒瓶布府普符
+膚武封副復幅複沸仏粉兵並片編辺補募包宝
+豊坊帽暴棒貿防磨埋枚無綿毛門油輸勇郵預
+幼溶踊浴翌絡乱卵裏陸律略粒了涼療量領緑
+林輪涙令零齢歴恋練録湾腕
+`,
+n1=`
+Silahkan diedit jika terlalu banyak
+[Inputmu sebelumnya akan direplace jika kamu mengedit ini]
+by=MaaziApp
+
+亜阿哀葵茜握渥旭梓扱絢綾鮎案杏伊威尉惟
+慰為異維緯遺井亥郁磯壱逸稲芋允姻胤陰隠
+韻卯丑渦唄浦叡影瑛衛詠疫益悦謁閲宴援沿
+炎猿縁艶苑鉛於凹往応旺殴翁沖憶乙卸恩穏
+仮伽価佳嘉嫁寡暇架禍稼箇茄華霞蚊我芽賀
+雅餓塊壊怪悔懐戒拐魁凱劾慨概涯街該馨垣
+嚇拡核殻獲穫較郭閣隔岳潟喝括渇滑褐轄且
+叶樺株鎌茅刈侃冠勘勧喚堪寛幹憾敢棺款歓
+環監看緩肝艦莞貫還鑑閑陥巌眼頑企伎器基
+奇嬉岐忌揮旗既棋棄毅汽稀紀貴軌輝飢騎鬼
+亀偽儀宜戯擬欺犠義誼菊鞠吉橘却脚虐丘及
+宮弓救朽泣窮級糾拒拠挙虚距亨享凶匡喬峡
+恭狂狭矯脅興郷鏡響驚仰凝尭暁桐錦斤欣欽
+琴筋緊芹菌衿襟謹吟句玖矩駆駒愚虞遇屈熊
+栗繰桑勲薫郡袈刑啓圭契径恵慶慧憩掲携桂
+渓系継茎蛍鶏鯨撃激傑潔穴結倹健兼剣圏堅
+嫌憲懸拳検献絹謙遣顕厳幻弦源玄絃孤己弧
+故胡虎誇顧鼓伍呉吾娯悟梧瑚碁護鯉侯倖功
+后坑孔孝宏巧康弘恒慌抗拘控攻昂晃江洪浩
+溝甲皇稿紘絞綱衡貢購酵鋼項鴻剛拷豪克穀
+酷獄墾恨懇昆紺魂佐唆嵯沙瑳詐鎖裟債催哉
+宰彩栽災采砕斎裁載剤冴崎削搾朔策索錯桜
+笹撮擦皐傘惨桟燦蚕酸暫司嗣士姿志施旨氏
+祉紫肢至視詩諮賜雌飼侍慈滋爾璽磁蒔汐鹿
+軸執漆疾偲芝舎射赦斜煮紗謝遮蛇邪勺尺爵
+酌釈寂朱殊狩珠趣儒寿授樹需囚宗就修愁洲
+秀臭衆襲酬醜充従汁渋獣縦銃叔淑縮粛塾熟
+俊峻瞬竣舜駿准循旬殉淳潤盾巡遵醇暑曙渚
+庶叙序徐恕傷償匠升唱奨宵尚庄彰抄掌捷昌
+昭晶松梢沼渉焦症硝礁祥称粧肖菖蕉衝訟証
+詔詳鐘障丈丞冗剰壌嬢条浄穣譲醸錠嘱飾殖
+織辱侵唇娠審慎振晋榛浸秦紳薪診仁刃尋甚
+尽迅陣須酢垂帥推炊睡粋翠衰遂酔錘随瑞髄
+崇嵩枢雛据杉澄寸瀬畝是征整牲盛聖製誠誓
+請逝斉惜斥析碩拙摂窃節舌仙宣扇栓染潜旋
+繊薦践遷銭銑鮮善漸禅繕塑措疎礎租粗素訴
+阻僧創倉喪壮奏爽惣挿操曹巣槽綜聡荘葬蒼
+藻遭霜騒促即俗属賊汰堕妥惰駄耐怠態泰滞
+胎逮隊黛鯛第鷹滝卓啄択拓沢琢託濁諾只但
+辰奪脱巽棚丹嘆旦淡端胆誕鍛壇弾暖檀智痴
+稚致蓄逐秩窒嫡宙忠抽衷鋳猪丁帳弔張彫徴
+懲挑暢潮眺聴脹腸蝶跳勅朕賃鎮陳津墜椎塚
+槻漬蔦椿坪紬釣鶴亭偵貞呈堤帝廷悌抵提汀
+禎締艇訂逓邸摘敵笛哲徹撤迭典展添吐斗杜
+奴刀唐悼搭桃棟痘糖統藤討謄豆踏透陶騰闘
+憧洞瞳胴峠匿徳督篤独凸寅酉屯惇敦豚奈那
+凪捺縄楠尼弐虹如尿妊寧粘乃之納巴把覇派
+婆俳廃排肺輩培媒梅賠陪萩伯博拍舶迫漠縛
+肇鉢伐罰閥鳩隼伴帆搬班畔繁藩範煩頒盤蛮
+卑妃扉批披斐泌碑秘緋罷肥避尾微眉柊彦姫
+媛俵彪標漂票評描苗彬浜賓頻敏扶敷腐芙譜
+賦赴附侮楓蕗伏覆噴墳憤奮紛雰丙併塀幣弊
+柄陛壁癖碧偏遍弁保舗甫輔穂墓慕簿倣俸奉
+峰崩朋泡砲縫胞芳萌褒邦飽鳳鵬乏傍剖妨房
+某冒紡肪膨謀僕墨撲朴牧睦没堀奔翻凡盆摩
+魔麻槙幕膜柾亦又抹繭麿慢漫魅巳岬密稔脈
+妙矛霧椋婿盟銘滅免模茂妄孟猛盲網耗黙紋
+匁也冶耶弥矢厄訳躍靖柳愉癒諭唯佑宥幽悠
+憂柚湧猶祐裕誘邑雄融誉庸揚揺擁楊窯羊耀
+蓉謡遥養抑翼羅裸雷酪嵐欄濫藍蘭覧吏履李
+梨璃痢里離率琉硫隆竜慮虜亮僚凌寮猟瞭稜
+糧諒遼陵倫厘琳臨隣麟瑠塁累伶励嶺怜玲鈴
+隷霊麗暦劣烈裂廉蓮錬呂炉露廊朗楼浪漏郎
+禄倭賄惑枠亘侑勁奎崚彗昴晏晨晟暉栞椰毬
+洸洵滉漱澪燎燿瑶皓眸笙綺綸翔脩茉莉菫詢
+諄赳迪頌颯黎凜熙
+`
 
 // --- ON-BOOT FUNC --- \\
-
 // Cek update
 uiUpdate.src = `${serverLink}uiUpdate.js?=${Date.now()}`
 uiUpdate.onload=o=>{
@@ -4411,7 +4671,7 @@ uiUpdate.onload=o=>{
         infoUpdate.innerHTML = `
         <span class="gagalCek textSmall" style="color: #000000;background: #ff8c00;border-radius: 3px;">
           Ada eror <b>${err}</b> di server pembaruan <br>Silahkan menuju ke 
-          <a href="${serverLink}download.html?file=quiz.html">
+          <a class="pointer" href="${serverLink}download.html?file=quiz.html">
             "${serverLink}download.html?file=quiz.html"
           </a><br>Kamu bisa hubungi aku ada eror <b>${err}</b> jika diperlukan
         </span>
@@ -4420,7 +4680,7 @@ uiUpdate.onload=o=>{
       };
       document.head.appendChild(cekUpdate);
     }catch(err){
-      infoUpdate.innerHTML = `ui failed to load eror ${err}`
+      infoUpdate.textContent = `ui failed to load eror ${err}`
     }
   }
   uiUpdate.onerror=o=>{
@@ -4437,33 +4697,169 @@ uiUpdate.onload=o=>{
 ctx.lineWidth = 24
 ctx.lineCap = ctx.lineJoin = "round"
 ctx.strokeStyle = "#273351"
-document.getElementById("fileInput").oninput=o=> {
+// Helper sederhana untuk IndexedDB
+const IDB = {
+  dbName: "KanjiDatabase",
+  storeName: "kanjiStore",
+
+  async getDB() {
+    return new Promise((resolve, reject) => {
+      const request = indexedDB.open(this.dbName, 1);
+      request.onupgradeneeded = () => request.result.createObjectStore(this.storeName);
+      request.onsuccess = () => resolve(request.result);
+      request.onerror = () => reject(request.error);
+    });
+  },
+
+  // Simpan data berdasarkan Key dan Val
+  async set(key, val) {
+    const db = await this.getDB();
+    const tx = db.transaction(this.storeName, "readwrite");
+    tx.objectStore(this.storeName).put(val, key);
+    return tx.complete;
+  },
+
+  // Ambil 1 data berdasarkan Key
+  async get(key) {
+    const db = await this.getDB();
+    return new Promise((resolve) => {
+      const tx = db.transaction(this.storeName, "readonly");
+      const req = tx.objectStore(this.storeName).get(key);
+      req.onsuccess = () => resolve(req.result);
+      req.onerror = () => resolve(null);
+    });
+  },
+
+  // Ambil semua data Kanji (Sambil mengabaikan Key "nama_file")
+  async getAll() {
+    const db = await this.getDB();
+    return new Promise((resolve) => {
+      const tx = db.transaction(this.storeName, "readonly");
+      const req = tx.objectStore(this.storeName).getAllKeys();
+      req.onsuccess = async () => {
+        const store = tx.objectStore(this.storeName);
+        const map = new Map();
+        for (const key of req.result) {
+          
+          // 💡 Abaikan Key "nama_file" agar tidak dikira karakter Kanji
+          if (key === "nama_file") continue;
+
+          map.set(key, await new Promise(r => {
+            const g = store.get(key);
+            g.onsuccess = () => r(g.result);
+          }));
+        }
+        resolve(map);
+      };
+    });
+  }
+};
+document.getElementById("fileInput").oninput = o => {
   let file = o.target.files[0]
   if (!file) return
-
+  Loader.show("statusFile", `Membaca file..`)
+  if (typeof dataServer !== 'undefined' && dataServer && dataServer.versiDataset) {
+    if (file.name !== dataServer.versiDataset) {
+      setTimeout(o=>{
+        Loader.hide("statusFile", `❌ File tidak valid! Silahkan ${btntxtDown('Download')} lalu load lagi`)
+      }, 600)
+      return
+    }
+  }
   let reader = new FileReader()
-  reader.onload = (evt) => {
-    db.clear();
+  
+  reader.onload = async (evt) => {
+    db.clear()
+    
     evt.target.result.split(/\r?\n/).forEach(line => {
       try {
         let json = JSON.parse(line.trim())
-        if (json.character && json.strokes) db.set(json.character, json)
+        if (json.character) {
+          if (db.has(json.character)) {
+            let dataLama = db.get(json.character);
+            let dataGabungan = Object.assign({}, dataLama, json);
+            db.set(json.character, dataGabungan);
+          } else {
+            // Jika belum ada, set langsung
+            db.set(json.character, json);
+          }
+
+        }
       } catch(err){}
-    })
+    });
 
     if (db.size > 0) {
-      statusFile.textContent = `✅ ${db.size} Karakter/Huruf Siap!`
-
-      let btnLoad = document.querySelector("#btnLoad")
+      Loader.show("statusFile", `💾 Menyimpan ${db.size} karakter... Jangan tutup browser! Tapi silahkan jika beralih tab`);
+      
+      // Simpan data yang SUDAH DIGABUNGKAN ke IndexedDB
+      for (let [char, data] of db.entries()) {
+        await IDB.set(char, data)
+      }
+      await IDB.set("nama_file", file.name);
+      Loader.hide("statusFile", `✅ ${db.size} Data Karakter Tersimpan!`);
       btnLoad.style.display = 'block'
+      btnDelet.style.display = 'block'
     } else {
-      statusFile.textContent = "❌ File tidak valid!"
-      btnLoad.style.display = 'none'
+      setTimeout(o=>{
+        Loader.hide("statusFile", `❌ File tidak valid! Silahkan ${btntxtDown('Download')} lalu load lagi`)
+      }, 600)
     }
   }
+  
   reader.readAsText(file)
 }
+document.addEventListener("DOMContentLoaded", async () => {
+  Loader.show("statusFile", `Memuat data lokal...`);
+  const savedData = await IDB.getAll();
+  const namaDb = await IDB.get("nama_file");
+  btnDelet.textContent = '🗑️ Hapus Data Lokal';
 
+  if (savedData.size > 0) {
+    savedData.forEach((val, key) => db.set(key, val));
+    btnLoad.style.display = 'block';
+    btnDelet.style.display = 'block';
+
+
+    if (typeof dataServer !== 'undefined' && dataServer?.versiDataset) {
+      if (namaDb !== dataServer.versiDataset) { // 💡 Catatan: Ganti 'ujicoba' dengan variabel namaDb
+        Loader.hide("statusFile", `⚠️ <b>(${db.size} Karakter sudah usang )</b> Sebaiknya hapus data, lalu ${btntxtDown('Download Data Terbaru')}.`);
+        return;
+      }
+    }
+
+    Loader.hide("statusFile", `✅${db.size} Karakter Dimuat<br><b>(Tidak perlu upload file lagi)</b>. File asli hilang? ${btntxtDown('Download Ulang (Perlu Internet)')}.`);
+    return;
+  }
+
+  Loader.hide("statusFile", `Dataset belum diload. Load dulu file dataset atau ${btntxtDown('<b>Download Di Sini</b> (Perlu Internet)')} jika belum punya`);
+});
+
+// menghapus Kanji dari browser
+async function hapusDbTxt() {
+  btnLoad.style.display = 'none';
+  btnDelet.style.display = 'none';
+  Loader.show("statusFile", "Menghapus data... Jangan tutup browser! Tapi silahkan jika beralih tab");
+  return new Promise((resolve, reject) => {
+    const req = indexedDB.deleteDatabase("KanjiDatabase")
+    req.onsuccess = () => {
+      db.clear()
+      Loader.hide("statusFile", `🗑️ Dataset karakter berhasil dihapus dari memori! ${btntxtDown('Download Ulang')}`);
+
+      btnLoad.style.display = 'none'
+      btnDelet.style.display = 'none'
+      document.getElementById("fileInput").value = ""
+      resolve(true);
+    }
+    req.onerror = () => {
+      statusFile.textContent = "❌ Gagal menghapus data!"
+      reject(false)
+    }
+
+    // req.onblocked = () => {
+    //   statusFile.textContent = "⚠️ Penghapusan diblock. Halaman yang sama sedang dibuka di tab lain. Tutuplah terlebih dahulu..";
+    // }
+  })
+}
 canvas.onpointerdown=o=>{
   if (currentStroke >= guides.length) return
   isDrawing = true
@@ -4512,7 +4908,7 @@ window.onpopstate=o=> {
 
 
 // --- GENERAL & DOM FUNCTION --- \\
-function startElBlok(angka=5, soal='Tidak ada soal', pesan='Tulislah kotoba ini:') {
+function startElBlok(angka=5, soal='Tidak ada soal',helper='', pesan='Tulislah kotoba ini:') {
   elmBlok.style.display = 'flex'
   function tampilkanAngka() {
   elmBlok.innerHTML = `
@@ -4521,7 +4917,7 @@ function startElBlok(angka=5, soal='Tidak ada soal', pesan='Tulislah kotoba ini:
     <div class="textCenter widthFull textSmall textGrey">Mulai Dalam <span class="waktuEl">${angka}</span> Detik</div>
     ${pesan}
   </div>
-  <div class="goldDash widthFull">${soal}<div class="textSmall">${currentKana[0]}</div></div>
+  <div class="goldDash widthFull">${soal}<div class="textSmall">${helper}</div></div>
   <button style="border:solid; min-width:65%;" onclick="skip()">Skip Waktu</button>
   </div>
   `;
@@ -4559,21 +4955,20 @@ function buatPilihanBab(kotoba){
     return
   }
   if(kotobaBuku !== kotoba){
-    pilihan.innerHTML = ``;
+    pilihan.textContent = ``;
   }
 
   kotobaBuku = kotoba
   let jumlahKolom = 3,
   daftarBab = [...new Set(kanaList.filter(x => x[3] === kotoba).map(x => x[2]))]
   .sort((a, b) => Number(a.slice(3)) - Number(b.slice(3))),
-  jumlahBaris = Math.ceil(daftarBab.length / jumlahKolom),
-  jumSoal = document.getElementById('infoJumSoal')
+  jumlahBaris = Math.ceil(daftarBab.length / jumlahKolom)
 
   daftarBab.forEach(bab => {
     let nomor = bab.slice(3)
     pilihan.insertAdjacentHTML("beforeend", `
     <label>
-      <input type="checkbox" value="${bab}" class="bab-choice">
+      <input type="checkbox" name="bab" value="${bab}" class="bab-choice">
         BAB ${nomor}
       </label>
     `)
@@ -4588,7 +4983,6 @@ function buatPilihanBab(kotoba){
      SEMUA
   </label>
   `)
-  jumSoal.innerHTML= ''
   pilihan.onchange=o=>{
     if (o.target.id === "pilih-semua") {
       document.querySelectorAll(".bab-choice")
@@ -4598,32 +4992,17 @@ function buatPilihanBab(kotoba){
       document.getElementById("pilih-semua").checked =
       [...semua].every(cb => cb.checked)
     }
-    soalDipakai = varLister(helperMode).length
-    soalDipakai>0?jumSoal.innerHTML=`
-    <div class="kont-soal" style="width:100%;">
-      <div class="bagan-pilihanMM" style="margin-bottom: 0px;">
-        <catatan-mode>Akan ada ${soalDipakai} soal. Isi dibawah ini untuk membatasi jumlah soal:<br></catatan-mode>
-        <input 
-          id="batasSoal"
-          style="border: solid 1px;padding: 5px;margin: 3px 0px;border-radius: 12px; font-size:12px;" 
-          type="number" 
-          minlength="4" 
-          class="inputJWBMM" 
-          inputmode="numeric" 
-          placeholder="Isi disini untuk batasi Soal"
-          onInput='soalDibatasi()'
-          >
-          <span class="text-kecil" style="text-align: end;">*kosongkan untuk ambil semua soal</span>
-      </div>
-    </div>
-    `:jumSoal.innerHTML =''
-
+    soalDipakai = batasSoal.value>0? batasSoal.value: varLister(helperMode).length
+    soalDipakai>0?jumSoal.textContent=`Akan ada ${varLister(helperMode).length} soal,`:jumSoal.textContent ='Pilih bab dulu, lalu'
 }
 }
 
 function modeTerpilih (dipilih=mode, judul=judulModeSaved) {
-  if(['0kosong', 'menuPilihMode', 'custom_menulis'].includes(dipilih)){
+  if(['0kosong', 'menuPilihMode'].includes(dipilih)){
     mode = dipilih
+    helperMode =''
+    hrfValid = ''
+    soalDipakai =0
     bangunUI()
     filterBab = false
     if (!kembaliDitekan) {
@@ -4633,8 +5012,17 @@ function modeTerpilih (dipilih=mode, judul=judulModeSaved) {
     }
     return
   }
+  if(['perluDb', 'scripting',].includes(dipilih) || dipilih.startsWith('tabel')){
+    mode = dipilih
+    judulModeSaved = judul
+    pilihMode.textContent = judul
+    bangunUI()
+    return
+  }
+      let data = new FormData(pilihan)
+      let selected = data.getAll('bab')
   if(mode.startsWith('pilih-')) {
-        let selected = Array.from(document.querySelectorAll('.bab-choice:checked')).map(cb => cb.value)
+    soalDibatasi()
         if (selected.length === 0) {
           pesan("⚠️ Minimal pilih 1 kek >:(", 'error')
           return
@@ -4643,6 +5031,8 @@ function modeTerpilih (dipilih=mode, judul=judulModeSaved) {
           pesan("Minimal soal adalah 4, atau kosongkan untuk ambil semua soal", 'warning', 5000)
           return
         }
+      }else{
+
       }
       
       if (!(['hiragana', 'katakana', 'bothkana', 'menulis', 'quizMM'].includes(dipilih) ||
@@ -4660,16 +5050,16 @@ function modeTerpilih (dipilih=mode, judul=judulModeSaved) {
         mode = dipilih
         judulModeSaved = judul
         pilihMode.textContent = judul
-        mulaiQuiz()
-        bangunUI()
         filterBab = true
+        bangunUI()
+        mulaiQuiz()
         return
       }
   mode = dipilih
   judulModeSaved = judul
   pilihMode.textContent = judul
-  mulaiQuiz()
   bangunUI()
+  mulaiQuiz()
   filterBab = false
   return
 };
@@ -4691,20 +5081,22 @@ function pesan(pesan, kelas='neutral', durasi = 3000,) {
 
 function buatLinkDown(el) {
   let container = document.getElementById(el)
-  container.innerHTML = `Membuat Ui link download...`
+  Loader.show(el, `Membuat Ui link download...`)
   let script = document.createElement("script")
   script.src = `${serverLink}elOnl.js?t=${Date.now()}`
 
   script.onload = () => {
     if (linkDown.linkDownloadDataset) {
-      container.innerHTML = linkDown.linkDownloadDataset
-      pesan('Pilih dataset dibawah')
+      setTimeout(o=>{
+        Loader.hide(el, linkDown.linkDownloadDataset)
+        pesan('Pilih dataset dibawah')
+      }, 450)
     }
   }
 
-  script.onerror = () => {
+  script.onerror = (err) => {
     container.innerHTML = ``
-    pesan('Tidak ada koneksi internet :(')
+    pesan(`Tidak ada koneksi internet :( ${err}`)
   }
   document.head.appendChild(script);
 }
@@ -4727,6 +5119,12 @@ function timpaHistori(modeHistori, judulHistori){
   }, "")
 }
 
+function simpanLog(){
+  saniti = kanjiInput.value
+  localStorage.setItem("kanjiInputLog", kanjiInput.value)
+  hrfValid = ''
+  btnStartCustom.textContent ='Jalankan ▶'
+}
 // icon stopwatch
 function iconsw(id) {
   let lokasi = document.getElementById(id);
@@ -4745,6 +5143,30 @@ stroke-linejoin="round">
     </svg>
   `
 }
+
+const Loader = {
+  show: (targetId, message = "Loading...") => {
+    const el = document.getElementById(targetId);
+    if (!el) return;
+    
+    el.innerHTML = `
+      <div style="display: flex; align-items: center; gap: 8px;">
+        <svg width="20" height="20" viewBox="0 0 50 50" style="animation: rotate 1s linear infinite;">
+          <circle cx="25" cy="25" r="20" fill="none" stroke="#008080" stroke-width="6" stroke-dasharray="80 150" stroke-linecap="round"/>
+        </svg>
+        <span>${message}</span>
+      </div>
+      <style>
+        @keyframes rotate { 100% { transform: rotate(360deg); } }
+      </style>
+    `;
+  },
+  
+  hide: (targetId, textSelesai = "") => {
+    const el = document.getElementById(targetId);
+    if (el) el.innerHTML = textSelesai;
+  }
+};
 
 // Tiner
 let Timer = {
@@ -4773,7 +5195,7 @@ let Timer = {
       if (hasil.length === 0) hasil = ["0d"]
 
       cetakTime = hasil.join(" ")
-        dataTimer.innerHTML = `${cetakTime}`
+        dataTimer.textContent = `${cetakTime}`
         pewaktu.style.display = 'flex'
     }
 };
@@ -4781,7 +5203,6 @@ let Timer = {
 // Fungsi untuk mengisi table dengan dataset terstruktur
 function buatTabel(filter='', bagian='') {
   let tbody = document.querySelector('#vocabTable tbody')
-  kotobaBuku = bagian
   judulTabel.textContent=judulModeSaved
   tbody.innerHTML = ''
   let q = (filter||'').toLowerCase()
@@ -4881,8 +5302,7 @@ function loadKanji(char) {
 
   if (!charData) {
     wordIndex++
-    pesan(`ⓘ Huruf "${char}" tidak ada dalam dataset. Load huruf berikutnya...`, 'error', 6000)
-    kanjiKont.innerHTML += `<span>${char}</span>`
+    kanjiKont.innerHTML += `${char}`
     svgLayer.innerHTML = ""
     clearCanvas()
     loadNextChar()
@@ -4906,7 +5326,7 @@ function loadNextChar() {
     let currentChar = wordList[wordIndex]
     loadKanji(currentChar)
     tulisDisini.style.display='block'
-    jumHrf.innerHTML=`Tulislah huruf ke ${wordIndex+1} (Total ada ${wordList.length} huruf)`
+    jumHrf.textContent=`Tulislah huruf ke ${wordIndex+1} (Total ada ${wordList.length} huruf)`
     bantuanAnim(111)
 
   } else {
@@ -4954,6 +5374,7 @@ function quester() {
   let choicesContainer = document.getElementById('choices')
   if (indexSoal === totalSoal) {
     Timer.stop()
+    badanQuiz.style.flexDirection = 'column'
     let skor = totalCount === 0 ? 0 : Math.floor(correctCount * 100 / totalSoal)
     kotakTulis.style.display = 'none'
     kana.textContent = ''
@@ -4988,7 +5409,7 @@ function quester() {
       wordList = currentKana[0]
       if (!['hiragana', 'katakana', 'bothkana'].includes(helperMode) &&!helperMode.endsWith('-kotoba')) {
         wordList = currentKana[4] || currentKana[0]
-        startElBlok(wordList.length+3, wordList, 'Tulislah Kanji ini')
+        startElBlok(wordList.length+3, wordList,currentKana[0], 'Tulislah Kanji ini')
         kanji = true
       }
       soal.innerHTML =`
@@ -4999,6 +5420,18 @@ function quester() {
         <strong>Soal ke ${nomorsoal} dari ${totalSoal} soal</strong><br>
         Bisakah kamu tulis huruf jepangnya?
       `
+      if(helperMode === 'scripting'){
+        wordList = currentKana[0]
+        kana.innerHTML = currentKana[1]===''?`<div class="textNormal" style="border:dashed;padding: 10px;margin-bottom:20px">${currentKana[4]}</div>`:currentKana[1]
+        startElBlok(wordList.length+3, wordList, currentKana[4], 'Tulislah Kanji ini')
+        soal.innerHTML =`
+        <div class='asal-kotoba'>
+        ${currentKana[1]===''?'':currentKana[4]+'<br>'}${currentKana[2]}
+        </div>
+        <strong>Soal ke ${nomorsoal} dari ${totalSoal} soal</strong><br>
+        Bisakah kamu tulis huruf jepangnya?
+        `
+      }
       loadNextChar()
       return
     }
@@ -5124,7 +5557,7 @@ function cekGoresan() {
       stateTulis.innerHTML=''
       if(!salahsemua){ 
         hurufBenar++
-        kanjiKont.innerHTML += `<span>${wordList[wordIndex - 1]}</span>`}
+        kanjiKont.innerHTML += `${wordList[wordIndex - 1]}`}
       else{
         kanjiKont.innerHTML += `<span style="color: #f87171;">${wordList[wordIndex - 1]}</span>`       
       }
@@ -5142,7 +5575,6 @@ function cekGoresan() {
         salah('Klik dimana saja untuk lanjut ke huruf berikutnya')
           overlay.onclick=o=>{
             overlay.style.display = 'none'
-            console.log('overlay dipaggi;')
             stateTulis.innerHTML=''
             loadNextChar()
           }
@@ -5393,10 +5825,9 @@ if (mode.endsWith('-rev')) {
 });
 }
 
-function mulaiQuiz(modeDiterima=helperMode) {    
-  let list = varLister(modeDiterima)
+function mulaiQuiz(modeDiterima=helperMode) {   
+  let list = hrfValid? hrfValid: varLister(modeDiterima)
   sessionList = filterBab? shuffle([...list]).slice(0, soalDipakai) : shuffle([...list])
-
   pilihMode.textContent = judulModeSaved
   totalSoal = sessionList.length
   salahsemua = false
@@ -6310,81 +6741,246 @@ if (modeQuiz.endsWith('-kanji-baca')) { return kanaList.filter(indeks => selecte
 if (modeQuiz.endsWith('-kanji')) { return kanaList.filter(indeks => selectedBab.includes(indeks[2]) && indeks[3] === kotobaBuku);}
 // Mode Kotoba
 if (modeQuiz.endsWith('-kotoba')) { return kanaList.filter(indeks => selectedBab.includes(indeks[2]) && indeks[3] === kotobaBuku);}
-return kanaList;
+return kanaList
 }
-function startWordQuiz() {
-  let text = document.getElementById("kanjiInput").value.trim();
-  if (!text) {
-    pesan('Isi setidaknya 1 huruf jepang. Tidak mendukung huruf latin!')
-    return}
-  sessionList = shuffle([...text])
-  pilihMode.textContent = judulModeSaved
-  totalSoal = sessionList.length
-  salahsemua = false
-  totalCount = 0
-  correctCount = 0
-  indexSoal = -1
-  restartBtn.style.display = 'none'
-  quester()
+function hapusEror(param) {
+  kanjiInput.value = param
+  hrfValid =''
+  saniti=''
+  btnStartCustom.textContent = 'Jalankan ▶'
+  btnHpsPsn.textContent=`🗑️ Bersihkan Input`
+  btnHpsPsn.onclick=o=>{
+    bersihkan()
+  }
 }
-// --- END DATASET FILTERING --- \\
+let yakin = 2,
+timerReset = null
+
+function bersihkan() {
+  if (timerReset) clearTimeout(timerReset)
+
+  if (yakin < 1) {
+    yakin = 2
+    pesan('Input berhasil dibersihkan')
+    localStorage.removeItem("kanjiInputLog")
+    saniti =''
+    kanjiInput.value = scrpDef + ''
+    hrfValid = ''
+    btnHpsPsn.textContent = `🗑️ Bersihkan Input`
+    return
+  }
+
+  yakin = Math.max(0, yakin - 1);
+  btnHpsPsn.textContent = `🗑️ Klik ${yakin + 1}x lagi`
+
+  timerReset = setTimeout(() => {
+    yakin = 2
+    btnHpsPsn.textContent = `🗑️ Bersihkan Input`
+  }, 1500)
+}
+
+function startWordQuiz(name='') {
+  if (hrfValid.length > 0) {
+    modeTerpilih('menulis', `Quiz script by ${name}`)
+    return
+  }
+
+  let rawText = kanjiInput.value.trim()
+  if (!rawText) {
+    pesan('Isi text terlebih dahulu')
+    return
+  }
+  
+  const metadataMap = [];
+  let tempText = rawText.replace(/(?:by|level|title)=\s*[^\n,、()（）]+/gi, (match) => {
+    metadataMap.push(match);
+    return `###${metadataMap.length - 1}###`;
+  });
+  let textSolid = tempText.replace(/###(\d+)###/g, (_, index) => metadataMap[index])
+  
+  const authorMatches = [...textSolid.matchAll(/by=\s*([^\n,、()（）\s]+)/gi)]
+  const author = authorMatches.length > 0 
+    ? authorMatches[authorMatches.length - 1][1].trim() 
+    : 'custom';
+
+  // hapus baris metadata agar tersisa teks kuis murni
+  const cleanText = textSolid.replace(/(?:by|level|title)=\s*[^\n,、()（）]+\s*/gi, '').trim()
+  const isType1 = /[,、()（）]/.test(cleanText)
+  let parsedList = []
+if (!isType1) {
+  parsedList = [...cleanText].map(char => {
+    const dataKanji = db.get(char) || {};
+    
+    const listKun = dataKanji.kun || [];
+    const listOn = dataKanji.on || [];
+    let infoBacaan = 'Kun-yomi: '+[...listKun].join(', ')+(listOn.length===0?'':'<br> On-yomi: '+[...listOn].join(', '))
+    
+    if (!infoBacaan && dataKanji.definition) {
+      infoBacaan = dataKanji.definition; // contoh: "Hiragana a"
+    }
+
+    return [
+      char,
+      '',
+      `Quiz Script By ${author}`,
+      author,
+      infoBacaan, 
+      ''
+    ];
+  });
+} else {
+    // Format kosakata/kotoba
+    parsedList = cleanText.split(/[,、](?![^(（]*[\)）])/).map(item => {
+      item = item.trim()
+      if (!item) return null
+
+      const match = item.match(/^([^()（）]+)(?:[\(（](.*?)[\)）])?$/)
+      if (!match) {
+        const kataClean = item.replace(/\s+/g, '');
+        return [kataClean, '', `Quiz Script By ${author}`, author, '', ''];
+      }
+
+      const utama = match[1].replace(/\s+/g, '')
+      const tambahan = match[2] 
+        ? match[2].split(/[,、]/).map(x => x.trim()) 
+        : [];
+
+      return [
+        utama,
+        tambahan[0] || '',
+        `Quiz Script By ${author}`,
+        author,
+        tambahan[1] || '',
+        tambahan[2] || ''
+      ];
+    }).filter(Boolean)
+  }
+
+  // filter huruf db only
+let hrfError = new Set()
+
+hrfValid = parsedList
+  .map(item => {
+    let kataBersih = [...item[0]]
+      .filter(char => {
+        const isExist = db.has(char)
+        if (!isExist && /[a-zA-Z0-9]/.test(char)) {
+          hrfError.add(char)
+        }
+        return isExist
+      })
+      .join('')
+
+    //non karakter jepang telah dihapus
+    item[0] = kataBersih
+    return item
+  })
+  .filter(item => {
+    return item[0].length > 0
+  })
+
+  if (hrfValid.length === 0) {
+    pesan("Parsing gagal :( Cek eror di input bagian atas",'error',5000)
+    let headEror =`##Parser tewas saat mencoba parsing script berisi ${hrfValid.length} huruf jepang ke-->[Format Data ${isType1?'Kosakata':'Huruf'}]`,
+    saniti = kanjiInput.value
+    textUmum =
+`
+_______________________
+Quiz scripting eror
+ErR##gagalCari = [${[...hrfError].join("")}].dri(file *.txt)
+_______________________
+${headEror}
+
+Contoh Valid :
+
+- Format Data kotoba/kosakata:
+format = "Soal bisa kana/kanji (arti, furigana)"
+data dalam kurung dikosongkan
+tidak masalah..
+
+  ことば(kosakata), <- tiap kata wajib
+                       tutup dg koma
+  男性(laki-laki、だんせい),
+  長い (panjang, ながい),
+  辞書(kamus,じしょ),
+  バス（bus),
+  チョコレート　（coklat),
+
+- Format Data huruf:
+format = "Tulis huruf saja"
+Hindari koma "," atau dalam kurung "()"
+Karna hasil parsing akan jadi kosakata, 
+bukan format data huruf
+
+  あいうえお
+  一二三四五
+
+(cara baca dibuat otomatis oleh engine quiz)
+`
+    kanjiInput.value =''+textUmum+kanjiInput.value
+    textUmum =''
+    btnHpsPsn.textContent =`🗑️ Hapus Pesan Error`
+    btnHpsPsn.onclick=o=>{
+      hapusEror(saniti)
+    }
+    return
+  }
+  // console.log('hrfvalid = ', hrfValid)
+  compilerLog.style = 'block'
+  compilerLog.textContent = `Berhasil parsing script ke Data Quiz ${isType1?'Kotoba':'Huruf'}. Dan menghasilkan ${hrfValid.length} soal`
+  btnStartCustom.textContent = `Mulai (${hrfValid.length} Soal) ▶`
+  btnStartCustom.onclick = () => {
+    startWordQuiz(author)
+  };
+}
 
 // --- ON-LOAD FUNCTION --- \\
 function bangunUI() {
   // Kondisi default element untuk semua mode
-  // Atau saat element dibawah ini tidak didefinisikan khusus di mode tertentu, maka kondisi default ini yang didapat element itu
     Timer.stop()
     badanQuiz.style.display = 'flex'
     badanQuiz.style.flexDirection = ''
+    linkDat.innerHTML =''
+    kanjiInput.value = scriptSaved||scrpDef
+    btnStartCustom.textContent = 'Jalankan ▶'
+    compilerLog.textContent = ''
     kotakSoal.classList.remove('kotakSoal')
     stopBtn.style.display = 'flex'
     stopBtn.textContent = 'Keluar Quiz'
     soal.style.textAlign = 'center'
     kana.style.textAlign = 'center'
     let rmh = 'Kembali ke Home'
-    ;[
-    menuPilihan,
-    bentukSoal,
-    pilihBab,
-    tableContainer,
-    startKotoba,
-    periksaMM,
-    ulangMM,
-    quizMM,
-    kotakNilaiMM,
-    pewaktu,
-    welcomeMsg,
-    tabelMM,
-    uiInput,
-    kotakInTXT,
-    kotakTulis,
-    ].forEach(e => {e.style.display = "none"})
+    ;[menuPilihan,compilerLog,bentukSoal,pilihBab,tableContainer,
+    startKotoba,periksaMM,ulangMM,quizMM,kotakNilaiMM,pewaktu,
+    welcomeMsg,tabelMM,uiInput,kotakInTXT,kotakTulis,].forEach(e => {e.style.display = "none"})
 
-    let debug = document.getElementById("debugMode")
-    debug.innerHTML = `
-    Mode aktif = ${mode}<br> 
+        debug.innerHTML = `
+    Mode aktif = ${mode}<br>
     Judul Mode Saved = ${judulModeSaved}<br>
     helperMode = ${helperMode}<br>
     kotobaBuku = ${kotobaBuku}<br>
     salahsemua = ${salahsemua}<br>
+    soaldipakai = ${soalDipakai}<br>
     `
     debug.style.display = "none"
-
     ;["infoUpdate","footnote"].forEach(id => {
       document.getElementById(id).style.display = "flex"
     })
-
   if (mode.startsWith('pilih-')) {
     badanQuiz.style.display = 'none'
     stopBtn.textContent = rmh
     ;[stopBtn, pilihBab, startKotoba].forEach(e=>{e.style.display = "block"})
-    startKotoba.innerHTML = `Mulai ${judulModeSaved}`
-    helperMode==='menulis'?startKotoba.onclick = () => {modeTerpilih('perluDb')}:startKotoba.onclick = () => {modeTerpilih('bentukSoal')}
+    startKotoba.textContent = `Mulai ${judulModeSaved}`
+    if(helperMode.startsWith('menulis')){
+      startKotoba.onclick =o=> {modeTerpilih('menulis')}}
+      else{
+        startKotoba.onclick =o=> {modeTerpilih('bentukSoal')}
+    }
   }
   if(mode.startsWith('tabel')){
     tableContainer.style.display = 'flex'
     badanQuiz.style.display ="none"
-    stopBtn.innerHTML =rmh
+    stopBtn.textContent =rmh
     return
   }
   switch (mode) {
@@ -6411,21 +7007,35 @@ function bangunUI() {
 
     case 'perluDb':
       badanQuiz.style.display ="none"
-      stopBtn.innerHTML =rmh
+      stopBtn.textContent =rmh
       kotakInTXT.style.display = 'block'
-      btnLoad.onclick=o=>{modeTerpilih('menulis')}
       btnLoad.textContent = `Mulai Quiz ${judulModeSaved}`
-      if(helperMode.startsWith('custom')){ 
-        btnLoad.onclick=o=>{modeTerpilih('custom_menulis')}
-        btnLoad.textContent = `Lanjut pilih huruf untuk quiz`
+      if(helperMode==='scripting'){ 
+        btnLoad.onclick=o=>{modeTerpilih('scripting')}
+        btnLoad.textContent = `Lanjut ke ${judulModeSaved}`
+        return
       }
+      if(helperMode.startsWith('menulis')){
+        if(helperMode.endsWith('-kanji')){
+          btnLoad.onclick=o=>{modeTerpilih('pilih-kotoba-kanji')}
+        }else if(helperMode.endsWith('-kotoba')){
+          btnLoad.onclick=o=>{modeTerpilih('pilih-kotoba-nokanji')}
+        }
+      }else{
+        btnLoad.onclick=o=>{modeTerpilih('menulis')}
+        }
     break;
 
-    case 'custom_menulis':
+    case 'scripting':
       badanQuiz.style.display ="none"
-      stopBtn.innerHTML =rmh
-      uiInput.style.display ='flex'
-
+      stopBtn.textContent = 'Keluar Quiz'
+      uiInput.style.display = 'flex'
+      if(textUmum !=='') {
+        kanjiInput.value=scrpDef+textUmum
+        textUmum=''
+      }else if(saniti!== ''){
+          kanjiInput.value=saniti
+        }
     break;
 
     case 'menulis':
@@ -6434,7 +7044,7 @@ function bangunUI() {
       if (['hiragana', 'katakana', 'bothkana'].includes(helperMode)||helperMode.endsWith('-kotoba')) {
         sisaBantuan = 3
       } else {
-        sisaBantuan = 8
+        sisaBantuan = 6
       }
       kanjiKont.innerHTML = ''
       bantuanAnim(111)
@@ -6464,14 +7074,14 @@ function bangunUI() {
 
     case 'canvas':
       badanQuiz.style.display ="none"
-      stopBtn.innerHTML =rmh
+      stopBtn.textContent =rmh
     break;
 
     case 'bentukSoal':
       bentukSoal.style.display ="flex"
       badanQuiz.style.display ="none"
       pilihMode.textContent = judulModeSaved
-      stopBtn.innerHTML =rmh
+      stopBtn.textContent =rmh
       let hurufJepang
       let hurufLatin
       let contohJpg
@@ -6529,7 +7139,7 @@ function bangunUI() {
       badanQuiz.style.display ="none"
       menuPilihan.style.display = 'flex'
       pilihMode.textContent = 'Pilih Mode Quiz Dibawah'
-      stopBtn.innerHTML =rmh
+      stopBtn.textContent =rmh
     break;
 
     default:
@@ -6539,7 +7149,9 @@ function bangunUI() {
     break;
   }
 } 
-
+function resetLog() {
+  localStorage.clear() // Menghapus SEMUA key di localStorage
+}
 bangunUI()
 history.replaceState({ 
   mode: mode, 
@@ -6548,7 +7160,6 @@ history.replaceState({
 }, "")
 buatHistori()
 // --- END ON-LOAD FUNCTION --- \\
-
 </script>
 </body>
 </html>

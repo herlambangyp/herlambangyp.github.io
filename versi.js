@@ -1,7 +1,32 @@
 window.dataServer = {
 
-    versi: "4.2.1",
+    versi: "4.3",
     changeLog: `
+            - Fitur untuk mengetik sendiri soal quiz sekarang tersedia
+            - Kanji JLPT N5-N1 sudah ada (data aku ambil dari MaaziApp)
+            - Dataset karakter sekarang disimpan didalam memori browser
+              sekarang tidak perlu selalu load file dataset (cukup sekali dipake seterusnya)
+              
+            - Quiz scripting saat ini masih dalam tahap pre-release, belum bisa sepenuhnya
+              mengontrol bentuk quiz (masih baru bisa mengirim 3 parameter = soal, arti, jawaban)
+              Tetapi fungsi dasarnya sudah berjalan optimal
+              
+            - Ada kemungkinan quiz engine akan sedikit lebih berat dari versi sebelumnya
+              masih banyak redunancy fungsi yg belum aku optimasi
+              (penurunan peforma dikisaran 1-2%). Tetapi update berikutnya, akan aku optimasi
+              hingga quiz engine benar-benar kembali optimal 
+              (terutama terkait algoritma pembaca bentuk tulisan di kanji besar)
+
+
+            - ongoing:
+              hasil parsing script akan bisa dijadikan file sendiri (file.qs) untuk disimpan.
+              (sementara ini, copy paste saja dulu script yg diketik)
+
+            `,
+
+    changeLogVersiLama:`
+
+        3.2 
             - Memperbarui logika live writing. Sekarang lebih interaktif
             - Memperbarui tampilan Ui menulis kanji
             - Membuat canvas lebih besar menyesuaikan ukuran layar secara dinamis.
@@ -19,14 +44,6 @@ window.dataServer = {
 
             - Optimasi quiz engine agar tidak berat di beberapa perangkat low-end
               saat quiz menulis / live writing
-
-            - ongoing:
-              1. Input text agar user bisa memasukan sendiri huruf kana/kanji untuk berlatih
-                 menulis (live writing). (Ui sedang aku desain)
-
-            `,
-
-    changeLogVersiLama:`
 
         3.2 
             - Menambahkan pendeteksi "tombol kembali" bawaan android atau "back" browser
@@ -81,6 +98,6 @@ window.dataServer = {
         3.1.8
             - Anchor point versi online dibuat`,
 
-            
+
     versiDataset:`hrfJpnV1-set_2.txt`
 };
