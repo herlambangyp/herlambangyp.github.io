@@ -28,7 +28,7 @@ window.linkDown = {
       <div class="kotakTombolPilihanMenu">
       <a class="adaUpdate" 
         href="https://herlambangyp.github.io/download.html?file=hrfJpnV1-set_2.txt"
-        target="_blank">Download Dataset (22.8 MB)
+        target="_blank">Download Dataset (22.3 MB)
         </a>
       </div>
     </div>
