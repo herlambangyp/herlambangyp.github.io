@@ -919,7 +919,7 @@ display: block;
 </div>
 <div id="toast-container"></div>  
 
-    <h1 class="judulUtama">Quiz Mourop Apalan V<span id="versiFile">4.3.1</span></h1>
+    <h1 class="judulUtama">Quiz Mourop Apalan V<span id="versiFile">4.3.2</span></h1>
     <button id="pilihMode" class="pilihMode" onclick="modeTerpilih('menuPilihMode')"></button>
     <!-- Tombol Stop Quiz -->
     <div id="stopQuizWrapper">
@@ -1404,7 +1404,7 @@ Tulis script quizmu dibawah sini
 db = new Map(),
 dbBacaan = new Map(),
 sisaBantuan,
-waktu,
+waktuTulis=null,
 kotobaBuku,
 
 // --- LOG VAR ---
@@ -4908,39 +4908,47 @@ window.onpopstate=o=> {
 
 
 // --- GENERAL & DOM FUNCTION --- \\
-function startElBlok(angka=5, soal='Tidak ada soal',helper='', pesan='Tulislah kotoba ini:') {
-  elmBlok.style.display = 'flex'
+function startElBlok(angka = 5, soal = 'Tidak ada soal', helper = '', pesan = 'Tulislah kotoba ini:') {
+  elmBlok.style.display = 'flex';
+
+  if (waktuTulis) clearTimeout(waktuTulis);
+
   function tampilkanAngka() {
-  elmBlok.innerHTML = `
-  <div style="max-width: 500px;" class="widthFull tengahkan">
-  <div class="textCenter goldHead widthFull">
-    <div class="textCenter widthFull textSmall textGrey">Mulai Dalam <span class="waktuEl">${angka}</span> Detik</div>
-    ${pesan}
-  </div>
-  <div class="goldDash widthFull">${soal}<div class="textSmall">${helper}</div></div>
-  <button style="border:solid; min-width:65%;" onclick="skip()">Skip Waktu</button>
-  </div>
-  `;
-  angka--;
-  if (angka >= 0) {
-    waktu = setTimeout(tampilkanAngka, 1000);
-  } else {
-    skip()
+    elmBlok.innerHTML = `
+      <div style="max-width: 500px;" class="widthFull tengahkan">
+        <div class="textCenter goldHead widthFull">
+          <div class="textCenter widthFull textSmall textGrey">Mulai Dalam <span class="waktuEl">${angka}</span> Detik</div>
+          ${pesan}
+        </div>
+        <div class="goldDash widthFull">${soal}<div class="textSmall">${helper}</div></div>
+        <button style="border:solid; min-width:65%;" onclick="skip()">Skip Waktu</button>
+      </div>
+    `;
 
+    angka--;
+
+    if (angka >= 0) {
+      waktuTulis = setTimeout(tampilkanAngka, 1000);
+    } else {
+      skip();
+    }
   }
-}
-  tampilkanAngka()
 
+  tampilkanAngka();
 }
 
 function skip() {
-    clearTimeout(waktu);
-    elmBlok.classList.add('hilang');
-    setTimeout(() => {
-        elmBlok.innerHTML = '';
-        elmBlok.classList.remove('hilang');
-        elmBlok.style.display ='none'
-    }, 400);
+  if (waktuTulis) {
+    clearTimeout(waktuTulis);
+    waktuTulis = null
+  }
+
+  elmBlok.classList.add('hilang')
+  setTimeout(() => {
+    elmBlok.innerHTML = ''
+    elmBlok.classList.remove('hilang')
+    elmBlok.style.display = 'none'
+  }, 400)
 }
 
 function clearCanvas() { ctx.clearRect(0, 0, 1024, 1024); }

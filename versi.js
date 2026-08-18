@@ -1,6 +1,6 @@
 window.dataServer = {
 
-    versi: "4.3.1",
+    versi: "4.3.2",
     changeLog: `
             - Fitur untuk mengetik sendiri soal quiz sekarang tersedia
             - Kanji JLPT N5-N1 sudah ada (data aku ambil dari MaaziApp)
@@ -17,6 +17,8 @@ window.dataServer = {
               hingga quiz engine benar-benar kembali optimal 
               (terutama terkait algoritma pembaca bentuk tulisan di kanji besar)
 
+            - Memperbaiki bug, detik eror di preview kanji tulis 
+              dan bentrok dengan timer hitung mundur. Sekarang aman
             - Memperbaiki bug, file dataset selalu ditolak padahal sesuai dengan nama server
 
 
