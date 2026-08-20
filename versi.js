@@ -1,7 +1,20 @@
 window.dataServer = {
 
-    versi: "4.3.2",
+    versi: "4.3.3.1",
     changeLog: `
+            - Memperbaiki bug nama dataset di memori selalu menghasilkan data salah
+            - Memperbaiki bug search input tabel kotoba
+
+
+            - ongoing:
+              hasil parsing script akan bisa dijadikan file sendiri (file.qs) untuk disimpan.
+              (sementara ini, copy paste saja dulu script yg diketik)
+
+            `,
+
+    changeLogVersiLama:`
+
+        4.3.2
             - Fitur untuk mengetik sendiri soal quiz sekarang tersedia
             - Kanji JLPT N5-N1 sudah ada (data aku ambil dari MaaziApp)
             - Dataset karakter sekarang disimpan didalam memori browser
@@ -20,15 +33,6 @@ window.dataServer = {
             - Memperbaiki bug, detik eror di preview kanji tulis 
               dan bentrok dengan timer hitung mundur. Sekarang aman
             - Memperbaiki bug, file dataset selalu ditolak padahal sesuai dengan nama server
-
-
-            - ongoing:
-              hasil parsing script akan bisa dijadikan file sendiri (file.qs) untuk disimpan.
-              (sementara ini, copy paste saja dulu script yg diketik)
-
-            `,
-
-    changeLogVersiLama:`
 
         4.2
             - Memperbarui logika live writing. Sekarang lebih interaktif
