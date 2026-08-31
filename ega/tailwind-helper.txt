@@ -1,5 +1,0 @@
-
-// Untuk memulai development
-npx @tailwindcss/cli -i ./src/input.css -o ./src/output.css --watch
-
-// Command Build
