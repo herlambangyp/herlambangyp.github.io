@@ -1,0 +1,196 @@
+<!DOCTYPE html><html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hiragana & Katakana Quiz</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #f1f5f9;
+      margin: 0;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    h1 {
+      color: #1e293b;
+      margin-bottom: 10px;
+    }
+    #modeSelect {
+      font-size: 18px;
+      padding: 10px;
+      margin-bottom: 20px;
+      border-radius: 8px;
+      border: 1px solid #cbd5e1;
+      background-color: #ffffff;
+    }
+    #kana {
+      font-size: 80px;
+      color: #334155;
+      margin: 30px 0;
+    }
+    .choices {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 15px;
+      margin: 20px 0;
+    }
+    button {
+      font-size: 22px;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 10px;
+      background-color: #3b82f6;
+      color: white;
+      cursor: pointer;
+      transition: background-color 0.2s ease;
+    }
+    button:hover {
+      background-color: #2563eb;
+    }
+    #result {
+      font-size: 22px;
+      color: #10b981;
+      margin-top: 20px;
+      min-height: 1.5em;
+    }
+  </style>
+</head>
+<body>
+  <h1>Kuis Hiragana & Katakana</h1>  <select id="modeSelect">
+    <option value="both">Hiragana & Katakana</option>
+    <option value="hiragana">Hiragana Saja</option>
+    <option value="katakana">Katakana Saja</option>
+    <option value="both-rev">Tebak Huruf (Hira+Kata)</option>
+    <option value="hiragana-rev">Tebak Huruf Hiragana</option>
+    <option value="katakana-rev">Tebak Huruf Katakana</option>
+  </select>  <div id="kana">?</div>
+  <div class="choices" id="choices"></div>
+  <div id="result"></div>  <script>
+    const hiraganaList = [
+      ['あ','a'], ['い','i'], ['う','u'], ['え','e'], ['お','o'],
+      ['か','ka'], ['き','ki'], ['く','ku'], ['け','ke'], ['こ','ko'],
+      ['さ','sa'], ['し','shi'], ['す','su'], ['せ','se'], ['そ','so'],
+      ['た','ta'], ['ち','chi'], ['つ','tsu'], ['て','te'], ['と','to'],
+      ['な','na'], ['に','ni'], ['ぬ','nu'], ['ね','ne'], ['の','no'],
+      ['は','ha'], ['ひ','hi'], ['ふ','fu'], ['へ','he'], ['ほ','ho'],
+      ['ま','ma'], ['み','mi'], ['む','mu'], ['め','me'], ['も','mo'],
+      ['や','ya'], ['ゆ','yu'], ['よ','yo'],
+      ['ら','ra'], ['り','ri'], ['る','ru'], ['れ','re'], ['ろ','ro'],
+      ['わ','wa'], ['を','wo'], ['ん','n']
+    ];
+
+    const katakanaList = [
+      ['ア','a'], ['イ','i'], ['ウ','u'], ['エ','e'], ['オ','o'],
+      ['カ','ka'], ['キ','ki'], ['ク','ku'], ['ケ','ke'], ['コ','ko'],
+      ['サ','sa'], ['シ','shi'], ['ス','su'], ['セ','se'], ['ソ','so'],
+      ['タ','ta'], ['チ','chi'], ['ツ','tsu'], ['テ','te'], ['ト','to'],
+      ['ナ','na'], ['ニ','ni'], ['ヌ','nu'], ['ネ','ne'], ['ノ','no'],
+      ['ハ','ha'], ['ヒ','hi'], ['フ','fu'], ['ヘ','he'], ['ホ','ho'],
+      ['マ','ma'], ['ミ','mi'], ['ム','mu'], ['メ','me'], ['モ','mo'],
+      ['ヤ','ya'], ['ユ','yu'], ['ヨ','yo'],
+      ['ラ','ra'], ['リ','ri'], ['ル','ru'], ['レ','re'], ['ロ','ro'],
+      ['ワ','wa'], ['ヲ','wo'], ['ン','n']
+    ];
+
+    let currentKana = {};
+    let mode = 'both';
+
+    document.getElementById('modeSelect').addEventListener('change', (e) => {
+      mode = e.target.value;
+      pickKana();
+    });
+
+    function getKanaList() {
+      if (mode.includes('hiragana')) return hiraganaList;
+      if (mode.includes('katakana')) return katakanaList;
+      return [...hiraganaList, ...katakanaList];
+    }
+
+    function isReverseMode() {
+      return mode.includes('rev');
+    }
+
+    function pickKana() {
+      const list = getKanaList();
+      const randomIndex = Math.floor(Math.random() * list.length);
+      currentKana = list[randomIndex];
+
+      const choicesContainer = document.getElementById('choices');
+      choicesContainer.innerHTML = '';
+      document.getElementById('result').textContent = '';
+
+      if (isReverseMode()) {
+        document.getElementById('kana').textContent = currentKana[1];
+        const options = shuffle([currentKana[0], ...generateFakeKana(currentKana[0])]);
+        options.forEach(choice => {
+          const btn = document.createElement('button');
+          btn.textContent = choice;
+          btn.onclick = () => checkAnswerReverse(choice);
+          choicesContainer.appendChild(btn);
+        });
+      } else {
+        document.getElementById('kana').textContent = currentKana[0];
+        const options = shuffle([currentKana[1], ...generateFakeAnswers(currentKana[1])]);
+        options.forEach(choice => {
+          const btn = document.createElement('button');
+          btn.textContent = choice;
+          btn.onclick = () => checkAnswer(choice);
+          choicesContainer.appendChild(btn);
+        });
+      }
+    }
+
+    function generateFakeAnswers(correct) {
+      const answers = new Set();
+      const all = getKanaList();
+      while (answers.size < 3) {
+        const fake = all[Math.floor(Math.random() * all.length)][1];
+        if (fake !== correct) answers.add(fake);
+      }
+      return [...answers];
+    }
+
+    function generateFakeKana(correctKana) {
+      const answers = new Set();
+      const all = getKanaList();
+      while (answers.size < 3) {
+        const fake = all[Math.floor(Math.random() * all.length)][0];
+        if (fake !== correctKana) answers.add(fake);
+      }
+      return [...answers];
+    }
+
+    function shuffle(array) {
+      for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+      }
+      return array;
+    }
+
+    function checkAnswer(answer) {
+      const result = document.getElementById('result');
+      if (answer === currentKana[1]) {
+        result.textContent = 'Benar!';
+      } else {
+        result.textContent = `Salah. Jawaban: ${currentKana[1]}`;
+      }
+      setTimeout(pickKana, 1300);
+    }
+
+    function checkAnswerReverse(answerKana) {
+      const result = document.getElementById('result');
+      if (answerKana === currentKana[0]) {
+        result.textContent = 'Benar!';
+      } else {
+        result.textContent = `Salah. Jawaban: ${currentKana[0]}`;
+      }
+      setTimeout(pickKana, 1300);
+    }
+
+    pickKana();
+  </script></body>
+</html>
