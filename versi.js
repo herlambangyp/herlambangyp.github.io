@@ -1,10 +1,8 @@
 window.dataServer = {
 
-    versi: "4.3.3.1",
+    versi: "4.3.3.2",
     changeLog: `
-            - Memperbaiki bug nama dataset di memori selalu menghasilkan data salah
-            - Memperbaiki bug search input tabel kotoba
-
+            - Menambahkan fitur untuk bisa mengatur jumlah pilihan ganda jawaban, di quiz mode pilihan ganda
 
             - ongoing:
               hasil parsing script akan bisa dijadikan file sendiri (file.qs) untuk disimpan.
@@ -14,6 +12,10 @@ window.dataServer = {
 
     changeLogVersiLama:`
 
+        4.3.3.1
+            - Memperbaiki bug nama dataset di memori selalu menghasilkan data salah
+            - Memperbaiki bug search input tabel kotoba
+            
         4.3.2
             - Fitur untuk mengetik sendiri soal quiz sekarang tersedia
             - Kanji JLPT N5-N1 sudah ada (data aku ambil dari MaaziApp)
