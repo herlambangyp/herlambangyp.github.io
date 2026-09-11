@@ -29,8 +29,12 @@
 <script>
   const status = document.getElementById('status')
   const daftarFile = {
-    'hrfJpnV1-set_2.txt': 'dataset/hrfJpnV1-set_2.txt',
+    'dataset-hrf-jpn.txt': 'dataset/dataset-hrf-jpn.txt',
     'quiz.html': 'quiz.html',
+    'foto-lebar-putih' :'foto/ktp-lebar-putih.png',
+    'foto' :'foto/ktp.jpg',
+    'foto-lebar' : 'foto/ktp-lebar.png',
+
   }
   const params = new URLSearchParams(location.search)
   const namaFile = params.get('file')
@@ -59,7 +63,7 @@
     console.log('download:', link.download)
     link.click()
     link.remove()
-    status.textContent = `⬇️ Mengunduh ${namaFile}...`
+    status.textContent = `Mendonload ${namaFile}...`
     setTimeout(() => {
       window.close()
     }, 1000)
