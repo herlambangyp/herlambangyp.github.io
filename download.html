@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Download</title>
+  <title>Download...</title>
 
   <style>
     body {
@@ -22,29 +22,35 @@
 </head>
 
 <body>
-
-<div id="status">Menyiapkan download...</div>
+<div id="status" style="display: flex; align-items: flex-end; gap: 4px;"></div>
 <script src="versi.js"></script>
 
 <script>
-  const status = document.getElementById('status')
-  const daftarFile = {
+  const status = document.getElementById('status'),
+  iconDownload =`  
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+    <polyline points="7 10 12 15 17 10"/>
+    <line x1="12" y1="15" x2="12" y2="3"/>
+  </svg>`,
+  daftarFile = {
     'dataset-hrf-jpn.txt': 'dataset/dataset-hrf-jpn.txt',
     'quiz.html': 'quiz.html',
-    'foto-lebar-putih' :'foto/ktp-lebar-putih.png',
-    'foto' :'foto/ktp.jpg',
-    'foto-lebar' : 'foto/ktp-lebar.png',
+    'HYP-lebar-putih' :'foto/ktp-lebar-putih.png',
+    'HYP-foto' :'foto/ktp.jpg',
+    'HYP-lebar' : 'foto/ktp-lebar.png',
+    'JFT-HYP' : 'doc/jft.pdf',
 
-  }
-  const params = new URLSearchParams(location.search)
-  const namaFile = params.get('file')
+  },
+  params = new URLSearchParams(location.search),
+  namaFile = params.get('file')
 
   if (!namaFile) {
-    status.textContent = '❌ Nama file tidak ditemukan'
+    status.textContent = 'File tidak ditemukan ❌'
   }
 
   else if (!daftarFile[namaFile]) {
-    status.textContent = '❌ File tidak diizinkan'
+    status.textContent = 'File tidak ditemukan ❌'
   }
 
   else {
@@ -63,7 +69,7 @@
     console.log('download:', link.download)
     link.click()
     link.remove()
-    status.textContent = `Mendonload ${namaFile}...`
+    status.innerHTML = iconDownload + `Mendownload: ${namaFile}...`
     setTimeout(() => {
       window.close()
     }, 1000)
