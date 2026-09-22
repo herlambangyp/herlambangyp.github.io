@@ -628,6 +628,7 @@ display: block;
     justify-content: flex-start;
     flex-direction: row;
     flex-wrap: wrap;
+    margin-bottom: 15px;
 }
 .tombolPilihanMenu{
     min-width: 0px;
@@ -638,9 +639,9 @@ display: block;
     border-radius: 4px;
     }
       
-.tombolPilihanMenu:disabled{
-    background: darkslategrey;
-    opacity: 0.8;
+.gaSiap{
+    background: darkslategrey!important;
+    opacity: 0.8!important;
   }
       
 #toast-container {
@@ -970,29 +971,28 @@ return htmlTemplate.replaceAll('{{tulisan}}', tiap.tulisan).replaceAll('{{fungsi
 </div> -->
   <div class="boxUmum textSmall">
     <div class="textGedi"><b>Cara Buat Data Quiz</b></div>
-  <div>1. Format data kotoba/kosakata</div>
+  <div>1. Format Kotoba/Kosakata</div>
     <ul>
-      <li>Format = "Soal (arti, furigana/cara baca)"</li>
-      <li>Beberapa bagian dikosongkan tidak masalah.. Seperti bagian furigana misalnya (Jika soalnya tidak memiliki kanji)</li>
-      <li>Format data cocok untuk semua mode quiz (Fitur "custom-file.qs" yg akan diupdate)</li>
-      <li>Contoh penulisan yang tepat:</li>
+      <li>Format = "Soal wajib huruf jepang (arti, furigana/cara baca)"</li>
+      <li>Format ini bisa digunkana di semua mode quiz (Fitur "custom-file.qs" yg akan diupdate)</li>
+      <li>Bagian furigana bisa dikosongkan (Jika soalnya bukan kanji)</li>
+      <li>Contoh format:</li>
         <ul>
-          <li>ことば(kosakata),<-tiap kata tutup dg koma</li>
+          <li>ことば(kosakata),<-tiap kotoba WAJIB tutup dg koma</li>
           <li>長い (panjang, ながい),</li>
           <li>辞書 (kamus,じしょ),</li>
           <li>チョコレート(coklat),</li>
         </ul>
     </ul>
-  <div>2. Format data huruf</div>
+  <div>2. Format Huruf</div>
     <ul>
-      <li>Format = Huruf Jepang (huruf latin diabaikan)</li>
-      <li>Jgn gunakan koma "," atau dalam kurung "( )"</li>
-      <li>Format ini hanya untuk mode quiz menulis</li>
-      <li>Furigana/Cara baca akan diisi otomatis oleh sistem quiz</li>
-      <li>Contoh penulisan yang tepat:</li>
+      <li>Format = Hanya huruf Jepang</li>
+      <li>Format ini bisa untuk quiz menulis</li>
+      <li>JANGAN gunakan koma "," atau dalam kurung "( )"</li>
+      <li>Furigana/Cara baca diisi otomatis oleh sistem quiz</li>
+      <li>Contoh format:</li>
         <ul>
-          <li>あい うえお</li>
-          <li>一二三四五六 七八九 十百千 万</li>
+          <li>あいうえお一二三四五六 七八九 十百千 万</li>
         </ul>
     </ul>
 </div>
@@ -1112,51 +1112,95 @@ return htmlTemplate.replaceAll('{{tulisan}}', tiap.tulisan).replaceAll('{{fungsi
 
     <div class="kotakSubMenu">
       <div class="titleSubMenu">
-        <span class="judulSubMenu">Quiz Kotoba Buku IM</span>
-        <span class="keteranganSubMenu">Quiz menebak arti suatu kotoba. Quiz pilihan ganda 4 jawaban. Didasarkan pada semua kotoba yang tersedia di buku IM (buku biru)</span>
+        <span class="judulSubMenu">Kotoba Buku IM</span>
+        <span class="keteranganSubMenu">Didasarkan pada semua kotoba yang tersedia di buku IM (buku biru)</span>
       </div>
-
-      <div class="kotakTombolPilihanMenu imBook">
         <script> 
         let punc = `buatPilihanBab('kotoba')`
         dataLoop =
         [
-          {fungsi:`${punc}; modeTerpilih('pilih-kotoba-nokanji', 'Artikan Kotoba Buku IM (Tanpa Kanji)');`,tulisan:`Mengartikan Kotoba (Non-kanji)`},
-          {fungsi:`${punc}; modeTerpilih('pilih-kotoba-kanji', 'Artikan Kotoba Buku IM (Dg Kanji)')`,tulisan:`Mengartikan Kotoba (dg kanji)`},
-          {fungsi:`${punc}; modeTerpilih('pilih-baca-kanji', 'Membaca Kanji Buku IM')`,tulisan:`Membaca Kanji`},
-          {fungsi:`${punc}; helperMode='menulis-kanji'; modeTerpilih('perluDb', 'Menulis Kotoba Buku IM dg Kanji')`,tulisan:`Menulis Kotoba dg Kanji`},
-          {fungsi:`${punc}; helperMode='menulis-kotoba'; modeTerpilih('perluDb', 'Menulis Kotoba Buku IM dg Hiragana/Katakana saja')`,tulisan:`Menulis Kotoba dg Hiragana/Katakana`},
+          {kategori:`pilGan`,fungsi:`${punc}; modeTerpilih('pilih-kotoba-nokanji', 'Artikan Kotoba Buku IM (Tanpa Kanji)');`,tulisan:`Mengartikan Kotoba (Non-kanji)`},
+          {kategori:`pilGan`,fungsi:`${punc}; modeTerpilih('pilih-kotoba-kanji', 'Artikan Kotoba Buku IM (Dg Kanji)')`,tulisan:`Mengartikan Kotoba (dg kanji)`},
+          {kategori:`pilGan`,fungsi:`${punc}; modeTerpilih('pilih-baca-kanji', 'Membaca Kanji Buku IM')`,tulisan:`Membaca Kanji`},
+          {kategori:`menulis`,fungsi:`${punc}; helperMode='menulis-kanji'; modeTerpilih('perluDb', 'Menulis Kotoba Buku IM dg Kanji')`,tulisan:`Menulis Kotoba dg Kanji`},
+          {kategori:`menulis`,fungsi:`${punc}; helperMode='menulis-kotoba'; modeTerpilih('perluDb', 'Menulis Kotoba Buku IM dg Hiragana/Katakana saja')`,tulisan:`Menulis Kotoba dg Hiragana/Katakana`},
         ]
-        loop('.imBook','all', 'btnPilihanMenu')
         </script>
-      </div>
-      
+
+        <div class="keteranganSubMenu">Quiz Pilihan Ganda:
+          <div class="kotakTombolPilihanMenu imPilgan">
+            <script>loop('.imPilgan','pilGan', 'btnPilihanMenu')</script>
+          </div>
+        </div>
+
+        <div class="keteranganSubMenu">Quiz Menulis:
+          <div class="kotakTombolPilihanMenu imMenulis">
+            <script>loop('.imMenulis','menulis', 'btnPilihanMenu')</script>
+          </div>
+        </div>
+
     </div>
 
     <div class="kotakSubMenu">
       <div class="titleSubMenu">
-        <span class="judulSubMenu">Quiz Kotoba Minna No Nihonggo</span>
-        <span class="keteranganSubMenu">Quiz menebak arti suatu kotoba. Quiz pilihan ganda 4 jawaban. Didasarkan pada semua kotoba yang tersedia di buku Minna No Nihonggo I & II.<br> 
-          <span class="text-kecil">Ada sedikit kesalahan di bab 1-20. Dimana data acuanku tidak terlalu akurat (karena aku males ngetik, jadi aku cari di internet kotoba minna I)
-            Ternyata data di internet berasal dari edisi berbeda (atau mungkin edisi lama), yang kemungkinan 2%-6% kotobanya berbeda dari edisi di LPK Yagai Gakkou. 
-            Untuk bab 21 keatas, aku putuskan untuk ketik sendiri dan aku jamin kotobanya 100% akurat
-          </span>
+        <span class="judulSubMenu">Kotoba Buku Minna No Nihonggo</span>
+        <span class="keteranganSubMenu">Didasarkan pada semua kotoba yang tersedia di buku Minna No Nihonggo I & II.<br> 
+          <span class="text-kecil">Minna no Nihonggo Cetakan 2013 Edisi 2</span>
         </span>
       </div>
-      <div class="kotakTombolPilihanMenu minnaBook">
       <script> 
         punc = `buatPilihanBab('BukuMinna')`
         dataLoop =
         [
-          {fungsi:`${punc}; modeTerpilih('pilih-kotoba-nokanji', 'Artikan Kotoba Buku Minna (Tanpa Kanji)');`,tulisan:`Mengartikan Kotoba (Non-kanji)`},
-          {fungsi:`${punc}; modeTerpilih('pilih-kotoba-kanji', 'Artikan Kotoba Buku Minna (Dg Kanji)')`,tulisan:`Mengartikan Kotoba (dg kanji)`},
-          {fungsi:`${punc}; modeTerpilih('pilih-baca-kanji', 'Membaca Kanji Buku Minna')"`,tulisan:`Membaca Kanji`},
-          {fungsi:`${punc}; helperMode='menulis-kanji'; modeTerpilih('perluDb', 'Menulis Kotoba Buku Minna dg Kanji')`,tulisan:`Menulis Kotoba dg Kanji`},
-          {fungsi:`${punc}; helperMode='menulis-kotoba'; modeTerpilih('perluDb', 'Menulis Kotoba Buku Minna dg Hiragana/Katakana saja')`,tulisan:`Menulis Kotoba dg Hiragana/Katakana`},
+          {kategori:`pilGan`,fungsi:`${punc}; modeTerpilih('pilih-kotoba-nokanji', 'Artikan Kotoba Buku Minna (Tanpa Kanji)');`,tulisan:`Mengartikan Kotoba (Non-kanji)`},
+          {kategori:`pilGan`,fungsi:`${punc}; modeTerpilih('pilih-kotoba-kanji', 'Artikan Kotoba Buku Minna (Dg Kanji)')`,tulisan:`Mengartikan Kotoba (dg kanji)`},
+          {kategori:`pilGan`,fungsi:`${punc}; modeTerpilih('pilih-baca-kanji', 'Membaca Kanji Buku Minna')"`,tulisan:`Membaca Kanji`},
+          {kategori:`menulis`,fungsi:`${punc}; helperMode='menulis-kanji'; modeTerpilih('perluDb', 'Menulis Kotoba Buku Minna dg Kanji')`,tulisan:`Menulis Kotoba dg Kanji`},
+          {kategori:`menulis`,fungsi:`${punc}; helperMode='menulis-kotoba'; modeTerpilih('perluDb', 'Menulis Kotoba Buku Minna dg Hiragana/Katakana saja')`,tulisan:`Menulis Kotoba dg Hiragana/Katakana`},
         ]
-        loop('.minnaBook','all', 'btnPilihanMenu')
-        </script>
-      
+      </script>
+
+      <div class="keteranganSubMenu">Quiz Pilihan Ganda:
+        <div class="kotakTombolPilihanMenu minaPilgan">
+          <script>loop('.minaPilgan','pilGan', 'btnPilihanMenu')</script>
+        </div>
+      </div>
+
+      <div class="keteranganSubMenu">Quiz Menulis:
+        <div class="kotakTombolPilihanMenu minaWrite">
+          <script>loop('.minaWrite','menulis', 'btnPilihanMenu')</script>
+        </div>  
+      </div>
+
+    </div>
+
+    <div class="kotakSubMenu">
+      <div class="titleSubMenu">
+        <span class="judulSubMenu">Download Kotoba Komunitas</span>
+        <span class="keteranganSubMenu">(PERLU INTERNET) Berbagai quiz yg dibuat oleh komunitas. Siap di download dalam bentuk file qs. Load filenya di bagian "Load File Data Quiz"<br> 
+          <span class="text-kecil">Perlu Internet untuk mendownload file qs berisi data quiz</span>
+        </span>
+      </div>
+        <div class="kotakTombolPilihanMenu minaPilgan">
+          <button class="tombolPilihanMenu gaSiap" onclick="pesan('Fitur masih dikembangkan')">
+            Kotoba Kaigo 2025.qs (0.7Kb)
+          </button>
+        </div>
+    </div>
+
+    <div class="kotakSubMenu">
+      <div class="titleSubMenu">
+        <span class="judulSubMenu">Load File Data Quiz</span>
+        <span class="keteranganSubMenu">Load file qs yang kamu punya. Atau yang sudah kamu download dari komunitas. Bisa diload sebagai quiz pilihan ganda maupun quiz menulis<br> 
+        </span>
+      </div>
+      <div class="kotakTombolPilihanMenu minaPilgan">
+          <button class="tombolPilihanMenu gaSiap" onclick="pesan('Fitur masih dikembangkan')">
+          Load Sebagai Quiz Pilihan Ganda
+        </button>        
+          <button class="tombolPilihanMenu gaSiap" onclick="pesan('Fitur masih dikembangkan')">
+          Load Sebagai Quiz Menulis
+        </button>        
       </div>
     </div>
 
@@ -4654,34 +4698,35 @@ uiUpdate.onload=o=>{
 ctx.lineWidth = 24
 ctx.lineCap = ctx.lineJoin = "round"
 ctx.strokeStyle = "#273351"
+
 // Helper sederhana untuk IndexedDB
-const IDB = {
+let IDB = {
   dbName: "KanjiDatabase",
   storeName: "kanjiStore",
 
   async getDB() {
     return new Promise((resolve, reject) => {
-      const request = indexedDB.open(this.dbName, 1);
-      request.onupgradeneeded = () => request.result.createObjectStore(this.storeName);
-      request.onsuccess = () => resolve(request.result);
-      request.onerror = () => reject(request.error);
-    });
+      let request = indexedDB.open(this.dbName, 1)
+      request.onupgradeneeded = () => request.result.createObjectStore(this.storeName)
+      request.onsuccess = () => resolve(request.result)
+      request.onerror = () => reject(request.error)
+    })
   },
 
   // Simpan data berdasarkan Key dan Val
   async set(key, val) {
-    const db = await this.getDB();
-    const tx = db.transaction(this.storeName, "readwrite");
-    tx.objectStore(this.storeName).put(val, key);
+    let db = await this.getDB()
+    let tx = db.transaction(this.storeName, "readwrite")
+    tx.objectStore(this.storeName).put(val, key)
     return tx.complete;
   },
 
   // Ambil 1 data berdasarkan Key
   async get(key) {
-    const db = await this.getDB();
+    let db = await this.getDB();
     return new Promise((resolve) => {
-      const tx = db.transaction(this.storeName, "readonly");
-      const req = tx.objectStore(this.storeName).get(key);
+      let tx = db.transaction(this.storeName, "readonly");
+      let req = tx.objectStore(this.storeName).get(key);
       req.onsuccess = () => resolve(req.result);
       req.onerror = () => resolve(null);
     });
@@ -4689,20 +4734,20 @@ const IDB = {
 
   // Ambil semua data Kanji (Sambil mengabaikan Key "nama_file")
   async getAll() {
-    const db = await this.getDB();
+    let db = await this.getDB();
     return new Promise((resolve) => {
-      const tx = db.transaction(this.storeName, "readonly");
-      const req = tx.objectStore(this.storeName).getAllKeys();
+      let tx = db.transaction(this.storeName, "readonly");
+      let req = tx.objectStore(this.storeName).getAllKeys();
       req.onsuccess = async () => {
-        const store = tx.objectStore(this.storeName);
-        const map = new Map();
-        for (const key of req.result) {
+        let store = tx.objectStore(this.storeName);
+        let map = new Map();
+        for (let key of req.result) {
           
           // 💡 Abaikan Key "nama_file" agar tidak dikira karakter Kanji
           if (key === "nama_file") continue;
 
           map.set(key, await new Promise(r => {
-            const g = store.get(key);
+            let g = store.get(key);
             g.onsuccess = () => r(g.result);
           }));
         }
@@ -4765,10 +4810,10 @@ document.getElementById("fileInput").oninput = o => {
 }
 document.addEventListener("DOMContentLoaded", async () => {
   Loader.show("statusFile", `Memuat data lokal...`);
-  const savedData = await IDB.getAll()
-  const resNamaDb = await IDB.get("nama_file")
+  let savedData = await IDB.getAll()
+  let resNamaDb = await IDB.get("nama_file")
 
-  const namaDb = resNamaDb?.val || resNamaDb || ""
+  let namaDb = resNamaDb?.val || resNamaDb || ""
 
   btnDelet.textContent = '🗑️ Hapus Data Lokal';
 
@@ -4783,8 +4828,8 @@ document.addEventListener("DOMContentLoaded", async () => {
     btnDelet.style.display = 'block'
 
     if (typeof dataServer !== 'undefined' && dataServer?.versiDataset) {
-      const versiLokal = namaDb.replace('#', '');
-      const versiServer = dataServer.versiDataset.replace('#', '');
+      let versiLokal = namaDb.replace('#', '');
+      let versiServer = dataServer.versiDataset.replace('#', '');
 
       if (!versiLokal || versiLokal !== versiServer) {
         console.log('namaDb =', namaDb, '| Data server =', dataServer.versiDataset);
@@ -4810,7 +4855,7 @@ async function hapusDbTxt() {
     btnDelet.style.display = 'none'
     Loader.show("statusFile", "Menghapus data... Jangan tutup browser! Tapi silahkan jika beralih tab");
     return new Promise((resolve, reject) => {
-      const req = indexedDB.deleteDatabase("KanjiDatabase")
+      let req = indexedDB.deleteDatabase("KanjiDatabase")
       req.onsuccess = () => {
         db.clear()
         Loader.hide("statusFile", `🗑️ Dataset karakter berhasil dihapus dari memori! ${btntxtDown('Download Ulang')}`)
@@ -4876,8 +4921,6 @@ window.onpopstate=o=> {
     modeTerpilih(o.state.mode, o.state.judulModeSaved)
   }
 }
-
-
 // --- END EVENT HANDLER --- \\
 
 
@@ -5126,9 +5169,9 @@ stroke-linejoin="round">
   `
 }
 
-const Loader = {
+let Loader = {
   show: (targetId, message = "Loading...") => {
-    const el = document.getElementById(targetId);
+    let el = document.getElementById(targetId);
     if (!el) return;
     
     el.innerHTML = `
@@ -5145,7 +5188,7 @@ const Loader = {
   },
   
   hide: (targetId, textSelesai = "") => {
-    const el = document.getElementById(targetId);
+    let el = document.getElementById(targetId);
     if (el) el.innerHTML = textSelesai;
   }
 };
@@ -6786,76 +6829,48 @@ function startWordQuiz(name='') {
     return
   }
 
-  let rawText = kanjiInput.value.trim()
-  if (!rawText) {
-    pesan('Isi text terlebih dahulu')
-    return
-  }
+  let rawText = kanjiInput.value.trim(),  
+  metadataMap = [],
+  tempText = rawText.replace(/(?:by|level|title)=\s*[^\n,、()（）]+/gi, (match) => {
+    metadataMap.push(match)
+    return `###${metadataMap.length - 1}###`
+  }),
+  textSolid = tempText.replace(/###(\d+)###/g, (_, index) => metadataMap[index]),
   
-  const metadataMap = [];
-  let tempText = rawText.replace(/(?:by|level|title)=\s*[^\n,、()（）]+/gi, (match) => {
-    metadataMap.push(match);
-    return `###${metadataMap.length - 1}###`;
-  });
-  let textSolid = tempText.replace(/###(\d+)###/g, (_, index) => metadataMap[index])
-  
-  const authorMatches = [...textSolid.matchAll(/by=\s*([^\n,、()（）\s]+)/gi)]
-  const author = authorMatches.length > 0 
-    ? authorMatches[authorMatches.length - 1][1].trim() 
-    : 'custom';
+  authorMatches = [...textSolid.matchAll(/by=\s*([^\n,、()（）\s]+)/gi)],
+  author = authorMatches.length > 0 ? authorMatches[authorMatches.length - 1][1].trim() : 'custom',
 
   // hapus baris metadata agar tersisa teks kuis murni
-  const cleanText = textSolid.replace(/(?:by|level|title)=\s*[^\n,、()（）]+\s*/gi, '').trim()
-  const isType1 = /[,、()（）]/.test(cleanText)
-  let parsedList = []
-if (!isType1) {
-  parsedList = [...cleanText].map(char => {
-    const dataKanji = db.get(char) || {};
-    
-    const listKun = dataKanji.kun || [];
-    const listOn = dataKanji.on || [];
-    let infoBacaan = 'Kun-yomi: '+[...listKun].join(', ')+(listOn.length===0?'':'<br> On-yomi: '+[...listOn].join(', '))
-    
-    if (!infoBacaan && dataKanji.definition) {
-      infoBacaan = dataKanji.definition; // contoh: "Hiragana a"
-    }
+  cleanText = textSolid.replace(/(?:by|level|title)=\s*[^\n,、()（）]+\s*/gi, '').trim(),
+  isType1 = /[,、()（）]/.test(cleanText),
+  parsedList = []
 
-    return [
-      char,
-      dataKanji.definition,
-      `Quiz Script By ${author}`,
-      author,
-      infoBacaan, 
-      '',
-      'huruf'
-    ];
-  });
-} else {
+  if (!isType1) {
+    // Format huruf
+    parsedList = [...cleanText].map(char => {
+      let dataKanji = db.get(char) || {},
+      listKun = dataKanji.kun || [],
+      listOn = dataKanji.on || [],
+      infoBacaan = 'Kun-yomi: '+[...listKun].join(', ')+(listOn.length===0?'':'<br> On-yomi: '+[...listOn].join(', '))
+      if (!infoBacaan && dataKanji.definition) {infoBacaan = dataKanji.definition}
+      return [char, dataKanji.definition, `Quiz Script By ${author}`, author, infoBacaan,  '', 'huruf']
+    })
+  } else {
     // Format kosakata/kotoba
     parsedList = cleanText.split(/[,、](?![^(（]*[\)）])/).map(item => {
       item = item.trim()
       if (!item) return null
 
-      const match = item.match(/^([^()（）]+)(?:[\(（](.*?)[\)）])?$/)
+      let match = item.match(/^([^()（）]+)(?:[\(（](.*?)[\)）])?$/)
       if (!match) {
-        const kataClean = item.replace(/\s+/g, '');
-        return [kataClean, '', `Quiz Script By ${author}`, author, '', ''];
+        let kataClean = item.replace(/\s+/g, '');
+        return [kataClean, '', `Quiz Script By ${author}`, author, '', '']
       }
 
-      const utama = match[1].replace(/\s+/g, '')
-      const tambahan = match[2] 
-        ? match[2].split(/[,、]/).map(x => x.trim()) 
-        : [];
+      let utama = match[1].replace(/\s+/g, ''),
+      tambahan = match[2] ? match[2].split(/[,、]/).map(x => x.trim()) : []
 
-      return [
-        utama,
-        tambahan[0] || '',
-        `Quiz Script By ${author}`,
-        author,
-        tambahan[1] || '',
-        tambahan[2] || '',
-        'kotoba'
-      ];
+      return [utama,tambahan[0] || '',`Quiz Script By ${author}`,author,tambahan[1] || '',tambahan[2] || '','kotoba']
     }).filter(Boolean)
   }
 
@@ -6866,7 +6881,7 @@ hrfValid = parsedList
   .map(item => {
     let kataBersih = [...item[0]]
       .filter(char => {
-        const isExist = db.has(char)
+        let isExist = db.has(char)
         if (!isExist && /[a-zA-Z0-9]/.test(char)) {
           hrfError.add(char)
         }
@@ -6894,12 +6909,11 @@ ErR##gagalCari = [${[...hrfError].join("")}].dri(file *.txt)
 _______________________
 ${headEror}
 
-Contoh Valid :
-
 - Format Data kotoba/kosakata:
 format = "Soal bisa kana/kanji (arti, furigana)"
 data dalam kurung dikosongkan
-tidak masalah..
+tidak masalah
+Contoh:
 
   ことば(kosakata), <- tiap kata wajib
                        tutup dg koma
@@ -6913,12 +6927,11 @@ tidak masalah..
 format = "Tulis huruf saja"
 Hindari koma "," atau dalam kurung "()"
 Karna hasil parsing akan jadi kosakata, 
-bukan format data huruf
+bukan format data huruf. Cara baca dibuat 
+otomatis oleh engine quiz
+Contoh:
 
-  あいうえお
-  一二三四五
-
-(cara baca dibuat otomatis oleh engine quiz)
+  あいうえお一二三四五
 `
     kanjiInput.value =''+textUmum+kanjiInput.value
     textUmum =''
@@ -6939,7 +6952,7 @@ bukan format data huruf
   btnStartCustom.textContent = `Mulai (${hrfValid.length} Soal) ▶`
   btnStartCustom.onclick = () => {
     startWordQuiz(author)
-  };
+  }
 }
 
 // --- ON-LOAD FUNCTION --- \\
