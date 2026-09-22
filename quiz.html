@@ -908,13 +908,22 @@ display: block;
 </style>
 </head>
 <body>
+<script>
+let dataLoop
+function loop(kelas, kategori, template="tiapTemplate") {
+let htmlTemplate = document.getElementById(template).innerHTML,datFilter=[]
+if(!kategori || kategori === "all"){datFilter = dataLoop}else{datFilter = dataLoop.filter(tiap => tiap.kategori === kategori)};
+document.querySelector(kelas).innerHTML = datFilter.map(tiap => {
+return htmlTemplate.replaceAll('{{tulisan}}', tiap.tulisan).replaceAll('{{fungsi}}', tiap.fungsi)
+}).join('')}
+</script>
 <div class="AllWrapper">
 <div id="nextOverlay"></div>
 <div id="elmBlok">
 </div>
 <div id="toast-container"></div>  
 
-    <h1 class="judulUtama">Quiz Mourop Apalan V<span id="versiFile">4.3.3.2</span></h1>
+    <h1 class="judulUtama">Quiz Mourop Apalan V<span id="versiFile">4.3.4</span></h1>
     <button id="pilihMode" class="pilihMode" onclick="modeTerpilih('menuPilihMode')"></button>
     <!-- Tombol Stop Quiz -->
     <div id="stopQuizWrapper">
@@ -1038,43 +1047,29 @@ display: block;
 <div id="menuPilihan" class="boxUmum">
   <div>
     <span class="judulMenu">Pilih Mode Quiz</span>
+    <template id="btnPilihanMenu">
+      <button class="tombolPilihanMenu" onclick="{{fungsi}}">{{tulisan}}</button>
+    </template>
     <div class="kotakSubMenu">
       <div class="titleSubMenu">
         <span class="judulSubMenu">Hiragana & Katakana</span>
         <span class="keteranganSubMenu">Quiz baca huruf pilihan ganda (menebak cara baca huruf). Dan quiz menulis huruf</span>
       </div>
       <span class="keteranganSubMenu">Pilih salah satu:</span>
-      <div class="kotakTombolPilihanMenu">
-        <button class="tombolPilihanMenu"onclick="helperMode ='hiragana';modeTerpilih('bentukSoal', 'Quiz Hiragana');">Baca Hiragana</button>
-        <button class="tombolPilihanMenu"onclick="helperMode ='katakana';modeTerpilih('bentukSoal', 'Quiz Katakana');">Baca Katakana</button>
-        <button class="tombolPilihanMenu"onclick="helperMode ='bothkana';modeTerpilih('bentukSoal', 'Quiz Hiragana & Katakana');">Baca Hiragana & Katakana</button>
-
-        <button 
-        class="tombolPilihanMenu"
-        onclick="
-          helperMode ='hiragana';
-          modeTerpilih('perluDb', 'Menulis Hiragana');
-        ">
-        Menulis Hiragana
-      </button>
-
-        <button 
-        class="tombolPilihanMenu"
-        onclick="
-          helperMode ='katakana';
-          modeTerpilih('perluDb', 'Menulis Katakana');
-        ">
-        Menulis Katakana
-      </button>
-
-        <button 
-        class="tombolPilihanMenu"
-        onclick="
-          helperMode ='bothkana';
-          modeTerpilih('perluDb', 'Menulis Hiragana & Katakana');
-        ">
-        Menulis Hiragana & Katakana
-      </button>
+      <div class="kotakTombolPilihanMenu hrkta">
+        <script> 
+        dataLoop =
+        [
+          {fungsi:`helperMode ='hiragana';modeTerpilih('bentukSoal', 'Quiz Hiragana');`,tulisan:`Baca Hiragana`},
+          {fungsi:`helperMode ='katakana';modeTerpilih('bentukSoal', 'Quiz Katakana');`,tulisan:`Baca Katakana`},
+          {fungsi:`helperMode ='bothkana';modeTerpilih('bentukSoal', 'Quiz Hiragana & Katakana');`,tulisan:`Baca Hiragana & Katakana`},
+          {fungsi:`helperMode ='hiragana';modeTerpilih('perluDb', 'Menulis Hiragana');`,tulisan:`Menulis Hiragana`},
+          {fungsi:`helperMode ='katakana';modeTerpilih('perluDb', 'Menulis Katakana');`,tulisan:`Menulis Katakana`},
+          {fungsi:`helperMode ='bothkana';modeTerpilih('perluDb', 'Menulis Hiragana & Katakana');`,tulisan:`Menulis Hiragana & Katakana`},
+          {fungsi:`helperMode ='bothkana';modeTerpilih('perluDb', 'Menulis Hiragana & Katakana');`,tulisan:`Menulis Hiragana & Katakana`},
+        ]
+        loop('.hrkta','all', 'btnPilihanMenu')
+        </script>
       </div>
       
     </div>
@@ -1087,15 +1082,19 @@ display: block;
         </span>
       </div>
 
-      <div class="kotakTombolPilihanMenu">
-        <button class="tombolPilihanMenu" onclick="textUmum=n5;helperMode ='scripting';modeTerpilih('perluDb', 'Menulis Kanji N5');">Kanji N5</button>
-        <button class="tombolPilihanMenu" onclick="textUmum=n4;helperMode ='scripting';modeTerpilih('perluDb', 'Menulis Kanji N4');">Kanji N4</button>
-        <button class="tombolPilihanMenu" onclick="textUmum=n3;helperMode ='scripting';modeTerpilih('perluDb', 'Menulis Kanji N3');">Kanji N3</button>
-        <button class="tombolPilihanMenu" onclick="textUmum=n2;helperMode ='scripting';modeTerpilih('perluDb', 'Menulis Kanji N2');">Kanji N2</button>
-        <button class="tombolPilihanMenu" onclick="textUmum=n1;helperMode ='scripting';modeTerpilih('perluDb', 'Menulis Kanji N1');">Kanji N1</button>
-        <button class="tombolPilihanMenu" onclick="helperMode ='scripting';modeTerpilih('perluDb', 'Ketik Soal');">
-        Ketik Sendiri 
-      </button>
+      <div class="kotakTombolPilihanMenu n5n1">
+        <script> 
+        dataLoop =
+        [
+          {fungsi:`textUmum=n5;helperMode ='scripting';modeTerpilih('perluDb', 'Menulis Kanji N5');`,tulisan:`Kanji N5`},
+          {fungsi:`textUmum=n4;helperMode ='scripting';modeTerpilih('perluDb', 'Menulis Kanji N4');`,tulisan:`Kanji N4`},
+          {fungsi:`textUmum=n3;helperMode ='scripting';modeTerpilih('perluDb', 'Menulis Kanji N3');`,tulisan:`Kanji N3`},
+          {fungsi:`textUmum=n2;helperMode ='scripting';modeTerpilih('perluDb', 'Menulis Kanji N2');`,tulisan:`Kanji N2`},
+          {fungsi:`textUmum=n1;helperMode ='scripting';modeTerpilih('perluDb', 'Menulis Kanji N1');`,tulisan:`Kanji N1`},
+          {fungsi:`helperMode ='scripting';modeTerpilih('perluDb', 'Ketik Soal');`,tulisan:`Ketik Sendiri`},
+        ]
+        loop('.n5n1','all', 'btnPilihanMenu')
+        </script>
       </div>
       
     </div>
@@ -1118,48 +1117,19 @@ display: block;
         <span class="keteranganSubMenu">Quiz menebak arti suatu kotoba. Quiz pilihan ganda 4 jawaban. Didasarkan pada semua kotoba yang tersedia di buku IM (buku biru)</span>
       </div>
 
-      <div class="kotakTombolPilihanMenu">
-        <button class="tombolPilihanMenu"
-        onclick="
-          buatPilihanBab('kotoba'); 
-          modeTerpilih('pilih-kotoba-nokanji', 'Artikan Kotoba Buku IM (Tanpa Kanji)');
-          ">
-          Mengartikan Kotoba (Non-kanji)
-        </button>
-
-        <button class="tombolPilihanMenu"
-        onclick="
-          buatPilihanBab('kotoba'); 
-          modeTerpilih('pilih-kotoba-kanji', 'Artikan Kotoba Buku IM (Dg Kanji)')
-          ">
-          Mengartikan Kotoba (dg kanji)
-        </button>
-
-        <button class="tombolPilihanMenu"
-        onclick="
-          buatPilihanBab('kotoba'); 
-          modeTerpilih('pilih-baca-kanji', 'Membaca Kanji Buku IM')
-          ">
-          Membaca Kanji
-        </button>
-
-        <button class="tombolPilihanMenu"
-        onclick="
-          helperMode = 'menulis-kanji';
-          buatPilihanBab('kotoba'); 
-          modeTerpilih('perluDb', 'Menulis Kotoba Buku IM dg Kanji')
-          ">
-          Menulis Kotoba dg Kanji
-        </button>
-
-        <button class="tombolPilihanMenu"
-        onclick="
-          helperMode = 'menulis-kotoba';
-          buatPilihanBab('kotoba'); 
-          modeTerpilih('perluDb', 'Menulis Kotoba Buku IM dg Hiragana/Katakana saja')
-          ">
-          Menulis Kotoba dg Hiragana/Katakana
-        </button>
+      <div class="kotakTombolPilihanMenu imBook">
+        <script> 
+        let punc = `buatPilihanBab('kotoba')`
+        dataLoop =
+        [
+          {fungsi:`${punc}; modeTerpilih('pilih-kotoba-nokanji', 'Artikan Kotoba Buku IM (Tanpa Kanji)');`,tulisan:`Mengartikan Kotoba (Non-kanji)`},
+          {fungsi:`${punc}; modeTerpilih('pilih-kotoba-kanji', 'Artikan Kotoba Buku IM (Dg Kanji)')`,tulisan:`Mengartikan Kotoba (dg kanji)`},
+          {fungsi:`${punc}; modeTerpilih('pilih-baca-kanji', 'Membaca Kanji Buku IM')`,tulisan:`Membaca Kanji`},
+          {fungsi:`${punc}; helperMode='menulis-kanji'; modeTerpilih('perluDb', 'Menulis Kotoba Buku IM dg Kanji')`,tulisan:`Menulis Kotoba dg Kanji`},
+          {fungsi:`${punc}; helperMode='menulis-kotoba'; modeTerpilih('perluDb', 'Menulis Kotoba Buku IM dg Hiragana/Katakana saja')`,tulisan:`Menulis Kotoba dg Hiragana/Katakana`},
+        ]
+        loop('.imBook','all', 'btnPilihanMenu')
+        </script>
       </div>
       
     </div>
@@ -1174,49 +1144,19 @@ display: block;
           </span>
         </span>
       </div>
-
-      <div class="kotakTombolPilihanMenu">
-        <button class="tombolPilihanMenu"
-        onclick="
-          buatPilihanBab('BukuMinna'); 
-          modeTerpilih('pilih-kotoba-nokanji', 'Artikan Kotoba Buku Minna (Tanpa Kanji)');
-          ">
-          Mengartikan Kotoba (Non-kanji)
-        </button>
-
-        <button class="tombolPilihanMenu"
-        onclick="
-          buatPilihanBab('BukuMinna'); 
-          modeTerpilih('pilih-kotoba-kanji', 'Artikan Kotoba Buku Minna (Dg Kanji)')
-          ">
-          Mengartikan Kotoba (dg kanji)
-        </button>
-
-        <button class="tombolPilihanMenu"
-        onclick="
-          buatPilihanBab('BukuMinna'); 
-          modeTerpilih('pilih-baca-kanji', 'Membaca Kanji Buku Minna')"
-          >
-          Membaca Kanji
-        </button>
-
-        <button class="tombolPilihanMenu"
-        onclick="
-          helperMode = 'menulis-kanji';
-          buatPilihanBab('BukuMinna'); 
-          modeTerpilih('perluDb', 'Menulis Kotoba Buku Minna dg Kanji')
-          ">
-          Menulis Kotoba dg Kanji
-        </button>
-
-        <button class="tombolPilihanMenu"
-        onclick="
-          helperMode = 'menulis-kotoba';
-          buatPilihanBab('BukuMinna'); 
-          modeTerpilih('perluDb', 'Menulis Kotoba Buku Minna dg Hiragana/Katakana saja')
-          ">
-          Menulis Kotoba dg Hiragana/Katakana
-        </button>
+      <div class="kotakTombolPilihanMenu minnaBook">
+      <script> 
+        punc = `buatPilihanBab('BukuMinna')`
+        dataLoop =
+        [
+          {fungsi:`${punc}; modeTerpilih('pilih-kotoba-nokanji', 'Artikan Kotoba Buku Minna (Tanpa Kanji)');`,tulisan:`Mengartikan Kotoba (Non-kanji)`},
+          {fungsi:`${punc}; modeTerpilih('pilih-kotoba-kanji', 'Artikan Kotoba Buku Minna (Dg Kanji)')`,tulisan:`Mengartikan Kotoba (dg kanji)`},
+          {fungsi:`${punc}; modeTerpilih('pilih-baca-kanji', 'Membaca Kanji Buku Minna')"`,tulisan:`Membaca Kanji`},
+          {fungsi:`${punc}; helperMode='menulis-kanji'; modeTerpilih('perluDb', 'Menulis Kotoba Buku Minna dg Kanji')`,tulisan:`Menulis Kotoba dg Kanji`},
+          {fungsi:`${punc}; helperMode='menulis-kotoba'; modeTerpilih('perluDb', 'Menulis Kotoba Buku Minna dg Hiragana/Katakana saja')`,tulisan:`Menulis Kotoba dg Hiragana/Katakana`},
+        ]
+        loop('.minnaBook','all', 'btnPilihanMenu')
+        </script>
       
       </div>
     </div>
@@ -1229,19 +1169,11 @@ display: block;
 
       <div class="kotakTombolPilihanMenu">
 
-        <button class="tombolPilihanMenu"
-        onclick="
-          modeTerpilih('tabelBukuIM', 'Tabel Kotoba Buku IM');
-          buatTabel('','kotoba');
-          ">
+        <button class="tombolPilihanMenu" onclick="modeTerpilih('tabelBukuIM', 'Tabel Kotoba Buku IM');buatTabel('','kotoba');">
           Tabel Kotoba Buku IM
         </button>
 
-        <button class="tombolPilihanMenu"
-        onclick="
-          modeTerpilih('tabelBukuMinna', 'Tabel Kotoba Buku Minna');
-          buatTabel('','BukuMinna');
-          ">
+        <button class="tombolPilihanMenu" onclick="modeTerpilih('tabelBukuMinna', 'Tabel Kotoba Buku Minna');buatTabel('','BukuMinna');">
           Tabel Kotoba Buku Minna
         </button>
 
@@ -1371,6 +1303,7 @@ display: block;
 
   <div id="footnote" class="text-kecil">*Web diload sepenuhnya tanpa data internet</div>
 </div>
+</body>
 <script>
 // --- VARIABEL GLOBAL --- \\
 let correctCount = 0, 
@@ -7236,5 +7169,4 @@ history.replaceState({
 buatHistori()
 // --- END ON-LOAD FUNCTION --- \\
 </script>
-</body>
 </html>

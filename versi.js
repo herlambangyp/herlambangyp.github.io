@@ -1,17 +1,24 @@
 window.dataServer = {
 
-    versi: "4.3.3.2",
+    versi: "4.3.4",
     changeLog: `
-            - Menambahkan fitur untuk bisa mengatur jumlah pilihan ganda jawaban, di quiz mode pilihan ganda
+            - Perbaikan quiz engine, sekarang sudah optimal
+            - Optimasi code keseluruhan, untuk mengurangi ukuran file
 
             - ongoing:
-              hasil parsing script akan bisa dijadikan file sendiri (file.qs) untuk disimpan.
-              (sementara ini, copy paste saja dulu script yg diketik)
+              + hasil parsing script akan bisa dijadikan file sendiri (file.qs) untuk disimpan.
+                (sementara ini, copy paste saja dulu script yg diketik)
+              + file qs bisa diload untuk berbagai quiz. Termasuk file pilihan ganda maupun menulis
+              + "tempat kembali" (saat tombol kembali ditekan) akan diubah ke halaman "Pilih Mode Quiz"
+                alih-alih balik ke beranda atau home
 
             `,
 
     changeLogVersiLama:`
 
+        4.3.3.2
+            - Menambahkan fitur untuk bisa mengatur jumlah pilihan ganda jawaban, di quiz mode pilihan ganda
+            
         4.3.3.1
             - Memperbaiki bug nama dataset di memori selalu menghasilkan data salah
             - Memperbaiki bug search input tabel kotoba
