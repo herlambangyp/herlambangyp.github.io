@@ -1,6 +1,6 @@
 window.dataServer = {
 
-    versi: "4.3.4",
+    versi: "4.3.4.1",
     changeLog: `
             - Perbaikan quiz engine, sekarang sudah optimal
             - Optimasi code keseluruhan, untuk mengurangi ukuran file
@@ -8,7 +8,7 @@ window.dataServer = {
             - ongoing:
               + hasil parsing script akan bisa dijadikan file sendiri (file.qs) untuk disimpan.
                 (sementara ini, copy paste saja dulu script yg diketik)
-              + file qs bisa diload untuk berbagai quiz. Termasuk file pilihan ganda maupun menulis
+              + file qs bisa diload untuk berbagai quiz. Termasuk quiz pilihan ganda maupun menulis
               + "tempat kembali" (saat tombol kembali ditekan) akan diubah ke halaman "Pilih Mode Quiz"
                 alih-alih balik ke beranda atau home
 
