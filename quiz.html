@@ -11,7 +11,7 @@ Tapi mohon,
  
  <html lang="id">
 <head>
-    <meta charset="UTF-8">
+  <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Quiz Mourop Apalan</title>
 <style>
@@ -324,7 +324,7 @@ salah {
   color: white;
 }
 
-button {
+button,.btn {
     font-size: 22px;
     padding: 10px 20px;
     border: none;
@@ -334,6 +334,7 @@ button {
     cursor: pointer;
     min-width: 100px;
     width: fit-content;
+    text-decoration: none;
     transition: background-color 0.2s ease;
 }
 
@@ -612,7 +613,7 @@ display: block;
 .titleSubMenu{
     display: flex;
     flex-direction: column;
-    margin-bottom: 15px;
+    margin-bottom: 8px;
 }
 .judulSubMenu{
   font-size: large;
@@ -909,337 +910,248 @@ display: block;
 </style>
 </head>
 <body>
-<script>
-let dataLoop
-function loop(kelas, kategori, template="tiapTemplate") {
-let htmlTemplate = document.getElementById(template).innerHTML,datFilter=[]
-if(!kategori || kategori === "all"){datFilter = dataLoop}else{datFilter = dataLoop.filter(tiap => tiap.kategori === kategori)};
-document.querySelector(kelas).innerHTML = datFilter.map(tiap => {
-return htmlTemplate.replaceAll('{{tulisan}}', tiap.tulisan).replaceAll('{{fungsi}}', tiap.fungsi)
-}).join('')}
-</script>
 <div class="AllWrapper">
-<div id="nextOverlay"></div>
-<div id="elmBlok">
-</div>
-<div id="toast-container"></div>  
+  <div id="nextOverlay"></div>
+  <div id="elmBlok"></div>
+  <div id="toast-container"></div>  
+  <h1 class="judulUtama">Quiz Mourop Apalan V<span id="versiFile">4.3.5</span></h1>
+  <button id="pilihMode" class="pilihMode" onclick="modeTerpilih('menuPilihMode')"></button>
 
-    <h1 class="judulUtama">Quiz Mourop Apalan V<span id="versiFile">4.3.4.1</span></h1>
-    <button id="pilihMode" class="pilihMode" onclick="modeTerpilih('menuPilihMode')"></button>
-    <!-- Tombol Stop Quiz -->
-    <div id="stopQuizWrapper">
-      <button id="stopBtn" onclick="history.back()" class="hidden widthFull">#ERROR01 JS Syntax Failure</button>
-    </div>
-    <p id="debugMode"></p>
+  <!-- Tombol Stop Quiz -->
+  <div id="stopQuizWrapper">
+    <button id="stopBtn" onclick="history.back()" class="hidden widthFull">#ERROR01 JS Syntax Failure</button>
+  </div>
+  <p id="debugMode"></p>
 
-<div id="sambutan" class="boxUmum">
+  <div id="sambutan" class="boxUmum">
     Selamat datang di <br>QUIZ MOUROP APALAN<br>
-  <span style="font-weight: 400; font-size: 7px; color: lightslategrey;">Quiz ini dibuat ben ra mumet lek ngapalne kotoba :(</span><br>
-  <span class="note">Acuan quiz dari buku-buku bahasa jepang, yang aku (Herlambang YP) pernah pelajari</span>
-    
+    <span style="font-weight: 400; font-size: 7px; color: lightslategrey;">Quiz ini dibuat ben ra mumet lek ngapalne kotoba :(</span><br>
+    <span class="note">Acuan quiz dari buku-buku bahasa jepang, yang aku (Herlambang YP) pernah pelajari</span>
     <div class="text-kecil">Pilih mode quiz di atas untuk memulai</div>
     <div id="infoUpdate"></div>
-</div>
-
-<!-- jika ingin buat UI baru, buat dibawah sini -->
-
-<div id="uiInput" class="tengahkan widthFull" style="max-width: 600px;">
-  <textarea id="kanjiInput" class="tinggi150 widthFull" oninput="simpanLog()"></textarea>
-  <div class="widthFull between">
-    <button onclick="bersihkan()" id="btnHpsPsn" class="textNormal buttonScripting">🗑️ Bersihkan Input</button>
-    <button id="btnStartCustom" onclick="startWordQuiz()" class="textNormal buttonScripting"></button>
   </div>
-  <div id="compilerLog" class="widthFull textNormal dashed">
-    <div id="compilerText">
+
+  <!-- jika ingin buat UI baru, buat dibawah sini -->
+
+  <div id="uiInput" class="tengahkan widthFull" style="max-width: 600px; display: none;">
+    <textarea id="kanjiInput" class="tinggi150 widthFull" oninput="simpanLog()"></textarea>
+    <div class="widthFull between">
+      <button onclick="bersihkan()" id="btnHpsPsn" class="textNormal buttonScripting">🗑️ Bersihkan Input</button>
+      <button id="btnStartCustom" onclick="startWordQuiz()" class="textNormal buttonScripting"></button>
     </div>
-    <!-- <button id="cekSoalCustom" class="textNormal"></button> -->
-  </div>
-  <!-- <div id="kontTabSoalCustom">
-    <table id="tabSoalCustom">
-      <thead>
-        <tr>
-          <th>No</th><th>Soal</th><th>Baca</th><th>Arti</th>
-        </tr>
-      </thead>
-
-      <tbody>
-        <td>-</td><td>-</td><td>-</td><td>-</td>
-      </tbody>
-    </table>
-
-
-</div> -->
-  <div class="boxUmum textSmall">
-    <div class="textGedi"><b>Cara Buat Data Quiz</b></div>
-  <div>1. Format Kotoba/Kosakata</div>
-    <ul>
-      <li>Format = "Soal wajib huruf jepang (arti, furigana/cara baca)"</li>
-      <li>Format ini bisa digunkana di semua mode quiz (Fitur "custom-file.qs" yg akan diupdate)</li>
-      <li>Bagian furigana bisa dikosongkan (Jika soalnya bukan kanji)</li>
-      <li>Contoh format:</li>
+    <div id="compilerLog" class="widthFull textNormal dashed">
+      <div id="compilerText"></div>
+    </div>
+    <div class="boxUmum textSmall">
+      <div class="textGedi"><b>Cara Buat Data Quiz</b></div>
+      <div>1. Format Kotoba/Kosakata</div>
+      <ul>
+        <li>Format = "Soal wajib huruf jepang (arti, furigana/cara baca)"</li>
+        <li>Format ini bisa digunkana di semua mode quiz (Fitur "custom-file.qs" yg akan diupdate)</li>
+        <li>Bagian furigana bisa dikosongkan (Jika soalnya bukan kanji)</li>
+        <li>Contoh format:</li>
         <ul>
           <li>ことば(kosakata),<-tiap kotoba WAJIB tutup dg koma</li>
           <li>長い (panjang, ながい),</li>
           <li>辞書 (kamus,じしょ),</li>
           <li>チョコレート(coklat),</li>
         </ul>
-    </ul>
-  <div>2. Format Huruf</div>
-    <ul>
-      <li>Format = Hanya huruf Jepang</li>
-      <li>Format ini bisa untuk quiz menulis</li>
-      <li>JANGAN gunakan koma "," atau dalam kurung "( )"</li>
-      <li>Furigana/Cara baca diisi otomatis oleh sistem quiz</li>
-      <li>Contoh format:</li>
+      </ul>
+
+      <div>2. Format Huruf</div>
+      <ul>
+        <li>Format = Hanya huruf Jepang</li>
+        <li>Format ini bisa untuk quiz menulis</li>
+        <li>JANGAN gunakan koma "," atau dalam kurung "( )"</li>
+        <li>Furigana/Cara baca diisi otomatis oleh sistem quiz</li>
+        <li>Contoh format:</li>
         <ul>
           <li>あいうえお一二三四五六 七八九 十百千 万</li>
         </ul>
-    </ul>
-</div>
-
-
-</div>
-
-<div id="kotakInTXT">
-  <div>
-    <label><b>Load Dataset Huruf:</b><div>(Tidak Perlu Koneksi Internet)</div></label><br>
-    <div class="textSmall textGrey widthFull kirikan"><input type="file" class="fileUp" id="fileInput" accept=".txt,.jsonl,.qs">*.txt/.qs</div>    
-    <p id="statusFile" class="gagalCek" style="font-size: 10px;"></p>
-    <div>
-    <button id="btnLoad" class="textSmall widthFull textSmall" style="margin-top: 5px; display: none;"></button>
-    <button id="btnDelet" class="textSmall widthFull textSmall" style="margin-top: 5px; display: none;" onclick="hapusDbTxt()"></button>
-    </div>
-    <div id="linkDat">
+      </ul>
     </div>
   </div>
-</div>
-
-
-<div id="bentukSoal" class="boxUmum">
-    <div class="judulBentukSoal">
-        Bentuk Soalnya?
+  
+  <div id="kotakInTXT">
+    <div>
+      <label><b>Load Dataset Huruf:</b><div>(Tidak Perlu Koneksi Internet)</div></label><br>
+      <div class="textSmall textGrey widthFull kirikan"><input type="file" class="fileUp" id="fileInput" accept=".txt,.jsonl,.qs">*.txt/.qs</div>    
+      <p id="statusFile" class="gagalCek" style="font-size: 10px;"></p>
+      <div>
+        <button id="btnLoad" class="textSmall widthFull textSmall" style="margin-top: 5px; display: none;"></button>
+        <button id="btnDelet" class="textSmall widthFull textSmall" style="margin-top: 5px; display: none;" onclick="hapusDbTxt()"></button>
+      </div>
+      <div id="linkDat">
+      </div>
     </div>
+  </div>
+
+  <div id="bentukSoal" class="boxUmum">
+    <div class="judulBentukSoal">Bentuk Soalnya?</div>
     <div class="subJudulBentukSoal">
-        Pilih bentuk soal yang akan digunakan untuk quiz ini
+      Pilih bentuk soal yang akan digunakan untuk quiz ini
     </div>
     <div id="ButtonBentukSoal" class="kotakTombolPilihanMenu">
-        <button id="tombolNormal" class="tombolBentukSoal" style="outline: solid 2px #e100a0;">
-        </button>
-
-        <button id="tombolReverse" class="tombolBentukSoal" style="outline: solid 2px #7aff00;">
-        </button>
-
-      <div
-      style="
-      border: dashed 2px teal; border-radius: 5px; padding:8px;
-      ">
+      <button id="tombolNormal" class="tombolBentukSoal" style="outline: solid 2px #e100a0;">
+      </button>
+      <button id="tombolReverse" class="tombolBentukSoal" style="outline: solid 2px #7aff00;">
+      </button>
+      <div style="border: dashed 2px teal; border-radius: 5px; padding:8px; ">
         <label>(Opsional) Jumlah pilihan ganda:</label>
-        <input style="
-        border: solid 2px; border-radius: 5px; background: transparent; color: white; width: stretch; text-align: center;
-        " 
+        <input style="border: solid 2px; border-radius: 5px; background: transparent; color: white; width: stretch; text-align: center;" 
         id="jumJwbn" type="number" value="4">
-        <span class="text-kecil" style="text-align: end;">*default atau minimal adalah 4</span>
+          <span class="text-kecil" style="text-align: end;">*default atau minimal adalah 4</span>
       </div>
-
     </div>
+  </div>
 
-</div>
-<div id="menuPilihan" class="boxUmum">
-  <div>
+  <div id="menuPilihan" class="boxUmum">
     <span class="judulMenu">Pilih Mode Quiz</span>
-    <template id="btnPilihanMenu">
-      <button class="tombolPilihanMenu" onclick="{{fungsi}}">{{tulisan}}</button>
-    </template>
-    <div class="kotakSubMenu">
-      <div class="titleSubMenu">
-        <span class="judulSubMenu">Hiragana & Katakana</span>
-        <span class="keteranganSubMenu">Quiz baca huruf pilihan ganda (menebak cara baca huruf). Dan quiz menulis huruf</span>
-      </div>
-      <span class="keteranganSubMenu">Pilih salah satu:</span>
-      <div class="kotakTombolPilihanMenu hrkta">
-        <script> 
-        dataLoop =
-        [
-          {fungsi:`helperMode ='hiragana';modeTerpilih('bentukSoal', 'Quiz Hiragana');`,tulisan:`Baca Hiragana`},
-          {fungsi:`helperMode ='katakana';modeTerpilih('bentukSoal', 'Quiz Katakana');`,tulisan:`Baca Katakana`},
-          {fungsi:`helperMode ='bothkana';modeTerpilih('bentukSoal', 'Quiz Hiragana & Katakana');`,tulisan:`Baca Hiragana & Katakana`},
-          {fungsi:`helperMode ='hiragana';modeTerpilih('perluDb', 'Menulis Hiragana');`,tulisan:`Menulis Hiragana`},
-          {fungsi:`helperMode ='katakana';modeTerpilih('perluDb', 'Menulis Katakana');`,tulisan:`Menulis Katakana`},
-          {fungsi:`helperMode ='bothkana';modeTerpilih('perluDb', 'Menulis Hiragana & Katakana');`,tulisan:`Menulis Hiragana & Katakana`},
-        ]
-        loop('.hrkta','all', 'btnPilihanMenu')
-        </script>
-      </div>
-      
-    </div>
-
-    <div class="kotakSubMenu">
-      <div class="titleSubMenu">
-        <span class="judulSubMenu">Menulis Karakter</span>
-        <span class="keteranganSubMenu">
-          Quiz menulis berbagai karakter kanji. Atau bisa ketik sendiri
-        </span>
-      </div>
-
-      <div class="kotakTombolPilihanMenu n5n1">
-        <script> 
-        dataLoop =
-        [
-          {fungsi:`textUmum=n5;helperMode ='scripting';modeTerpilih('perluDb', 'Menulis Kanji N5');`,tulisan:`Kanji N5`},
-          {fungsi:`textUmum=n4;helperMode ='scripting';modeTerpilih('perluDb', 'Menulis Kanji N4');`,tulisan:`Kanji N4`},
-          {fungsi:`textUmum=n3;helperMode ='scripting';modeTerpilih('perluDb', 'Menulis Kanji N3');`,tulisan:`Kanji N3`},
-          {fungsi:`textUmum=n2;helperMode ='scripting';modeTerpilih('perluDb', 'Menulis Kanji N2');`,tulisan:`Kanji N2`},
-          {fungsi:`textUmum=n1;helperMode ='scripting';modeTerpilih('perluDb', 'Menulis Kanji N1');`,tulisan:`Kanji N1`},
-          {fungsi:`helperMode ='scripting';modeTerpilih('perluDb', 'Ketik Soal');`,tulisan:`Ketik Sendiri`},
-        ]
-        loop('.n5n1','all', 'btnPilihanMenu')
-        </script>
-      </div>
-      
-    </div>
-
-    <div class="kotakSubMenu">
-      <div class="titleSubMenu">
-        <span class="judulSubMenu">Test Matematika IM JAPAN</span>
-        <span class="keteranganSubMenu">Bentuk soal matematika yang digunakan untuk tes matematika dalam program IM JAPAN</span>
-      </div>
-
-      <div class="kotakTombolPilihanMenu">
-        <button class="tombolPilihanMenu"onclick="modeTerpilih('quizMM', 'Test Soal Matematika IM');">Mulai Test</button>
-      </div>
-      
-    </div>
-
-    <div class="kotakSubMenu">
-      <div class="titleSubMenu">
-        <span class="judulSubMenu">Kotoba Buku IM</span>
-        <span class="keteranganSubMenu">Didasarkan pada semua kotoba yang tersedia di buku IM (buku biru)</span>
-      </div>
-        <script> 
-        let punc = `buatPilihanBab('kotoba')`
-        dataLoop =
-        [
-          {kategori:`pilGan`,fungsi:`${punc}; modeTerpilih('pilih-kotoba-nokanji', 'Artikan Kotoba Buku IM (Tanpa Kanji)');`,tulisan:`Mengartikan Kotoba (Non-kanji)`},
-          {kategori:`pilGan`,fungsi:`${punc}; modeTerpilih('pilih-kotoba-kanji', 'Artikan Kotoba Buku IM (Dg Kanji)')`,tulisan:`Mengartikan Kotoba (dg kanji)`},
-          {kategori:`pilGan`,fungsi:`${punc}; modeTerpilih('pilih-baca-kanji', 'Membaca Kanji Buku IM')`,tulisan:`Membaca Kanji`},
-          {kategori:`menulis`,fungsi:`${punc}; helperMode='menulis-kanji'; modeTerpilih('perluDb', 'Menulis Kotoba Buku IM dg Kanji')`,tulisan:`Menulis Kotoba dg Kanji`},
-          {kategori:`menulis`,fungsi:`${punc}; helperMode='menulis-kotoba'; modeTerpilih('perluDb', 'Menulis Kotoba Buku IM dg Hiragana/Katakana saja')`,tulisan:`Menulis Kotoba dg Hiragana/Katakana`},
-        ]
-        </script>
-
-        <div class="keteranganSubMenu">Quiz Pilihan Ganda:
-          <div class="kotakTombolPilihanMenu imPilgan">
-            <script>loop('.imPilgan','pilGan', 'btnPilihanMenu')</script>
-          </div>
-        </div>
-
-        <div class="keteranganSubMenu">Quiz Menulis:
-          <div class="kotakTombolPilihanMenu imMenulis">
-            <script>loop('.imMenulis','menulis', 'btnPilihanMenu')</script>
-          </div>
-        </div>
-
-    </div>
-
-    <div class="kotakSubMenu">
-      <div class="titleSubMenu">
-        <span class="judulSubMenu">Kotoba Buku Minna No Nihonggo</span>
-        <span class="keteranganSubMenu">Didasarkan pada semua kotoba yang tersedia di buku Minna No Nihonggo I & II.<br> 
-          <span class="text-kecil">Minna no Nihonggo Cetakan 2013 Edisi 2</span>
-        </span>
-      </div>
-      <script> 
-        punc = `buatPilihanBab('BukuMinna')`
-        dataLoop =
-        [
-          {kategori:`pilGan`,fungsi:`${punc}; modeTerpilih('pilih-kotoba-nokanji', 'Artikan Kotoba Buku Minna (Tanpa Kanji)');`,tulisan:`Mengartikan Kotoba (Non-kanji)`},
-          {kategori:`pilGan`,fungsi:`${punc}; modeTerpilih('pilih-kotoba-kanji', 'Artikan Kotoba Buku Minna (Dg Kanji)')`,tulisan:`Mengartikan Kotoba (dg kanji)`},
-          {kategori:`pilGan`,fungsi:`${punc}; modeTerpilih('pilih-baca-kanji', 'Membaca Kanji Buku Minna')"`,tulisan:`Membaca Kanji`},
-          {kategori:`menulis`,fungsi:`${punc}; helperMode='menulis-kanji'; modeTerpilih('perluDb', 'Menulis Kotoba Buku Minna dg Kanji')`,tulisan:`Menulis Kotoba dg Kanji`},
-          {kategori:`menulis`,fungsi:`${punc}; helperMode='menulis-kotoba'; modeTerpilih('perluDb', 'Menulis Kotoba Buku Minna dg Hiragana/Katakana saja')`,tulisan:`Menulis Kotoba dg Hiragana/Katakana`},
-        ]
-      </script>
-
-      <div class="keteranganSubMenu">Quiz Pilihan Ganda:
-        <div class="kotakTombolPilihanMenu minaPilgan">
-          <script>loop('.minaPilgan','pilGan', 'btnPilihanMenu')</script>
-        </div>
-      </div>
-
-      <div class="keteranganSubMenu">Quiz Menulis:
-        <div class="kotakTombolPilihanMenu minaWrite">
-          <script>loop('.minaWrite','menulis', 'btnPilihanMenu')</script>
-        </div>  
-      </div>
-
-    </div>
-
-    <div class="kotakSubMenu">
-      <div class="titleSubMenu">
-        <span class="judulSubMenu">Download Kotoba Komunitas</span>
-        <span class="keteranganSubMenu">(PERLU INTERNET) Berbagai quiz yg dibuat oleh komunitas. Siap di download dalam bentuk file qs. Load filenya di bagian "Load File Data Quiz"<br> 
-          <span class="text-kecil">Perlu Internet untuk mendownload file qs berisi data quiz</span>
-        </span>
-      </div>
-        <div class="kotakTombolPilihanMenu minaPilgan">
-          <button class="tombolPilihanMenu gaSiap" onclick="pesan('Fitur masih dikembangkan')">
-            Kotoba Kaigo 2025.qs (0.7Kb)
-          </button>
-        </div>
-    </div>
-
-    <div class="kotakSubMenu">
-      <div class="titleSubMenu">
-        <span class="judulSubMenu">Load File Data Quiz</span>
-        <span class="keteranganSubMenu">Load file qs yang kamu punya. Atau yang sudah kamu download dari komunitas. Bisa diload sebagai quiz pilihan ganda maupun quiz menulis<br> 
-        </span>
-      </div>
-      <div class="kotakTombolPilihanMenu minaPilgan">
-          <button class="tombolPilihanMenu gaSiap" onclick="pesan('Fitur masih dikembangkan')">
-          Load Sebagai Quiz Pilihan Ganda
-        </button>        
-          <button class="tombolPilihanMenu gaSiap" onclick="pesan('Fitur masih dikembangkan')">
-          Load Sebagai Quiz Menulis
-        </button>        
-      </div>
-    </div>
-
+    <template id="PilihanMenu">
       <div class="kotakSubMenu">
-      <div class="titleSubMenu">
-        <span class="judulSubMenu">Bagian Bukan Quiz</span>
-        <span class="keteranganSubMenu">Bagian untuk mencari tahu berbagai materi yang akan digunakan sebagai quiz di web ini. Tidak ada quiz di bagian ini.</span>
+        <div class="titleSubMenu">
+          <span class="judulSubMenu">{{judul}}</span>
+          <span class="keteranganSubMenu">{{keterangan}}</span>
+          <span class="text-kecil">{{note}}</span>
+        </div>
+        <div class="kotakTombolPilihanMenu">
+          {{tombol}}
+        </div>
       </div>
+    </template>
+    <script>
+      let dataLoop, punc
+      function loop(kelas, template = "PilihanMenu") {
+      let htmlTemplate = document.getElementById(template).innerHTML,datFilter=[], kat= kelas.slice(1)
+      if(!kat || kat === "all"){datFilter = dataLoop}else{datFilter = dataLoop.filter(tiap => tiap.kat === kat)}
+      document.querySelector(kelas).innerHTML = datFilter.map(tiap => {
+        let tombolMenu = tiap.tombols.map(btn => {
+          return `<button class="tombolPilihanMenu ${btn.gasiap?"gaSiap":""}" onclick="${punc?punc+";":""}${btn.fungsi}">${btn.tulisan}</button>`;
+        }).join('')
+        let anchorMenu = tiap.anc? tiap.anc.map(btn => {
+          return `<a href="${btn.link}" class="btn tombolPilihanMenu ${btn.gasiap?"gaSiap":""}">${btn.tulisan}</a>`;
+        }).join(''):""
 
-      <div class="kotakTombolPilihanMenu">
-
-        <button class="tombolPilihanMenu" onclick="modeTerpilih('tabelBukuIM', 'Tabel Kotoba Buku IM');buatTabel('','kotoba');">
-          Tabel Kotoba Buku IM
-        </button>
-
-        <button class="tombolPilihanMenu" onclick="modeTerpilih('tabelBukuMinna', 'Tabel Kotoba Buku Minna');buatTabel('','BukuMinna');">
-          Tabel Kotoba Buku Minna
-        </button>
-
-      </div>
+        return htmlTemplate.replaceAll('{{judul}}', tiap.judul).replaceAll('{{keterangan}}', tiap.keterangan)
+        .replaceAll('{{tombol}}',tombolMenu+anchorMenu).replaceAll('{{note}}',tiap.note?"<br>"+tiap.note:"")
+      }).join('')}
       
+      dataLoop =
+      [
+        {
+          judul: "Hiragana & Katakana",
+          keterangan: "Quiz baca huruf pilihan ganda (menebak cara baca huruf). Dan quiz menulis huruf",
+          kat:"hrkta",
+          note: "Pilgan : Quiz Pilihan Ganda | Menulis : Quiz Menulis Langsung",
+          tombols: [
+            {fungsi:`helperMode ='hiragana';modeTerpilih('bentukSoal', 'Quiz Hiragana');`,tulisan:`Pilgan Hiragana`},
+            {fungsi:`helperMode ='katakana';modeTerpilih('bentukSoal', 'Quiz Katakana');`,tulisan:`Pilgan Katakana`},
+            {fungsi:`helperMode ='bothkana';modeTerpilih('bentukSoal', 'Quiz Hiragana & Katakana');`,tulisan:`Pilgan Hiragana & Katakana`},
+            {fungsi:`helperMode ='hiragana';modeTerpilih('perluDb', 'Menulis Hiragana');`,tulisan:`Menulis Hiragana`},
+            {fungsi:`helperMode ='katakana';modeTerpilih('perluDb', 'Menulis Katakana');`,tulisan:`Menulis Katakana`},
+            {fungsi:`helperMode ='bothkana';modeTerpilih('perluDb', 'Menulis Hiragana & Katakana');`,tulisan:`Menulis Hiragana & Katakana`},
+          ]
+        },
+        {
+          judul: "Menulis Karakter",
+          keterangan: "Quiz menulis berbagai karakter kanji. Atau bisa ketik sendiri",
+          kat:"n5n1",
+          tombols: [
+            {fungsi:`textUmum=n5;helperMode ='scripting';modeTerpilih('perluDb', 'Menulis Kanji N5');`,tulisan:`Kanji N5`},
+            {fungsi:`textUmum=n4;helperMode ='scripting';modeTerpilih('perluDb', 'Menulis Kanji N4');`,tulisan:`Kanji N4`},
+            {fungsi:`textUmum=n3;helperMode ='scripting';modeTerpilih('perluDb', 'Menulis Kanji N3');`,tulisan:`Kanji N3`},
+            {fungsi:`textUmum=n2;helperMode ='scripting';modeTerpilih('perluDb', 'Menulis Kanji N2');`,tulisan:`Kanji N2`},
+            {fungsi:`textUmum=n1;helperMode ='scripting';modeTerpilih('perluDb', 'Menulis Kanji N1');`,tulisan:`Kanji N1`},
+            {fungsi:`helperMode ='scripting';modeTerpilih('perluDb', 'Ketik Soal');`,tulisan:`Ketik Sendiri`},
+          ]
+        },
+        {
+          judul: "Test Matematika IM JAPAN",
+          keterangan: "Bentuk soal matematika yang digunakan untuk tes matematika dalam program IM JAPAN",
+          kat:"mmIM",
+          tombols: [
+            {fungsi:`modeTerpilih('quizMM', 'Test Soal Matematika IM');`,tulisan:`Mulai Test`},
+          ]
+        },
+        { 
+          judul: "Kotoba Buku IM",
+          keterangan: "Didasarkan pada semua kotoba yang tersedia di buku IM (buku biru)",
+          note: "Pilgan : Quiz Pilihan Ganda | Menulis : Quiz Menulis Langsung",
+          kat:"imKotob",
+          tombols: [
+            {fungsi:`modeTerpilih('pilih-kotoba-nokanji', 'Artikan Kotoba Buku IM (Tanpa Kanji)');`,tulisan:`Pilgan Kotoba (Non-kanji)`},
+            {fungsi:`modeTerpilih('pilih-kotoba-kanji', 'Artikan Kotoba Buku IM (Dg Kanji)')`,tulisan:`Pilgan Kotoba (dg kanji)`},
+            {fungsi:`modeTerpilih('pilih-baca-kanji', 'Membaca Kanji Buku IM')`,tulisan:`Pilgan Membaca Kanji`},
+            {fungsi:`helperMode='menulis-kanji'; modeTerpilih('perluDb', 'Menulis Kotoba Buku IM dg Kanji')`,tulisan:`Menulis Kotoba dg Kanji`},
+            {fungsi:`helperMode='menulis-kotoba'; modeTerpilih('perluDb', 'Menulis Kotoba Buku IM dg Hiragana/Katakana saja')`,tulisan:`Menulis Kotoba dg Hiragana/Katakana`},
+          ]
+        },
+        { 
+          judul: "Kotoba Buku Minna No Nihonggo",
+          keterangan: "Didasarkan pada semua kotoba yang tersedia di buku Minna No Nihonggo I & II. Minna no Nihonggo Cetakan 2013 Edisi 2",
+          note: "Pilgan : Quiz Pilihan Ganda | Menulis : Quiz Menulis Langsung",
+          kat:"minaKotob",
+          tombols: [
+            {fungsi:`modeTerpilih('pilih-kotoba-nokanji', 'Artikan Kotoba Buku Minna (Tanpa Kanji)');`,tulisan:`Pilgan Kotoba (Non-kanji)`},
+            {fungsi:`modeTerpilih('pilih-kotoba-kanji', 'Artikan Kotoba Buku Minna (Dg Kanji)')`,tulisan:`Pilgan Kotoba (dg kanji)`},
+            {fungsi:`modeTerpilih('pilih-baca-kanji', 'Membaca Kanji Buku Minna')"`,tulisan:`Pilgan Membaca Kanji`},
+            {fungsi:`helperMode='menulis-kanji'; modeTerpilih('perluDb', 'Menulis Kotoba Buku Minna dg Kanji')`,tulisan:`Menulis Kotoba dg Kanji`},
+            {fungsi:`helperMode='menulis-kotoba'; modeTerpilih('perluDb', 'Menulis Kotoba Buku Minna dg Hiragana/Katakana saja')`,tulisan:`Menulis Kotoba dg Hiragana/Katakana`},
+          ]
+        }, 
+        {
+          judul: "Download Quiz Komunitas",
+          note:`Perlu Internet untuk mendownload file qs berisi data quiz`,
+          keterangan: `(PERLU INTERNET) Berbagai quiz yg dibuat oleh komunitas. Siap di download dalam bentuk file qs. Load filenya di menu "Load File Data Quiz"`,
+          kat:"komunitas",
+          tombols: [
+            { fungsi: `quizOnline('komunitas')`, tulisan: `Lihat Quiz Komunitas (Perlu Internet)` }
+          ]
+        },
+        {
+          judul: "Load File Data Quiz",
+          keterangan: `Load file qs yang kamu punya. Atau yang sudah kamu download dari komunitas. Bisa diload sebagai quiz pilihan ganda maupun quiz menulis`,
+          kat:"menuLoad",
+          
+          tombols: [
+            {fungsi:`pesan('Fitur masih dikembangkan')`,gasiap: true,tulisan:`Load Sebagai Quiz Pilihan Ganda`},
+            {fungsi:`pesan('Fitur masih dikembangkan')`,gasiap: true,tulisan:`Load Sebagai Quiz Menulis`},
+          ]
+        },
+        {
+          judul: "Bagian Bukan Quiz",
+          keterangan: `Bagian untuk mencari tahu berbagai materi yang akan digunakan sebagai quiz di web ini. Tidak ada quiz di bagian ini.`,
+          kat:"menuTabel",
+          tombols: [
+            {fungsi:`modeTerpilih('tabelBukuIM', 'Tabel Kotoba Buku IM');buatTabel('','kotoba');`,tulisan:`Tabel Kotoba Buku IM`},
+            {fungsi:`modeTerpilih('tabelBukuMinna', 'Tabel Kotoba Buku Minna');buatTabel('','BukuMinna');`,tulisan:`Tabel Kotoba Buku Minna`},
+          ]
+        },
+      ]
+    </script>
+    <div class="hrkta"><script>loop('.hrkta')</script></div>
+    <div class="n5n1"><script> loop('.n5n1')</script></div>
+    <div class="mmIM"><script> loop('.mmIM')</script></div>
+    <div class="minaKotob"><script> punc="buatPilihanBab('BukuMinna')"; loop('.minaKotob')</script></div>
+    <div class="imKotob"><script> punc="buatPilihanBab('kotoba')"; loop('.imKotob')</script></div>
+    <div class="komunitas"><script>loop('.komunitas')</script></div>
+    <div class="menuLoad"><script>loop('.menuLoad')</script></div>
+    <div class="menuTabel"><script>loop('.menuTabel')</script></div>
+  </div>
+
+  <div id="pilihBab">
+    <div id="judul-pilihan-kotoba" class="bagan-judul">
+      <gedi>Javascript(JS) Mati. Gunakan Browser lain</gedi><br>
+      <catatan-mode>Sebaiknya gunakan Chrome untuk mengfungsikan web-app ini</catatan-mode>
     </div>
-
-  </div>
-</div>
-
-<div id="pilihBab">
-  <div id="judul-pilihan-kotoba" class="bagan-judul">
-    <gedi>Javascript(JS) Mati. Gunakan Browser lain</gedi><br>
-    <catatan-mode>Sebaiknya gunakan Chrome untuk mengfungsikan web-app ini</catatan-mode>
-  </div>
-  <div>
-    <form id="pilihan-kotoba" class="bagan-pilihan"></form>
-  </div>
-  <div>
-        <div class="kont-soal" style="width:100%;">
-      <div class="bagan-pilihanMM" style="margin-bottom: 0px;">
-        <div><span id="jumSoal">Pilih bab dulu, lalu </span> isi dibawah ini jika ingin membatasi jumlah soal:<br></div>
-        <input 
+    <div>
+      <form id="pilihan-kotoba" class="bagan-pilihan"></form>
+    </div>
+    <div>
+      <div class="kont-soal" style="width:100%;">
+        <div class="bagan-pilihanMM" style="margin-bottom: 0px;">
+          <div><span id="jumSoal">Pilih bab dulu, lalu </span> isi dibawah ini jika ingin membatasi jumlah soal:<br></div>
+          <input 
           id="batasSoal"
           style="border: solid 1px;padding: 5px;margin: 3px 0px;border-radius: 12px; font-size:12px;" 
           type="number" 
@@ -1250,99 +1162,80 @@ return htmlTemplate.replaceAll('{{tulisan}}', tiap.tulisan).replaceAll('{{fungsi
           onInput='soalDibatasi()'
           >
           <span class="text-kecil" style="text-align: end;">*kosongkan untuk ambil semua soal</span>
+        </div>
       </div>
     </div>
   </div>
-</div>
-    <button class="tombol-start-quiz" id="startKotoba"></button>
 
-
-<!-- Container Tabel -->
-<div id="vocabTableContainer" class="hidden">
-    
-  <h2 class="judultabel" id="judulTabel"></h2>  
-      <input id="tableSearch" type="text" placeholder="Klik untuk cari kotoba/kanji...">
-  <table id="vocabTable" border="1">
-    <thead>
+  <!-- Container Tabel -->
+  <div id="vocabTableContainer" class="hidden">
+    <h2 class="judultabel" id="judulTabel"></h2>  
+    <input id="tableSearch" type="text" placeholder="Klik untuk cari kotoba/kanji...">
+    <table id="vocabTable" border="1">
+      <thead>
         <tr>
-        <th>BAB</th>
-        <th>Kanji</th>
-        <th>Baca</th>
-        <th>Arti</th>
-    </tr>
-    </thead>
-    <tbody><td>-</td><td>-</td><td>-</td><td>-</td></tbody>
-</table>
-
-
-</div>
-
-<div id="badan-quiz">
-  <div id="kotakSoal" class="tengahkan" style="margin-bottom:8px">
-    <div id="kana" class="text-capitalize">ErR07? <b>Quiz_ Engine.DEAD:</b> func.!!quester</div>
-    <div id="soal"></div>
-    <div id="result"></div>
-  </div>
-  <div id="kotakTulis" class="tengahkan">
-    <div id="headBoard" class="textCenter textNormal headBoard widthFull">
-      <div id="jumHrf" class="textCenter textGrey"></div>
-      <div class="textCenter" id="kanjiKont"></div>
-      <div id="stateTulis"></div>
-    </div>
-    <div id="board">
-      <div id="svgLayer"></div>
-      <div id="tulisDisini" class="textGedi" style="position: relative; bottom: 8px;">tulislah disini..</div>
-      <canvas id="canvas" width="1024" height="1024"></canvas>
-    </div>
-    <button id="bantuTulis" class="widthFull" onclick="bantuanAnim()"></button>
-  </div>
-  <div id="tomblJwbn" class="tombol-jawaban">
-  <div class="choices" id="choices"></div>
-  </div>
-  
-  <button id="restart" class="widthFull" onclick="mulaiQuiz(); modeTerpilih()">Mulai Ulang</button>
-</div>
-
-<table class="tabelMM">
-    <thead class="kepalaTabel">
-        <tr>
-            <th>No</th>
-            <th>Soal</th>
-            <th>Jawab</th>
+          <th>BAB</th>
+          <th>Kanji</th>
+          <th>Baca</th>
+          <th>Arti</th>
         </tr>
+      </thead>
+      <tbody><td>-</td><td>-</td><td>-</td><td>-</td></tbody>
+    </table>
+  </div>
+
+  <div id="badan-quiz">
+    <div id="kotakSoal" class="tengahkan" style="margin-bottom:8px">
+      <div id="kana" class="text-capitalize">ErR07? <b>Quiz_ Engine.DEAD:</b> func.!!quester</div>
+      <div id="soal"></div>
+      <div id="result"></div>
+    </div>
+    <div id="kotakTulis" class="tengahkan">
+      <div id="headBoard" class="textCenter textNormal headBoard widthFull">
+        <div id="jumHrf" class="textCenter textGrey"></div>
+        <div class="textCenter" id="kanjiKont"></div>
+        <div id="stateTulis"></div>
+      </div>
+      <div id="board">
+        <div id="svgLayer"></div>
+        <div id="tulisDisini" class="textGedi" style="position: relative; bottom: 8px;">tulislah disini..</div>
+        <canvas id="canvas" width="1024" height="1024"></canvas>
+      </div>
+      <button id="bantuTulis" class="widthFull" onclick="bantuanAnim()"></button>
+    </div>
+    <div id="tomblJwbn" class="tombol-jawaban">
+      <div class="choices" id="choices"></div>
+    </div>
+    <button id="restart" class="widthFull" onclick="mulaiQuiz(); modeTerpilih()">Mulai Ulang</button>
+  </div>
+
+  <table class="tabelMM">
+    <thead class="kepalaTabel">
+      <tr>
+        <th>No</th>
+        <th>Soal</th>
+        <th>Jawab</th>
+      </tr>
     </thead>
     <tbody id="soalMM">
-        <tr>
-        </tr>
+      <tr>
+      </tr>
     </tbody>
-</table>
-<score id="nilaiMM"> </score>
-<timer class="pewaktu"><sw id="iconStopwatch" style="display: flex;"></sw><waktu id="dataTimer"></waktu></timer>
-   <button style="display: none;" id="btnPeriksaMM">Akhiri & Periksa Jawaban</button>
-   <button style="display: none;" id="btnBuatMM">Mulai Lagi</button>
-<br><span class="hak"><strong>Buatan <a href="https://herlambangyp.ct.ws/" style="color: cadetblue;text-decoration: none;">@Herlambang YP</a></strong></span>
-  
-<button id="toTopBtn" 
-  onclick='
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth"
-    })' 
-  title="Kembali ke atas">
-  <svg xmlns="http://www.w3.org/2000/svg" 
-    width="30" 
-    height="30" 
-    viewBox="0 0 24 24" 
-    fill="none" 
-    stroke="currentColor" 
-    stroke-width="2.8" 
-    stroke-linecap="round" 
-    stroke-linejoin="round">
-    
-    <path d="M12 19V6"/>
-    <path d="M6 12l6-6 6 6"/>
-  </svg>
-</button>
+  </table>
+
+  <score id="nilaiMM"> </score>
+  <timer class="pewaktu"><sw id="iconStopwatch" style="display: flex;"></sw><waktu id="dataTimer"></waktu></timer>
+
+  <button id="toTopBtn" onclick='window.scrollTo({top: 0,behavior: "smooth"})' title="Kembali ke atas">
+    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 19V6"/>
+      <path d="M6 12l6-6 6 6"/>
+    </svg>
+  </button>
+  <button class="tombol-start-quiz" id="startKotoba"></button>
+  <button style="display: none;" id="btnPeriksaMM">Akhiri & Periksa Jawaban</button>
+  <button style="display: none;" id="btnBuatMM">Mulai Lagi</button>
+  <br><div class="hak"><strong>Buatan <a href="https://herlambangyp.ct.ws/" style="color: cadetblue;text-decoration: none;">@Herlambang YP</a></strong></div>
 
   <div id="footnote" class="text-kecil">*Web diload sepenuhnya tanpa data internet</div>
 </div>
@@ -1378,6 +1271,7 @@ isDrawing = false,
 salahsemua = false,
 kembaliDitekan = false,
 isClickable = true,
+scriptEror=false,
 isType1,
 hrfValid,
 
@@ -1412,65 +1306,7 @@ kotobaBuku,
 scriptSaved = localStorage.getItem("kanjiInputLog"),
 
 // --- ELEMENT GLOBAL --- \\
-debug = document.getElementById("debugMode"),
-versiFile = document.getElementById('versiFile').textContent,
-cekUpdate = document.createElement("script"),
-uiUpdate = document.createElement("script"),
-infoUpdate = document.getElementById('infoUpdate'),
-pilihSemua = document.getElementById('pilih-semua'),
-pilihanBab = document.querySelectorAll('.bab-choice'),
-tabelMM = document.querySelector('.tabelMM'),
-periksaMM = document.getElementById('btnPeriksaMM'),
-ulangMM = document.getElementById('btnBuatMM'),
-kotakNilaiMM = document.getElementById(`nilaiMM`),
-badanQuiz = document.getElementById('badan-quiz'),
-soal = document.getElementById("soal"),
-kana = document.getElementById("kana"),
-tomblJwbn = document.getElementById("tomblJwbn"),
-result = document.getElementById("result"),
-welcomeMsg = document.getElementById('sambutan'),
-menuPilihan = document.getElementById('menuPilihan'),
-headBoard = document.getElementById("headBoard"),
-board = document.getElementById("board"),
-tulisDisini = document.getElementById('tulisDisini'),
-bantuTulis = document.getElementById('bantuTulis'),
-canvas = document.getElementById("canvas"),
-ctx = canvas.getContext("2d"),
-svgLayer = document.getElementById("svgLayer"),
-jumHrf = document.getElementById('jumHrf'),
-stateTulis = document.getElementById('stateTulis'),
-kanjiKont = document.getElementById('kanjiKont'),
-uiInput = document.getElementById('uiInput'),
-kanjiInput = document.getElementById("kanjiInput"),
-btnHpsPsn = document.getElementById("btnHpsPsn"),
-btnStartCustom = document.getElementById("btnStartCustom"),
-compilerLog = document.getElementById("compilerLog"),
-compilerText = document.getElementById("compilerText"),
-statusFile = document.getElementById('statusFile'),
-btnLoad = document.getElementById('btnLoad'),
-pilihMode = document.getElementById('pilihMode'),
-bentukSoal = document.getElementById('bentukSoal'),
-pilihBab = document.getElementById('pilihBab'),
-kotakInTXT = document.getElementById('kotakInTXT'),
-kotakSoal = document.getElementById('kotakSoal'),
-kotakTulis = document.getElementById('kotakTulis'),
-pilihan = document.getElementById('pilihan-kotoba'),
-judulpilihan = document.getElementById('judul-pilihan-kotoba'),
-stopBtn = document.getElementById('stopBtn'),
-tableContainer = document.getElementById('vocabTableContainer'),
-startKotoba = document.getElementById('startKotoba'),
-tombolNormal = document.getElementById('tombolNormal'),
-tombolReverse = document.getElementById('tombolReverse'),
-quizMM = document.getElementById('soalMM'),
-btnCekMM = document.getElementById("btnPeriksaMM"),
-pewaktu = document.querySelector(".pewaktu"),
-dataTimer = document.querySelector("#dataTimer"),
-toTopBtn = document.getElementById("toTopBtn"),
-judulTabel = document.getElementById('judulTabel'),
-restartBtn = document.getElementById('restart'),
-buttons = document.querySelectorAll('#choices button'),
-overlay = document.getElementById('nextOverlay'),
-elmBlok = document.getElementById('elmBlok'),
+debug = document.getElementById("debugMode"),versiFile = document.getElementById('versiFile').textContent,cekUpdate = document.createElement("script"),uiUpdate = document.createElement("script"),infoUpdate = document.getElementById('infoUpdate'),pilihSemua = document.getElementById('pilih-semua'),pilihanBab = document.querySelectorAll('.bab-choice'),tabelMM = document.querySelector('.tabelMM'),periksaMM = document.getElementById('btnPeriksaMM'),ulangMM = document.getElementById('btnBuatMM'),kotakNilaiMM = document.getElementById(`nilaiMM`),badanQuiz = document.getElementById('badan-quiz'),soal = document.getElementById("soal"),kana = document.getElementById("kana"),tomblJwbn = document.getElementById("tomblJwbn"),result = document.getElementById("result"),welcomeMsg = document.getElementById('sambutan'),menuPilihan = document.getElementById('menuPilihan'),headBoard = document.getElementById("headBoard"),board = document.getElementById("board"),tulisDisini = document.getElementById('tulisDisini'),bantuTulis = document.getElementById('bantuTulis'),canvas = document.getElementById("canvas"),ctx = canvas.getContext("2d"),svgLayer = document.getElementById("svgLayer"),jumHrf = document.getElementById('jumHrf'),stateTulis = document.getElementById('stateTulis'),kanjiKont = document.getElementById('kanjiKont'),uiInput = document.getElementById('uiInput'),kanjiInput = document.getElementById("kanjiInput"),btnHpsPsn = document.getElementById("btnHpsPsn"),btnStartCustom = document.getElementById("btnStartCustom"),compilerLog = document.getElementById("compilerLog"),compilerText = document.getElementById("compilerText"),statusFile = document.getElementById('statusFile'),btnLoad = document.getElementById('btnLoad'),pilihMode = document.getElementById('pilihMode'),bentukSoal = document.getElementById('bentukSoal'),pilihBab = document.getElementById('pilihBab'),kotakInTXT = document.getElementById('kotakInTXT'),kotakSoal = document.getElementById('kotakSoal'),kotakTulis = document.getElementById('kotakTulis'),pilihan = document.getElementById('pilihan-kotoba'),judulpilihan = document.getElementById('judul-pilihan-kotoba'),stopBtn = document.getElementById('stopBtn'),tableContainer = document.getElementById('vocabTableContainer'),startKotoba = document.getElementById('startKotoba'),tombolNormal = document.getElementById('tombolNormal'),tombolReverse = document.getElementById('tombolReverse'),quizMM = document.getElementById('soalMM'),btnCekMM = document.getElementById("btnPeriksaMM"),pewaktu = document.querySelector(".pewaktu"),dataTimer = document.querySelector("#dataTimer"),toTopBtn = document.getElementById("toTopBtn"),judulTabel = document.getElementById('judulTabel'),restartBtn = document.getElementById('restart'),buttons = document.querySelectorAll('#choices button'),overlay = document.getElementById('nextOverlay'),elmBlok = document.getElementById('elmBlok'),
 
 
 
@@ -4502,10 +4338,10 @@ kanaList = [
 ['いかします', 'memanfaatkan, menggunakan', 'bab50', 'BukuMinna', '生かします', 'ikashimasu'],
 ],
 
-n5 =`
-Silahkan diedit jika terlalu banyak
+bymazi=`Silahkan diedit jika terlalu banyak
 [Inputmu sebelumnya akan direplace jika kamu mengedit ini]
-by=MaaziApp
+by=MaaziApp`,
+n5 =`${bymazi}
 
 一右雨円下何火外学間気休金九月見五午後
 語校行高国今左三山四子時七車十出書女小
@@ -4513,10 +4349,7 @@ by=MaaziApp
 南二日入年白八半百父聞母北本毎万名木友
 来六話
 `,
-n4 =`
-Silahkan diedit jika terlalu banyak
-[Inputmu sebelumnya akan direplace jika kamu mengedit ini]
-by=MaaziApp
+n4 =`${bymazi}
 
 悪安以意医員飲院運映英駅屋音夏家
 歌花画会海界開楽漢館帰起急究牛去魚京強
@@ -4529,10 +4362,7 @@ by=MaaziApp
 方妹味明目問夜野有夕曜洋用理立旅料力
 
 `,
-n3 =`
-Silahkan diedit jika terlalu banyak
-[Inputmu sebelumnya akan direplace jika kamu mengedit ini]
-by=MaaziApp
+n3 =`${bymazi}
 
 位偉易違育因引泳越園演煙遠押横王化加科
 果過解回皆絵害格確覚掛割活寒完官感慣観
@@ -4556,10 +4386,7 @@ by=MaaziApp
 労老論和
 
 `,
-n2=`
-Silahkan diedit jika terlalu banyak
-[Inputmu sebelumnya akan direplace jika kamu mengedit ini]
-by=MaaziApp
+n2=`${bymazi}
 
 圧依囲委移胃衣域印宇羽雲営栄永鋭液延塩
 汚央奥欧黄億温可河荷菓課貨介快改械灰階
@@ -4582,10 +4409,7 @@ by=MaaziApp
 幼溶踊浴翌絡乱卵裏陸律略粒了涼療量領緑
 林輪涙令零齢歴恋練録湾腕
 `,
-n1=`
-Silahkan diedit jika terlalu banyak
-[Inputmu sebelumnya akan direplace jika kamu mengedit ini]
-by=MaaziApp
+n1=`${bymazi}
 
 亜阿哀葵茜握渥旭梓扱絢綾鮎案杏伊威尉惟
 慰為異維緯遺井亥郁磯壱逸稲芋允姻胤陰隠
@@ -4653,7 +4477,32 @@ by=MaaziApp
 禄倭賄惑枠亘侑勁奎崚彗昴晏晨晟暉栞椰毬
 洸洵滉漱澪燎燿瑶皓眸笙綺綸翔脩茉莉菫詢
 諄赳迪頌颯黎凜熙
-`
+`,
+Loader = {
+  show: (targetId, message = "Loading...", warna='#008080') => {
+    let el = document.getElementById(targetId)
+    if (!el) {
+      console.log("target id gagal ditemukan")
+      return
+    }
+    el.innerHTML = `
+      <div style="display: flex; align-items: center; gap: 8px;">
+        <svg width="20" height="20" viewBox="0 0 50 50" style="animation: rotate 1s linear infinite;">
+          <circle cx="25" cy="25" r="20" fill="none" stroke="${warna}" stroke-width="6" stroke-dasharray="80 150" stroke-linecap="round"/>
+        </svg>
+        <span>${message}</span>
+      </div>
+      <style>
+        @keyframes rotate { 100% { transform: rotate(360deg); } }
+      </style>
+    `
+  },
+  
+  hide: (targetId, textSelesai = "") => {
+    let el = document.getElementById(targetId)
+    if (el) el.innerHTML = textSelesai
+  }
+}
 
 // --- ON-BOOT FUNC --- \\
 // Cek update
@@ -4812,7 +4661,6 @@ document.addEventListener("DOMContentLoaded", async () => {
   Loader.show("statusFile", `Memuat data lokal...`);
   let savedData = await IDB.getAll()
   let resNamaDb = await IDB.get("nama_file")
-
   let namaDb = resNamaDb?.val || resNamaDb || ""
 
   btnDelet.textContent = '🗑️ Hapus Data Lokal';
@@ -5126,6 +4974,33 @@ function buatLinkDown(el) {
   document.head.appendChild(script);
 }
 
+async function quizOnline(para, link='json/quizKomunitas.json') {
+  let targetCategory = dataLoop.find(item => item.kat === para),
+  highlight = [
+    // {link:"#", tulisan:"highlighted quiz"},
+    ]
+  targetCategory.tombols = [{fungsi:'', gasiap:true,tulisan:`<div id='loadOnline'></div>`}]
+  loop(`.${para}`)
+  Loader.show("loadOnline", `Memuat data online...`, '#fff')
+  try {
+    let response = await fetch(`${serverLink+link}`),
+    dataJson = await response.json(),
+    onlineMenu = dataJson.map(item => {
+      return {link: item.link, gasiap:item.gasiap?item.gasiap:'', tulisan: item.tulisan}
+    })
+    if (targetCategory) {
+      targetCategory.tombols = []
+      targetCategory.anc = [...highlight,...onlineMenu]
+      loop(`.${para}`)
+      pesan(`Silahkan download file manapun. Dilarang mengedit isi data/file`, "success")
+    }
+  } catch (err) {
+    targetCategory.tombols = [{fungsi:`quizOnline('komunitas')`,tulisan:`Lihat Quiz Komunitas`}]
+    setTimeout(()=>{loop(`.${para}`)}, 1500) 
+    pesan(`Gagal mengambil data online, Tidak ada internet`, "error")
+  }
+}
+
 // point nav kembali
 function buatHistori(modeHistori =mode, judulHistori=judulModeSaved){
   history.pushState({ 
@@ -5145,6 +5020,10 @@ function timpaHistori(modeHistori, judulHistori){
 }
 
 function simpanLog(){
+  if(scriptEror){
+    hapusEror(saniti)
+    pesan('Membersihkan pesan error... Mohon ulangi input')
+  }
   saniti = kanjiInput.value
   localStorage.setItem("kanjiInputLog", kanjiInput.value)
   hrfValid = ''
@@ -5168,30 +5047,6 @@ stroke-linejoin="round">
     </svg>
   `
 }
-
-let Loader = {
-  show: (targetId, message = "Loading...") => {
-    let el = document.getElementById(targetId);
-    if (!el) return;
-    
-    el.innerHTML = `
-      <div style="display: flex; align-items: center; gap: 8px;">
-        <svg width="20" height="20" viewBox="0 0 50 50" style="animation: rotate 1s linear infinite;">
-          <circle cx="25" cy="25" r="20" fill="none" stroke="#008080" stroke-width="6" stroke-dasharray="80 150" stroke-linecap="round"/>
-        </svg>
-        <span>${message}</span>
-      </div>
-      <style>
-        @keyframes rotate { 100% { transform: rotate(360deg); } }
-      </style>
-    `;
-  },
-  
-  hide: (targetId, textSelesai = "") => {
-    let el = document.getElementById(targetId);
-    if (el) el.innerHTML = textSelesai;
-  }
-};
 
 // Tiner
 let Timer = {
@@ -6789,6 +6644,7 @@ if (modeQuiz.endsWith('-kotoba')) { return kanaList.filter(indeks => selectedBab
 return kanaList
 }
 function hapusEror(param) {
+  scriptEror= false
   kanjiInput.value = param
   hrfValid =''
   saniti=''
@@ -6824,8 +6680,12 @@ function bersihkan() {
 }
 
 function startWordQuiz(name='') {
-  if (hrfValid.length > 0) {
+  if (hrfValid.length > 0 && parserEror.length===0) {
     modeTerpilih('menulis', `Quiz script by ${name}`)
+    return
+  }
+  if(scriptEror){
+    pesan("Hapus pesan eror terlebih dahulu",'error',5000)
     return
   }
 
@@ -6863,22 +6723,25 @@ function startWordQuiz(name='') {
 
       let match = item.match(/^([^()（）]+)(?:[\(（](.*?)[\)）])?$/)
       if (!match) {
-        let kataClean = item.replace(/\s+/g, '');
+        let kataClean = item.replace(/\s+/g, '')
         return [kataClean, '', `Quiz Script By ${author}`, author, '', '']
       }
 
       let utama = match[1].replace(/\s+/g, ''),
       tambahan = match[2] ? match[2].split(/[,、]/).map(x => x.trim()) : []
 
-      return [utama,tambahan[0] || '',`Quiz Script By ${author}`,author,tambahan[1] || '',tambahan[2] || '','kotoba']
+      return [utama,tambahan[0] || '#ERROR#',`Quiz Script By ${author}`,author,tambahan[1] || '',tambahan[2] || '','kotoba']
     }).filter(Boolean)
   }
 
   // filter huruf db only
-let hrfError = new Set()
+let hrfError = new Set(), parserEror=[]
 
 hrfValid = parsedList
-  .map(item => {
+  .map((item,o) => {o+1
+    if (o>=1 && item[1]==="#ERROR#") {
+      parserEror.push(item[0])
+    }
     let kataBersih = [...item[0]]
       .filter(char => {
         let isExist = db.has(char)
@@ -6897,41 +6760,33 @@ hrfValid = parsedList
     return item[0].length > 0
   })
 
-  if (hrfValid.length === 0) {
+  if (parserEror.length>0||hrfValid.length===0) {
     pesan("Parsing gagal :( Cek eror di input bagian atas",'error',5000)
-    let headEror =`##Parser tewas saat mencoba parsing script berisi ${hrfValid.length} huruf jepang ke-->[Format Data ${isType1?'Kosakata':'Huruf'}]`,
+    console.log("parserEror = ",parserEror)
+    scriptEror = true
     saniti = kanjiInput.value
+    let pesanEror=[]
+    if(hrfValid.length ===0){
+      pesanEror.push(`- Tidak ditemukan ada huruf jepang`)
+    }
+    if(parserEror.length>0){
+      pesanEror.push(`- Ada kotoba yang tidak memiliki arti atau jawaban. Yaitu kotoba :${parserEror.map((i, no) => `\n ${no + 1}. ${i}`).join('')}`)
+    }
     textUmum =
-`
-_______________________
+`‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾
 Quiz scripting eror
 ErR##gagalCari = [${[...hrfError].join("")}].dri(file *.txt)
-_______________________
-${headEror}
+________________________________
+# Parser tewas saat mencoba parsing script ke Format Data ${isType1?'Kotoba/Kosakata':'Huruf'}
 
-- Format Data kotoba/kosakata:
-format = "Soal bisa kana/kanji (arti, furigana)"
-data dalam kurung dikosongkan
-tidak masalah
-Contoh:
+## PESAN EROR ##
+${pesanEror.join('\n')}
 
-  ことば(kosakata), <- tiap kata wajib
-                       tutup dg koma
-  男性(laki-laki、だんせい),
-  長い (panjang, ながい),
-  辞書(kamus,じしょ),
-  バス（bus),
-  チョコレート　（coklat),
 
-- Format Data huruf:
-format = "Tulis huruf saja"
-Hindari koma "," atau dalam kurung "()"
-Karna hasil parsing akan jadi kosakata, 
-bukan format data huruf. Cara baca dibuat 
-otomatis oleh engine quiz
-Contoh:
 
-  あいうえお一二三四五
+
+
+
 `
     kanjiInput.value =''+textUmum+kanjiInput.value
     textUmum =''
@@ -6943,22 +6798,15 @@ Contoh:
   }
   console.log('hrfvalid = ', hrfValid)
   compilerLog.style = 'block'
-  compilerText.textContent = `Berhasil parsing script ke Data Quiz ${isType1?'Kotoba':'Huruf'}. Dan menghasilkan ${hrfValid.length} soal`
-  // cekSoalCustom.onclick=o=>{
-  //   buatTabelCek('','',hrfValid)
-  // }
-  // cekSoalCustom.textContent = "Cek soal"
+  compilerText.textContent = `Berhasil parsing script ke Format Data ${isType1?'Kotoba/Kosakata':'Huruf'}. Dan menghasilkan ${hrfValid.length} soal`
 
   btnStartCustom.textContent = `Mulai (${hrfValid.length} Soal) ▶`
-  btnStartCustom.onclick = () => {
-    startWordQuiz(author)
-  }
 }
 
 // --- ON-LOAD FUNCTION --- \\
 function bangunUI() {
-  // Kondisi default element untuk semua mode
-    Timer.stop()
+
+  Timer.stop()
     badanQuiz.style.display = 'flex'
     badanQuiz.style.flexDirection = ''
     linkDat.innerHTML =''

@@ -1,9 +1,10 @@
 window.dataServer = {
 
-    versi: "4.3.4.1",
+    versi: "4.3.5",
     changeLog: `
-            - Perbaikan quiz engine, sekarang sudah optimal
-            - Optimasi code keseluruhan, untuk mengurangi ukuran file
+            - Memperbarui logika download file qs
+            - MASIH TAHAP UJI COBA. Link yang di tampilkan masih dummy atau kosong
+            - Memperbarui parser quiz scripting. Sekarang bisa menangani error dg lebih interaktif
 
             - ongoing:
               + hasil parsing script akan bisa dijadikan file sendiri (file.qs) untuk disimpan.
@@ -16,6 +17,10 @@ window.dataServer = {
 
     changeLogVersiLama:`
 
+        4.3.4.1
+            - Perbaikan quiz engine, sekarang sudah optimal
+            - Optimasi code keseluruhan, untuk mengurangi ukuran file
+            
         4.3.3.2
             - Menambahkan fitur untuk bisa mengatur jumlah pilihan ganda jawaban, di quiz mode pilihan ganda
             
