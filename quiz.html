@@ -1242,38 +1242,9 @@ display: block;
 </body>
 <script>
 // --- VARIABEL GLOBAL --- \\
-let correctCount = 0, 
-totalCount = 0, 
-totalSoal = 0, 
-soalDipakai = 0, 
-currentStroke = 0, 
-wordIndex = 0, 
-hrfDipke = 0, 
-hurufBenar = 0,
-salahKali = 1,
-kesempatan = 4,
-indexSoal = -1,
-yakin = 2,
-timerReset = null,
-
-svg =[], 
-shapes =[], 
-guides =[], 
-currentKana =[], 
-sessionList =[], 
-soalMM =[], 
-wordList =[], 
-oldMode =[], 
-userPoints = [],
-
-filterBab = false,
-isDrawing = false,
-salahsemua = false,
-isClickable = true,
-scriptEror=false,
-isType1,
-hrfValid,
-
+let correctCount = 0, totalCount = 0, totalSoal = 0, soalDipakai = 0, currentStroke = 0, wordIndex = 0, hrfDipke = 0, hurufBenar = 0,salahKali = 1,kesempatan = 4,indexSoal = -1,yakin = 2,timerReset = null,
+svg =[], shapes =[], guides =[], currentKana =[], sessionList =[], soalMM =[], wordList =[], oldMode =[], userPoints = [],
+filterBab = false,isDrawing = false,salahsemua = false, isClickable = true,scriptEror=false, isType1, hrfValid,
 judulModeSaved = `Klik Disini Untuk Pilih Mode Quiz`,
 mode = '0kosong',
 helperMode = '',
@@ -1295,12 +1266,7 @@ Tulis script quizmu dibawah sini
 
 `,
 
-db = new Map(),
-dbBacaan = new Map(),
-sisaBantuan,
-waktuTulis=null,
-kotobaBuku,
-
+db = new Map(), dbBacaan = new Map(), sisaBantuan, waktuTulis=null, kotobaBuku,
 // --- LOG VAR ---
 scriptSaved = localStorage.getItem("kanjiInputLog"),
 
