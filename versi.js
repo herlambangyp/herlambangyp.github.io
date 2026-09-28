@@ -1,21 +1,22 @@
 window.dataServer = {
 
-    versi: "4.3.5",
+    versi: "4.3.6",
     changeLog: `
-            - Memperbarui logika download file qs
-            - MASIH TAHAP UJI COBA. Link yang di tampilkan masih dummy atau kosong
-            - Memperbarui parser quiz scripting. Sekarang bisa menangani error dg lebih interaktif
+            - "tempat kembali" (saat tombol kembali ditekan) diubah ke halaman "Pilih Mode Quiz"
+            - file qs yang di tampilkan MASIH TAHAP UJI COBA. Link masih dummy atau kosong
 
             - ongoing:
               + hasil parsing script akan bisa dijadikan file sendiri (file.qs) untuk disimpan.
                 (sementara ini, copy paste saja dulu script yg diketik)
               + file qs bisa diload untuk berbagai quiz. Termasuk quiz pilihan ganda maupun menulis
-              + "tempat kembali" (saat tombol kembali ditekan) akan diubah ke halaman "Pilih Mode Quiz"
-                alih-alih balik ke beranda atau home
-
             `,
 
     changeLogVersiLama:`
+
+        4.3.5
+            - Memperbarui logika download file qs
+            - MASIH TAHAP UJI COBA. Link yang di tampilkan masih dummy atau kosong
+            - Memperbarui parser quiz scripting. Sekarang bisa menangani error dg lebih interaktif
 
         4.3.4.1
             - Perbaikan quiz engine, sekarang sudah optimal

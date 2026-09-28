@@ -914,12 +914,12 @@ display: block;
   <div id="nextOverlay"></div>
   <div id="elmBlok"></div>
   <div id="toast-container"></div>  
-  <h1 class="judulUtama">Quiz Mourop Apalan V<span id="versiFile">4.3.5</span></h1>
-  <button id="pilihMode" class="pilihMode" onclick="modeTerpilih('menuPilihMode')"></button>
+  <h1 class="judulUtama">Quiz Mourop Apalan v<span id="versiFile">4.3.6</span></h1>
+  <button id="pilihMode" class="pilihMode"></button>
 
   <!-- Tombol Stop Quiz -->
   <div id="stopQuizWrapper">
-    <button id="stopBtn" onclick="history.back()" class="hidden widthFull">#ERROR01 JS Syntax Failure</button>
+    <button id="stopBtn" onclick="history.back()" class="widthFull">#ERROR01 JS Syntax Failure</button>
   </div>
   <p id="debugMode"></p>
 
@@ -972,7 +972,7 @@ display: block;
     </div>
   </div>
   
-  <div id="kotakInTXT">
+  <div id="kotakInTXT" style="display: none;">
     <div>
       <label><b>Load Dataset Huruf:</b><div>(Tidak Perlu Koneksi Internet)</div></label><br>
       <div class="textSmall textGrey widthFull kirikan"><input type="file" class="fileUp" id="fileInput" accept=".txt,.jsonl,.qs">*.txt/.qs</div>    
@@ -1168,7 +1168,7 @@ display: block;
   </div>
 
   <!-- Container Tabel -->
-  <div id="vocabTableContainer" class="hidden">
+  <div id="vocabTableContainer" style="display: none;">
     <h2 class="judultabel" id="judulTabel"></h2>  
     <input id="tableSearch" type="text" placeholder="Klik untuk cari kotoba/kanji...">
     <table id="vocabTable" border="1">
@@ -1209,7 +1209,7 @@ display: block;
     <button id="restart" class="widthFull" onclick="mulaiQuiz(); modeTerpilih()">Mulai Ulang</button>
   </div>
 
-  <table class="tabelMM">
+  <table class="tabelMM" style="display: none;">
     <thead class="kepalaTabel">
       <tr>
         <th>No</th>
@@ -1269,7 +1269,6 @@ userPoints = [],
 filterBab = false,
 isDrawing = false,
 salahsemua = false,
-kembaliDitekan = false,
 isClickable = true,
 scriptEror=false,
 isType1,
@@ -4763,10 +4762,9 @@ document.getElementById('tableSearch').oninput=o=>{
 
 // fungsi tombol kembali bawaan perangkat
 window.onpopstate=o=> {
+  console.log('kembali refresh forward ditekan')
   if (o.state) {
-    kembaliDitekan = true
-    helperMode = o.state.helperMode
-    modeTerpilih(o.state.mode, o.state.judulModeSaved)
+    modeTerpilih(o.state.mode, o.state.judulModeSaved, true)
   }
 }
 // --- END EVENT HANDLER --- \\
@@ -4870,21 +4868,34 @@ function buatPilihanBab(kotoba){
 }
 }
 
-function modeTerpilih (dipilih=mode, judul=judulModeSaved) {
-  if(['0kosong', 'menuPilihMode'].includes(dipilih)){
+function modeTerpilih (dipilih=mode, judul=judulModeSaved, kembali=false) {
+  if(dipilih === '0kosong'){
+    if (kembali===true&&mode!==dipilih || dipilih===mode) {
+      timpaHistori(dipilih, judul)
+    }
+    mode = dipilih
+    bangunUI()
+    return
+  }
+  if(dipilih === 'menuPilihMode'){
+    if (kembali===true&&mode!==dipilih || dipilih===mode) {
+      timpaHistori(dipilih, judul)
+    } else {
+      buatHistori(dipilih, judul)
+    }
     mode = dipilih
     helperMode =''
     hrfValid = ''
     soalDipakai =0
     bangunUI()
     filterBab = false
-    if (!kembaliDitekan) {
-      timpaHistori(dipilih, judul)
-    }else{
-      if(mode === '0kosong'){buatHistori(dipilih, judul)}
-    }
     return
   }
+
+  if(mode==='menuPilihMode'){
+    buatHistori(mode, judulModeSaved)
+  }
+
   if(['perluDb', 'scripting',].includes(dipilih) || dipilih.startsWith('tabel')){
     mode = dipilih
     judulModeSaved = judul
@@ -4892,42 +4903,30 @@ function modeTerpilih (dipilih=mode, judul=judulModeSaved) {
     bangunUI()
     return
   }
-      let data = new FormData(pilihan)
-      let selected = data.getAll('bab')
+  let data = new FormData(pilihan)
+  let selected = data.getAll('bab')
   if(mode.startsWith('pilih-')) {
     soalDibatasi()
-        if (selected.length === 0) {
-          pesan("⚠️ Minimal pilih 1 kek >:(", 'error')
-          return
-        }
-        if(soalDipakai < 4) {
-          pesan("Minimal soal adalah 4, atau kosongkan untuk ambil semua soal", 'warning', 5000)
-          return
-        }
-      }else{
+    if (selected.length === 0) {
+      pesan("⚠️ Minimal pilih 1 kek >:(", 'error')
+      return
+    }
+    if(soalDipakai < 4) {
+      pesan("Minimal soal adalah 4, atau kosongkan untuk ambil semua soal", 'warning', 5000)
+      return
+    }
+  }
 
-      }
-      
-      if (!(['hiragana', 'katakana', 'bothkana', 'menulis', 'quizMM'].includes(dipilih) ||
-      dipilih.endsWith('-rev') ||
-      dipilih.endsWith('-kotoba') ||
-      dipilih.endsWith('-kanji-baca') ||
-      dipilih === mode
-        )) {
-          if (!kembaliDitekan) {
-            timpaHistori(dipilih, judul);
-          }
-        }
-  kembaliDitekan = false
   if (helperMode.startsWith(kotobaBuku+'-')) {
-        mode = dipilih
-        judulModeSaved = judul
-        pilihMode.textContent = judul
-        filterBab = true
-        bangunUI()
-        mulaiQuiz()
-        return
-      }
+    mode = dipilih
+    judulModeSaved = judul
+    pilihMode.textContent = judul
+    filterBab = true
+    bangunUI()
+    mulaiQuiz()
+    return
+  }
+
   mode = dipilih
   judulModeSaved = judul
   pilihMode.textContent = judul
@@ -4935,7 +4934,7 @@ function modeTerpilih (dipilih=mode, judul=judulModeSaved) {
   mulaiQuiz()
   filterBab = false
   return
-};
+}
 
 // Notif
 function pesan(pesan, kelas='neutral', durasi = 3000,) {
@@ -5002,7 +5001,14 @@ async function quizOnline(para, link='json/quizKomunitas.json') {
 }
 
 // point nav kembali
+let angka = 0
 function buatHistori(modeHistori =mode, judulHistori=judulModeSaved){
+  angka++
+  console.log('buat histori dipanggil. Mode yg masuk histori = ', modeHistori, 'dipanggil = ', angka,'X')
+  // if(angka>2) {
+  //   console.log('jumlah kuota navigasi sudah terlalu banyak')
+  //   return
+  // }
   history.pushState({ 
     mode: modeHistori, 
     judulModeSaved: judulHistori,
@@ -5011,7 +5017,8 @@ function buatHistori(modeHistori =mode, judulHistori=judulModeSaved){
 }
 
 // point nav kembali
-function timpaHistori(modeHistori, judulHistori){
+function timpaHistori(modeHistori =mode, judulHistori=judulModeSaved){
+  console.log('timpa Histori dipanggil. Mode yg masuk histori = ', modeHistori)
   history.replaceState({ 
     mode: modeHistori, 
     judulModeSaved: judulHistori,
@@ -6810,6 +6817,7 @@ function bangunUI() {
     badanQuiz.style.display = 'flex'
     badanQuiz.style.flexDirection = ''
     linkDat.innerHTML =''
+    pilihMode.onclick=o=>{console.log('tombol menu diklik')}
     kanjiInput.value = scriptSaved||scrpDef
     btnStartCustom.textContent = 'Jalankan ▶'
     kotakSoal.classList.remove('kotakSoal')
@@ -6817,7 +6825,7 @@ function bangunUI() {
     stopBtn.textContent = 'Keluar Quiz'
     soal.style.textAlign = 'center'
     kana.style.textAlign = 'center'
-    let rmh = 'Kembali ke Home'
+    let rmh = 'Kembali'
     ;[menuPilihan,compilerLog,bentukSoal,pilihBab,tableContainer,
     startKotoba,periksaMM,ulangMM,quizMM,kotakNilaiMM,pewaktu,
     welcomeMsg,tabelMM,uiInput,kotakInTXT,kotakTulis,].forEach(e => {e.style.display = "none"})
@@ -6855,6 +6863,7 @@ function bangunUI() {
     case '0kosong':
       welcomeMsg.style.display = 'flex'
       pilihMode.textContent = 'Klik Disini Untuk Pilih Mode Quiz'
+      pilihMode.onclick=o=>{modeTerpilih('menuPilihMode')}
       ;[badanQuiz, stopBtn].forEach(e=>{e.style.display = "none"})    
     break;
 
@@ -6932,7 +6941,6 @@ function bangunUI() {
     case 'quizMM':
       badanQuiz.style.display = 'none'
       stopBtn.style.display = 'block' 
-      stopBtn.textContent = 'Kembali Ke Home'
       tabelMM.style.display = 'table'
       quizMM.style.display = 'table-row-group'
       tabelMM.style.zoom = "0.5"
@@ -7021,12 +7029,8 @@ function resetLog() {
   localStorage.clear() // Menghapus SEMUA key di localStorage
 }
 bangunUI()
-history.replaceState({ 
-  mode: mode, 
-  judulModeSaved:judulModeSaved,
-  helperMode:helperMode
-}, "")
-buatHistori()
+
+timpaHistori()
 // --- END ON-LOAD FUNCTION --- \\
 </script>
 </html>
