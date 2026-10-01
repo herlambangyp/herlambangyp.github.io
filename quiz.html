@@ -77,6 +77,12 @@ body {
     justify-content: flex-start;
     flex-wrap: wrap;
 }
+.justify{
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  justify-content: space-between;
+}
 .AllWrapper{
     width: 100%;
     display: flex;
@@ -946,27 +952,41 @@ display: block;
       <div class="textGedi"><b>Cara Buat Data Quiz</b></div>
       <div>1. Format Kotoba/Kosakata</div>
       <ul>
-        <li>Format = "Soal wajib huruf jepang (arti, furigana/cara baca)"</li>
-        <li>Format ini bisa digunkana di semua mode quiz (Fitur "custom-file.qs" yg akan diupdate)</li>
-        <li>Bagian furigana bisa dikosongkan (Jika soalnya bukan kanji)</li>
-        <li>Contoh format:</li>
-        <ul>
-          <li>ことば(kosakata),<-tiap kotoba WAJIB tutup dg koma</li>
-          <li>長い (panjang, ながい),</li>
-          <li>辞書 (kamus,じしょ),</li>
-          <li>チョコレート(coklat),</li>
-        </ul>
+        <li>Format = "<span style="color:#b783ec;">Soal wajib huruf jepang</span> (<span style="color: #5ff897;">arti</span>, <span style="color: #f59e0b;">furigana/cara baca</span>)"</li>
+        <li>Bisa dipecah-pecah menjadi beberapa bab dengan menulis <span style="color: #00fff1;">bab=</span>Judul Babmu</li>
+        <li>Format ini bisa digunakan di semua mode quiz (Fitur "custom-file.qs" yg akan diupdate)</li>
+        <li>Bagian <span style="color: #f59e0b;">furigana/cara baca</span> bisa dikosongkan</li>
+        <li>Contoh format:
+            <ul>
+              <br>
+              <li><span style="color: dimgray;">Jika bab tidak diisi, maka diisi default "Bagian Awal"</span></li>
+              <li><span style="color:#b783ec;">辞書</span> (<span style="color: #5ff897;">kamus</span>, <span style="color: #f59e0b;">じしょ</span>),</li>
+              <li><span style="color:#b783ec;">チョコレート</span> (<span style="color: #5ff897;">coklat</span>),</li>
+              <li><span style="color:#b783ec;">ドライバ</span> (<span style="color: #5ff897;">Obeng</span>),<span style="color: dimgray;">&lt;-tiap kotoba WAJIB DITUTUP/DIAKHIRI dg koma</span></li>
+              <br>
+              <li><span style="color: #00fff1;">bab=</span>Kata Sifat</li>
+              <li><span style="color:#b783ec;">長い</span> (<span style="color: #5ff897;">panjang</span>, <span style="color: #f59e0b;">ながい</span>),</li>
+              <li><span style="color:#b783ec;">低い</span> (<span style="color: #5ff897;">rendah</span>, <span style="color: #f59e0b;">ひくい</span>),</li>
+              <li><span style="color:#b783ec;">狭い</span> (<span style="color: #5ff897;">sempit</span>, <span style="color: #f59e0b;">せまい</span>),</li>
+              <br>
+              <li><span style="color: #00fff1;">bab=</span>Kata Kerja</li>
+              <li><span style="color:#b783ec;">食べる</span> (<span style="color: #5ff897;">makan</span>, <span style="color: #f59e0b;">たべる</span>),</li>
+              <li><span style="color:#b783ec;">見る</span> (<span style="color: #5ff897;">melihat</span>, <span style="color: #f59e0b;">みる</span>),</li>
+              <li><span style="color:#b783ec;">書く</span> (<span style="color: #5ff897;">menulis</span>, <span style="color: #f59e0b;">かく</span>),</li>
+            </ul>
+        </li>
       </ul>
 
       <div>2. Format Huruf</div>
       <ul>
-        <li>Format = Hanya huruf Jepang</li>
-        <li>Format ini bisa untuk quiz menulis</li>
-        <li>JANGAN gunakan koma "," atau dalam kurung "( )"</li>
+        <li>Format = <span style="color:#b783ec;">Hanya huruf Jepang</span></li>
+        <li><span style="color: #f77;">TIDAK BISA</span> dipecah-pecah menjadi beberapa bab seperti format kosakata</li>
+        <li>Format cuma untuk quiz menulis</li>
+        <li><span style="color: #f77;">JANGAN GUNAKAN</span> koma "," atau dalam kurung "( )"</li>
         <li>Furigana/Cara baca diisi otomatis oleh sistem quiz</li>
         <li>Contoh format:</li>
         <ul>
-          <li>あいうえお一二三四五六 七八九 十百千 万</li>
+          <li><span style="color:#b783ec;">あいうえお一二三四五六 七八九 十百千 万</span></li>
         </ul>
       </ul>
     </div>
@@ -1102,20 +1122,20 @@ display: block;
         {
           judul: "Download Quiz Komunitas",
           note:`Perlu Internet untuk mendownload file qs berisi data quiz`,
-          keterangan: `(PERLU INTERNET) Berbagai quiz yg dibuat oleh komunitas. Siap di download dalam bentuk file qs. Load filenya di menu "Load File Data Quiz"`,
+          keterangan: `(PERLU INTERNET) Berbagai quiz yg dibuat oleh komunitas. Siap di download dalam bentuk file qs. Load filenya di menu "Load File atau Buat Data Quiz"`,
           kat:"komunitas",
           tombols: [
             { fungsi: `quizOnline('komunitas')`, tulisan: `Lihat Quiz Komunitas (Perlu Internet)` }
           ]
         },
         {
-          judul: "Load File Data Quiz",
-          keterangan: `Load file qs yang kamu punya. Atau yang sudah kamu download dari komunitas. Bisa diload sebagai quiz pilihan ganda maupun quiz menulis`,
+          judul: "Load File atau Buat Data Quiz",
+          keterangan: `Load file qs yang sudah kamu download dari komunitas. Atau kamu bisa buat file quiz sendiri`,
           kat:"menuLoad",
           
           tombols: [
-            {fungsi:`pesan('Fitur masih dikembangkan')`,gasiap: true,tulisan:`Load Sebagai Quiz Pilihan Ganda`},
-            {fungsi:`pesan('Fitur masih dikembangkan')`,gasiap: true,tulisan:`Load Sebagai Quiz Menulis`},
+            {fungsi:`pesan('Fitur masih dikembangkan')`,gasiap: true,tulisan:`Load File Quiz`},
+            {fungsi:`helperMode ='scripting';modeTerpilih('perluDb', 'Buat File Quiz');`,tulisan:`Buat File Quiz`},
           ]
         },
         {
@@ -1255,7 +1275,7 @@ btntxtDown = (textDown) => `<a class="pointer" style="color:darkgray;text-decora
 
 scrpDef=
 `‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾
-Quiz Scripting [ver 0.8-params_3]
+Quiz Scripting [ver 1.3-params_4]
 Regexed_from thisTyped by @HYP.
 ________________________________
 
@@ -4994,6 +5014,7 @@ function timpaHistori(modeHistori =mode, judulHistori=judulModeSaved){
 }
 
 function simpanLog(){
+  compilerLog.style.display= 'none'
   if(scriptEror){
     hapusEror(saniti)
     pesan('Membersihkan pesan error... Mohon ulangi input')
@@ -5200,7 +5221,7 @@ function loadNextChar() {
     let currentChar = wordList[wordIndex]
     loadKanji(currentChar)
     tulisDisini.style.display='block'
-    jumHrf.textContent=`Tulislah huruf ke ${wordIndex+1} (Total ada ${wordList.length} huruf)`
+    jumHrf.textContent=`${wordList.length>1?`Tulislah huruf ke ${wordIndex+1} dari ${wordList.length} huruf`:`Tulislah di kertas bawah ini`}`
     bantuanAnim(111)
 
   } else {
@@ -6629,7 +6650,6 @@ function hapusEror(param) {
   }
 }
 
-
 function bersihkan() {
   if (timerReset) clearTimeout(timerReset)
 
@@ -6653,17 +6673,18 @@ function bersihkan() {
   }, 1500)
 }
 
+let parserEror=[]
 function startWordQuiz(name='') {
-  if (hrfValid.length > 0 && parserEror.length===0) {
-    modeTerpilih('menulis', `Quiz script by ${name}`)
-    return
-  }
   if(scriptEror){
     pesan("Hapus pesan eror terlebih dahulu",'error',5000)
     return
   }
+  if (hrfValid.length > 0 && parserEror.length<1) {
+    pesan("Berhasil parsing script. Silahkan pilih tindakan dibawah",'success',5000)
+    return
+  }
 
-  let rawText = kanjiInput.value.trim(),  
+  let rawText = kanjiInput.value.trim(), babDipecah
   metadataMap = [],
   tempText = rawText.replace(/(?:by|level|title)=\s*[^\n,、()（）]+/gi, (match) => {
     metadataMap.push(match)
@@ -6680,7 +6701,7 @@ function startWordQuiz(name='') {
   parsedList = []
 
   if (!isType1) {
-    // Format huruf
+    // Format huruf (Single Kanji)
     parsedList = [...cleanText].map(char => {
       let dataKanji = db.get(char) || {},
       listKun = dataKanji.kun || [],
@@ -6689,33 +6710,70 @@ function startWordQuiz(name='') {
       if (!infoBacaan && dataKanji.definition) {infoBacaan = dataKanji.definition}
       return [char, dataKanji.definition, `Quiz Script By ${author}`, author, infoBacaan,  '', 'huruf']
     })
-  } else {
-    // Format kosakata/kotoba
-    parsedList = cleanText.split(/[,、](?![^(（]*[\)）])/).map(item => {
-      item = item.trim()
-      if (!item) return null
+} else {
+  // Format kosakata / kotoba
+  let chunkRegex = /bab=\s*([^\n\r,、()（）]+)([\s\S]*?)(?=(?:bab=\s*|$))/gi,
+  matches = [...cleanText.matchAll(chunkRegex)],
+  firstBabIndex = cleanText.search(/bab=\s*/i)
+  if (firstBabIndex > 0) {
+    // Ambil potongan teks dari paling awal sampai sebelum kata 'bab=' pertama
+    let leadingText = cleanText.substring(0, firstBabIndex).trim()
 
-      let match = item.match(/^([^()（）]+)(?:[\(（](.*?)[\)）])?$/)
-      if (!match) {
+    // Jika potongan teks terdepan berisikan data, masukkan sebagai blok 'Semua Bab' di urutan paling awal
+    if (leadingText) {
+      matches.unshift([null, 'Bagian Awal', leadingText])
+    }
+  }
+  if (matches.length === 0) {
+    matches = [[null, `Semua Bab`, cleanText]]
+    babDipecah = false
+  }else {
+    babDipecah = true
+  }
+  matches.forEach(match => {
+    let currentBab = match[1] ? match[1].trim() : 'Semua Bab',
+        babContent = match[2],
+        isAngka = /^\d+$/.test(currentBab)? `bab${currentBab}` : `Bab ${currentBab}`,
+        items = babContent.split(/[,、](?![^(（]*[\)）])/).map(x => x.trim()).filter(Boolean)
+
+    items.forEach(item => {
+      let itemMatch = item.match(/^([^()（）]+)(?:[\(（](.*?)[\)）])?$/)
+      if (!itemMatch) {
         let kataClean = item.replace(/\s+/g, '')
-        return [kataClean, '', `Quiz Script By ${author}`, author, '', '']
+        if (kataClean) {
+          parsedList.push([kataClean, '', isAngka, author, '', '', 'kotoba']);
+        }
+        return
       }
 
-      let utama = match[1].replace(/\s+/g, ''),
-      tambahan = match[2] ? match[2].split(/[,、]/).map(x => x.trim()) : []
+      let utama = itemMatch[1].replace(/\s+/g, ''),
+      tambahan = itemMatch[2] ? itemMatch[2].split(/[,、]/).map(x => x.trim()) : []
 
-      return [utama,tambahan[0] || '#ERROR#',`Quiz Script By ${author}`,author,tambahan[1] || '',tambahan[2] || '','kotoba']
-    }).filter(Boolean)
-  }
+      parsedList.push([
+        utama,
+        tambahan[0] || '#ERROR#',
+        isAngka,
+        author,
+        tambahan[1] || '',
+        tambahan[2] || '',
+        'kotoba'
+      ])
+    })
+  })
+}
 
-  // filter huruf db only
-let hrfError = new Set(), parserEror=[]
-
+// filter huruf db only
+let hrfError = new Set(),
+kataOri,latinEror=[]
+parserEror=[]
+console.log('parsedList = ', parsedList)
 hrfValid = parsedList
   .map((item,o) => {o+1
     if (o>=1 && item[1]==="#ERROR#") {
-      parserEror.push(item[0])
+      console.log(`babDipecah = `, babDipecah)
+      parserEror.push(babDipecah?`${item[0]} (${item[2]})`:`${item[0]}`)
     }
+    kataOri= item[0]
     let kataBersih = [...item[0]]
       .filter(char => {
         let isExist = db.has(char)
@@ -6728,36 +6786,47 @@ hrfValid = parsedList
 
     //non karakter jepang telah dihapus
     item[0] = kataBersih
+    if (isType1 && o>=1 && item[0].length < kataOri.length) {
+      console.log(`Ada kata yang rusak = `, kataOri)
+      latinEror.push(babDipecah?`${kataOri} (${item[2]})`:`${kataOri}`)
+    }
     return item
-  })
-  .filter(item => {
+  }).filter(item => {
     return item[0].length > 0
   })
+console.log('parsedEror = ', parserEror)
 
-  if (parserEror.length>0||hrfValid.length===0) {
+  if (parserEror.length>0||latinEror.length>0||hrfValid.length<1) {
     pesan("Parsing gagal :( Cek eror di input bagian atas",'error',5000)
     console.log("parserEror = ",parserEror)
+    console.log("latinEror = ",latinEror)
     scriptEror = true
     saniti = kanjiInput.value
     let pesanEror=[]
     if(hrfValid.length ===0){
-      pesanEror.push(`- Tidak ditemukan ada huruf jepang`)
+      pesanEror.push(`-!!- Tidak ditemukan ada huruf jepang\n `)
     }
+
     if(parserEror.length>0){
-      pesanEror.push(`- Ada kotoba yang tidak memiliki arti atau jawaban. Yaitu kotoba :${parserEror.map((i, no) => `\n ${no + 1}. ${i}`).join('')}`)
+      pesanEror.push(`-!!- Ada kotoba yang tidak memiliki arti atau jawaban. Yaitu kotoba :
+  ${parserEror.map((i, no) => `\n ${no + 1}. ${i} `).join('')}\n `)
+    }
+    
+    if(latinEror.length>0){
+      pesanEror.push(`-!!- Ada kotoba kosong atau mengandung huruf abjad. Yaitu kotoba :
+  ${latinEror.map((i, no) => `\n ${no + 1}. ${i} `).join('')}`)
     }
     textUmum =
 `‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾
 Quiz scripting eror
-ErR##gagalCari = [${[...hrfError].join("")}].dri(file *.txt)
-________________________________
-# Parser tewas saat mencoba parsing script ke Format Data ${isType1?'Kotoba/Kosakata':'Huruf'}
+ErRRCode : ${[...hrfError].join("")}
+_________________________________
+##-----EROR-----##
+Eror : Parser tewas saat mencoba parsing script ke Format ${isType1?'Kotoba/Kosakata':'Huruf'}
 
-## PESAN EROR ##
+##--PESAN EROR--##
+
 ${pesanEror.join('\n')}
-
-
-
 
 
 
@@ -6771,10 +6840,18 @@ ${pesanEror.join('\n')}
     return
   }
   console.log('hrfvalid = ', hrfValid)
+  pesan("Berhasil parsing script",'success',5000)
   compilerLog.style = 'block'
-  compilerText.textContent = `Berhasil parsing script ke Format Data ${isType1?'Kotoba/Kosakata':'Huruf'}. Dan menghasilkan ${hrfValid.length} soal`
-
-  btnStartCustom.textContent = `Mulai (${hrfValid.length} Soal) ▶`
+  compilerText.innerHTML=
+    `
+    Berhasil parsing script ke Format ${isType1?'Kotoba/Kosakata':'Huruf'}. Dan menghasilkan ${hrfValid.length} soal
+    <div class="justify" style="padding:15px 0px;gap: 8px;">
+      <button class="gaSiap textNormal" onclick="pesan('Fitur masih dikembangkan')">Jadikan File Quiz</button>
+      <button class="gaSiap textNormal" onclick="${isType1?`pesan('Fitur masih dikembangkan')`:`pesan('Format Huruf tidak mendukung quiz pilihan ganda')`}" style="${isType1?'':'display:none;'}">Mulai Pilihan Ganda</button>
+      <button class="textNormal" onclick="modeTerpilih('menulis', 'Quiz script by ${author}')">Mulai Menulis</button>
+    </div>
+    `
+  // btnStartCustom.textContent = `Pilih Tindakan Dibawah ini`
 }
 
 // --- ON-LOAD FUNCTION --- \\
@@ -6792,6 +6869,7 @@ function bangunUI() {
     stopBtn.textContent = 'Keluar Quiz'
     soal.style.textAlign = 'center'
     kana.style.textAlign = 'center'
+    scriptEror = false
     let rmh = 'Kembali'
     ;[menuPilihan,compilerLog,bentukSoal,pilihBab,tableContainer,
     startKotoba,periksaMM,ulangMM,quizMM,kotakNilaiMM,pewaktu,
