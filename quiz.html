@@ -920,7 +920,7 @@ display: block;
   <div id="nextOverlay"></div>
   <div id="elmBlok"></div>
   <div id="toast-container"></div>  
-  <h1 class="judulUtama">Quiz Mourop Apalan v<span id="versiFile">4.3.6</span></h1>
+  <h1 class="judulUtama">Quiz Mourop Apalan v<span id="versiFile">4.3.7</span></h1>
   <button id="pilihMode" class="pilihMode"></button>
 
   <!-- Tombol Stop Quiz -->
@@ -1086,6 +1086,16 @@ display: block;
           ]
         },
         {
+          judul: "Load File atau Buat Data Quiz",
+          keterangan: `Load file qs yang sudah kamu download dari komunitas. Atau kamu bisa buat file quiz sendiri`,
+          kat:"menuLoad",
+          
+          tombols: [
+            {fungsi:`pesan('Fitur masih dikembangkan')`,gasiap: true,tulisan:`Load File Quiz`},
+            {fungsi:`helperMode ='scripting';modeTerpilih('perluDb', 'Buat Quiz');`,tulisan:`Buat Quiz`},
+          ]
+        },
+        {
           judul: "Test Matematika IM JAPAN",
           keterangan: "Bentuk soal matematika yang digunakan untuk tes matematika dalam program IM JAPAN",
           kat:"mmIM",
@@ -1119,25 +1129,15 @@ display: block;
             {fungsi:`helperMode='menulis-kotoba'; modeTerpilih('perluDb', 'Menulis Kotoba Buku Minna dg Hiragana/Katakana saja')`,tulisan:`Menulis Kotoba dg Hiragana/Katakana`},
           ]
         }, 
-        {
-          judul: "Download Quiz Komunitas",
-          note:`Perlu Internet untuk mendownload file qs berisi data quiz`,
-          keterangan: `(PERLU INTERNET) Berbagai quiz yg dibuat oleh komunitas. Siap di download dalam bentuk file qs. Load filenya di menu "Load File atau Buat Data Quiz"`,
-          kat:"komunitas",
-          tombols: [
-            { fungsi: `quizOnline('komunitas')`, tulisan: `Lihat Quiz Komunitas (Perlu Internet)` }
-          ]
-        },
-        {
-          judul: "Load File atau Buat Data Quiz",
-          keterangan: `Load file qs yang sudah kamu download dari komunitas. Atau kamu bisa buat file quiz sendiri`,
-          kat:"menuLoad",
-          
-          tombols: [
-            {fungsi:`pesan('Fitur masih dikembangkan')`,gasiap: true,tulisan:`Load File Quiz`},
-            {fungsi:`helperMode ='scripting';modeTerpilih('perluDb', 'Buat File Quiz');`,tulisan:`Buat File Quiz`},
-          ]
-        },
+        // {
+        //   judul: "Download Quiz Komunitas",
+        //   note:`Perlu Internet untuk mendownload file qs berisi data quiz`,
+        //   keterangan: `(PERLU INTERNET) Berbagai quiz yg dibuat oleh komunitas. Siap di download dalam bentuk file qs. Load filenya di menu "Load File atau Buat Data Quiz"`,
+        //   kat:"komunitas",
+        //   tombols: [
+        //     { fungsi: `quizOnline('komunitas')`, tulisan: `Lihat Quiz Komunitas (Perlu Internet)` }
+        //   ]
+        // },
         {
           judul: "Bagian Bukan Quiz",
           keterangan: `Bagian untuk mencari tahu berbagai materi yang akan digunakan sebagai quiz di web ini. Tidak ada quiz di bagian ini.`,
@@ -1151,11 +1151,11 @@ display: block;
     </script>
     <div class="hrkta"><script>loop('.hrkta')</script></div>
     <div class="n5n1"><script> loop('.n5n1')</script></div>
+    <div class="menuLoad"><script>loop('.menuLoad')</script></div>
     <div class="mmIM"><script> loop('.mmIM')</script></div>
     <div class="minaKotob"><script> punc="buatPilihanBab('BukuMinna')"; loop('.minaKotob')</script></div>
     <div class="imKotob"><script> punc="buatPilihanBab('kotoba')"; loop('.imKotob')</script></div>
-    <div class="komunitas"><script>loop('.komunitas')</script></div>
-    <div class="menuLoad"><script>loop('.menuLoad')</script></div>
+    <!-- <div class="komunitas"><script>loop('.komunitas')</script></div> -->
     <div class="menuTabel"><script>loop('.menuTabel')</script></div>
   </div>
 
@@ -1206,7 +1206,7 @@ display: block;
 
   <div id="badan-quiz">
     <div id="kotakSoal" class="tengahkan" style="margin-bottom:8px">
-      <div id="kana" class="text-capitalize">ErR07? <b>Quiz_ Engine.DEAD:</b> func.!!quester</div>
+      <div id="kana" class="text-capitalize">ErR07? <b>Quiz_ Engine.DEAD</b></div>
       <div id="soal"></div>
       <div id="result"></div>
     </div>
@@ -4666,7 +4666,6 @@ document.addEventListener("DOMContentLoaded", async () => {
       let versiServer = dataServer.versiDataset.replace('#', '');
 
       if (!versiLokal || versiLokal !== versiServer) {
-        console.log('namaDb =', namaDb, '| Data server =', dataServer.versiDataset);
         setTimeout(() => {
           Loader.hide("statusFile", `⚠️ <b>(${db.size} Karakter sudah usang)</b> Sebaiknya hapus data, lalu ${btntxtDown('Download Data Terbaru')}.`);
         }, 600);
@@ -4749,7 +4748,6 @@ document.getElementById('tableSearch').oninput=o=>{
 
 // fungsi tombol kembali bawaan perangkat
 window.onpopstate=o=> {
-  console.log('kembali refresh forward ditekan')
   if (o.state) {
     modeTerpilih(o.state.mode, o.state.judulModeSaved, true)
   }
@@ -4988,14 +4986,7 @@ async function quizOnline(para, link='json/quizKomunitas.json') {
 }
 
 // point nav kembali
-let angka = 0
 function buatHistori(modeHistori =mode, judulHistori=judulModeSaved){
-  angka++
-  console.log('buat histori dipanggil. Mode yg masuk histori = ', modeHistori, 'dipanggil = ', angka,'X')
-  // if(angka>2) {
-  //   console.log('jumlah kuota navigasi sudah terlalu banyak')
-  //   return
-  // }
   history.pushState({ 
     mode: modeHistori, 
     judulModeSaved: judulHistori,
@@ -5005,7 +4996,6 @@ function buatHistori(modeHistori =mode, judulHistori=judulModeSaved){
 
 // point nav kembali
 function timpaHistori(modeHistori =mode, judulHistori=judulModeSaved){
-  console.log('timpa Histori dipanggil. Mode yg masuk histori = ', modeHistori)
   history.replaceState({ 
     mode: modeHistori, 
     judulModeSaved: judulHistori,
@@ -5022,7 +5012,7 @@ function simpanLog(){
   saniti = kanjiInput.value
   localStorage.setItem("kanjiInputLog", kanjiInput.value)
   hrfValid = ''
-  btnStartCustom.textContent ='Jalankan ▶'
+  btnStartCustom.textContent ='Mulai Quiz ▶'
 }
 // icon stopwatch
 function iconsw(id) {
@@ -5304,7 +5294,7 @@ function quester() {
       wordList = currentKana[0]
       if (!['hiragana', 'katakana', 'bothkana'].includes(helperMode) &&!helperMode.endsWith('-kotoba')) {
         wordList = currentKana[4] || currentKana[0]
-        startElBlok(wordList.length+3, wordList,currentKana[0], 'Tulislah Kanji ini')
+        startElBlok(wordList.length+3, wordList,  currentKana[6]==='huruf'?currentKana[4]+`<br><br> Arti (EN) : ${currentKana[1]}`:currentKana[0]===currentKana[4]?'':currentKana[0]+'<br>'+currentKana[1], 'Tulislah Kanji ini')
         kanji = true
       }
       soal.innerHTML =`
@@ -5316,12 +5306,25 @@ function quester() {
         Bisakah kamu tulis huruf jepangnya?
       `
       if(helperMode === 'scripting'){
-        wordList = currentKana[0]
-        kana.innerHTML = currentKana[6]==='huruf'?`<div class="textNormal" style="border:dashed;padding: 10px;margin-bottom:20px">${currentKana[4]}<br><br>Arti (EN):<br>${currentKana[1]}</div>`:currentKana[1]
-        startElBlok(wordList.length+3, wordList, currentKana[4], 'Tulislah Kanji ini')
+        // wordlist hanya digunakan untuk soal menulis
+        if(currentKana[6]==='huruf'){
+         wordList = currentKana[0]
+         kana.innerHTML=
+         `<div class="textNormal" style="border:dashed;padding: 10px;margin-bottom:20px">
+          ${currentKana[4]}
+          <br>
+          <br>
+          Arti (EN):
+          <br>
+          ${currentKana[1]}
+          </div>`
+        }else{
+          wordList = currentKana[4]
+        }
+        startElBlok(wordList.length+3, wordList,  currentKana[6]==='huruf'?currentKana[4]+`<br><br> Arti (EN) : ${currentKana[1]}`:currentKana[0]===currentKana[4]?'':currentKana[0]+'<br>'+currentKana[1], 'Tulislah Kanji ini')
         soal.innerHTML =`
         <div class='asal-kotoba'>
-        ${currentKana[6]==='huruf'?'':currentKana[4]+'<br>'}${currentKana[2]}
+        ${currentKana[6]==='huruf'? '' : currentKana[0]===currentKana[4]? '' : currentKana[0]+'<br>'}${currentKana[2]}
         </div>
         <strong>Soal ke ${nomorsoal} dari ${totalSoal} soal</strong><br>
         Bisakah kamu tulis huruf jepangnya?
@@ -5347,7 +5350,7 @@ function quester() {
     
     else {
       kana.textContent = currentKana[1];
-      soal.innerHTML = `<div class='asal-kotoba'> ${angkaBab ? 'Kotoba BAB ' + angkaBab + '<br>' : ''}</div><strong>Soal ke ${nomorsoal} dari ${totalSoal} soal</strong><br>Cara menulis jepang huruf diatas adalah...`;
+      soal.innerHTML = `<div class='asal-kotoba'> ${angkaBab ? 'Kotoba BAB ' + angkaBab + '<br>' :  ''}</div><strong>Soal ke ${nomorsoal} dari ${totalSoal} soal</strong><br>Cara menulis jepang huruf diatas adalah...`;
       options = shuffle([currentKana[0], ...penipu(currentKana[0])]);
     }   
 } else {
@@ -5363,7 +5366,7 @@ function quester() {
         kana.textContent = currentKana[4] || currentKana[0];
       soal.innerHTML = `<div class='asal-kotoba'> ${angkaBab ? 'Kotoba BAB ' + angkaBab + '<br>' : ''}</div><strong>Soal ke ${nomorsoal} dari ${totalSoal} soal</strong><br>Apa arti tulisan di atas?`;
       options = shuffle([currentKana[1], ...penipu(currentKana[1])]);
-    }
+    }  
     
     else {
         kana.textContent = currentKana[0];
@@ -5637,7 +5640,7 @@ function penipu(correct) {
     }
      else {
      pool = varLister()
-     .filter(k => k[0] !== correct && k[2] === currentKana[2])
+      .filter(k => k[0] !== correct && (k[2] === currentKana[2] || (k[2] !== 'hiragana' && k[2] !== 'katakana')))
      .map(k => k[0]);
     }
   }else{
@@ -5655,7 +5658,7 @@ function penipu(correct) {
     }
     else {
       pool = varLister()
-      .filter(k => k[1] !== correct && k[2] === currentKana[2])
+      .filter(k => k[1] !== correct && (k[2] === currentKana[2] || (k[2] !== 'hiragana' && k[2] !== 'katakana')))
       .map(k => k[1]);
     }
   }
@@ -5671,20 +5674,19 @@ function ungkapJwb() {
     
 if (mode.endsWith('-rev')) {
       // Dalam mode baca kanji 
-      if (mode.includes('-kanji-baca')) { return pair[4] === text && pair[2] === currentKana[2];}
+      if (mode.includes('-kanji-baca')) { return pair[4] === text && pair[2] === currentKana[2]}
       // Dalam mode artikan kanji 
-      else if (mode.includes('-kanji')) {return (pair[4] || pair[0]) === text && pair[2] === currentKana[2];}
-      else { return pair[0] === text && pair[2] === currentKana[2];}
-  }
+      else if (mode.includes('-kanji')) {return (pair[4] || pair[0]) === text && pair[2] === currentKana[2]}
+      else { return pair[0] === text && (pair[2] === currentKana[2] || (pair[2] !== 'hiragana' && pair[2] !== 'katakana'))}  
+    }
    
     else {
       // Dalam mode baca kanji 
-      if (mode.includes('-kanji-baca')) { return pair[0] === text && pair[2] === currentKana[2];}
+      if (mode.includes('-kanji-baca')) { return pair[0] === text && pair[2] === currentKana[2]}
       
       // Dalam mode artikan kanji 
-      else if (mode.includes('-kanji')) { return pair[1] === text && pair[2] === currentKana[2];}
-      
-      else { return pair[1] === text && pair[2] === currentKana[2];}
+      else if (mode.includes('-kanji')) { return pair[1] === text && pair[2] === currentKana[2]}
+      else { return pair[1] === text && (pair[2] === currentKana[2] || (pair[2] !== 'hiragana' && pair[2] !== 'katakana'))}  
   }
   })
   
@@ -5696,13 +5698,13 @@ if (mode.endsWith('-rev')) {
       
       // Dalam mode baca kanji 
       if (mode.includes('-kanji-baca')) { 
-        btn.innerHTML = `${match[4]} : ${match[0]}<br><hiragana class="hiragana-jawaban">${match[1]}</hiragana>`;
+        btn.innerHTML = `${match[4]} : ${match[0]}<br><hiragana class="hiragana-jawaban">${match[1]}</hiragana>`
       }        
       // Dalam mode artikan kanji        
       else if (mode.includes('-kanji')) { 
         let mainText = match[4] || match[0] 
         let hiraganaText = mainText !== match[0] ? match[0] : ""
-        btn.innerHTML = `${mainText} : ${match[1]}<br><hiragana class="hiragana-jawaban">${hiraganaText}</hiragana>`;
+        btn.innerHTML = `${mainText} : ${match[1]}<br><hiragana class="hiragana-jawaban">${hiraganaText}</hiragana>`
       }
       else { btn.innerHTML = `${match[0]} : ${match[1]}<br><hiragana class="hiragana-jawaban">${match[4] ? `(${match[4]})` : ""}</hiragana>`; }
       
@@ -5711,17 +5713,17 @@ if (mode.endsWith('-rev')) {
   // Saat mode normal
    else {
       // Dalam mode baca kanji 
-      if (mode.includes('-kanji-baca')) { btn.innerHTML = `${match[0]} : ${match[4]}<br><hiragana class="hiragana-jawaban">(${match[1]})</hiragana>`;}
+      if (mode.includes('-kanji-baca')) { btn.innerHTML = `${match[0]} : ${match[4]}<br><hiragana class="hiragana-jawaban">(${match[1]})</hiragana>`}
       // Dalam mode artikan kanji 
-      else if (mode.includes('-kanji')) {btn.innerHTML = `${match[1]} : ${match[0]}<br><hiragana class="hiragana-jawaban">${match[4] ? `(${match[4]})` : ""}</hiragana>`;}
-      else { btn.innerHTML = `${match[0]} : ${match[1]}<br><hiragana class="hiragana-jawaban">${match[4] ? `(${match[4]})` : ""}</hiragana>`; }
+      else if (mode.includes('-kanji')) {btn.innerHTML = `${match[1]} : ${match[0]}<br><hiragana class="hiragana-jawaban">${match[4] ? `(${match[4]})` : ""}</hiragana>`}
+      else { btn.innerHTML = `${match[0]} : ${match[1]}<br><hiragana class="hiragana-jawaban">${match[4] ? `(${match[4]})` : ""}</hiragana>` }
   }
   }
 });
 }
 
-function mulaiQuiz(modeDiterima=helperMode) {   
-  let list = hrfValid? hrfValid: varLister(modeDiterima)
+function mulaiQuiz(modeDiterima, dataList) {   
+  let list = hrfValid? hrfValid: varLister(modeDiterima, dataList)
   sessionList = filterBab? shuffle([...list]).slice(0, soalDipakai) : shuffle([...list])
   pilihMode.textContent = judulModeSaved
   totalSoal = sessionList.length
@@ -5735,26 +5737,26 @@ function mulaiQuiz(modeDiterima=helperMode) {
 
 // fungsi untuk membuat soal matematika
 function buatSoalMM() {
-    let kotakSoalMM = document.getElementById("soalMM");
-    kotakSoalMM.innerHTML = "";
-    periksaMM.style.display = 'block';
+    let kotakSoalMM = document.getElementById("soalMM")
+    kotakSoalMM.innerHTML = ""
+    periksaMM.style.display = 'block'
 
 
 // fungsi khusus untuk membuat soal menyederhanakan pecahan
 function gcd(x, y) {
-    return y === 0 ? x : gcd(y, x % y);
+    return y === 0 ? x : gcd(y, x % y)
 }
 
 function buatPecahanTidakSederhana() {
-    let pembilang, penyebut, fpb;
+    let pembilang, penyebut, fpb
 
     do {
-        pembilang = random(1, 9);
-        penyebut = random(2, 12);
-        fpb = gcd(pembilang, penyebut);
+        pembilang = random(1, 9)
+        penyebut = random(2, 12)
+        fpb = gcd(pembilang, penyebut)
     } 
     // Tambahan: cegah pembilang === penyebut (jadi 1/1)
-    while (fpb === 1 || pembilang === penyebut);
+    while (fpb === 1 || pembilang === penyebut)
 
     return {
         soal: `${pembilang}/${penyebut}`,
@@ -5763,25 +5765,25 @@ function buatPecahanTidakSederhana() {
 }
 
 function buatSoalPecahanPenjumlahan() {
-    let p1 = buatPecahanTidakSederhana();
-    let p2 = buatPecahanTidakSederhana();
+    let p1 = buatPecahanTidakSederhana()
+    let p2 = buatPecahanTidakSederhana()
 
     // Pisahkan pembilang & penyebut
-    let [a1, b1] = p1.soal.split("/").map(Number);
-    let [a2, b2] = p2.soal.split("/").map(Number);
+    let [a1, b1] = p1.soal.split("/").map(Number)
+    let [a2, b2] = p2.soal.split("/").map(Number)
 
     // Samakan penyebut
-    let pembilang = a1 * b2 + a2 * b1;
-    let penyebut = b1 * b2;
+    let pembilang = a1 * b2 + a2 * b1
+    let penyebut = b1 * b2
 
     // Pastikan HASIL > 1
     if (pembilang <= penyebut) {
-        return buatSoalPecahanPenjumlahan(); // ulang
+        return buatSoalPecahanPenjumlahan() // ulang
     }
 
     // Jawaban versi disederhanakan
-    let fpb = gcd(pembilang, penyebut);
-    let sederhana = `${pembilang / fpb}/${penyebut / fpb}`;
+    let fpb = gcd(pembilang, penyebut)
+    let sederhana = `${pembilang / fpb}/${penyebut / fpb}`
 
     return {
         soal: `${p1.soal} + ${p2.soal}`,
@@ -5789,23 +5791,23 @@ function buatSoalPecahanPenjumlahan() {
             tidakSederhana: `${pembilang}/${penyebut}`,
             sederhana: sederhana
         }
-    };
+    }
 }
 
 function buatSoalPecahanPerkalian() {
 
-    let p1 = buatPecahanTidakSederhana();
-    let p2 = buatPecahanTidakSederhana();
+    let p1 = buatPecahanTidakSederhana()
+    let p2 = buatPecahanTidakSederhana()
 
-    let [a1, b1] = p1.soal.split("/").map(Number);
-    let [a2, b2] = p2.soal.split("/").map(Number);
+    let [a1, b1] = p1.soal.split("/").map(Number)
+    let [a2, b2] = p2.soal.split("/").map(Number)
 
     // Perkalian pecahan
-    let pembilang = a1 * a2;
-    let penyebut = b1 * b2;
+    let pembilang = a1 * a2
+    let penyebut = b1 * b2
 
     // hitung FPB hasil
-    let fpb = gcd(pembilang, penyebut);
+    let fpb = gcd(pembilang, penyebut)
 
     return {
         soal: `${p1.soal} × ${p2.soal}`,
@@ -5813,109 +5815,109 @@ function buatSoalPecahanPerkalian() {
             tidakSederhana: `${pembilang}/${penyebut}`,
             sederhana: `${pembilang / fpb}/${penyebut / fpb}`
         }
-    };
+    }
 }
 
 function buatSoalCampuranPengurangan() {
 
     // bilangan bulat 1–5
-    let bulat1 = random(1, 5);
-    let bulat2 = random(1, 5);
+    let bulat1 = random(1, 5)
+    let bulat2 = random(1, 5)
 
     // pecahan tidak sederhana (agar bisa disederhanakan)
-    let p1 = buatPecahanTidakSederhana();
-    let p2 = buatPecahanTidakSederhana();
+    let p1 = buatPecahanTidakSederhana()
+    let p2 = buatPecahanTidakSederhana()
 
-    let [a1, b1] = p1.soal.split("/").map(Number);
-    let [a2, b2] = p2.soal.split("/").map(Number);
+    let [a1, b1] = p1.soal.split("/").map(Number)
+    let [a2, b2] = p2.soal.split("/").map(Number)
 
     // ubah campuran ke pecahan biasa
-    let pb1 = bulat1 * b1 + a1; 
-    let pb2 = bulat2 * b2 + a2;
+    let pb1 = bulat1 * b1 + a1 
+    let pb2 = bulat2 * b2 + a2
 
     // memastikan bilangan tidak negatif
     if (pb1 / b1 < pb2 / b2) {
-        return buatSoalCampuranPengurangan();
+        return buatSoalCampuranPengurangan()
     }
 
     // pengurangan pecahan
-    let pembilang = pb1 * b2 - pb2 * b1;
-    let penyebut = b1 * b2;
+    let pembilang = pb1 * b2 - pb2 * b1
+    let penyebut = b1 * b2
 
-    let fpb = gcd(pembilang, penyebut);
+    let fpb = gcd(pembilang, penyebut)
 
     return {
         soal: `${bulat1} <cilik style="font-size: 17px;position: relative;bottom: 5px;">${a1}/${b1}</cilik> - ${bulat2} <cilik style="font-size: 17px;position: relative;bottom: 5px;">${a2}/${b2}</cilik>`,
         jawab: `${pembilang / fpb}/${penyebut / fpb}`
-    };
+    }
 }
 
 function buatSoalKomaKePecahan() {
     // pilih hanya 1 atau 2 digit
-    let digit = random(1, 2);
+    let digit = random(1, 2)
 
-    let penyebut = Math.pow(10, digit);  // 10 atau 100
+    let penyebut = Math.pow(10, digit)  // 10 atau 100
 
     // pembilang 1–9 untuk 1 digit / 1–99 untuk 2 digit
-    let pembilang = random(1, penyebut - 1);
+    let pembilang = random(1, penyebut - 1)
 
     // bentuk desimal sesuai digit (pastikan tampil sebagai desimal rapi)
-    let desimal = (pembilang / penyebut).toFixed(digit);
+    let desimal = (pembilang / penyebut).toFixed(digit)
 
     return {
         soal: `${desimal} = .../...`,
         jawab: `${pembilang}/${penyebut}`  // tidak disederhanakan
-    };
+    }
 }
 
 // Fungsi untuk membuat soal aritmatika
 function soal37() {
-    let start = random(1, 20);
-    let d = random(1, 10);
+    let start = random(1, 20)
+    let d = random(1, 10)
      
-    let a0 = start;
-    let a1 = a0 + d;
-    let a2 = a1 + d;
-    let a3 = a2 + d;
-    let a4 = a3 + d;
-    let a5 = a4 + d;
+    let a0 = start
+    let a1 = a0 + d
+    let a2 = a1 + d
+    let a3 = a2 + d
+    let a4 = a3 + d
+    let a5 = a4 + d
 
     return {
         soal: `${a0}, ${a1}, ${a2}, (?), ${a4}, ${a5}`,
         jawab: a3
-    };
+    }
 }
 function soal38() {
-    let start = random(1, 20) / 10;
-    let d = random(1, 10) / 10;
+    let start = random(1, 20) / 10
+    let d = random(1, 10) / 10
 
-    let a0 = Number(start.toFixed(1));
-    let a1 = Number((a0 + d).toFixed(1));
-    let a2 = Number((a1 + d).toFixed(1));
-    let a3 = Number((a2 + d).toFixed(1));
-    let a4 = Number((a3 + d).toFixed(1));
-    let a5 = Number((a4 + d).toFixed(1));
+    let a0 = Number(start.toFixed(1))
+    let a1 = Number((a0 + d).toFixed(1))
+    let a2 = Number((a1 + d).toFixed(1))
+    let a3 = Number((a2 + d).toFixed(1))
+    let a4 = Number((a3 + d).toFixed(1))
+    let a5 = Number((a4 + d).toFixed(1))
 
     return {
         soal: `${a0}, ${a1}, ${a2}, (?), ${a4}, ${a5}`,
         jawab: a3
-    };
+    }
 }
 
 function gambarSiku(nomor, angleDeg) {
-    let canvas45 = document.getElementById(nomor);
+    let canvas45 = document.getElementById(nomor)
 
     // Kemiringan dalam radian
-    let rad = angleDeg * Math.PI / 180;
+    let rad = angleDeg * Math.PI / 180
 
     // Ukuran SVG
-    let W = 300;
-    let H = 300;
-    let sumbu = Math.min(W, H) * 0.8;
+    let W = 300
+    let H = 300
+    let sumbu = Math.min(W, H) * 0.8
 
     // Titik miring
-    let x1 = sumbu * Math.cos(rad);
-    let y1 = H - sumbu * Math.sin(rad);
+    let x1 = sumbu * Math.cos(rad)
+    let y1 = H - sumbu * Math.sin(rad)
 
     // Masukkan SVG
     canvas45.innerHTML = `
@@ -5937,15 +5939,15 @@ function gambarSiku(nomor, angleDeg) {
   <text x="${W - 100}" y="${H - 25}" fill="white" font-size="16">${angleDeg}°</text>
   <text x="25" y="${H/2}" fill="white" font-size="20">?°</text>
 
-</svg>`;
+</svg>`
 }
 
 // menggambar persegi panjang untuk soal nomor 46
 function gambarPersegiPanjang(NomorSoal, panjang, lebar) {
-  let canvas46 = document.getElementById(NomorSoal);
-  ukuranW = 300;
-  ukuranH = 150;
-  padding = 5;
+  let canvas46 = document.getElementById(NomorSoal)
+  ukuranW = 300
+  ukuranH = 150
+  padding = 5
   canvas46.innerHTML = `
     <svg width="${ukuranW}" height="${ukuranH}" viewBox="0 0 ${ukuranW} ${ukuranH}">
       <!-- Persegi panjang -->
@@ -5960,14 +5962,14 @@ function gambarPersegiPanjang(NomorSoal, panjang, lebar) {
       <!-- Label lebar -->
       <text x="${padding + 5}" y="${ukuranH / 2}" fill="white" font-size="16" text-anchor="start">${lebar} cm</text>
     </svg>
-  `;
+  `
 }
 
 
 function gambarSegitiga(NomorSoal, alas, tinggi){
-  lokasiGambar = document.getElementById(NomorSoal);
-  ukuran = 200;
-  padding = 30;
+  lokasiGambar = document.getElementById(NomorSoal)
+  ukuran = 200
+  padding = 30
 
   lokasiGambar.innerHTML = `
     <svg width="${ukuran}" height="${ukuran}" viewBox="0 0 ${ukuran} ${ukuran}">
@@ -5981,12 +5983,12 @@ function gambarSegitiga(NomorSoal, alas, tinggi){
       <text x="${ukuran / 2 - 30}" y="${ukuran -10}" fill="white" font-size="16">A : ${alas} cm</text>
       <text x="0" y="${ukuran / 4}" fill="white" font-size="16">T : ${tinggi} cm</text>
       </svg>
-  `;
+  `
 }
 
 // nggambar lingkaran untuk soal 48
 function gambarLingkaran(NomorSoal, jari2) {
-  let lokasiGambar = document.getElementById(NomorSoal);
+  let lokasiGambar = document.getElementById(NomorSoal)
 
   lokasiGambar.innerHTML = `
     <svg width="235" height="235" viewBox="0 0 235 235">
@@ -5996,11 +5998,11 @@ function gambarLingkaran(NomorSoal, jari2) {
       </g>
       <text x="170" y="110" fill="white" font-size="16" text-anchor="middle">r = ${jari2} cm</text>
     </svg>
-  `;
+  `
 }
 
 function gambarBalok(panjang, lebar, tinggi) {
-  let lokasiGambar = document.getElementById("divBalok");
+  let lokasiGambar = document.getElementById("divBalok")
 
   lokasiGambar.innerHTML = `
   <svg width="320" height="150" viewBox="0 0 320 150">
@@ -6027,139 +6029,139 @@ function gambarBalok(panjang, lebar, tinggi) {
     <text x="67"  y="95">T: ${tinggi} cm</text>
     <text x="125" y="25">P: ${panjang} cm</text>
   </svg>
-  `;
+  `
 }
 
-    soalMM = [];
+    soalMM = []
 
     // Soal 1
-    let a1 = random(10, 99);
-    let b1 = random(10, 99);
+    let a1 = random(10, 99)
+    let b1 = random(10, 99)
     soalMM.push({
         soal: `${a1} + ${b1}`,
         jawab: a1 + b1
-    });
+    })
 
     // Soal 2
-    let b2 = random(100, 999);
-    let a2 = random(100, 999);
+    let b2 = random(100, 999)
+    let a2 = random(100, 999)
     soalMM.push({
         soal: `${a2} + ${b2}`,
         jawab: a2 + b2
-    });
+    })
 
     // Soal 3
-    let a3 = random(1000, 9999);
-    let b3 = random(1000, 9999);
+    let a3 = random(1000, 9999)
+    let b3 = random(1000, 9999)
     soalMM.push({
         soal: `${a3} + ${b3}`,
         jawab: a3 + b3
-    });
+    })
 
     // Soal 4
-    let b4 = random(10, 99);
-    let a4 = random(10, 99);
+    let b4 = random(10, 99)
+    let a4 = random(10, 99)
     soalMM.push({
         soal: `${a4} - ${b4}`,
         jawab: a4 - b4
-    });
+    })
 
     // Soal 5
-    let b5 = random(100, 999);
-    let a5 = random(100, 999);
+    let b5 = random(100, 999)
+    let a5 = random(100, 999)
     soalMM.push({
         soal: `${a5} - ${b5}`,
         jawab: a5 - b5
-    });
+    })
 
     // Soal 6
-    let a6 = random(1000, 9999); 
-    let b6 = random(1000, 9999);
+    let a6 = random(1000, 9999) 
+    let b6 = random(1000, 9999)
     soalMM.push({
         soal: `${a6} - ${b6}`,
         jawab: a6 - b6
-    });
+    })
 
     // soal 7
-    let a7 = random(1, 99);
-    let b7 = random(1, 99);
+    let a7 = random(1, 99)
+    let b7 = random(1, 99)
     soalMM.push({
         soal: `${a7} × ${b7}`,
         jawab: a7 * b7
-    });
+    })
     
     // soal 8
-    let a8, b8;
-      do { a8 = random(1, 999); b8 = random(6, 99);}
-      while (a8 % b8 !== 0); // mencari nilai tanpa koma
+    let a8, b8
+      do { a8 = random(1, 999); b8 = random(6, 99)}
+      while (a8 % b8 !== 0) // mencari nilai tanpa koma
     soalMM.push({
     soal: `${a8} ÷ ${b8}`,
     jawab: a8 / b8
-    });
+    })
 
     // soal 9
-    let a9, b9;
-      do { a9 = random(1, 9999); b9 = random(6, 99);}
-      while (a9 % b9 !== 0); // mencari nilai tanpa koma
+    let a9, b9
+      do { a9 = random(1, 9999); b9 = random(6, 99)}
+      while (a9 % b9 !== 0) // mencari nilai tanpa koma
     soalMM.push({
     soal: `${a9} ÷ ${b9}`,
     jawab: a9 / b9
-    });
+    })
 
     // soal 10
-    let a10 = random(10, 99);
-    let b10 = random(1, 99);
-    let c10 = a10 + b10;
+    let a10 = random(10, 99)
+    let b10 = random(1, 99)
+    let c10 = a10 + b10
     soalMM.push({
         soal: `(?) + ${b10} = ${c10}`,
         jawab: a10
-    });
+    })
 
     // soal 11
-    let a11 = random(10, 40);
-    let b11 = random(10, 99);
-    let c11 = a11 * b11;
+    let a11 = random(10, 40)
+    let b11 = random(10, 99)
+    let c11 = a11 * b11
     soalMM.push({
         soal: `(?) × ${b11} = ${c11}`,
         jawab: a11
-    });
+    })
 
     // soal 12
-    let a12 = random(10, 20);
-    let b12 = random(10, 20);
-    let c12 = random(1, 9);
-    let d12 = (a12 * c12) - b12;
+    let a12 = random(10, 20)
+    let b12 = random(10, 20)
+    let c12 = random(1, 9)
+    let d12 = (a12 * c12) - b12
     soalMM.push({
-        soal: `${a12}x - ${b12} = ${d12} ; x = ?`,
+        soal: `${a12}x - ${b12} = ${d12} | x = ?`,
         jawab: c12
-    });
+    })
 
     // soal 13
-    let a13 = random(10, 99) + random(1, 9) / 10;
-    let b13 = random(3, 9);                         
-    let c13 = random(1, 99) + random(1, 9) / 10; 
+    let a13 = random(10, 99) + random(1, 9) / 10
+    let b13 = random(3, 9)                         
+    let c13 = random(1, 99) + random(1, 9) / 10 
     soalMM.push({
         soal: `${a13.toFixed(1)} - ${b13} + ${c13.toFixed(1)}`,
         jawab: Number(a13.toFixed(1)) - b13 + Number((c13).toFixed(1))
-    });
+    })
     
     // soal 14
     let a14 = random(1, 99)                         
-    let b14 = 0.5;
-    let c14 = random(1, 9) + random(1, 9) / 10; 
+    let b14 = 0.5
+    let c14 = random(1, 9) + random(1, 9) / 10 
     soalMM.push({
         soal: `${a14} ÷ ${b14} + ${c14}`,
         jawab: a14 / b14 + c14
-    });
+    })
     
     // soal 15
     let a15 = random(1, 99)
-    let b15 = random(1, 9);
-    let c15 = random(1, 9) + random(1, 9) / 10;
+    let b15 = random(1, 9)
+    let c15 = random(1, 9) + random(1, 9) / 10
     soalMM.push({
         soal: `${a15} + ${b15} × ${c15.toFixed(1)}`,
         jawab:a15 + b15 * Number((c15).toFixed(1))
-    });
+    })
 
     // soal 16
     let a16 = random(1, 99)
@@ -6167,7 +6169,7 @@ function gambarBalok(panjang, lebar, tinggi) {
     soal: `${a16} cm = ... mm`,
     jawab: a16 * 10,
     satuan : ` mm`
-    });
+    })
 
     // soal 17
     let a17 = random(1, 99)
@@ -6175,7 +6177,7 @@ function gambarBalok(panjang, lebar, tinggi) {
     soal: `${a17} m = ... cm`,
     jawab: a17 * 100,
     satuan : ` cm`
-    });
+    })
 
     // soal 18
     let a18 = random(1, 99)
@@ -6183,7 +6185,7 @@ function gambarBalok(panjang, lebar, tinggi) {
     soal: `${a18} km = ... m`,
     jawab: a18 * 1000,
     satuan : ` m`
-    });
+    })
 
     // soal 19
     let a19 = random(1, 99)
@@ -6191,18 +6193,18 @@ function gambarBalok(panjang, lebar, tinggi) {
     soal: `${a19} kg = ... g`,
     jawab: a19 * 1000,
     satuan : ` g`
-    });
+    })
 
     // soal 20
-    let a20 = random(1, 99);
+    let a20 = random(1, 99)
     soalMM.push({
     soal: `${a20} ton = ... kg`,
     jawab: a20 * 1000,
     satuan : ` kg`
-    });
+    })
 
     // soal 21
-    let a21 = random(1, 99);
+    let a21 = random(1, 99)
     soalMM.push({
     soal: `${a21} cc = ... ml`,
     jawab: a21,
@@ -6210,7 +6212,7 @@ function gambarBalok(panjang, lebar, tinggi) {
     })
 
     // soal 22
-    let a22 = random(1000, 9999);
+    let a22 = random(1000, 9999)
     soalMM.push({
     soal: `${a22} cc = ... L`,
     jawab: a22 / 1000,
@@ -6218,7 +6220,7 @@ function gambarBalok(panjang, lebar, tinggi) {
     })
 
     // soal 23
-    let a23 = random(1, 60);
+    let a23 = random(1, 60)
     soalMM.push({
       soal: `${a23} menit = ... detik`,
       jawab: a23 * 60,
@@ -6226,125 +6228,125 @@ function gambarBalok(panjang, lebar, tinggi) {
     })
 
     // soal 24
-    let a24 = random(1, 24);
+    let a24 = random(1, 24)
     soalMM.push({
       soal: `${a24} jam = ... menit`,
       jawab: a24 * 60,
       satuan : ` menit`
-    });
+    })
 
     // soal 25
-    let kelipatan = random(1, 24);
-    let a25 = kelipatan * 15;
+    let kelipatan = random(1, 24)
+    let a25 = kelipatan * 15
     soalMM.push({
         soal: `${a25} menit = ... jam`,
         jawab: a25 / 60,
         satuan : ` jam`
-    });
+    })
 
     // soal 26
-    let jaw26 = random(1, 20);
-    let a26 = jaw26 * jaw26; 
+    let jaw26 = random(1, 20)
+    let a26 = jaw26 * jaw26 
     soalMM.push({
         soal: `√${a26}`,
         jawab: jaw26
-    });
+    })
 
     // soal 27
-    let a27 = random(1, 20);
+    let a27 = random(1, 20)
     soalMM.push({
       soal: `${a27}²`,
       jawab: a27 * a27
-    });
+    })
 
     // soal 28
-    let a28 = random(1, 9) + random(1, 9) / 10;
-    let b28 = random(1, 9) + random(1, 9) / 10;
+    let a28 = random(1, 9) + random(1, 9) / 10
+    let b28 = random(1, 9) + random(1, 9) / 10
     soalMM.push({
       soal: `${a28} + ${b28}`,
       jawab: Number((a28 + b28).toFixed(1))
-    });
+    })
     
     // soal 29
-    let a29 = random(1, 9) + random(1, 9) / 10;
-    let b29 = random(1, 9) + random(1, 9) / 10;
+    let a29 = random(1, 9) + random(1, 9) / 10
+    let b29 = random(1, 9) + random(1, 9) / 10
     soalMM.push({
       soal: `${a29} - ${b29}`,
       jawab: Number((a29 - b29).toFixed(1))
-    });
+    })
 
     // soal 30
-    let a30 = random(1, 9) + random(1, 9) / 100;
-    let b30 = random(1, 9) + random(1, 9) / 100;
+    let a30 = random(1, 9) + random(1, 9) / 100
+    let b30 = random(1, 9) + random(1, 9) / 100
     soalMM.push({
       soal: `${a30} + ${b30}`,
       jawab: Number((a30 + b30).toFixed(2))
-    });
+    })
 
     // soal 31
-    let a31 = random(1, 9) + random(1, 9) / 100;
-    let b31 = random(1, 9) + random(1, 9) / 100;
+    let a31 = random(1, 9) + random(1, 9) / 100
+    let b31 = random(1, 9) + random(1, 9) / 100
     soalMM.push({
       soal: `${a31} x ${b31}`,
       jawab: Number((a31 * b31).toFixed(2))
-    });
+    })
     
     // soal 32
-    let a32 = buatPecahanTidakSederhana();
+    let a32 = buatPecahanTidakSederhana()
     soalMM.push({
         soal: a32.soal,
         jawab: a32.jawab
-    });
+    })
 
     // soal 33
-    let a33 = buatSoalPecahanPenjumlahan();
+    let a33 = buatSoalPecahanPenjumlahan()
     soalMM.push({
         soal: a33.soal,
         jawab: a33.jawab.sederhana
-    });
+    })
 
     // soal 34
-    let a34 = buatSoalPecahanPerkalian();
+    let a34 = buatSoalPecahanPerkalian()
     soalMM.push({
         soal: a34.soal,
         jawab: a34.jawab.sederhana
-    });
+    })
 
     // soal 35
-    let a35 = buatSoalCampuranPengurangan();
+    let a35 = buatSoalCampuranPengurangan()
     soalMM.push({
         soal: a35.soal,
         jawab: a35.jawab
-    });
+    })
 
     // soal 36
-    let a36 = buatSoalKomaKePecahan();
+    let a36 = buatSoalKomaKePecahan()
     soalMM.push({
         soal: a36.soal,
         jawab: a36.jawab
-    });
+    })
 
     // soal 37
-    soalMM.push(soal37());
+    soalMM.push(soal37())
 
     // soal 38
-    soalMM.push(soal38());
+    soalMM.push(soal38())
 
     // Soal 39
-    let a39 = random(10, 99);
-    let b39 = random(10, 99);
-    let c39 = random(10, 99);
-    let d39 = random(10, 99);
+    let a39 = random(10, 99)
+    let b39 = random(10, 99)
+    let c39 = random(10, 99)
+    let d39 = random(10, 99)
     soalMM.push({
         soal: `${a39}, ${b39}, ${c39}, ${d39} Rata-rata = ?`,
         jawab: (a39 + b39 + c39 + d39) / 4
-    });
+    })
 
     // soal 40
     let a40 = random(10, 99)
     let b40
     let c40
-    do { b40 = random(1, 9) / 10; c40 = random(1, 9) / 10;} while(b40 === c40 )
+    do { b40 = random(1, 9) / 10; c40 = random(1, 9) / 10} while(b40 === c40 )
     b40 = Math.round(b40 * 100) / 100
     c40 = Math.round(c40 * 100) / 100
     soalMM.push({
@@ -6355,12 +6357,12 @@ function gambarBalok(panjang, lebar, tinggi) {
           </Nrentang>
           </Nbulat>Nilai Maksimum?`,
         jawab: a40 + b40
-    });
+    })
 
     // soal 41
     let d40 = (b40 + c40) / 2
     d40 = Math.round(d40 * 100) / 100
-    let e40;
+    let e40
     let kondisi1 = Number(((a40 + b40) - d40).toFixed(2))
     let kondisi2 = Number(((a40 - c40) + d40).toFixed(2))
     if( kondisi1 === kondisi2) {e40 = kondisi1} 
@@ -6373,7 +6375,7 @@ function gambarBalok(panjang, lebar, tinggi) {
           </Nrentang>
           </Nbulat>Nilai Tengah?`,
         jawab: e40
-    });
+    })
 
     // soal 42
     soalMM.push({
@@ -6384,42 +6386,42 @@ function gambarBalok(panjang, lebar, tinggi) {
           </Nrentang>
           </Nbulat>Nilai Minimum`,
         jawab: a40 - c40
-    });
+    })
 
     // soal 43
-    let a43, b43;
+    let a43, b43
     do {
-        a43 = random(1, 9) + random(1, 9) / 10;
-        b43 = random(1, 9) + random(1, 9) / 10;
-    } while (a43 === b43);   // ulangi sampe pny nilai beda
+        a43 = random(1, 9) + random(1, 9) / 10
+        b43 = random(1, 9) + random(1, 9) / 10
+    } while (a43 === b43)   // ulangi sampe pny nilai beda
     let operator = (a43 > b43) ? ")" : "(";
     soalMM.push({
         soal: `Contoh : 6 ) 2<br>${a43} (?) ${b43}`,
         jawab: operator
-    });
+    })
     
     // soal 44
-    let a44, b44, hasil;
+    let a44, b44, hasil
     do {
-        a44 = random(10, 99);
-        b44 = random(10, 99);
-        hasil = (a44 * b44) / 100;
-    } while (hasil % 1 !== 0);  // ulangi kalau tidak bulat
+        a44 = random(10, 99)
+        b44 = random(10, 99)
+        hasil = (a44 * b44) / 100
+    } while (hasil % 1 !== 0)  // ulangi kalau tidak bulat
     soalMM.push({
         soal: `${a44} % dari ${b44} = ?`,
         jawab: hasil
-    });
+    })
 
     // soal 45
-    let b45 = random(15, 70);
-    setTimeout(() => { gambarSiku(45, b45); }, 800);
+    let b45 = random(15, 70)
+    setTimeout(() => { gambarSiku(45, b45) }, 800)
     soalMM.push({
         soal: `Berapakah besar sudut lancip berikut?<br>`,
         gambar: `<nggambar id='45'>Menggambar... </nggambar>`,
         jawab: 90 - b45,
         satuan : `°`,
         heightSoal : `height: 415px;`
-    });
+    })
     
     // Soal 46
     let p46,l46;
@@ -6623,27 +6625,30 @@ function gambarBalok(panjang, lebar, tinggi) {
 // --- DATASET FILTERING --- \\
 
 // kanaList Filter
-function varLister(modeQuiz=helperMode) {
-let selectedBab = [...document.querySelectorAll('.bab-choice:checked')].map(cb => cb.value);
+function varLister(modeQuiz=helperMode, List=kanaList) {
+let selectedBab = [...document.querySelectorAll('.bab-choice:checked')].map(cb => cb.value)
 // Mode Hira Kata
-if (modeQuiz.endsWith('hiragana')) return kanaList.filter(indeks => indeks[2] === 'hiragana');
-if (modeQuiz.endsWith('katakana')) return kanaList.filter(indeks => indeks[2] === 'katakana');
-if (modeQuiz.endsWith('bothkana')) return kanaList.filter(indeks => (indeks[2] === 'hiragana' || indeks[2] === 'katakana'));
+if (modeQuiz.endsWith('hiragana')) {return List.filter(indeks => indeks[2] === 'hiragana')}
+if (modeQuiz.endsWith('katakana')) {return List.filter(indeks => indeks[2] === 'katakana')}
+if (modeQuiz.endsWith('bothkana')) {return List.filter(indeks => (indeks[2] === 'hiragana' || indeks[2] === 'katakana'))}
 
+// Mode Custom
+if (modeQuiz.endsWith('Custom')) { return hrfValid}
+if (modeQuiz.endsWith('Custom-kanji')) { return hrfValid}
 // Mode Baca Kanji
-if (modeQuiz.endsWith('-kanji-baca')) { return kanaList.filter(indeks => selectedBab.includes(indeks[2]) && indeks[4] && indeks[4] !== '' && indeks[3] === kotobaBuku);}
+if (modeQuiz.endsWith('-kanji-baca')) { return List.filter(indeks => selectedBab.includes(indeks[2]) && indeks[4] && indeks[4] !== '' && indeks[3] === kotobaBuku)}
 // Mode Artikan Kanji
-if (modeQuiz.endsWith('-kanji')) { return kanaList.filter(indeks => selectedBab.includes(indeks[2]) && indeks[3] === kotobaBuku);}
+if (modeQuiz.endsWith('-kanji')) { return List.filter(indeks => selectedBab.includes(indeks[2]) && indeks[3] === kotobaBuku)}
 // Mode Kotoba
-if (modeQuiz.endsWith('-kotoba')) { return kanaList.filter(indeks => selectedBab.includes(indeks[2]) && indeks[3] === kotobaBuku);}
-return kanaList
+if (modeQuiz.endsWith('-kotoba')) { return List.filter(indeks => selectedBab.includes(indeks[2]) && indeks[3] === kotobaBuku)}
+return List
 }
 function hapusEror(param) {
   scriptEror= false
   kanjiInput.value = param
   hrfValid =''
   saniti=''
-  btnStartCustom.textContent = 'Jalankan ▶'
+  btnStartCustom.textContent = 'Mulai Quiz ▶'
   btnHpsPsn.textContent=`🗑️ Bersihkan Input`
   btnHpsPsn.onclick=o=>{
     bersihkan()
@@ -6680,7 +6685,7 @@ function startWordQuiz(name='') {
     return
   }
   if (hrfValid.length > 0 && parserEror.length<1) {
-    pesan("Berhasil parsing script. Silahkan pilih tindakan dibawah",'success',5000)
+    pesan("Berhasil parsing script. Silahkan pilih mode quiz dibawah",'success',5000)
     return
   }
 
@@ -6749,15 +6754,9 @@ function startWordQuiz(name='') {
       let utama = itemMatch[1].replace(/\s+/g, ''),
       tambahan = itemMatch[2] ? itemMatch[2].split(/[,、]/).map(x => x.trim()) : []
 
-      parsedList.push([
-        utama,
-        tambahan[0] || '#ERROR#',
-        isAngka,
-        author,
-        tambahan[1] || '',
-        tambahan[2] || '',
-        'kotoba'
-      ])
+      // ['わたし', 'saya', 'bab1', 'BukuMinna', '私', 'watashi'],
+      // ["長い","panjang","bab1","namamu?","ながい","carabaca","kotoba"]
+      parsedList.push([tambahan[1] || utama,tambahan[0] || '#ERROR#',isAngka,author,utama,tambahan[2] || '','kotoba'])
     })
   })
 }
@@ -6766,15 +6765,14 @@ function startWordQuiz(name='') {
 let hrfError = new Set(),
 kataOri,latinEror=[]
 parserEror=[]
-console.log('parsedList = ', parsedList)
+// console.log('parsedList = ', parsedList)
 hrfValid = parsedList
   .map((item,o) => {o+1
     if (o>=1 && item[1]==="#ERROR#") {
-      console.log(`babDipecah = `, babDipecah)
       parserEror.push(babDipecah?`${item[0]} (${item[2]})`:`${item[0]}`)
     }
-    kataOri= item[0]
-    let kataBersih = [...item[0]]
+    kataOri= item[4]
+    let kataBersih = [...item[4]]
       .filter(char => {
         let isExist = db.has(char)
         if (!isExist && /[a-zA-Z0-9]/.test(char)) {
@@ -6785,41 +6783,46 @@ hrfValid = parsedList
       .join('')
 
     //non karakter jepang telah dihapus
-    item[0] = kataBersih
-    if (isType1 && o>=1 && item[0].length < kataOri.length) {
-      console.log(`Ada kata yang rusak = `, kataOri)
+    item[4] = kataBersih
+    if (isType1 && o>=1 && item[4].length < kataOri.length) {
       latinEror.push(babDipecah?`${kataOri} (${item[2]})`:`${kataOri}`)
     }
     return item
   }).filter(item => {
-    return item[0].length > 0
+    return item[4].length > 0
   })
-console.log('parsedEror = ', parserEror)
 
-  if (parserEror.length>0||latinEror.length>0||hrfValid.length<1) {
+  if (parserEror.length>0||latinEror.length>0||hrfValid.length<4) {
     pesan("Parsing gagal :( Cek eror di input bagian atas",'error',5000)
-    console.log("parserEror = ",parserEror)
-    console.log("latinEror = ",latinEror)
+    // console.log("parserEror = ",parserEror)
+    // console.log("latinEror = ",latinEror)
     scriptEror = true
     saniti = kanjiInput.value
-    let pesanEror=[]
-    if(hrfValid.length ===0){
-      pesanEror.push(`-!!- Tidak ditemukan ada huruf jepang\n `)
+    let pesanEror=[], erorcode=[]
+    if(hrfValid.length ===0 ){
+      pesanEror.push(`-!!- #0JPN | Tidak ditemukan ada huruf jepang\n `)
+      erorcode.push('#0JPN')
+    }
+    if(hrfValid.length <4 ){
+      pesanEror.push(`-!!- #<4JPN | Minimal Soal adalah 4\n `)
+      erorcode.push('#<4JPN')
     }
 
     if(parserEror.length>0){
-      pesanEror.push(`-!!- Ada kotoba yang tidak memiliki arti atau jawaban. Yaitu kotoba :
+      erorcode.push('#kotoba0')
+      pesanEror.push(`-!!- #kotoba0 | Ada kotoba yang tidak memiliki arti atau jawaban. Yaitu kotoba :
   ${parserEror.map((i, no) => `\n ${no + 1}. ${i} `).join('')}\n `)
     }
     
     if(latinEror.length>0){
-      pesanEror.push(`-!!- Ada kotoba kosong atau mengandung huruf abjad. Yaitu kotoba :
+      erorcode.push('#kotobaCampur2')
+      pesanEror.push(`-!!- #kotobaCampur2 | Ada kotoba kosong atau mengandung huruf abjad. Yaitu kotoba :
   ${latinEror.map((i, no) => `\n ${no + 1}. ${i} `).join('')}`)
     }
     textUmum =
 `‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾
 Quiz scripting eror
-ErRRCode : ${[...hrfError].join("")}
+ErRRCode : ${[...erorcode].join(" | ")}
 _________________________________
 ##-----EROR-----##
 Eror : Parser tewas saat mencoba parsing script ke Format ${isType1?'Kotoba/Kosakata':'Huruf'}
@@ -6839,16 +6842,19 @@ ${pesanEror.join('\n')}
     }
     return
   }
-  console.log('hrfvalid = ', hrfValid)
-  pesan("Berhasil parsing script",'success',5000)
+  // console.log('hrfvalid = ', hrfValid)
+  pesan("Berhasil parsing script. Silahkan pilih mode quiz dibawah",'success',5000)
   compilerLog.style = 'block'
   compilerText.innerHTML=
     `
-    Berhasil parsing script ke Format ${isType1?'Kotoba/Kosakata':'Huruf'}. Dan menghasilkan ${hrfValid.length} soal
+    Berhasil parsing script ke Format ${isType1?'Kotoba/Kosakata':'Huruf'}. Dan menghasilkan ${hrfValid.length} soal.
+    Silahkan pilih mode quiz dibawah untuk memulai quiz <br><br>
+    <div class="text-kecil">Pilgan : Quiz Pilihan Ganda | Menulis : Quiz Menulis Langsung</div>
     <div class="justify" style="padding:15px 0px;gap: 8px;">
       <button class="gaSiap textNormal" onclick="pesan('Fitur masih dikembangkan')">Jadikan File Quiz</button>
-      <button class="gaSiap textNormal" onclick="${isType1?`pesan('Fitur masih dikembangkan')`:`pesan('Format Huruf tidak mendukung quiz pilihan ganda')`}" style="${isType1?'':'display:none;'}">Mulai Pilihan Ganda</button>
-      <button class="textNormal" onclick="modeTerpilih('menulis', 'Quiz script by ${author}')">Mulai Menulis</button>
+      <button class="${isType1?'':'gaSiap'} textNormal" onclick="helperMode='pilganCustom';${isType1?`modeTerpilih('bentukSoal', 'Quiz Pilihan Ganda (non-kanji) by ${author}')`:`pesan('Format Huruf tidak mendukung quiz pilihan ganda')`}">Mulai Pilgan (non-kanji)</button>
+      <button class="${isType1?'':'gaSiap'} textNormal" onclick="helperMode='pilganCustom-kanji';${isType1?`modeTerpilih('bentukSoal', 'Quiz Pilihan Ganda (kanji) by ${author}')`:`pesan('Format Huruf tidak mendukung quiz pilihan ganda')`}">Mulai Pilgan (kanji)</button>
+      <button class="textNormal" onclick="helperMode='scripting';modeTerpilih('menulis', 'Quiz Menulis, script by ${author}')">Mulai Menulis (kanji)</button>
     </div>
     `
   // btnStartCustom.textContent = `Pilih Tindakan Dibawah ini`
@@ -6863,7 +6869,7 @@ function bangunUI() {
     linkDat.innerHTML =''
     pilihMode.onclick=o=>{console.log('tombol menu diklik')}
     kanjiInput.value = scriptSaved||scrpDef
-    btnStartCustom.textContent = 'Jalankan ▶'
+    btnStartCustom.textContent = 'Mulai Quiz ▶'
     kotakSoal.classList.remove('kotakSoal')
     stopBtn.style.display = 'flex'
     stopBtn.textContent = 'Keluar Quiz'
@@ -7034,7 +7040,14 @@ function bangunUI() {
           contohLtn = 'とき'
           descNorm = 'Soal berbentuk Kanji'
           descRev = 'Soal berbentuk Hiragana / Katakana (cara baca)'
-        break;
+        break
+        default:
+          hurufJepang = 'Bahasa Jepang'
+          hurufLatin = 'Bahasa Indonesia'
+          helperMode.endsWith('-kanji')? contohJpg = '時': contohJpg = 'とき'
+          contohLtn = 'Jam'
+          descNorm = 'Soal berbahasa Jepang dg tulisan Jepang'
+          descRev = 'Soal berbahasa Indonesia'
         }
       tombolNormal.innerHTML=`            
       <div class="judulTombol">

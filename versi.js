@@ -1,17 +1,23 @@
 window.dataServer = {
 
-    versi: "4.3.6",
+    versi: "4.3.7",
     changeLog: `
-            - "tempat kembali" (saat tombol kembali ditekan) diubah ke halaman "Pilih Mode Quiz"
+            - Bagian "Buat quiz" sudah bisa digunakan untuk berbagai mode. Tetapi belum bisa disimpan
+              sebagai file sendiri
+            - Fungsi load file saat ini masih dalam tahap "konsep arsitektur sistem". 
+              Belum optimal untuk dirilis
             - file qs yang di tampilkan MASIH TAHAP UJI COBA. Link masih dummy atau kosong
 
             - ongoing:
               + hasil parsing script akan bisa dijadikan file sendiri (file.qs) untuk disimpan.
                 (sementara ini, copy paste saja dulu script yg diketik)
-              + file qs bisa diload untuk berbagai quiz. Termasuk quiz pilihan ganda maupun menulis
             `,
 
     changeLogVersiLama:`
+
+        4.3.6
+            - "tempat kembali" (saat tombol kembali ditekan) diubah ke halaman "Pilih Mode Quiz"
+            - file qs yang di tampilkan MASIH TAHAP UJI COBA. Link masih dummy atau kosong
 
         4.3.5
             - Memperbarui logika download file qs
