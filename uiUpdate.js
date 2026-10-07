@@ -8,7 +8,7 @@ window.ElUpdate = {
     <a class="adaUpdate"
       href="${serverLink}download.html?file=quiz.html"
       target="_blank">
-      Klik untuk download Quiz v${dataServer.versi}.html (354Kb)
+      Klik untuk download Quiz v${dataServer.versi}.html (380Kb)
     </a>
 
     <span class="gagalCek">
