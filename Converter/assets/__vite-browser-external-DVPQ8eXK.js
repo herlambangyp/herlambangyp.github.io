@@ -1,1 +1,0 @@
-import{t as e}from"./pyodide-8MA3Ke8S.js";var t=e(((e,t)=>{t.exports={}}));export default t();
